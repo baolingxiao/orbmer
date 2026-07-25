@@ -1236,9 +1236,63 @@
           <fieldset data-brand-editorial hidden>
             <legend>关联与影像</legend>
             <div class="form-grid">
-              <div class="field field-span-2"><label>材料 ID（每行一个）</label><textarea name="materialIds" rows="3" placeholder="japanese-denim"></textarea></div>
-              <div class="field field-span-2"><label>代表作品商品 ID（每行一个）</label><textarea name="signatureProductIds" rows="3"></textarea></div>
-              <div class="field field-span-2"><label>相关品牌 ID（每行一个）</label><textarea name="relatedBrandIds" rows="3" placeholder="brand-xxx"></textarea></div>
+              <div
+                class="field field-span-2"
+                data-relation-picker
+                data-relation-kind="materials"
+                data-relation-max="12"
+              >
+                <label>关联材料</label>
+                <input
+                  type="search"
+                  class="relation-picker-filter"
+                  data-relation-filter
+                  placeholder="搜索材料名称或 ID…"
+                  autocomplete="off"
+                />
+                <div class="relation-picker-selected" data-relation-selected hidden></div>
+                <div class="relation-picker-list" data-relation-list role="group" aria-label="材料列表"></div>
+                <textarea name="materialIds" hidden rows="1"></textarea>
+                <small data-relation-hint>从材料库勾选，最多 12 项；不可手填 ID。</small>
+              </div>
+              <div
+                class="field field-span-2"
+                data-relation-picker
+                data-relation-kind="products"
+                data-relation-max="6"
+              >
+                <label>代表作品</label>
+                <input
+                  type="search"
+                  class="relation-picker-filter"
+                  data-relation-filter
+                  placeholder="搜索商品名称或 ID…"
+                  autocomplete="off"
+                />
+                <div class="relation-picker-selected" data-relation-selected hidden></div>
+                <div class="relation-picker-list" data-relation-list role="group" aria-label="商品列表"></div>
+                <textarea name="signatureProductIds" hidden rows="1"></textarea>
+                <small data-relation-hint>从商品库勾选，最多 6 件。</small>
+              </div>
+              <div
+                class="field field-span-2"
+                data-relation-picker
+                data-relation-kind="brands"
+                data-relation-max="8"
+              >
+                <label>相关品牌 / 工作室 / 设计师</label>
+                <input
+                  type="search"
+                  class="relation-picker-filter"
+                  data-relation-filter
+                  placeholder="搜索品牌名称或 ID…"
+                  autocomplete="off"
+                />
+                <div class="relation-picker-selected" data-relation-selected hidden></div>
+                <div class="relation-picker-list" data-relation-list role="group" aria-label="品牌列表"></div>
+                <textarea name="relatedBrandIds" hidden rows="1"></textarea>
+                <small data-relation-hint>从现有品牌库勾选，最多 8 项；不含当前正在编辑的条目。</small>
+              </div>
               <div
                 class="field field-span-2"
                 data-path-upload
@@ -1356,6 +1410,6 @@
     </dialog>
 
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./admin.js?v=29"></script>
+    <script type="module" src="./admin.js?v=30"></script>
   </body>
 </html>

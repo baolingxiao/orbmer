@@ -155,6 +155,236 @@
     return (Array.isArray(list) ? list : []).filter(Boolean).join("\n");
   }
 
+  function productDisplayName(product) {
+    return (
+      product?.zh?.name ||
+      product?.en?.name ||
+      product?.nameZh ||
+      product?.nameEn ||
+      product?.name ||
+      product?.id ||
+      ""
+    );
+  }
+
+  function entityDisplayName(item) {
+    return item?.nameZh || item?.nameEn || item?.name || item?.id || "";
+  }
+
+  function relationOptions(kind, { excludeId = "" } = {}) {
+    const state = bridge().state || {};
+    if (kind === "materials") {
+      return (state.materials || [])
+        .filter((row) => row?.id && !row.deletedAt)
+        .map((row) => ({
+          id: row.id,
+          label: entityDisplayName(row),
+          meta: row.status ? `${row.id} · ${row.status}` : row.id,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, "zh"));
+    }
+    if (kind === "products") {
+      return (state.products || [])
+        .filter((row) => row?.id)
+        .map((row) => ({
+          id: row.id,
+          label: productDisplayName(row),
+          meta: [row.id, row.studio || row.material || row.country].filter(Boolean).join(" · "),
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, "zh"));
+    }
+    if (kind === "brands") {
+      return (state.brands || [])
+        .filter((row) => row?.id && row.id !== excludeId && !row.deletedAt)
+        .map((row) => ({
+          id: row.id,
+          label: entityDisplayName(row),
+          meta: `${row.id} · ${kindLabel(row.kind)}`,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, "zh"));
+    }
+    return [];
+  }
+
+  function knownRelationIds(kind) {
+    return new Set(relationOptions(kind).map((row) => row.id));
+  }
+
+  function sanitizeRelationIds(ids, kind) {
+    const allowed = knownRelationIds(kind);
+    // If the catalog has not loaded yet, keep values to avoid wiping on race.
+    if (!allowed.size) return ids;
+    return ids.filter((id) => allowed.has(id));
+  }
+
+  function readPickerIds(root) {
+    const target = root.querySelector("textarea[name]");
+    return linesList(target?.value || "");
+  }
+
+  function writePickerIds(root, ids) {
+    const target = root.querySelector("textarea[name]");
+    const max = Number(root.getAttribute("data-relation-max") || 0) || 0;
+    const next = max > 0 ? ids.slice(0, max) : ids;
+    if (target) {
+      target.value = listLines(next);
+      target.dispatchEvent(new Event("input", { bubbles: true }));
+      target.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    return next;
+  }
+
+  function renderRelationPicker(root, { excludeId = "" } = {}) {
+    if (!root) return;
+    const kind = root.getAttribute("data-relation-kind");
+    const list = root.querySelector("[data-relation-list]");
+    const selectedBox = root.querySelector("[data-relation-selected]");
+    const filterInput = root.querySelector("[data-relation-filter]");
+    const hint = root.querySelector("[data-relation-hint]");
+    const max = Number(root.getAttribute("data-relation-max") || 0) || 0;
+    if (!kind || !list) return;
+
+    const selected = readPickerIds(root);
+    const selectedSet = new Set(selected);
+    const options = relationOptions(kind, { excludeId });
+    const byId = new Map(options.map((row) => [row.id, row]));
+    const query = String(filterInput?.value || "")
+      .trim()
+      .toLowerCase();
+
+    // Preserve stale IDs so editors can see and remove them.
+    const stale = selected
+      .filter((id) => !byId.has(id))
+      .map((id) => ({
+        id,
+        label: id,
+        meta: "库中不存在，保存时将移除",
+        stale: true,
+      }));
+
+    const visible = [...stale, ...options].filter((row) => {
+      if (!query) return true;
+      const hay = `${row.label} ${row.meta || ""} ${row.id}`.toLowerCase();
+      return hay.includes(query);
+    });
+
+    if (selectedBox) {
+      if (!selected.length) {
+        selectedBox.hidden = true;
+        selectedBox.innerHTML = "";
+      } else {
+        selectedBox.hidden = false;
+        selectedBox.innerHTML = selected
+          .map((id) => {
+            const row = byId.get(id);
+            const staleItem = !row;
+            const label = row?.label || id;
+            return `<span class="relation-chip${staleItem ? " is-stale" : ""}" data-relation-chip="${id}">
+              <span>${label}${staleItem ? "（失效）" : ""}</span>
+              <button type="button" data-relation-remove="${id}" aria-label="移除 ${label}">×</button>
+            </span>`;
+          })
+          .join("");
+      }
+    }
+
+    if (!visible.length) {
+      list.innerHTML = `<div class="relation-picker-empty">${
+        options.length || stale.length ? "无匹配项" : "暂无可用数据，请先在对应栏目创建条目"
+      }</div>`;
+    } else {
+      list.innerHTML = visible
+        .map((row) => {
+          const checked = selectedSet.has(row.id);
+          const disabled = !checked && max > 0 && selected.length >= max;
+          return `<label class="relation-picker-option${row.stale ? " is-stale" : ""}">
+            <input type="checkbox" value="${row.id}" ${checked ? "checked" : ""} ${
+              disabled ? "disabled" : ""
+            } data-relation-option />
+            <span>
+              <strong>${row.label}</strong>
+              <small>${row.meta || row.id}</small>
+            </span>
+          </label>`;
+        })
+        .join("");
+    }
+
+    if (hint) {
+      const base =
+        kind === "materials"
+          ? "从材料库勾选"
+          : kind === "products"
+            ? "从商品库勾选"
+            : "从品牌库勾选";
+      hint.textContent = `${base}（已选 ${selected.length}${max ? ` / ${max}` : ""}）`;
+    }
+  }
+
+  function mountRelationPickers(scope = document) {
+    scope.querySelectorAll("[data-relation-picker]").forEach((root) => {
+      if (root.dataset.relationBound === "1") {
+        renderRelationPicker(root, {
+          excludeId: root.closest("form")?.elements?.namedItem?.("id")?.value || "",
+        });
+        return;
+      }
+      root.dataset.relationBound = "1";
+      const filterInput = root.querySelector("[data-relation-filter]");
+      filterInput?.addEventListener("input", () => {
+        renderRelationPicker(root, {
+          excludeId: root.closest("form")?.elements?.namedItem?.("id")?.value || "",
+        });
+      });
+      root.addEventListener("change", (event) => {
+        const option = event.target?.closest?.("[data-relation-option]");
+        if (!option) return;
+        const max = Number(root.getAttribute("data-relation-max") || 0) || 0;
+        let ids = readPickerIds(root);
+        const id = option.value;
+        if (option.checked) {
+          if (!ids.includes(id)) ids.push(id);
+          if (max > 0 && ids.length > max) {
+            option.checked = false;
+            toast(`最多选择 ${max} 项。`, true);
+            ids = ids.slice(0, max);
+          }
+        } else {
+          ids = ids.filter((entry) => entry !== id);
+        }
+        writePickerIds(root, ids);
+        renderRelationPicker(root, {
+          excludeId: root.closest("form")?.elements?.namedItem?.("id")?.value || "",
+        });
+      });
+      root.addEventListener("click", (event) => {
+        const remove = event.target?.closest?.("[data-relation-remove]");
+        if (!remove) return;
+        event.preventDefault();
+        const id = remove.getAttribute("data-relation-remove");
+        writePickerIds(
+          root,
+          readPickerIds(root).filter((entry) => entry !== id)
+        );
+        renderRelationPicker(root, {
+          excludeId: root.closest("form")?.elements?.namedItem?.("id")?.value || "",
+        });
+      });
+      renderRelationPicker(root, {
+        excludeId: root.closest("form")?.elements?.namedItem?.("id")?.value || "",
+      });
+    });
+  }
+
+  function refreshRelationPickers(scope = document) {
+    mountRelationPickers(scope);
+    scope.querySelectorAll("[data-relation-picker]").forEach((root) => {
+      renderRelationPicker(root, {
+        excludeId: root.closest("form")?.elements?.namedItem?.("id")?.value || "",
+      });
+    });
+  }
+
   function ensureRepeatFields() {
     const philosophyRoot = document.querySelector("[data-philosophy-fields]");
     if (philosophyRoot && !philosophyRoot.dataset.ready) {
@@ -299,6 +529,7 @@
     setValue(form, "materialIds", listLines(item?.materialIds));
     setValue(form, "signatureProductIds", listLines(item?.signatureProductIds));
     setValue(form, "relatedBrandIds", listLines(item?.relatedBrandIds));
+    refreshRelationPickers(form);
     setValue(form, "gallery", listLines(item?.gallery));
     const perspective = item?.perspective || {};
     setValue(form, "perspectiveWhyMatters", perspective.whyMatters || "");
@@ -369,9 +600,17 @@
       country: formValue(form, "identityCountry"),
       philosophy,
       crafts,
-      materialIds: linesList(formValue(form, "materialIds")),
-      signatureProductIds: linesList(formValue(form, "signatureProductIds")),
-      relatedBrandIds: linesList(formValue(form, "relatedBrandIds")),
+      materialIds: sanitizeRelationIds(linesList(formValue(form, "materialIds")), "materials"),
+      signatureProductIds: sanitizeRelationIds(
+        linesList(formValue(form, "signatureProductIds")),
+        "products"
+      ),
+      relatedBrandIds: sanitizeRelationIds(
+        linesList(formValue(form, "relatedBrandIds")).filter(
+          (id) => id !== formValue(form, "id")
+        ),
+        "brands"
+      ),
       gallery: linesList(formValue(form, "gallery")),
       perspective: {
         whyMatters: formValue(form, "perspectiveWhyMatters"),
@@ -588,8 +827,12 @@
       ? `编辑${titles[type] || type}`
       : `新建${titles[type] || type}`;
     refreshUploads(form);
+    refreshRelationPickers(form);
     // Second pass after paint: path inputs are filled before previews bind/refresh.
-    requestAnimationFrame(() => refreshUploads(form));
+    requestAnimationFrame(() => {
+      refreshUploads(form);
+      refreshRelationPickers(form);
+    });
     const ai = bridge().ai;
     if (ai?.mountForm) {
       ai.mountForm(form, {
@@ -706,6 +949,7 @@
 
     await Promise.allSettled(tasks);
     renderPlatform();
+    refreshRelationPickers(document);
   }
 
   function renderMedia() {
@@ -1155,6 +1399,7 @@
     });
 
     refreshUploads(document);
+    refreshRelationPickers(document);
 
     const teamForm = document.querySelector("[data-team-form]");
     teamForm?.addEventListener("submit", async (event) => {
