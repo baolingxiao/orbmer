@@ -66,6 +66,22 @@
     return kind || "—";
   }
 
+  function formatEntityTime(item) {
+    const raw = item?.updatedAt || item?.updated_at || item?.createdAt || item?.created_at;
+    if (!raw) return "—";
+    const date = new Date(raw);
+    if (Number.isNaN(date.getTime())) return String(raw);
+    return new Intl.DateTimeFormat("zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    }).format(date);
+  }
+
   function renderEntityTable(type, items) {
     const tbody = document.querySelector(`[data-${type}-table]`);
     const empty = document.querySelector(`[data-${type}-empty]`);
@@ -87,11 +103,12 @@
       }
       tr.append(el("td", { text: item.id }), el("td", { text: item.status || "—" }));
       if (type === "brand") {
-        tr.appendChild(el("td", { text: item.featured ? "是" : "—" }));
+        tr.appendChild(el("td", { text: item.featured ? "是" : "否" }));
       }
-      tr.append(
-        el("td", { text: item.updatedAt ? new Date(item.updatedAt).toLocaleString() : "—" })
-      );
+      const updatedCell = el("td", { text: formatEntityTime(item) });
+      const stamp = item?.updatedAt || item?.updated_at || item?.createdAt || "";
+      if (stamp) updatedCell.title = String(stamp);
+      tr.append(updatedCell);
       const actions = el("td");
       const edit = el("button", {
         className: "button button-secondary button-compact",
