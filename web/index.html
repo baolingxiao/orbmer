@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=13" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=14" />
   </head>
   <body>
     <div data-orb-header></div>
@@ -25,20 +25,30 @@
 
       <section class="section" data-module="home-featured">
         <div class="shell-wide">
-          <div class="mi2-products-head featured-head reveal">
-            <div class="section-head">
-              <h2 data-i18n="home.featured" data-editable="home.featuredTitle">精品推荐</h2>
-              <p data-i18n="home.featured.body" data-editable="home.featuredBody">编辑精选与值得入手的安静好物。</p>
-            </div>
-            <div class="mi2-products-nav" data-home-featured-nav>
-              <button type="button" class="mi2-products-btn" data-home-featured-prev aria-label="Previous">←</button>
-              <button type="button" class="mi2-products-btn" data-home-featured-next aria-label="Next">→</button>
-            </div>
+          <div class="section-head reveal">
+            <h2 data-i18n="home.featured" data-editable="home.featuredTitle">精品推荐</h2>
+            <p data-i18n="home.featured.body" data-editable="home.featuredBody">汇聚全站精选——品牌、工作室、设计师与产品，一处安静探索。</p>
           </div>
-          <div class="mi2-products reveal" data-home-featured-rail>
-            <div class="mi2-products-track" data-home-featured></div>
+        </div>
+        <div class="picks-featured picks-featured--home reveal" data-featured-section hidden aria-label="Featured picks">
+          <div class="picks-marquee" data-featured-marquee>
+            <button class="picks-marquee-nav picks-marquee-prev" type="button" data-marquee-prev aria-label="上一张">
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M10.5 3.5 5.5 8l5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <div class="picks-marquee-viewport" data-featured-viewport>
+              <div class="picks-marquee-track" data-featured-track></div>
+            </div>
+            <button class="picks-marquee-nav picks-marquee-next" type="button" data-marquee-next aria-label="下一张">
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M5.5 3.5 10.5 8l-5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
           </div>
-          <p style="margin-top: 28px">
+        </div>
+        <div class="shell-wide">
+          <p style="margin-top: 8px">
             <a class="shop-pill" href="/discover/">Discover →</a>
           </p>
         </div>
@@ -145,64 +155,140 @@
     <script type="module">
       import { mountChrome } from "/shared/js/chrome.js";
       import { loadCatalog, quietCardHtml, productsByStatus } from "/shared/js/catalog-editorial.js";
-      import { applyI18n, getLang, onLangChange } from "/shared/js/editorial-i18n.js";
+      import { applyI18n, getLang, onLangChange, t } from "/shared/js/editorial-i18n.js";
+      import { createPicksMarquee, dedupeMarqueeItems } from "/shared/js/picks-marquee.js";
 
       mountChrome({ title: "Orbmare · 傲马" });
 
       const catalog = await loadCatalog();
-      let featuredWired = false;
 
-      function wireFeaturedRail() {
-        const section = document.querySelector("[data-module='home-featured']");
-        if (!section) return;
-        const track = section.querySelector("[data-home-featured]");
-        const prev = section.querySelector("[data-home-featured-prev]");
-        const next = section.querySelector("[data-home-featured-next]");
-        if (!track || featuredWired) {
-          // Re-bind scroll sync after re-render
-          if (track) {
-            const max = Math.max(0, track.scrollWidth - track.clientWidth - 4);
-            if (prev) prev.disabled = track.scrollLeft <= 2;
-            if (next) next.disabled = track.scrollLeft >= max;
-          }
-          return;
+      async function loadBrands() {
+        try {
+          const res = await fetch(`/api/brands?t=${Date.now()}`, {
+            cache: "no-store",
+            headers: { Accept: "application/json" },
+          });
+          if (!res.ok) return [];
+          const data = await res.json();
+          return data?.ok && Array.isArray(data.brands) ? data.brands : [];
+        } catch {
+          return [];
         }
-        featuredWired = true;
-
-        const step = () => {
-          const card = track.querySelector(".quiet-card");
-          if (!card) return Math.min(320, track.clientWidth * 0.8);
-          const style = getComputedStyle(track);
-          const gap = parseFloat(style.columnGap || style.gap || "24") || 24;
-          return card.getBoundingClientRect().width + gap;
-        };
-
-        const sync = () => {
-          const max = Math.max(0, track.scrollWidth - track.clientWidth - 4);
-          const x = track.scrollLeft;
-          if (prev) prev.disabled = x <= 2;
-          if (next) next.disabled = x >= max;
-        };
-
-        prev?.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
-        next?.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
-        track.addEventListener("scroll", sync, { passive: true });
-        window.addEventListener("resize", sync, { passive: true });
-        requestAnimationFrame(sync);
       }
+
+      async function loadFeatured() {
+        try {
+          const res = await fetch(`/api/featured?limit=22&t=${Date.now()}`, {
+            cache: "no-store",
+            headers: { Accept: "application/json" },
+          });
+          if (!res.ok) return [];
+          const data = await res.json();
+          return data?.ok && Array.isArray(data.items) ? data.items : [];
+        } catch {
+          return [];
+        }
+      }
+
+      const brands = await loadBrands();
+      const serverFeatured = await loadFeatured();
+      const FALLBACK_IMG = "/assets/editorial/designer-atelier.jpg";
+
+      function kindLabel(kind, lang) {
+        if (lang === "zh") {
+          return kind === "studio" ? "工作室" : kind === "designer" ? "设计师" : "品牌";
+        }
+        return kind === "studio" ? "Studio" : kind === "designer" ? "Designer" : "Brand";
+      }
+
+      function toBrandItem(brand, lang) {
+        const name = lang === "zh" ? brand.nameZh || brand.nameEn : brand.nameEn || brand.nameZh;
+        return {
+          key: `b-${brand.id}`,
+          href: `/brand/?id=${encodeURIComponent(brand.id)}`,
+          image: brand.image || FALLBACK_IMG,
+          meta: kindLabel(brand.kind, lang),
+          name: name || brand.id,
+        };
+      }
+
+      function toProductItem(product, lang) {
+        const name =
+          lang === "zh" ? product.nameZh || product.name : product.name || product.nameZh;
+        const origin = lang === "zh" ? product.countryZh || product.country : product.country;
+        const meta =
+          product.designerName || product.studio || origin || t("home.featured", lang);
+        return {
+          key: `p-${product.id}`,
+          href: `/product/?id=${encodeURIComponent(product.id)}`,
+          image: product.image || (product.images && product.images[0]) || FALLBACK_IMG,
+          meta,
+          name: name || product.id,
+        };
+      }
+
+      const isPlaceholder = (id = "") => /persist|test|check|sample|demo/i.test(id);
+
+      function interleave(a, b) {
+        const out = [];
+        const max = Math.max(a.length, b.length);
+        for (let i = 0; i < max; i += 1) {
+          if (a[i]) out.push(a[i]);
+          if (b[i]) out.push(b[i]);
+        }
+        return out;
+      }
+
+      // Aggregate every curated surface into one rail: brands / studios /
+      // designers picks interleaved with featured & editor's-pick products.
+      function featuredItems(lang) {
+        if (serverFeatured.length) {
+          return serverFeatured.map((item) => ({
+            key: `${item.source || item.type}-${item.id}`,
+            href: item.href,
+            image: item.image || FALLBACK_IMG,
+            meta: lang === "zh" ? item.metaZh || item.meta : item.meta || item.metaZh,
+            name: lang === "zh" ? item.nameZh || item.name : item.name || item.nameZh,
+          }));
+        }
+
+        // Compatibility fallback for deployments where /api/featured is not
+        // available yet.
+        const realBrands = brands.filter(
+          (row) => ["brand", "studio", "designer"].includes(row.kind) && !isPlaceholder(row.id)
+        );
+        const flaggedBrands = realBrands.filter((row) => row.featured);
+        const brandPool = (flaggedBrands.length ? flaggedBrands : realBrands)
+          .slice(0, 10)
+          .map((row) => toBrandItem(row, lang));
+
+        const flaggedProducts = (catalog.products || []).filter((p) => p.featured);
+        const editorPicks = productsByStatus(catalog, "editors-pick");
+        const productSource = flaggedProducts.length || editorPicks.length
+          ? [...flaggedProducts, ...editorPicks]
+          : [
+              ...productsByStatus(catalog, "new"),
+              ...productsByStatus(catalog, "hidden-gem"),
+              ...(catalog.products || []),
+            ];
+        const productPool = dedupeMarqueeItems(
+          productSource.map((p) => toProductItem(p, lang))
+        ).slice(0, 12);
+
+        return dedupeMarqueeItems(interleave(brandPool, productPool)).slice(0, 22);
+      }
+
+      const marquee = createPicksMarquee(document.querySelector("[data-module='home-featured']"));
 
       function render(lang = getLang()) {
         applyI18n(lang);
-        const featured = productsByStatus(catalog, "editors-pick").slice(0, 12);
+        marquee.render(featuredItems(lang));
         const collections = [
           ...productsByStatus(catalog, "new").slice(0, 3),
           ...productsByStatus(catalog, "hidden-gem").slice(0, 3),
         ];
-        const featuredEl = document.querySelector("[data-home-featured]");
-        if (featuredEl) featuredEl.innerHTML = featured.map((p) => quietCardHtml(p, lang)).join("");
         const grid = document.querySelector("[data-home-collections]");
         if (grid) grid.innerHTML = collections.map((p) => quietCardHtml(p, lang)).join("");
-        wireFeaturedRail();
       }
 
       render();

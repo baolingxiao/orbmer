@@ -284,6 +284,127 @@ app.get("/api/brands", async (req, res) => {
   }
 });
 
+function featuredRank(row) {
+  const value = Number(row?.featuredRank);
+  return Number.isFinite(value) ? value : 100;
+}
+
+function isPlaceholderFeaturedRow(row) {
+  return /(?:^|[-_])(test|check|sample|demo|persist)(?:$|[-_])/i.test(
+    String(row?.id || "")
+  );
+}
+
+function sortFeaturedRows(rows) {
+  return [...rows].sort((a, b) => {
+    const rankDiff = featuredRank(a) - featuredRank(b);
+    if (rankDiff) return rankDiff;
+    return String(a?.nameZh || a?.name || a?.nameEn || a?.id || "").localeCompare(
+      String(b?.nameZh || b?.name || b?.nameEn || b?.id || ""),
+      "zh-CN"
+    );
+  });
+}
+
+function interleaveFeaturedRows(left, right, limit) {
+  const result = [];
+  const count = Math.max(left.length, right.length);
+  for (let index = 0; index < count && result.length < limit; index += 1) {
+    if (left[index]) result.push(left[index]);
+    if (right[index] && result.length < limit) result.push(right[index]);
+  }
+  return result;
+}
+
+app.get("/api/featured", async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  try {
+    const requestedLimit = Number.parseInt(String(req.query.limit || "22"), 10);
+    const limit = Number.isFinite(requestedLimit)
+      ? Math.max(4, Math.min(40, requestedLimit))
+      : 22;
+    const [brandRows, productRows] = await Promise.all([
+      listContent("brand"),
+      listPublishedEditorialProducts(),
+    ]);
+
+    const publishedBrands = brandRows
+      .filter(
+        (row) =>
+          row.status === "published" &&
+          !isPlaceholderFeaturedRow(row) &&
+          (row.kind === "brand" || row.kind === "studio" || row.kind === "designer")
+      )
+      .map(toPublicBrandCard);
+    const explicitBrands = publishedBrands.filter((row) => row.featured);
+    const explicitProducts = productRows.filter(
+      (row) => row.featured || row.status === "editors-pick"
+    );
+    const selectedBrands = sortFeaturedRows(
+      explicitBrands.length ? explicitBrands : publishedBrands
+    ).slice(0, Math.ceil(limit / 2));
+    const selectedProducts = sortFeaturedRows(
+      explicitProducts.length ? explicitProducts : productRows
+    ).slice(0, Math.ceil(limit / 2));
+
+    const brands = selectedBrands.map((row) => ({
+      id: row.id,
+      type: row.kind || "brand",
+      source: "brand",
+      href: `/brand/?id=${encodeURIComponent(row.id)}`,
+      image: row.image || "",
+      name: row.name || row.nameEn || row.id,
+      nameZh: row.nameZh || row.name || row.id,
+      meta: row.kind === "studio" ? "Studio" : row.kind === "designer" ? "Designer" : "Brand",
+      metaZh: row.kind === "studio" ? "工作室" : row.kind === "designer" ? "设计师" : "品牌",
+      featured: Boolean(row.featured),
+      featuredRank: featuredRank(row),
+    }));
+    const products = selectedProducts.map((row) => ({
+      id: row.id,
+      type: "product",
+      source: "product",
+      href: `/product/?id=${encodeURIComponent(row.id)}`,
+      image: row.image || row.images?.[0] || "",
+      name: row.name || row.nameZh || row.id,
+      nameZh: row.nameZh || row.name || row.id,
+      meta:
+        row.brandName ||
+        row.designerName ||
+        row.studio ||
+        row.countryLabel ||
+        row.country ||
+        "Orbmare Pick",
+      metaZh:
+        row.brandNameZh ||
+        row.designerNameZh ||
+        row.studioZh ||
+        row.countryLabelZh ||
+        row.country ||
+        "傲马精选",
+      featured: Boolean(row.featured),
+      featuredRank: featuredRank(row),
+    }));
+
+    const items = interleaveFeaturedRows(brands, products, limit);
+    return res.json({
+      ok: true,
+      items,
+      counts: {
+        total: items.length,
+        brands: items.filter((row) => row.source === "brand").length,
+        products: items.filter((row) => row.source === "product").length,
+      },
+      fallback: {
+        brands: explicitBrands.length === 0,
+        products: explicitProducts.length === 0,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ ok: false, error: "Featured content unavailable." });
+  }
+});
+
 app.get("/api/brands/:id", async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   try {

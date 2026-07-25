@@ -344,6 +344,9 @@ export function toPublicBrandCard(row) {
     slug: row.slug,
     kind: row.kind || "brand",
     featured: Boolean(row.featured),
+    featuredRank: Number.isFinite(Number(row.featuredRank))
+      ? Number(row.featuredRank)
+      : 100,
     name: row.nameEn || row.name || row.id,
     nameEn: row.nameEn || row.name || row.id,
     nameZh: row.nameZh || row.name || row.id,

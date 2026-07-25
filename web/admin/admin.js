@@ -1,4 +1,4 @@
-import "./admin-platform.js";
+import "./admin-platform.js?v=34";
 import { createAdminUploader } from "./admin-upload.js";
 import { createAiOptimization } from "./ai/admin-ai.js";
 
@@ -20,6 +20,7 @@ const state = {
   roles: [],
   siteContent: null,
   activeSection: "overview",
+  selectedProducts: new Set(),
 };
 
 const loginView = document.querySelector("[data-login-view]");
@@ -104,10 +105,16 @@ const auditActionLabels = {
   product_created: "创建商品",
   product_updated: "更新商品",
   product_deleted: "删除商品",
+  product_batch_deleted: "批量删除商品",
   inventory_updated: "调整库存",
   shipment_updated: "更新运输",
   trash_restored: "恢复删除",
   trash_purged: "清理回收站",
+  brand_batch_deleted: "批量删除品牌",
+  material_batch_deleted: "批量删除材料",
+  country_batch_deleted: "批量删除国家",
+  craft_batch_deleted: "批量删除工艺",
+  media_batch_deleted: "批量删除媒体",
 };
 
 function element(tag, options = {}) {
@@ -523,6 +530,27 @@ function fillProductSyncPreview(product) {
   }
 }
 
+function syncProductBulkBar() {
+  const bar = document.querySelector("[data-product-bulk]");
+  const count = document.querySelector("[data-product-bulk-count]");
+  const button = document.querySelector("[data-product-bulk-delete]");
+  const selectAll = document.querySelector("[data-product-select-all]");
+  const visible = [
+    ...document.querySelectorAll("[data-product-table] [data-select-product]"),
+  ];
+  const selectedVisible = visible.filter((input) => input.checked);
+  const canDelete = can("product.delete");
+  if (count) count.textContent = `已选 ${state.selectedProducts.size} 项`;
+  if (bar) bar.hidden = !canDelete;
+  if (button) button.disabled = !canDelete || state.selectedProducts.size === 0;
+  if (selectAll) {
+    selectAll.disabled = !canDelete;
+    selectAll.checked = visible.length > 0 && selectedVisible.length === visible.length;
+    selectAll.indeterminate =
+      selectedVisible.length > 0 && selectedVisible.length < visible.length;
+  }
+}
+
 function renderProducts() {
   const table = document.querySelector("[data-product-table]");
   const empty = document.querySelector("[data-product-empty]");
@@ -542,10 +570,24 @@ function renderProducts() {
     return matchesChannel && matchesStatus && (!query || haystack.includes(query));
   });
 
+  // Drop selections that no longer exist in the catalog.
+  const alive = new Set(state.products.map((product) => product.id));
+  [...state.selectedProducts].forEach((id) => {
+    if (!alive.has(id)) state.selectedProducts.delete(id);
+  });
+
   clear(table);
   empty.hidden = products.length > 0;
   products.forEach((product) => {
     const row = element("tr");
+    const checkCell = element("td", { className: "col-check" });
+    if (can("product.delete")) {
+      const check = element("input", { type: "checkbox" });
+      check.dataset.selectProduct = product.id;
+      check.checked = state.selectedProducts.has(product.id);
+      check.setAttribute("aria-label", `选择 ${product.id}`);
+      checkCell.appendChild(check);
+    }
     const productColumn = element("td");
     productColumn.appendChild(productCell(product));
     const channel = resolveChannel(product);
@@ -562,6 +604,11 @@ function renderProducts() {
         lifecycleTone(product.lifecycleStatus)
       )
     );
+    const featuredOrder = element("td", {
+      text: product.featured
+        ? String(Number.isFinite(Number(product.featuredRank)) ? product.featuredRank : 100)
+        : "—",
+    });
     const inventory = element("td");
     inventory.appendChild(
       statusBadge(
@@ -589,9 +636,20 @@ function renderProducts() {
         )
       );
     }
-    row.append(productColumn, collection, price, lifecycle, inventory, updated, actions);
+    row.append(
+      checkCell,
+      productColumn,
+      collection,
+      price,
+      lifecycle,
+      featuredOrder,
+      inventory,
+      updated,
+      actions
+    );
     table.appendChild(row);
   });
+  syncProductBulkBar();
 }
 
 function renderInventory() {
@@ -859,6 +917,9 @@ function openProductDialog(product = null) {
   productForm.elements.namedItem("id").readOnly = editing;
   setFormValue(productForm, "channel", channel);
   setFormValue(productForm, "lifecycleStatus", product?.lifecycleStatus || "draft");
+  const featuredField = productForm.elements.namedItem("featured");
+  if (featuredField) featuredField.checked = Boolean(product?.featured);
+  setFormValue(productForm, "featuredRank", product?.featuredRank ?? 100);
   setFormValue(productForm, "costPrice", product?.costPrice ?? "");
   setFormValue(productForm, "compareAtPrice", product?.compareAtPrice ?? "");
   setFormValue(productForm, "seoTitle", product?.seo?.title || "");
@@ -984,7 +1045,8 @@ function productPayload() {
   return {
     id,
     channel,
-    featured: Boolean(existing?.featured),
+    featured: Boolean(productForm.elements.namedItem("featured")?.checked),
+    featuredRank: Number(formValue(productForm, "featuredRank") || 100),
     lifecycleStatus: formValue(productForm, "lifecycleStatus"),
     collection,
     country: channel === "editorial" ? collection : undefined,
@@ -1183,6 +1245,7 @@ document.addEventListener("click", async (event) => {
     if (!confirm(`确认删除商品「${id}」？将进入删除记录，保留 7 天后永久清除。`)) return;
     try {
       await api(`/products/${encodeURIComponent(id)}`, { method: "DELETE" });
+      state.selectedProducts.delete(id);
       showToast("已移入删除记录（保留 7 天）。");
       await loadData({ quiet: true });
     } catch (error) {
@@ -1205,6 +1268,54 @@ document.addEventListener("click", async (event) => {
     } catch (error) {
       showToast(error.message, true);
     }
+  }
+});
+
+document.querySelector("[data-product-table]")?.addEventListener("change", (event) => {
+  const input = event.target.closest("[data-select-product]");
+  if (!input) return;
+  const id = input.dataset.selectProduct;
+  if (input.checked) state.selectedProducts.add(id);
+  else state.selectedProducts.delete(id);
+  syncProductBulkBar();
+});
+
+document.querySelector("[data-product-select-all]")?.addEventListener("change", (event) => {
+  const checked = Boolean(event.target.checked);
+  document.querySelectorAll("[data-product-table] [data-select-product]").forEach((input) => {
+    input.checked = checked;
+    const id = input.dataset.selectProduct;
+    if (checked) state.selectedProducts.add(id);
+    else state.selectedProducts.delete(id);
+  });
+  syncProductBulkBar();
+});
+
+document.querySelector("[data-product-bulk-delete]")?.addEventListener("click", async () => {
+  const ids = [...state.selectedProducts];
+  if (!ids.length) return;
+  if (
+    !confirm(
+      `确认批量删除已选 ${ids.length} 个商品？将进入删除记录，保留 7 天后永久清除。`
+    )
+  ) {
+    return;
+  }
+  try {
+    const result = await api("/products/batch-delete", {
+      method: "POST",
+      body: { ids },
+    });
+    state.selectedProducts.clear();
+    const failed = result.failed?.length || 0;
+    showToast(
+      failed
+        ? `已删除 ${result.deleted.length} 项，失败 ${failed} 项。`
+        : `已批量删除 ${result.deleted.length} 项（保留 7 天）。`
+    );
+    await loadData({ quiet: true });
+  } catch (error) {
+    showToast(error.message, true);
   }
 });
 

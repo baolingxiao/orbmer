@@ -149,6 +149,10 @@ function normalizeEntity(type, input, existing = null) {
       input.featured !== undefined
         ? Boolean(input.featured)
         : Boolean(existing?.featured);
+    const featuredRank = Number(input.featuredRank ?? existing?.featuredRank ?? 100);
+    base.featuredRank = Number.isFinite(featuredRank)
+      ? Math.max(0, Math.min(9999, Math.round(featuredRank)))
+      : 100;
     const editorial = normalizeBrandEditorial(input, existing || {});
     Object.assign(base, editorial);
   }

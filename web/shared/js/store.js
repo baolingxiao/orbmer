@@ -108,3 +108,35 @@ export function loadCheckoutDraft() {
 export function clearCheckoutDraft() {
   sessionStorage.removeItem(CHECKOUT_DRAFT_KEY);
 }
+
+const SAVED_KEY = "orbmare-saved-v1";
+
+function readSaved() {
+  try {
+    const value = JSON.parse(localStorage.getItem(SAVED_KEY) || "[]");
+    return Array.isArray(value) ? value.map(String) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeSaved(ids) {
+  localStorage.setItem(SAVED_KEY, JSON.stringify(ids));
+}
+
+export function getSavedIds() {
+  return readSaved();
+}
+
+export function toggleSaved(productId) {
+  const id = String(productId || "").trim();
+  if (!id) return readSaved();
+  const current = readSaved();
+  const next = current.includes(id) ? current.filter((entry) => entry !== id) : [...current, id];
+  writeSaved(next);
+  return next;
+}
+
+export function isSaved(productId) {
+  return readSaved().includes(String(productId || ""));
+}

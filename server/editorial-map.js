@@ -175,6 +175,9 @@ export function storeProductToEditorialPublic(product) {
     priceLabel: product.priceLabel || moneyLabel(price),
     status: product.editorialStatus || product.status || "curated",
     featured: Boolean(product.featured),
+    featuredRank: Number.isFinite(Number(product.featuredRank))
+      ? Number(product.featuredRank)
+      : 100,
     isPurchasable: product.isPurchasable,
     channel: "editorial",
   };

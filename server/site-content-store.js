@@ -36,8 +36,9 @@ export const DEFAULT_SITE_CONTENT = {
     countriesBodyEn: "Begin with origin. Each country speaks through materials and making.",
     featuredTitle: "精品推荐",
     featuredTitleEn: "Featured",
-    featuredBody: "编辑精选与值得入手的安静好物。",
-    featuredBodyEn: "Editor's picks and quiet objects worth keeping.",
+    featuredBody: "汇聚全站精选——品牌、工作室、设计师与产品，一处安静探索。",
+    featuredBodyEn:
+      "Every curated corner in one place — brands, studios, designers, and objects.",
     storiesTitle: "先读故事，再看商品。",
     storiesTitleEn: "Story before product.",
     storiesBody: "傲马不是无所不卖的目录，而是值得被看见的工艺图书馆。",

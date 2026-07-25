@@ -82,20 +82,79 @@
     }).format(date);
   }
 
+  const entitySelections = {
+    brand: new Set(),
+    material: new Set(),
+    country: new Set(),
+    craft: new Set(),
+  };
+  const mediaSelection = new Set();
+
+  function writePermFor(type) {
+    return type === "designer" || type === "craft" ? "content.update" : `${type}.write`;
+  }
+
+  function syncEntityBulkBar(type) {
+    const bar = document.querySelector(`[data-${type}-bulk]`);
+    const count = document.querySelector(`[data-${type}-bulk-count]`);
+    const button = document.querySelector(`[data-entity-bulk-delete="${type}"]`);
+    const selectAll = document.querySelector(`[data-entity-select-all="${type}"]`);
+    const selected = entitySelections[type] || new Set();
+    const visible = [
+      ...document.querySelectorAll(`[data-${type}-table] [data-select-entity]`),
+    ];
+    const selectedVisible = visible.filter((input) => input.checked);
+    const allowed = can(writePermFor(type));
+    if (count) count.textContent = `已选 ${selected.size} 项`;
+    if (bar) bar.hidden = !allowed;
+    if (button) button.disabled = !allowed || selected.size === 0;
+    if (selectAll) {
+      selectAll.disabled = !allowed;
+      selectAll.checked = visible.length > 0 && selectedVisible.length === visible.length;
+      selectAll.indeterminate =
+        selectedVisible.length > 0 && selectedVisible.length < visible.length;
+    }
+  }
+
+  function syncMediaBulkBar() {
+    const bar = document.querySelector("[data-media-bulk]");
+    const count = document.querySelector("[data-media-bulk-count]");
+    const button = document.querySelector("[data-media-bulk-delete]");
+    const allowed = can("media.delete");
+    if (count) count.textContent = `已选 ${mediaSelection.size} 项`;
+    if (bar) bar.hidden = !allowed;
+    if (button) button.disabled = !allowed || mediaSelection.size === 0;
+  }
+
   function renderEntityTable(type, items) {
     const tbody = document.querySelector(`[data-${type}-table]`);
     const empty = document.querySelector(`[data-${type}-empty]`);
     if (!tbody) return;
     clear(tbody);
+    const selected = entitySelections[type] || (entitySelections[type] = new Set());
+    const alive = new Set(items.map((item) => item.id));
+    [...selected].forEach((id) => {
+      if (!alive.has(id)) selected.delete(id);
+    });
     if (!items.length) {
       if (empty) empty.hidden = false;
+      syncEntityBulkBar(type);
       return;
     }
     if (empty) empty.hidden = true;
-    const writePerm =
-      type === "designer" || type === "craft" ? "content.update" : `${type}.write`;
+    const writePerm = writePermFor(type);
     items.forEach((item) => {
       const tr = el("tr");
+      const checkCell = el("td", { className: "col-check" });
+      if (can(writePerm)) {
+        const check = el("input", { type: "checkbox" });
+        check.dataset.selectEntity = item.id;
+        check.dataset.entityType = type;
+        check.checked = selected.has(item.id);
+        check.setAttribute("aria-label", `选择 ${item.id}`);
+        checkCell.appendChild(check);
+      }
+      tr.appendChild(checkCell);
       const nameCell = el("td", { text: item.nameZh || item.nameEn || item.name || item.id });
       tr.appendChild(nameCell);
       if (type === "brand") {
@@ -104,6 +163,9 @@
       tr.append(el("td", { text: item.id }), el("td", { text: item.status || "—" }));
       if (type === "brand") {
         tr.appendChild(el("td", { text: item.featured ? "是" : "否" }));
+        tr.appendChild(
+          el("td", { text: String(Number.isFinite(Number(item.featuredRank)) ? item.featuredRank : 100) })
+        );
       }
       const updatedCell = el("td", { text: formatEntityTime(item) });
       const stamp = item?.updatedAt || item?.updated_at || item?.createdAt || "";
@@ -130,7 +192,7 @@
               method: "PUT",
               body: { ...item, featured: !featured },
             });
-            toast(featured ? "已取消推荐。" : "已设为推荐，将出现在精选页滚动带。");
+            toast(featured ? "已取消推荐。" : "已设为推荐，将出现在首页与精选页滚动带。");
             await loadPlatformData();
           } catch (error) {
             toast(error.message, true);
@@ -148,6 +210,7 @@
           if (!confirm(`确认删除 ${item.id}？将进入删除记录，保留 7 天后永久清除。`)) return;
           try {
             await api(`/${type}s/${encodeURIComponent(item.id)}`, { method: "DELETE" });
+            selected.delete(item.id);
             toast("已移入删除记录（保留 7 天）。");
             await loadPlatformData();
           } catch (error) {
@@ -159,6 +222,7 @@
       tr.appendChild(actions);
       tbody.appendChild(tr);
     });
+    syncEntityBulkBar(type);
   }
 
   function linesList(value) {
@@ -810,6 +874,9 @@
     form.elements.namedItem("id").readOnly = Boolean(item);
     setValue(form, "slug", item?.slug || item?.id || "");
     setValue(form, "status", item?.status || "draft");
+    const featuredField = form.elements.namedItem("featured");
+    if (featuredField) featuredField.checked = Boolean(item?.featured);
+    setValue(form, "featuredRank", item?.featuredRank ?? 100);
     setValue(form, "nameEn", item?.nameEn || item?.name || "");
     setValue(form, "nameZh", item?.nameZh || "");
     setValue(form, "studio", item?.studio || "");
@@ -975,13 +1042,30 @@
     if (!grid) return;
     clear(grid);
     const media = bridge().state.media || [];
+    const alive = new Set(media.map((asset) => asset.id));
+    [...mediaSelection].forEach((id) => {
+      if (!alive.has(id)) mediaSelection.delete(id);
+    });
     if (!media.length) {
       if (empty) empty.hidden = false;
+      syncMediaBulkBar();
       return;
     }
     if (empty) empty.hidden = true;
     media.forEach((asset) => {
       const card = el("article", { className: "media-card" });
+      if (can("media.delete")) {
+        const check = el("input", { type: "checkbox", className: "media-select" });
+        check.dataset.selectMedia = asset.id;
+        check.checked = mediaSelection.has(asset.id);
+        check.setAttribute("aria-label", `选择 ${asset.filename || asset.id}`);
+        check.addEventListener("change", () => {
+          if (check.checked) mediaSelection.add(asset.id);
+          else mediaSelection.delete(asset.id);
+          syncMediaBulkBar();
+        });
+        card.appendChild(check);
+      }
       if (String(asset.mimeType || "").startsWith("image/")) {
         const img = el("img");
         img.src = asset.path;
@@ -1014,6 +1098,7 @@
           if (!confirm(`确认删除媒体「${asset.filename}」？将进入删除记录，保留 7 天。`)) return;
           try {
             await api(`/media/${encodeURIComponent(asset.id)}`, { method: "DELETE" });
+            mediaSelection.delete(asset.id);
             toast("已移入删除记录（保留 7 天）。");
             await loadPlatformData();
           } catch (error) {
@@ -1024,6 +1109,7 @@
       }
       grid.appendChild(card);
     });
+    syncMediaBulkBar();
   }
 
   function renderTrash() {
@@ -1179,6 +1265,95 @@
       button.addEventListener("click", () => openEntityDialog(button.dataset.newEntity));
     });
 
+    ["brand", "material", "country", "craft"].forEach((type) => {
+      document
+        .querySelector(`[data-${type}-table]`)
+        ?.addEventListener("change", (event) => {
+          const input = event.target.closest("[data-select-entity]");
+          if (!input || input.dataset.entityType !== type) return;
+          const selected = entitySelections[type];
+          if (input.checked) selected.add(input.dataset.selectEntity);
+          else selected.delete(input.dataset.selectEntity);
+          syncEntityBulkBar(type);
+        });
+
+      document
+        .querySelector(`[data-entity-select-all="${type}"]`)
+        ?.addEventListener("change", (event) => {
+          const checked = Boolean(event.target.checked);
+          const selected = entitySelections[type];
+          document
+            .querySelectorAll(`[data-${type}-table] [data-select-entity]`)
+            .forEach((input) => {
+              input.checked = checked;
+              const id = input.dataset.selectEntity;
+              if (checked) selected.add(id);
+              else selected.delete(id);
+            });
+          syncEntityBulkBar(type);
+        });
+    });
+
+    document.querySelectorAll("[data-entity-bulk-delete]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const type = button.dataset.entityBulkDelete;
+        const selected = entitySelections[type];
+        const ids = [...(selected || [])];
+        if (!ids.length) return;
+        if (
+          !confirm(
+            `确认批量删除已选 ${ids.length} 条？将进入删除记录，保留 7 天后永久清除。`
+          )
+        ) {
+          return;
+        }
+        try {
+          const result = await api(`/${type}s/batch-delete`, {
+            method: "POST",
+            body: { ids },
+          });
+          selected.clear();
+          const failed = result.failed?.length || 0;
+          toast(
+            failed
+              ? `已删除 ${result.deleted.length} 项，失败 ${failed} 项。`
+              : `已批量删除 ${result.deleted.length} 项（保留 7 天）。`
+          );
+          await loadPlatformData();
+        } catch (error) {
+          toast(error.message, true);
+        }
+      });
+    });
+
+    document.querySelector("[data-media-bulk-delete]")?.addEventListener("click", async () => {
+      const ids = [...mediaSelection];
+      if (!ids.length) return;
+      if (
+        !confirm(
+          `确认批量删除已选 ${ids.length} 个媒体？将进入删除记录，保留 7 天后永久清除。`
+        )
+      ) {
+        return;
+      }
+      try {
+        const result = await api("/media/batch-delete", {
+          method: "POST",
+          body: { ids },
+        });
+        mediaSelection.clear();
+        const failed = result.failed?.length || 0;
+        toast(
+          failed
+            ? `已删除 ${result.deleted.length} 项，失败 ${failed} 项。`
+            : `已批量删除 ${result.deleted.length} 项（保留 7 天）。`
+        );
+        await loadPlatformData();
+      } catch (error) {
+        toast(error.message, true);
+      }
+    });
+
     const entityForm = document.querySelector("[data-entity-form]");
     entityForm?.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -1210,12 +1385,10 @@
         payload.kind = formValue(entityForm, "kind") || "brand";
         payload.studio = formValue(entityForm, "studio");
         payload.studioZh = formValue(entityForm, "studioZh");
+        payload.featured = Boolean(entityForm.elements.namedItem("featured")?.checked);
+        payload.featuredRank = Number(formValue(entityForm, "featuredRank") || 100);
         Object.assign(payload, readBrandEditorial(entityForm));
         payload.heroImage = payload.heroImage || payload.image;
-        const existing = (bridge().state.brands || []).find(
-          (row) => row.id === id || row.id.endsWith(`-${id.replace(/^(brand|studio|designer)-/, "")}`)
-        );
-        if (existing) payload.featured = Boolean(existing.featured);
       }
       if (type === "country") {
         payload.code = id;

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <title>运营管理 | 傲马 Orbmare</title>
-    <link rel="stylesheet" href="./admin.css" />
+    <link rel="stylesheet" href="./admin.css?v=34" />
     <link rel="stylesheet" href="./ai/ai.css?v=1" />
   </head>
   <body>
@@ -192,7 +192,7 @@
                 <h2 id="products-title">商品管理</h2>
                 <p>
                   管理 3D 打印与甄选商品。草稿仅后台可见；发布后分别同步到 /shop/ 与国家馆 / 发现页。无发布权限时保存为「审核中」。
-                  「推荐」商品会出现在前台 Orbmare 精选页下方的滚动推荐带。
+                  「推荐」商品会进入首页与 Orbmare 精选页的聚合滚动推荐带。
                 </p>
               </div>
               <button class="button button-primary" type="button" data-new-product>
@@ -242,15 +242,31 @@
                   <option value="archived">已归档</option>
                 </select>
               </div>
+              <div class="bulk-bar" data-product-bulk>
+                <span class="bulk-bar-hint">勾选左侧可批量操作</span>
+                <span data-product-bulk-count>已选 0 项</span>
+                <button
+                  class="button button-secondary button-compact"
+                  type="button"
+                  data-product-bulk-delete
+                  disabled
+                >
+                  批量删除
+                </button>
+              </div>
             </div>
             <div class="table-frame">
               <table>
                 <thead>
                   <tr>
+                    <th scope="col" class="col-check">
+                      <input type="checkbox" data-product-select-all aria-label="全选当前列表商品" />
+                    </th>
                     <th scope="col">商品</th>
                     <th scope="col">分类</th>
                     <th scope="col">价格</th>
                     <th scope="col">状态</th>
+                    <th scope="col">推荐顺序</th>
                     <th scope="col">库存方式</th>
                     <th scope="col">更新时间</th>
                     <th scope="col">操作</th>
@@ -344,14 +360,21 @@
                 <p>
                   统一管理三类主体：<code>brand-</code> 品牌、<code>studio-</code> 工作室、
                   <code>designer-</code> 设计师。发布后出现在前台「Orbmare 精选」。
-                  点「推荐」的主体会进入精选页下方的慢速滚动推荐带。
+                  点「推荐」的主体会进入首页与精选页的慢速滚动推荐带，并可设置展示顺序。
                 </p>
               </div>
               <button class="button button-primary" type="button" data-new-entity="brand" data-requires-permission="brand.write">新建</button>
             </div>
+            <div class="bulk-bar" data-brand-bulk>
+              <span class="bulk-bar-hint">勾选左侧可批量操作</span>
+              <span data-brand-bulk-count>已选 0 项</span>
+              <button class="button button-secondary button-compact" type="button" data-entity-bulk-delete="brand" disabled>
+                批量删除
+              </button>
+            </div>
             <div class="table-frame">
               <table>
-                <thead><tr><th>名称</th><th>类型</th><th>ID</th><th>状态</th><th>推荐</th><th>更新时间</th><th>操作</th></tr></thead>
+                <thead><tr><th class="col-check"><input type="checkbox" data-entity-select-all="brand" aria-label="全选品牌" /></th><th>名称</th><th>类型</th><th>ID</th><th>状态</th><th>推荐</th><th>推荐顺序</th><th>更新时间</th><th>操作</th></tr></thead>
                 <tbody data-brand-table></tbody>
               </table>
               <div class="empty-state" data-brand-empty hidden><h3>暂无精选主体</h3><p>新建品牌 / 工作室 / 设计师，或运行迁移脚本导入。</p></div>
@@ -366,9 +389,16 @@
               </div>
               <button class="button button-primary" type="button" data-new-entity="material" data-requires-permission="material.write">新建材料</button>
             </div>
+            <div class="bulk-bar" data-material-bulk>
+              <span class="bulk-bar-hint">勾选左侧可批量操作</span>
+              <span data-material-bulk-count>已选 0 项</span>
+              <button class="button button-secondary button-compact" type="button" data-entity-bulk-delete="material" disabled>
+                批量删除
+              </button>
+            </div>
             <div class="table-frame">
               <table>
-                <thead><tr><th>名称</th><th>ID</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
+                <thead><tr><th class="col-check"><input type="checkbox" data-entity-select-all="material" aria-label="全选材料" /></th><th>名称</th><th>ID</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
                 <tbody data-material-table></tbody>
               </table>
               <div class="empty-state" data-material-empty hidden><h3>暂无材料</h3><p>可从迁移脚本导入现有材料馆。</p></div>
@@ -383,9 +413,16 @@
               </div>
               <button class="button button-primary" type="button" data-new-entity="country" data-requires-permission="country.write">新建国家</button>
             </div>
+            <div class="bulk-bar" data-country-bulk>
+              <span class="bulk-bar-hint">勾选左侧可批量操作</span>
+              <span data-country-bulk-count>已选 0 项</span>
+              <button class="button button-secondary button-compact" type="button" data-entity-bulk-delete="country" disabled>
+                批量删除
+              </button>
+            </div>
             <div class="table-frame">
               <table>
-                <thead><tr><th>名称</th><th>ID</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
+                <thead><tr><th class="col-check"><input type="checkbox" data-entity-select-all="country" aria-label="全选国家" /></th><th>名称</th><th>ID</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
                 <tbody data-country-table></tbody>
               </table>
               <div class="empty-state" data-country-empty hidden><h3>暂无国家馆</h3><p>运行迁移脚本可导入 MVP 三国。</p></div>
@@ -400,9 +437,16 @@
               </div>
               <button class="button button-primary" type="button" data-new-entity="craft" data-requires-permission="content.update">新建工艺</button>
             </div>
+            <div class="bulk-bar" data-craft-bulk>
+              <span class="bulk-bar-hint">勾选左侧可批量操作</span>
+              <span data-craft-bulk-count>已选 0 项</span>
+              <button class="button button-secondary button-compact" type="button" data-entity-bulk-delete="craft" disabled>
+                批量删除
+              </button>
+            </div>
             <div class="table-frame">
               <table>
-                <thead><tr><th>名称</th><th>ID</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
+                <thead><tr><th class="col-check"><input type="checkbox" data-entity-select-all="craft" aria-label="全选工艺" /></th><th>名称</th><th>ID</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
                 <tbody data-craft-table></tbody>
               </table>
               <div class="empty-state" data-craft-empty hidden><h3>暂无工艺</h3><p>可从迁移脚本导入现有工艺条目。</p></div>
@@ -512,6 +556,13 @@
                 选择文件
                 <input type="file" accept="image/*,video/mp4,video/webm,application/pdf" multiple hidden data-media-upload />
               </label>
+            </div>
+            <div class="bulk-bar" data-media-bulk>
+              <span class="bulk-bar-hint">勾选卡片可批量操作</span>
+              <span data-media-bulk-count>已选 0 项</span>
+              <button class="button button-secondary button-compact" type="button" data-media-bulk-delete disabled>
+                批量删除
+              </button>
             </div>
             <div
               class="entity-image-drop entity-image-drop-multi media-dropzone"
@@ -656,6 +707,15 @@
                   <option value="hidden">隐藏</option>
                   <option value="archived">已归档</option>
                 </select>
+              </div>
+              <div class="field">
+                <label><input name="featured" type="checkbox" /> 首页精品推荐</label>
+                <small>勾选后进入首页聚合滚动带；只有已发布商品会出现在前台。</small>
+              </div>
+              <div class="field">
+                <label for="productFeaturedRank">推荐顺序</label>
+                <input id="productFeaturedRank" name="featuredRank" type="number" min="0" max="9999" step="1" value="100" />
+                <small>数字越小越靠前；相同数字按名称稳定排序。</small>
               </div>
               <div class="field" data-finance-fields>
                 <label for="productCost">成本价 USD</label>
@@ -1077,6 +1137,15 @@
                 <option value="archived">已归档</option>
               </select>
             </div>
+            <div class="field" data-brand-extra-field hidden>
+              <label><input name="featured" type="checkbox" /> 首页精品推荐</label>
+              <small>勾选后进入首页与 Orbmare 精选滚动带；需同时设为“已发布”。</small>
+            </div>
+            <div class="field" data-brand-extra-field hidden>
+              <label>推荐顺序</label>
+              <input name="featuredRank" type="number" min="0" max="9999" step="1" value="100" />
+              <small>数字越小越靠前。</small>
+            </div>
             <div class="field"><label>英文名</label><input name="nameEn" required /></div>
             <div class="field"><label>中文名</label><input name="nameZh" /></div>
             <div class="field" data-brand-extra-field hidden><label>关联工作室（设计师可用）</label><input name="studio" /></div>
@@ -1410,6 +1479,6 @@
     </dialog>
 
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./admin.js?v=31"></script>
+    <script type="module" src="./admin.js?v=34"></script>
   </body>
 </html>

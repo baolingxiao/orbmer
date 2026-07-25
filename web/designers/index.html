@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=24" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=25" />
   </head>
   <body>
     <div data-orb-header></div>
@@ -66,6 +66,7 @@
       import { mountChrome } from "/shared/js/chrome.js";
       import { loadCatalog, escapeHtml } from "/shared/js/catalog-editorial.js";
       import { applyI18n, getLang, onLangChange, t } from "/shared/js/editorial-i18n.js";
+      import { createPicksMarquee, dedupeMarqueeItems } from "/shared/js/picks-marquee.js";
 
       const legacyId = new URLSearchParams(location.search).get("id");
       if (legacyId) {
@@ -84,7 +85,22 @@
         return data?.ok && Array.isArray(data.brands) ? data.brands : [];
       }
 
+      async function loadFeatured() {
+        try {
+          const res = await fetch(`/api/featured?limit=22&t=${Date.now()}`, {
+            cache: "no-store",
+            headers: { Accept: "application/json" },
+          });
+          if (!res.ok) return [];
+          const data = await res.json();
+          return data?.ok && Array.isArray(data.items) ? data.items : [];
+        } catch {
+          return [];
+        }
+      }
+
       const brands = await loadBrands();
+      const serverFeatured = await loadFeatured();
       let activeKind = "all";
 
       function kindLabel(kind, lang) {
@@ -153,27 +169,27 @@
         };
       }
 
-      function dedupeItems(items) {
-        const seen = new Set();
-        return items.filter((item) => {
-          const key = item.key || item.href || item.name;
-          if (!key || seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
-      }
-
       function featuredItems(lang) {
+        if (serverFeatured.length) {
+          return serverFeatured.map((item) => ({
+            key: `${item.source || item.type}-${item.id}`,
+            href: item.href,
+            image: item.image || "/assets/editorial/designer-atelier.jpg",
+            meta: lang === "zh" ? item.metaZh || item.meta : item.meta || item.metaZh,
+            name: lang === "zh" ? item.nameZh || item.name : item.name || item.nameZh,
+          }));
+        }
+
         const flaggedBrands = brands
           .filter((row) => row.featured)
           .map((b) => toBrandMarqueeItem(b, lang));
         const flaggedProducts = (catalog.products || [])
           .filter((p) => p.featured)
           .map((p) => toProductMarqueeItem(p, lang));
-        const flagged = dedupeItems([...flaggedBrands, ...flaggedProducts]);
+        const flagged = dedupeMarqueeItems([...flaggedBrands, ...flaggedProducts]);
         if (flagged.length) return flagged;
 
-        const fallbackBrands = dedupeItems(
+        const fallbackBrands = dedupeMarqueeItems(
           brands
             .filter(
               (row) =>
@@ -184,185 +200,15 @@
         );
         if (fallbackBrands.length) return fallbackBrands;
 
-        return dedupeItems(
+        return dedupeMarqueeItems(
           (catalog.products || []).slice(0, 10).map((p) => toProductMarqueeItem(p, lang))
         );
       }
 
-      function marqueeItemHtml(item) {
-        return `<a class="picks-marquee-item" href="${escapeHtml(item.href)}">
-          <div class="quiet-card-media"><img src="${escapeHtml(item.image)}" alt="" width="440" height="550" loading="lazy" decoding="async" /></div>
-          <p class="meta">${escapeHtml(item.meta || "")}</p>
-          <h3>${escapeHtml(item.name || "")}</h3>
-        </a>`;
-      }
-
-      let marqueeControlsBound = false;
-      let marqueeRaf = 0;
-      let marqueePaused = false;
-      let marqueeLooping = false;
-      let marqueeReady = false;
-      let marqueeX = 0; // translateX px; L→R means x increases toward 0 from -half
-      let marqueeHalf = 0;
-      let marqueeLastTs = 0;
-      let marqueeRetryTimer = 0;
-
-      function cardStep() {
-        const track = document.querySelector("[data-featured-track]");
-        const card = track?.querySelector(".picks-marquee-item");
-        if (!card) return 240;
-        const gap = Number.parseFloat(getComputedStyle(track).gap || "20") || 20;
-        return Math.round(card.getBoundingClientRect().width + gap);
-      }
-
-      function measureMarquee() {
-        const track = document.querySelector("[data-featured-track]");
-        if (!track) {
-          marqueeHalf = 0;
-          marqueeReady = false;
-          return false;
-        }
-        const width = track.scrollWidth;
-        marqueeHalf = marqueeLooping ? width / 2 : width;
-        marqueeReady = marqueeHalf > 40;
-        return marqueeReady;
-      }
-
-      function applyMarqueeTransform() {
-        const track = document.querySelector("[data-featured-track]");
-        if (!track) return;
-        if (marqueeLooping && marqueeHalf > 0) {
-          // Keep x in [-half, 0)
-          while (marqueeX >= 0) marqueeX -= marqueeHalf;
-          while (marqueeX < -marqueeHalf) marqueeX += marqueeHalf;
-        }
-        track.style.transform = `translate3d(${marqueeX}px, 0, 0)`;
-      }
-
-      function stepMarquee(direction) {
-        if (!marqueeReady && !measureMarquee()) return;
-        marqueePaused = true;
-        // next (direction>0): continue L→R → x increases
-        marqueeX += direction * cardStep();
-        applyMarqueeTransform();
-        window.setTimeout(() => {
-          marqueePaused = false;
-          marqueeLastTs = 0;
-        }, 280);
-      }
-
-      function marqueeTick(ts) {
-        marqueeRaf = window.requestAnimationFrame(marqueeTick);
-        if (!marqueeReady) {
-          if (measureMarquee()) {
-            marqueeX = marqueeLooping ? -marqueeHalf : 0;
-            applyMarqueeTransform();
-            marqueeLastTs = ts;
-          }
-          return;
-        }
-        if (marqueePaused || document.hidden) {
-          marqueeLastTs = ts;
-          return;
-        }
-        if (!marqueeLastTs) marqueeLastTs = ts;
-        const dt = Math.min(40, ts - marqueeLastTs);
-        marqueeLastTs = ts;
-        // Left → right: content moves right (translateX increases).
-        marqueeX += (dt / 1000) * 30;
-        applyMarqueeTransform();
-      }
-
-      function startMarqueeAuto() {
-        stopMarqueeAuto();
-        marqueeLastTs = 0;
-        marqueeRaf = window.requestAnimationFrame(marqueeTick);
-      }
-
-      function stopMarqueeAuto() {
-        if (marqueeRaf) {
-          window.cancelAnimationFrame(marqueeRaf);
-          marqueeRaf = 0;
-        }
-        if (marqueeRetryTimer) {
-          window.clearTimeout(marqueeRetryTimer);
-          marqueeRetryTimer = 0;
-        }
-        marqueeLastTs = 0;
-      }
-
-      function bindMarqueeControls() {
-        if (marqueeControlsBound) return;
-        const viewport = document.querySelector("[data-featured-viewport]");
-        document.querySelector("[data-marquee-prev]")?.addEventListener("click", () => stepMarquee(-1));
-        document.querySelector("[data-marquee-next]")?.addEventListener("click", () => stepMarquee(1));
-        viewport?.addEventListener("mouseenter", () => {
-          marqueePaused = true;
-        });
-        viewport?.addEventListener("mouseleave", () => {
-          marqueePaused = false;
-          marqueeLastTs = 0;
-        });
-        window.addEventListener("resize", () => {
-          const ratio = marqueeHalf > 0 ? marqueeX / -marqueeHalf : 0;
-          if (measureMarquee() && marqueeLooping) {
-            marqueeX = -marqueeHalf * Math.min(1, Math.max(0, -ratio || 1));
-            if (marqueeX >= 0 || marqueeX < -marqueeHalf) marqueeX = -marqueeHalf;
-            applyMarqueeTransform();
-          }
-        });
-        marqueeControlsBound = true;
-      }
-
-      function armMarqueeAfterLayout() {
-        const track = document.querySelector("[data-featured-track]");
-        const imgs = [...(track?.querySelectorAll("img") || [])];
-        const waitImages = Promise.all(
-          imgs.map(
-            (img) =>
-              img.complete
-                ? Promise.resolve()
-                : new Promise((resolve) => {
-                    img.addEventListener("load", resolve, { once: true });
-                    img.addEventListener("error", resolve, { once: true });
-                  })
-          )
-        );
-        waitImages.then(() => {
-          window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(() => {
-              if (!measureMarquee()) {
-                marqueeRetryTimer = window.setTimeout(armMarqueeAfterLayout, 120);
-                return;
-              }
-              marqueeX = marqueeLooping ? -marqueeHalf : 0;
-              applyMarqueeTransform();
-              startMarqueeAuto();
-            });
-          });
-        });
-      }
+      const marquee = createPicksMarquee(document);
 
       function renderFeatured(lang = getLang()) {
-        const section = document.querySelector("[data-featured-section]");
-        const track = document.querySelector("[data-featured-track]");
-        if (!section || !track) return;
-        const items = featuredItems(lang);
-        if (!items.length) {
-          section.hidden = true;
-          track.innerHTML = "";
-          stopMarqueeAuto();
-          return;
-        }
-        section.hidden = false;
-        bindMarqueeControls();
-        stopMarqueeAuto();
-        const sequence = items.map(marqueeItemHtml).join("");
-        marqueeLooping = items.length >= 4;
-        marqueeReady = false;
-        track.innerHTML = marqueeLooping ? sequence + sequence : sequence;
-        track.style.transform = "translate3d(0, 0, 0)";
-        armMarqueeAfterLayout();
+        marquee.render(featuredItems(lang));
       }
 
       function renderGrid(lang = getLang()) {

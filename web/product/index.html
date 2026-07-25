@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=4" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=14" />
   </head>
   <body>
     <div data-orb-header></div>
@@ -106,21 +106,20 @@
             <div class="pdp-story reveal">
               <p class="meta">${escapeHtml(loc(p, "countryLabel", lang))} · ${escapeHtml(loc(p, "tag", lang))}</p>
               <h1>${escapeHtml(name)}</h1>
-              <p class="lede">${escapeHtml(loc(p, "story", lang))}</p>
+              <p class="lede">${escapeHtml(loc(p, "summary", lang) || loc(p, "story", lang))}</p>
 
-              <div class="pdp-meta-row">
-                <div><strong data-i18n="pdp.designer">${t("pdp.designer", lang)}</strong><span><a href="/designers/?id=${encodeURIComponent(p.designerId)}">${escapeHtml(loc(p, "designerName", lang))}</a> · ${escapeHtml(loc(p, "studio", lang))}</span></div>
-                <div><strong data-i18n="pdp.material">${t("pdp.material", lang)}</strong><span><a href="/materials/">${escapeHtml(loc(p, "material", lang))}</a></span></div>
-                <div><strong data-i18n="pdp.craft">${t("pdp.craft", lang)}</strong><span><a href="/craftsmanship/">${escapeHtml(loc(p, "craft", lang))}</a></span></div>
-                <div><strong data-i18n="pdp.country">${t("pdp.country", lang)}</strong><span><a href="/countries/${escapeHtml(p.country)}/">${escapeHtml(loc(p, "countryLabel", lang))}</a></span></div>
-              </div>
-
-              <div class="prose">
-                <h2 data-i18n="pdp.production">${t("pdp.production", lang)}</h2>
-                <p data-i18n="pdp.production.body">${t("pdp.production.body", lang)}</p>
-                <h2 data-i18n="pdp.shipping">${t("pdp.shipping", lang)}</h2>
-                <p data-i18n="pdp.shipping.body">${t("pdp.shipping.body", lang)}</p>
-              </div>
+              <nav class="pdp-section-nav" aria-label="Product sections">
+                <a href="#pdp-story">${escapeHtml(t("pdp.tab.story", lang))}</a>
+                <a href="#pdp-materials">${escapeHtml(t("pdp.tab.materials", lang))}</a>
+                <a href="#pdp-craft">${escapeHtml(t("pdp.tab.craft", lang))}</a>
+                <a href="#pdp-origin">${escapeHtml(t("pdp.tab.origin", lang))}</a>
+                <a href="#pdp-designer">${escapeHtml(t("pdp.tab.designer", lang))}</a>
+                <a href="#pdp-specs">${escapeHtml(t("pdp.tab.specs", lang))}</a>
+                <a href="#pdp-shipping">${escapeHtml(t("pdp.tab.shipping", lang))}</a>
+                <a href="#pdp-care">${escapeHtml(t("pdp.tab.care", lang))}</a>
+                <a href="#pdp-magazine">${escapeHtml(t("pdp.tab.magazine", lang))}</a>
+                <a href="#pdp-related">${escapeHtml(t("pdp.tab.related", lang))}</a>
+              </nav>
 
               <div class="pdp-purchase">
                 <p class="price">${escapeHtml(p.priceLabel)}</p>
@@ -132,10 +131,67 @@
               </div>
             </div>
           </section>
-          <section class="section-tight">
+
+          <section class="section-tight pdp-chapter" id="pdp-story">
+            <h2>${escapeHtml(t("pdp.tab.story", lang))}</h2>
+            <div class="prose"><p>${escapeHtml(loc(p, "story", lang))}</p></div>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-materials">
+            <h2>${escapeHtml(t("pdp.tab.materials", lang))}</h2>
+            <p class="pdp-chapter-lead"><a href="/materials/">${escapeHtml(loc(p, "material", lang))}</a></p>
+            <div class="prose"><p>${escapeHtml(t("pdp.materials.body", lang))}</p></div>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-craft">
+            <h2>${escapeHtml(t("pdp.tab.craft", lang))}</h2>
+            <p class="pdp-chapter-lead"><a href="/craftsmanship/">${escapeHtml(loc(p, "craft", lang))}</a></p>
+            <div class="prose"><p>${escapeHtml(t("pdp.production.body", lang))}</p></div>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-origin">
+            <h2>${escapeHtml(t("pdp.tab.origin", lang))}</h2>
+            <p class="pdp-chapter-lead"><a href="/countries/${escapeHtml(p.country)}/">${escapeHtml(loc(p, "countryLabel", lang))}</a></p>
+            <div class="prose"><p>${escapeHtml(t("pdp.origin.body", lang))}</p></div>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-designer">
+            <h2>${escapeHtml(t("pdp.tab.designer", lang))}</h2>
+            <p class="pdp-chapter-lead"><a href="/designers/?id=${encodeURIComponent(p.designerId)}">${escapeHtml(loc(p, "designerName", lang))}</a> · ${escapeHtml(loc(p, "studio", lang))}</p>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-specs">
+            <h2>${escapeHtml(t("pdp.tab.specs", lang))}</h2>
+            <dl class="pdp-spec-list">
+              <div><dt>${escapeHtml(t("pdp.material", lang))}</dt><dd>${escapeHtml(loc(p, "material", lang))}</dd></div>
+              <div><dt>${escapeHtml(t("pdp.craft", lang))}</dt><dd>${escapeHtml(loc(p, "craft", lang))}</dd></div>
+              <div><dt>${escapeHtml(t("pdp.country", lang))}</dt><dd>${escapeHtml(loc(p, "countryLabel", lang))}</dd></div>
+              <div><dt>${escapeHtml(t("pdp.designer", lang))}</dt><dd>${escapeHtml(loc(p, "designerName", lang))}</dd></div>
+            </dl>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-shipping">
+            <h2>${escapeHtml(t("pdp.tab.shipping", lang))}</h2>
+            <div class="prose"><p>${escapeHtml(t("pdp.shipping.body", lang))}</p></div>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-care">
+            <h2>${escapeHtml(t("pdp.tab.care", lang))}</h2>
+            <div class="prose"><p>${escapeHtml(t("pdp.care.body", lang))}</p></div>
+          </section>
+
+          <section class="section-tight pdp-chapter" id="pdp-magazine">
+            <h2>${escapeHtml(t("pdp.tab.magazine", lang))}</h2>
+            <div class="dx-magazine" style="margin-top:0">
+              <a href="/journal/">${escapeHtml(t("pdp.magazine.one", lang))}</a>
+              <a href="/materials/">${escapeHtml(t("pdp.magazine.two", lang))}</a>
+            </div>
+          </section>
+
+          <section class="section-tight" id="pdp-related">
             <div class="featured-head">
               <div class="section-head">
-                <h2 data-i18n="home.featured">${t("home.featured", lang)}</h2>
+                <h2>${escapeHtml(t("pdp.tab.related", lang))}</h2>
               </div>
               <a class="shop-pill" href="/countries/${escapeHtml(p.country)}/" data-i18n="pdp.moreFrom">${t("pdp.moreFrom", lang)}</a>
             </div>

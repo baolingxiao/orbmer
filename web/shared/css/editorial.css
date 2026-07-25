@@ -1474,6 +1474,68 @@ button {
   line-height: 1.12;
 }
 
+.pdp-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 28px 0 8px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.pdp-section-nav a {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.pdp-section-nav a:hover {
+  color: var(--ink);
+}
+
+.pdp-chapter h2 {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 500;
+}
+
+.pdp-chapter-lead {
+  margin: 0 0 14px;
+  font-size: 16px;
+}
+
+.pdp-spec-list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.pdp-spec-list div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pdp-spec-list dt {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pdp-spec-list dd {
+  margin: 0;
+  font-size: 15px;
+}
+
 .pdp-meta-row {
   display: grid;
   gap: 18px;
@@ -3398,6 +3460,13 @@ button {
   margin: 0 auto clamp(28px, 4vw, 48px);
   padding: 0 0 clamp(24px, 3.5vw, 36px);
   border-bottom: 1px solid var(--line);
+}
+
+/* Home 精品推荐 reuses the marquee but sits inside a titled section. */
+.picks-featured--home {
+  margin: 24px auto 0;
+  padding: 0;
+  border-bottom: 0;
 }
 
 .picks-marquee {

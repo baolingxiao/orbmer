@@ -29,9 +29,12 @@ import {
   listTrash,
   purgeExpiredDeletions,
   restoreDeletion,
+  softDeleteContentEntities,
   softDeleteContentEntity,
   softDeleteMedia,
+  softDeleteMediaMany,
   softDeleteProduct,
+  softDeleteProducts,
   RETENTION_DAYS,
 } from "./trash-store.js";
 import {
@@ -465,6 +468,38 @@ export function createAdminRouter({
     }
   );
 
+  router.post(
+    "/api/products/batch-delete",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("product.delete"),
+    async (req, res) => {
+      try {
+        const result = await softDeleteProducts(req.body?.ids || [], {
+          actor: req.adminSession.email,
+          userId: req.adminSession.userId,
+        });
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "product_batch_deleted",
+          entityType: "product",
+          entityId: result.deleted.join(",") || "none",
+          details: {
+            deletedCount: result.deleted.length,
+            failedCount: result.failed.length,
+            deletedIds: result.deleted,
+            failed: result.failed,
+            trashRetentionDays: RETENTION_DAYS,
+          },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, ...result });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
+
   router.patch(
     "/api/products/:id/inventory",
     sameOriginOnly,
@@ -663,6 +698,38 @@ export function createAdminRouter({
       }
     );
 
+    router.post(
+      `/api/${type}s/batch-delete`,
+      sameOriginOnly,
+      auth.requireCsrf,
+      requirePermission(writePerm),
+      async (req, res) => {
+        try {
+          const result = await softDeleteContentEntities(type, req.body?.ids || [], {
+            actor: req.adminSession.email,
+            userId: req.adminSession.userId,
+          });
+          await appendAuditEvent({
+            actor: req.adminSession.email,
+            action: `${type}_batch_deleted`,
+            entityType: type,
+            entityId: result.deleted.join(",") || "none",
+            details: {
+              deletedCount: result.deleted.length,
+              failedCount: result.failed.length,
+              deletedIds: result.deleted,
+              failed: result.failed,
+              trashRetentionDays: RETENTION_DAYS,
+            },
+            ip: clientIp(req),
+          });
+          return res.json({ ok: true, ...result });
+        } catch (error) {
+          return routeError(res, error);
+        }
+      }
+    );
+
     router.get(
       `/api/${type}s/:id/revisions`,
       requirePermission(readPerm),
@@ -811,6 +878,38 @@ export function createAdminRouter({
           ip: clientIp(req),
         });
         return res.json({ ok: true, retentionDays: RETENTION_DAYS });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
+
+  router.post(
+    "/api/media/batch-delete",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("media.delete"),
+    async (req, res) => {
+      try {
+        const result = await softDeleteMediaMany(req.body?.ids || [], {
+          actor: req.adminSession.email,
+          userId: req.adminSession.userId,
+        });
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "media_batch_deleted",
+          entityType: "media",
+          entityId: result.deleted.join(",") || "none",
+          details: {
+            deletedCount: result.deleted.length,
+            failedCount: result.failed.length,
+            deletedIds: result.deleted,
+            failed: result.failed,
+            trashRetentionDays: RETENTION_DAYS,
+          },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, ...result });
       } catch (error) {
         return routeError(res, error);
       }

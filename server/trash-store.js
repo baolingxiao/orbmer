@@ -128,6 +128,81 @@ export async function softDeleteMedia(id, { actor = "", userId = null } = {}) {
   return true;
 }
 
+const BATCH_DELETE_LIMIT = 100;
+
+function normalizeBatchIds(ids) {
+  const unique = [
+    ...new Set(
+      (Array.isArray(ids) ? ids : [])
+        .map((id) => String(id || "").trim())
+        .filter(Boolean)
+    ),
+  ];
+  if (!unique.length) throw new Error("请至少选择一条记录。");
+  if (unique.length > BATCH_DELETE_LIMIT) {
+    throw new Error(`单次最多删除 ${BATCH_DELETE_LIMIT} 条。`);
+  }
+  return unique;
+}
+
+/**
+ * Soft-delete many products into trash. Continues on per-item failures.
+ */
+export async function softDeleteProducts(ids, opts = {}) {
+  const unique = normalizeBatchIds(ids);
+  const deleted = [];
+  const failed = [];
+  for (const id of unique) {
+    try {
+      const product = await softDeleteProduct(id, opts);
+      if (product) deleted.push(id);
+      else failed.push({ id, error: "Not found." });
+    } catch (error) {
+      failed.push({ id, error: error.message || "Delete failed." });
+    }
+  }
+  return { deleted, failed, retentionDays: deletionRepo.RETENTION_DAYS };
+}
+
+/**
+ * Soft-delete many content entities (brand / material / country / …).
+ */
+export async function softDeleteContentEntities(type, ids, opts = {}) {
+  if (!CONTENT_TYPES.has(type)) throw new Error(`Unsupported type: ${type}`);
+  const unique = normalizeBatchIds(ids);
+  const deleted = [];
+  const failed = [];
+  for (const id of unique) {
+    try {
+      const ok = await softDeleteContentEntity(type, id, opts);
+      if (ok) deleted.push(id);
+      else failed.push({ id, error: "Not found." });
+    } catch (error) {
+      failed.push({ id, error: error.message || "Delete failed." });
+    }
+  }
+  return { deleted, failed, retentionDays: deletionRepo.RETENTION_DAYS };
+}
+
+/**
+ * Soft-delete many media assets into trash.
+ */
+export async function softDeleteMediaMany(ids, opts = {}) {
+  const unique = normalizeBatchIds(ids);
+  const deleted = [];
+  const failed = [];
+  for (const id of unique) {
+    try {
+      const ok = await softDeleteMedia(id, opts);
+      if (ok) deleted.push(id);
+      else failed.push({ id, error: "Not found." });
+    } catch (error) {
+      failed.push({ id, error: error.message || "Delete failed." });
+    }
+  }
+  return { deleted, failed, retentionDays: deletionRepo.RETENTION_DAYS };
+}
+
 async function appendJsonTrash(entry) {
   if (isDatabaseEnabled()) return;
   const fs = await import("fs");

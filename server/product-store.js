@@ -468,6 +468,10 @@ function normalizeProductInput(input, existing = null) {
     brandNameZh: optionalText(input.brandNameZh, existing?.brandNameZh, 120, "Brand ZH"),
     featured:
       input.featured !== undefined ? Boolean(input.featured) : Boolean(existing?.featured),
+    featuredRank: (() => {
+      const value = Number(input.featuredRank ?? existing?.featuredRank ?? 100);
+      return Number.isFinite(value) ? Math.max(0, Math.min(9999, Math.round(value))) : 100;
+    })(),
     priceLabel:
       optionalText(input.priceLabel, existing?.priceLabel, 40, "Price label") ||
       `$${price}`,
