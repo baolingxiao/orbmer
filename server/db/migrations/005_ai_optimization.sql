@@ -5,18 +5,21 @@ INSERT INTO admin_permissions (id, description) VALUES
   ('ai_content_use_premium_model', 'Use premium AI model tier for content optimization')
 ON CONFLICT (id) DO NOTHING;
 
+-- Only grant to roles that actually exist (production may not have every seed role).
 INSERT INTO admin_role_permissions (role_id, permission_id)
-SELECT 'super_admin', id FROM admin_permissions
-WHERE id IN ('ai_content_optimize', 'ai_content_use_premium_model')
+SELECT r.id, p.id
+FROM admin_roles r
+CROSS JOIN admin_permissions p
+WHERE r.id IN ('super_admin', 'administrator')
+  AND p.id IN ('ai_content_optimize', 'ai_content_use_premium_model')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO admin_role_permissions (role_id, permission_id)
-SELECT 'administrator', id FROM admin_permissions
-WHERE id IN ('ai_content_optimize', 'ai_content_use_premium_model')
-ON CONFLICT DO NOTHING;
-
-INSERT INTO admin_role_permissions (role_id, permission_id) VALUES
-  ('editor', 'ai_content_optimize')
+SELECT r.id, p.id
+FROM admin_roles r
+CROSS JOIN admin_permissions p
+WHERE r.id IN ('content_editor', 'editor')
+  AND p.id = 'ai_content_optimize'
 ON CONFLICT DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS ai_optimization_logs (

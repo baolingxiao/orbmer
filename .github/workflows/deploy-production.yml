@@ -105,4 +105,5 @@ jobs:
           npm run db:migrate-editorial || true
           pm2 restart printnova || pm2 start server/index.js --name printnova
           pm2 save
+          pm2 status printnova
           REMOTE
