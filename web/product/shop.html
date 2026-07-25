@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Orbmare product detail" />
+    <title>Product | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/platform.css" />
+    <link rel="stylesheet" href="/product/product.css" />
+  </head>
+  <body>
+    <header class="pdp-top">
+      <a class="brand" href="/shop/">
+        <span class="mark" aria-hidden="true">O</span>
+        <span class="platform-brand-text">
+          <strong>傲马</strong>
+          <em>Orbmare</em>
+        </span>
+      </a>
+      <nav>
+        <a href="/shop/">3D打印馆</a>
+        <a id="cartJump" href="/shop/?cart=1#cart">购物车 <span data-cart-count>0</span></a>
+      </nav>
+    </header>
+
+    <main class="pdp">
+      <p id="missing" hidden>商品不存在或已下架。<a href="/shop/">返回店铺</a></p>
+      <div id="pdpGrid" class="pdp-grid" hidden>
+        <div class="gallery">
+          <img id="mainImage" src="" alt="" width="800" height="600" />
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+        <div class="info">
+          <p id="collection"></p>
+          <h1 id="title"></h1>
+          <div id="fulfillmentTags" class="tags"></div>
+          <p id="desc"></p>
+          <dl id="sourcingFacts" class="facts"></dl>
+          <p id="supplierNotice" class="notice"></p>
+          <p id="price" class="price"></p>
+          <label id="variantField" hidden>
+            规格
+            <select id="variantSelect"></select>
+          </label>
+          <label>
+            数量
+            <input id="qty" type="number" min="1" value="1" />
+          </label>
+          <div class="actions">
+            <button type="button" id="addBtn">加入购物车</button>
+            <button type="button" id="buyBtn">立即购买</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/product/product.js"></script>
+  </body>
+</html>

@@ -1,0 +1,181 @@
+{
+  "region": "china",
+  "flag": "cn",
+  "nameZh": "中国馆",
+  "nameEn": "China",
+  "tag": "Original Design",
+  "tagZh": "原创设计",
+  "heroTitle": "中国精品，原创为核",
+  "heroLede": "原创品牌、非遗、精品家具、高端茶具与高级面料——不是中国制造，而是中国精品。",
+  "heroImage": "/assets/platform/pavilion-china.png",
+  "searchPlaceholder": "搜索中国馆 · 原创精品",
+  "categories": [
+    {
+      "id": "original-brands",
+      "label": "原创品牌",
+      "icon": "/assets/platform/categories/cat-home.png",
+      "blurb": "独立设计品牌与当代美学，讲述中国当下。"
+    },
+    {
+      "id": "heritage",
+      "label": "非遗",
+      "icon": "/assets/platform/categories/cat-jewelry.png",
+      "blurb": "传统技艺活态延续，器物可收藏、可日用。"
+    },
+    {
+      "id": "furniture",
+      "label": "精品家具",
+      "icon": "/assets/platform/categories/cat-furniture.png",
+      "blurb": "木作与空间家具，结构与纹样并重。"
+    },
+    {
+      "id": "tea",
+      "label": "高端茶具",
+      "icon": "/assets/platform/categories/cat-kitchen.png",
+      "blurb": "紫砂、瓷器与茶席器物，茶事即生活。"
+    },
+    {
+      "id": "textiles",
+      "label": "高级面料",
+      "icon": "/assets/platform/categories/cat-home.png",
+      "blurb": "丝绸、纱织与当代面料，触感即品质。"
+    }
+  ],
+  "products": [
+    {
+      "id": "cn-brand-01",
+      "categoryId": "original-brands",
+      "name": "当代香氛 · 木质调",
+      "summary": "原创调香，包装与气味一体设计。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-fragrance.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-brand-02",
+      "categoryId": "original-brands",
+      "name": "极简餐具套装",
+      "summary": "原创器形，餐桌陈列干净利落。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-brand-03",
+      "categoryId": "original-brands",
+      "name": "设计师台灯",
+      "summary": "结构外露，光影可调，适合书房。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-heritage-01",
+      "categoryId": "heritage",
+      "name": "苏绣手帕 · 双面绣",
+      "summary": "非遗针法，纹样细密可日用可收藏。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-jewelry.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-heritage-02",
+      "categoryId": "heritage",
+      "name": "景泰蓝小件 · 盒",
+      "summary": "掐丝点蓝，盒盖开合利落。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-jewelry.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-heritage-03",
+      "categoryId": "heritage",
+      "name": "竹编茶篮",
+      "summary": "传统篾丝，轻便透气，茶席可用。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-furniture-01",
+      "categoryId": "furniture",
+      "name": "圈椅 · 当代比例",
+      "summary": "明式语汇再设计，坐感与线条兼顾。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-furniture.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-furniture-02",
+      "categoryId": "furniture",
+      "name": "条案 · 胡桃木",
+      "summary": "窄长案几，陈设与收纳一体。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-furniture.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-furniture-03",
+      "categoryId": "furniture",
+      "name": "多宝格 · 小尺寸",
+      "summary": "格子收纳，适合器物陈列。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-furniture.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-tea-01",
+      "categoryId": "tea",
+      "name": "紫砂壶 · 小品",
+      "summary": "小容量泡茶，壶钮与出水顺畅。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-tea-02",
+      "categoryId": "tea",
+      "name": "白瓷盖碗",
+      "summary": "薄胎透光，茶汤色泽清晰。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-tea-03",
+      "categoryId": "tea",
+      "name": "茶席布 · 手织",
+      "summary": "天然纤维，茶席铺陈安静。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-textiles-01",
+      "categoryId": "textiles",
+      "name": "真丝围巾 · 素绉缎",
+      "summary": "光泽克制，垂感好，四季可围。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-textiles-02",
+      "categoryId": "textiles",
+      "name": "棉麻床品 · 四件套",
+      "summary": "透气亲肤，色系低饱和。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "cn-textiles-03",
+      "categoryId": "textiles",
+      "name": "提花面料样本册",
+      "summary": "高级织造样本，供设计与选料参考。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    }
+  ]
+}

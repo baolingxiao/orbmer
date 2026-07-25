@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Discover Orbmare — full 3D print catalog and curated collections." />
+    <title>Discover | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=5" />
+  </head>
+  <body>
+    <div data-orb-header></div>
+    <main>
+      <section class="page-hero shell-wide" data-module="discover">
+        <h1 data-i18n="discover.title">发现</h1>
+        <p data-i18n="discover.body">不要搜索。去探索。每一个系列都是通往工艺、材料与设计的路径。</p>
+      </section>
+
+      <section class="section-tight shell-wide" id="print-catalog" aria-labelledby="shop-catalog-title" data-module="discover-shop">
+        <div class="featured-head reveal">
+          <div class="section-head">
+            <h2 id="shop-catalog-title" data-i18n="discover.shop.title">3D打印馆 · 全部商品</h2>
+            <p data-i18n="discover.shop.body">原 3D 打印独立站的全部在售商品与完整产品信息，可直接加入购物袋结账。</p>
+          </div>
+          <a class="shop-pill" href="/shop/" data-i18n="discover.shop.open">进入完整店铺</a>
+        </div>
+
+        <div class="discover-toolbar reveal">
+          <div class="discover-filters" role="tablist" aria-label="Collections">
+            <button class="discover-filter is-active" type="button" data-shop-filter="all" data-i18n="discover.shop.all">全部</button>
+            <button class="discover-filter" type="button" data-shop-filter="metal" data-i18n="discover.shop.metal">工程金属件</button>
+            <button class="discover-filter" type="button" data-shop-filter="toys" data-i18n="discover.shop.toys">玩具与收藏</button>
+            <button class="discover-filter" type="button" data-shop-filter="portrait" data-i18n="discover.shop.portrait">照片手办</button>
+          </div>
+          <form class="discover-search" role="search" data-shop-search-form>
+            <label class="visually-hidden" for="discoverShopSearch" data-i18n="discover.shop.search">搜索商品名称、材料或编号</label>
+            <input id="discoverShopSearch" type="search" name="q" autocomplete="off" data-i18n="discover.shop.search" placeholder="搜索商品名称、材料或编号" />
+          </form>
+        </div>
+
+        <div class="discover-result-line reveal">
+          <strong data-shop-count>0</strong>
+          <a href="/shop/?cart=1#cart" data-i18n="nav.cart">购物袋</a>
+        </div>
+
+        <div class="discover-shop-grid reveal" data-shop-grid aria-live="polite"></div>
+        <p class="discover-shop-empty" data-shop-empty hidden data-i18n="discover.shop.empty">没有符合条件的商品。</p>
+      </section>
+
+      <hr class="section-rule shell-wide" />
+
+      <section class="section-tight shell-wide" id="new">
+        <div class="section-head reveal">
+          <h2 data-i18n="discover.new">新发现</h2>
+          <p data-i18n="discover.new.body">新近进入傲马精选馆的作品。</p>
+        </div>
+        <div class="quiet-grid reveal" data-section="new"></div>
+      </section>
+
+      <hr class="section-rule shell-wide" />
+
+      <section class="section-tight shell-wide" id="editors">
+        <div class="section-head reveal">
+          <h2 data-i18n="discover.editors">编辑精选</h2>
+          <p data-i18n="discover.editors.body">编辑反复回看的作品——重品质，不追潮流。</p>
+        </div>
+        <div class="quiet-grid reveal" data-section="editors-pick"></div>
+      </section>
+
+      <hr class="section-rule shell-wide" />
+
+      <section class="section-tight shell-wide" id="hidden">
+        <div class="section-head reveal">
+          <h2 data-i18n="discover.hidden">隐藏瑰宝</h2>
+          <p data-i18n="discover.hidden.body">安静的工坊与被忽视的卓越。</p>
+        </div>
+        <div class="quiet-grid reveal" data-section="hidden-gem"></div>
+      </section>
+
+      <hr class="section-rule shell-wide" />
+
+      <section class="section-tight shell-wide" id="loved">
+        <div class="section-head reveal">
+          <h2 data-i18n="discover.loved">备受喜爱</h2>
+          <p data-i18n="discover.loved.body">会员与收藏者反复回访的选择。</p>
+        </div>
+        <div class="quiet-grid reveal" data-section="loved"></div>
+      </section>
+
+      <hr class="section-rule shell-wide" />
+
+      <section class="section shell-wide" id="seasonal">
+        <div class="section-head reveal">
+          <h2 data-i18n="discover.seasonal">季节系列</h2>
+          <p data-i18n="discover.seasonal.body">更慢的节奏——适合当季的材料与工艺。</p>
+        </div>
+        <div class="story-row reveal">
+          <div class="story-media">
+            <img src="/assets/editorial/material-cashmere.jpg" alt="" width="1200" height="900" loading="lazy" />
+          </div>
+          <div class="story-copy">
+            <h3 data-i18n="discover.seasonal.h">凉爽季节的柔软纤维。</h3>
+            <p data-i18n="discover.seasonal.p">Baby Cashmere、牦牛绒，以及从比耶拉到喜马拉雅的安静针织。</p>
+            <a class="text-link" href="/materials/" data-i18n="discover.seasonal.cta">浏览材料馆</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountChrome } from "/shared/js/chrome.js";
+      import { loadCatalog, quietCardHtml, productsByStatus } from "/shared/js/catalog-editorial.js";
+      import {
+        loadShopProducts,
+        filterShopProducts,
+        shopDiscoverCardHtml,
+      } from "/shared/js/discover-shop.js";
+      import { applyI18n, getLang, onLangChange, t } from "/shared/js/editorial-i18n.js";
+
+      mountChrome({ title: "Discover | Orbmare" });
+
+      const curated = await loadCatalog();
+      let shopProducts = [];
+      try {
+        shopProducts = await loadShopProducts();
+      } catch (err) {
+        console.error(err);
+        shopProducts = [];
+      }
+
+      const state = {
+        collection: "all",
+        q: "",
+      };
+
+      const grid = document.querySelector("[data-shop-grid]");
+      const empty = document.querySelector("[data-shop-empty]");
+      const countEl = document.querySelector("[data-shop-count]");
+      const searchInput = document.querySelector("#discoverShopSearch");
+
+      function renderShop(lang = getLang()) {
+        const filtered = filterShopProducts(shopProducts, state);
+        if (countEl) {
+          countEl.textContent = `${filtered.length} / ${shopProducts.length} ${t("discover.shop.count", lang)}`;
+        }
+        if (!filtered.length) {
+          grid.innerHTML = "";
+          if (empty) empty.hidden = false;
+          return;
+        }
+        if (empty) empty.hidden = true;
+        grid.innerHTML = filtered.map((p) => shopDiscoverCardHtml(p, lang)).join("");
+      }
+
+      function renderCurated(lang = getLang()) {
+        const map = {
+          new: productsByStatus(curated, "new").slice(0, 6),
+          "editors-pick": productsByStatus(curated, "editors-pick").slice(0, 6),
+          "hidden-gem": productsByStatus(curated, "hidden-gem").slice(0, 6),
+          loved: [...productsByStatus(curated, "editors-pick"), ...productsByStatus(curated, "curated")].slice(0, 6),
+        };
+        for (const [key, items] of Object.entries(map)) {
+          const el = document.querySelector(`[data-section="${key}"]`);
+          if (el) el.innerHTML = items.map((p) => quietCardHtml(p, lang)).join("");
+        }
+      }
+
+      function renderAll(lang = getLang()) {
+        applyI18n(lang);
+        if (searchInput) searchInput.placeholder = t("discover.shop.search", lang);
+        renderShop(lang);
+        renderCurated(lang);
+      }
+
+      document.querySelectorAll("[data-shop-filter]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.collection = btn.getAttribute("data-shop-filter") || "all";
+          document.querySelectorAll("[data-shop-filter]").forEach((b) => {
+            b.classList.toggle("is-active", b === btn);
+          });
+          renderShop(getLang());
+        });
+      });
+
+      const form = document.querySelector("[data-shop-search-form]");
+      form?.addEventListener("submit", (e) => e.preventDefault());
+      searchInput?.addEventListener("input", () => {
+        state.q = searchInput.value || "";
+        renderShop(getLang());
+      });
+
+      // Deep-link: /discover/?filter=toys&q=dragon
+      const params = new URLSearchParams(location.search);
+      const filterParam = params.get("filter");
+      if (filterParam && ["all", "metal", "toys", "portrait"].includes(filterParam)) {
+        state.collection = filterParam;
+        document.querySelectorAll("[data-shop-filter]").forEach((b) => {
+          b.classList.toggle("is-active", b.getAttribute("data-shop-filter") === filterParam);
+        });
+      }
+      if (params.get("q")) {
+        state.q = params.get("q");
+        if (searchInput) searchInput.value = state.q;
+      }
+
+      renderAll();
+      onLangChange(renderAll);
+    </script>
+  </body>
+</html>

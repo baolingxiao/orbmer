@@ -1,0 +1,401 @@
+/* Orbmare Brand Editorial System
+   Magazine archive — Monocle × Kinfolk × Aesop
+   No commerce chrome. No glass. No gradient. No shadow. */
+
+.be-page {
+  --be-bg: #f8f7f4;
+  --be-ink: #111111;
+  --be-muted: #6b6b6b;
+  --be-line: #e6e3dd;
+  --be-accent: #a78a64;
+  --be-max: 1600px;
+  --be-content: 1360px;
+  --be-narrow: 720px;
+  background: var(--be-bg);
+  color: var(--be-ink);
+}
+
+.be-page main {
+  background: var(--be-bg);
+}
+
+.be-shell {
+  width: min(var(--be-content), calc(100% - 48px));
+  max-width: var(--be-max);
+  margin: 0 auto;
+}
+
+.be-narrow {
+  width: min(var(--be-narrow), calc(100% - 48px));
+}
+
+.be-kicker {
+  margin: 0 0 12px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--be-muted);
+}
+
+.be-h2 {
+  margin: 0 0 28px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+.be-body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--be-ink);
+  max-width: 65ch;
+}
+
+.be-section {
+  padding: clamp(64px, 8vw, 112px) 0;
+}
+
+.be-section-line {
+  border-top: 1px solid var(--be-line);
+}
+
+.be-empty {
+  color: var(--be-muted);
+  font-size: 14px;
+}
+
+.be-media-45 {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #eceae4;
+}
+
+.be-media-45 img,
+.be-hero-media img,
+.be-story-media img,
+.be-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Hero */
+.be-hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: clamp(48px, 6vw, 80px) 0;
+}
+
+.be-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.be-logo-card {
+  border: 1px solid var(--be-line);
+  background: var(--be-bg);
+  padding: 28px 24px 24px;
+  margin-bottom: 36px;
+  max-width: 320px;
+}
+
+.be-logo-frame {
+  aspect-ratio: 4 / 5;
+  display: grid;
+  place-items: center;
+  padding: 18% 16%;
+  background: var(--be-bg);
+}
+
+.be-logo-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.be-logo-fallback {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 40px);
+  text-align: center;
+  line-height: 1.1;
+}
+
+.be-logo-meta {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: var(--be-muted);
+}
+
+.be-slogan {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(32px, 4vw, 54px);
+  line-height: 1.12;
+}
+
+.be-desc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--be-muted);
+  max-width: 36ch;
+}
+
+.be-hero-media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #eceae4;
+}
+
+/* Identity */
+.be-identity {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--be-line);
+}
+
+.be-identity-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--be-line);
+}
+
+.be-identity-row dt {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--be-muted);
+}
+
+.be-identity-row dd {
+  margin: 0;
+  font-size: 15px;
+}
+
+.be-identity-row a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Story */
+.be-story {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.be-story-media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #eceae4;
+}
+
+/* Philosophy */
+.be-quotes {
+  display: grid;
+  gap: 40px;
+}
+
+.be-quote {
+  margin: 0;
+  padding: 0 0 0 24px;
+  border-left: 1px solid var(--be-line);
+}
+
+.be-quote-title {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 500;
+}
+
+.be-quote p:last-child {
+  margin: 0;
+  color: var(--be-muted);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* Craft / materials / signature */
+.be-craft-grid,
+.be-material-grid,
+.be-signature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px 22px;
+}
+
+.be-craft-card h3,
+.be-material-card h3,
+.be-signature-card h3,
+.be-related-card h3 {
+  margin: 14px 0 8px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.be-craft-card p,
+.be-material-card p,
+.be-signature-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--be-muted);
+}
+
+.be-material-card,
+.be-signature-card,
+.be-related-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Gallery */
+.be-gallery {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.be-gallery-item {
+  margin: 0;
+  grid-column: span 4;
+  overflow: hidden;
+  background: #eceae4;
+}
+
+.be-gallery-item[data-ratio="16x9"] {
+  grid-column: span 8;
+  aspect-ratio: 16 / 9;
+}
+
+.be-gallery-item[data-ratio="4x5"] {
+  aspect-ratio: 4 / 5;
+}
+
+/* Perspective + ratings */
+.be-perspective {
+  display: grid;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.be-perspective h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.be-perspective p {
+  margin: 0;
+  color: var(--be-muted);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.be-ratings {
+  border-top: 1px solid var(--be-line);
+  padding-top: 28px;
+}
+
+.be-rating-row {
+  display: grid;
+  grid-template-columns: 140px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--be-line);
+  font-size: 14px;
+}
+
+.be-stars {
+  letter-spacing: 0.12em;
+  color: var(--be-accent);
+}
+
+.be-rating-row strong {
+  font-weight: 500;
+}
+
+/* Related */
+.be-related {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+.be-related::-webkit-scrollbar {
+  display: none;
+}
+
+.be-related-card {
+  flex: 0 0 min(220px, 70vw);
+}
+
+@media (max-width: 960px) {
+  .be-hero-grid,
+  .be-story {
+    grid-template-columns: 1fr;
+  }
+
+  .be-hero {
+    min-height: auto;
+  }
+
+  .be-craft-grid,
+  .be-material-grid,
+  .be-signature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .be-identity {
+    grid-template-columns: 1fr;
+  }
+
+  .be-gallery-item,
+  .be-gallery-item[data-ratio="16x9"] {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 640px) {
+  .be-craft-grid,
+  .be-material-grid,
+  .be-signature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .be-identity-row,
+  .be-rating-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .be-shell,
+  .be-narrow {
+    width: calc(100% - 32px);
+  }
+}

@@ -1,0 +1,22 @@
+# Local PostgreSQL for Orbmare / Global Curated Trade Platform
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: orbmare-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: orbmare
+      POSTGRES_PASSWORD: orbmare_dev
+      POSTGRES_DB: orbmare
+    volumes:
+      - orbmare_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orbmare -d orbmare"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  orbmare_pg_data:

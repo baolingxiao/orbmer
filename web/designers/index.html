@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Orbmare Picks — brands, studios, and designers" />
+    <title>Orbmare 精选 | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=24" />
+  </head>
+  <body>
+    <div data-orb-header></div>
+    <main>
+      <section class="page-hero shell-wide" data-module="designers">
+        <!-- Titles come from i18n only — do not use data-editable (CMS had stale 精选设计师). -->
+        <h1 data-i18n="designers.title">Orbmare 精选</h1>
+        <p data-i18n="designers.body">
+          品牌、工作室与设计师——来自运营精选的主体，以及他们背后的作品。
+        </p>
+      </section>
+
+      <section class="shell-wide picks-featured" data-featured-section hidden aria-label="Featured picks">
+        <div class="picks-marquee" data-featured-marquee>
+          <button
+            class="picks-marquee-nav picks-marquee-prev"
+            type="button"
+            data-marquee-prev
+            aria-label="上一张"
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M10.5 3.5 5.5 8l5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div class="picks-marquee-viewport" data-featured-viewport>
+            <div class="picks-marquee-track" data-featured-track></div>
+          </div>
+          <button
+            class="picks-marquee-nav picks-marquee-next"
+            type="button"
+            data-marquee-next
+            aria-label="下一张"
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M5.5 3.5 10.5 8l-5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <section class="section-tight shell-wide">
+        <div class="toolbar-inline" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem">
+          <button class="shop-pill is-active" type="button" data-kind-filter="all">全部</button>
+          <button class="shop-pill" type="button" data-kind-filter="brand">品牌</button>
+          <button class="shop-pill" type="button" data-kind-filter="studio">工作室</button>
+          <button class="shop-pill" type="button" data-kind-filter="designer">设计师</button>
+        </div>
+        <div class="quiet-grid" data-orbmare-picks></div>
+        <p class="panel-empty" data-orbmare-picks-empty hidden>暂无已发布的精选主体。请在后台「品牌管理」中发布。</p>
+      </section>
+
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountChrome } from "/shared/js/chrome.js";
+      import { loadCatalog, escapeHtml } from "/shared/js/catalog-editorial.js";
+      import { applyI18n, getLang, onLangChange, t } from "/shared/js/editorial-i18n.js";
+
+      const legacyId = new URLSearchParams(location.search).get("id");
+      if (legacyId) {
+        location.replace(`/brand/?id=${encodeURIComponent(legacyId)}`);
+      } else {
+      await mountChrome({ title: "Orbmare 精选 | Orbmare" });
+      const catalog = await loadCatalog();
+
+      async function loadBrands() {
+        const res = await fetch(`/api/brands?t=${Date.now()}`, {
+          cache: "no-store",
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return data?.ok && Array.isArray(data.brands) ? data.brands : [];
+      }
+
+      const brands = await loadBrands();
+      let activeKind = "all";
+
+      function kindLabel(kind, lang) {
+        if (lang === "zh") {
+          return kind === "studio" ? "工作室" : kind === "designer" ? "设计师" : "品牌";
+        }
+        return kind === "studio" ? "Studio" : kind === "designer" ? "Designer" : "Brand";
+      }
+
+      function brandCardHtml(brand, lang) {
+        const name = lang === "zh" ? brand.nameZh || brand.nameEn : brand.nameEn || brand.nameZh;
+        const blurb =
+          lang === "zh" ? brand.blurbZh || brand.blurb || "" : brand.blurb || brand.blurbZh || "";
+        const image = brand.image || "/assets/editorial/designer-atelier.jpg";
+        const meta = `${kindLabel(brand.kind, lang)}${
+          brand.kind === "designer" && brand.studio
+            ? ` · ${lang === "zh" ? brand.studioZh || brand.studio : brand.studio}`
+            : ""
+        }`;
+        return `<a class="quiet-card" href="/brand/?id=${encodeURIComponent(brand.id)}">
+          <div class="quiet-card-media"><img src="${escapeHtml(image)}" alt="" width="640" height="800" loading="lazy" /></div>
+          <div class="quiet-card-copy">
+            <p class="meta">${escapeHtml(meta)}</p>
+            <h3>${escapeHtml(name || brand.id)}</h3>
+            <p>${escapeHtml(blurb)}</p>
+          </div>
+        </a>`;
+      }
+
+      function toBrandMarqueeItem(brand, lang) {
+        const name =
+          lang === "zh" ? brand.nameZh || brand.nameEn : brand.nameEn || brand.nameZh;
+        return {
+          key: `b-${brand.id}`,
+          href: `/brand/?id=${encodeURIComponent(brand.id)}`,
+          image: brand.image || "/assets/editorial/designer-atelier.jpg",
+          meta: kindLabel(brand.kind, lang),
+          name: name || brand.id,
+        };
+      }
+
+      function toProductMarqueeItem(product, lang) {
+        const name =
+          lang === "zh" ? product.nameZh || product.name : product.name || product.nameZh;
+        const meta =
+          lang === "zh"
+            ? product.designerNameZh ||
+              product.designerName ||
+              product.studioZh ||
+              product.studio ||
+              t("designers.featured", lang)
+            : product.designerName ||
+              product.designerNameZh ||
+              product.studio ||
+              product.studioZh ||
+              t("designers.featured", lang);
+        return {
+          key: `p-${product.id}`,
+          href: `/product/?id=${encodeURIComponent(product.id)}`,
+          image:
+            product.image ||
+            (product.images && product.images[0]) ||
+            "/assets/editorial/designer-atelier.jpg",
+          meta,
+          name: name || product.id,
+        };
+      }
+
+      function dedupeItems(items) {
+        const seen = new Set();
+        return items.filter((item) => {
+          const key = item.key || item.href || item.name;
+          if (!key || seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      }
+
+      function featuredItems(lang) {
+        const flaggedBrands = brands
+          .filter((row) => row.featured)
+          .map((b) => toBrandMarqueeItem(b, lang));
+        const flaggedProducts = (catalog.products || [])
+          .filter((p) => p.featured)
+          .map((p) => toProductMarqueeItem(p, lang));
+        const flagged = dedupeItems([...flaggedBrands, ...flaggedProducts]);
+        if (flagged.length) return flagged;
+
+        const fallbackBrands = dedupeItems(
+          brands
+            .filter(
+              (row) =>
+                row.kind === "designer" || row.kind === "studio" || row.kind === "brand"
+            )
+            .slice(0, 12)
+            .map((b) => toBrandMarqueeItem(b, lang))
+        );
+        if (fallbackBrands.length) return fallbackBrands;
+
+        return dedupeItems(
+          (catalog.products || []).slice(0, 10).map((p) => toProductMarqueeItem(p, lang))
+        );
+      }
+
+      function marqueeItemHtml(item) {
+        return `<a class="picks-marquee-item" href="${escapeHtml(item.href)}">
+          <div class="quiet-card-media"><img src="${escapeHtml(item.image)}" alt="" width="440" height="550" loading="lazy" decoding="async" /></div>
+          <p class="meta">${escapeHtml(item.meta || "")}</p>
+          <h3>${escapeHtml(item.name || "")}</h3>
+        </a>`;
+      }
+
+      let marqueeControlsBound = false;
+      let marqueeRaf = 0;
+      let marqueePaused = false;
+      let marqueeLooping = false;
+      let marqueeReady = false;
+      let marqueeX = 0; // translateX px; L→R means x increases toward 0 from -half
+      let marqueeHalf = 0;
+      let marqueeLastTs = 0;
+      let marqueeRetryTimer = 0;
+
+      function cardStep() {
+        const track = document.querySelector("[data-featured-track]");
+        const card = track?.querySelector(".picks-marquee-item");
+        if (!card) return 240;
+        const gap = Number.parseFloat(getComputedStyle(track).gap || "20") || 20;
+        return Math.round(card.getBoundingClientRect().width + gap);
+      }
+
+      function measureMarquee() {
+        const track = document.querySelector("[data-featured-track]");
+        if (!track) {
+          marqueeHalf = 0;
+          marqueeReady = false;
+          return false;
+        }
+        const width = track.scrollWidth;
+        marqueeHalf = marqueeLooping ? width / 2 : width;
+        marqueeReady = marqueeHalf > 40;
+        return marqueeReady;
+      }
+
+      function applyMarqueeTransform() {
+        const track = document.querySelector("[data-featured-track]");
+        if (!track) return;
+        if (marqueeLooping && marqueeHalf > 0) {
+          // Keep x in [-half, 0)
+          while (marqueeX >= 0) marqueeX -= marqueeHalf;
+          while (marqueeX < -marqueeHalf) marqueeX += marqueeHalf;
+        }
+        track.style.transform = `translate3d(${marqueeX}px, 0, 0)`;
+      }
+
+      function stepMarquee(direction) {
+        if (!marqueeReady && !measureMarquee()) return;
+        marqueePaused = true;
+        // next (direction>0): continue L→R → x increases
+        marqueeX += direction * cardStep();
+        applyMarqueeTransform();
+        window.setTimeout(() => {
+          marqueePaused = false;
+          marqueeLastTs = 0;
+        }, 280);
+      }
+
+      function marqueeTick(ts) {
+        marqueeRaf = window.requestAnimationFrame(marqueeTick);
+        if (!marqueeReady) {
+          if (measureMarquee()) {
+            marqueeX = marqueeLooping ? -marqueeHalf : 0;
+            applyMarqueeTransform();
+            marqueeLastTs = ts;
+          }
+          return;
+        }
+        if (marqueePaused || document.hidden) {
+          marqueeLastTs = ts;
+          return;
+        }
+        if (!marqueeLastTs) marqueeLastTs = ts;
+        const dt = Math.min(40, ts - marqueeLastTs);
+        marqueeLastTs = ts;
+        // Left → right: content moves right (translateX increases).
+        marqueeX += (dt / 1000) * 30;
+        applyMarqueeTransform();
+      }
+
+      function startMarqueeAuto() {
+        stopMarqueeAuto();
+        marqueeLastTs = 0;
+        marqueeRaf = window.requestAnimationFrame(marqueeTick);
+      }
+
+      function stopMarqueeAuto() {
+        if (marqueeRaf) {
+          window.cancelAnimationFrame(marqueeRaf);
+          marqueeRaf = 0;
+        }
+        if (marqueeRetryTimer) {
+          window.clearTimeout(marqueeRetryTimer);
+          marqueeRetryTimer = 0;
+        }
+        marqueeLastTs = 0;
+      }
+
+      function bindMarqueeControls() {
+        if (marqueeControlsBound) return;
+        const viewport = document.querySelector("[data-featured-viewport]");
+        document.querySelector("[data-marquee-prev]")?.addEventListener("click", () => stepMarquee(-1));
+        document.querySelector("[data-marquee-next]")?.addEventListener("click", () => stepMarquee(1));
+        viewport?.addEventListener("mouseenter", () => {
+          marqueePaused = true;
+        });
+        viewport?.addEventListener("mouseleave", () => {
+          marqueePaused = false;
+          marqueeLastTs = 0;
+        });
+        window.addEventListener("resize", () => {
+          const ratio = marqueeHalf > 0 ? marqueeX / -marqueeHalf : 0;
+          if (measureMarquee() && marqueeLooping) {
+            marqueeX = -marqueeHalf * Math.min(1, Math.max(0, -ratio || 1));
+            if (marqueeX >= 0 || marqueeX < -marqueeHalf) marqueeX = -marqueeHalf;
+            applyMarqueeTransform();
+          }
+        });
+        marqueeControlsBound = true;
+      }
+
+      function armMarqueeAfterLayout() {
+        const track = document.querySelector("[data-featured-track]");
+        const imgs = [...(track?.querySelectorAll("img") || [])];
+        const waitImages = Promise.all(
+          imgs.map(
+            (img) =>
+              img.complete
+                ? Promise.resolve()
+                : new Promise((resolve) => {
+                    img.addEventListener("load", resolve, { once: true });
+                    img.addEventListener("error", resolve, { once: true });
+                  })
+          )
+        );
+        waitImages.then(() => {
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+              if (!measureMarquee()) {
+                marqueeRetryTimer = window.setTimeout(armMarqueeAfterLayout, 120);
+                return;
+              }
+              marqueeX = marqueeLooping ? -marqueeHalf : 0;
+              applyMarqueeTransform();
+              startMarqueeAuto();
+            });
+          });
+        });
+      }
+
+      function renderFeatured(lang = getLang()) {
+        const section = document.querySelector("[data-featured-section]");
+        const track = document.querySelector("[data-featured-track]");
+        if (!section || !track) return;
+        const items = featuredItems(lang);
+        if (!items.length) {
+          section.hidden = true;
+          track.innerHTML = "";
+          stopMarqueeAuto();
+          return;
+        }
+        section.hidden = false;
+        bindMarqueeControls();
+        stopMarqueeAuto();
+        const sequence = items.map(marqueeItemHtml).join("");
+        marqueeLooping = items.length >= 4;
+        marqueeReady = false;
+        track.innerHTML = marqueeLooping ? sequence + sequence : sequence;
+        track.style.transform = "translate3d(0, 0, 0)";
+        armMarqueeAfterLayout();
+      }
+
+      function renderGrid(lang = getLang()) {
+        const root = document.querySelector("[data-orbmare-picks]");
+        const empty = document.querySelector("[data-orbmare-picks-empty]");
+        const filtered =
+          activeKind === "all" ? brands : brands.filter((row) => row.kind === activeKind);
+        root.innerHTML = filtered.map((brand) => brandCardHtml(brand, lang)).join("");
+        if (empty) empty.hidden = filtered.length > 0;
+      }
+
+      function render(lang = getLang()) {
+        applyI18n(lang);
+        renderGrid(lang);
+        renderFeatured(lang);
+      }
+
+      document.querySelectorAll("[data-kind-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeKind = button.dataset.kindFilter || "all";
+          document.querySelectorAll("[data-kind-filter]").forEach((node) => {
+            node.classList.toggle("is-active", node === button);
+          });
+          renderGrid(getLang());
+        });
+      });
+
+      onLangChange(render);
+      render();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+:root {
+  --blue: #1a4db3;
+  --blue-dark: #0f3a8f;
+  --blue-soft: #e8f0ff;
+  --ink: #172033;
+  --muted: #5f6878;
+  --line: #dfe4ec;
+  --surface: #ffffff;
+  --page: #f4f6f9;
+  color-scheme: light;
+  font-family: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--page); color: var(--ink); }
+body { margin: 0; line-height: 1.65; }
+a { color: var(--blue-dark); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 3px solid #8bb0ff;
+  outline-offset: 2px;
+}
+.legal-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.legal-header-inner {
+  width: min(1120px, calc(100% - 32px));
+  margin: auto;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.legal-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.legal-brand-mark {
+  width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+  color: white; background: var(--blue); font-weight: 800;
+}
+.legal-brand strong { display: block; color: var(--ink); font-size: 16px; }
+.legal-brand span { display: block; color: var(--muted); font-size: 12px; }
+.back-home { font-size: 14px; font-weight: 700; white-space: nowrap; }
+.legal-layout {
+  width: min(1120px, calc(100% - 32px));
+  margin: 32px auto 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 270px;
+  gap: 32px;
+  align-items: start;
+}
+.legal-main {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: clamp(24px, 4vw, 52px);
+}
+.legal-main h1 { margin: 0 0 10px; font-size: clamp(28px, 3.4vw, 42px); line-height: 1.15; }
+.legal-main h2 { margin: 34px 0 10px; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.3; }
+.legal-main h3 { margin: 24px 0 8px; font-size: 17px; }
+.legal-main p, .legal-main li { font-size: 15px; }
+.legal-main li + li { margin-top: 7px; }
+.policy-meta {
+  display: flex; flex-wrap: wrap; gap: 8px 20px; padding-bottom: 22px;
+  margin-bottom: 24px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 13px;
+}
+.policy-notice {
+  padding: 16px 18px; border-left: 4px solid var(--blue);
+  background: var(--blue-soft); border-radius: 0 10px 10px 0;
+}
+.review-box {
+  margin-top: 38px; padding: 18px; border: 1px solid #b8c7e8;
+  background: #f7f9ff; border-radius: 10px;
+}
+.review-box h2 { margin-top: 0; font-size: 18px; }
+.legal-nav {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px; position: sticky; top: 92px;
+}
+.legal-nav strong { display: block; margin-bottom: 10px; }
+.legal-nav a { display: block; padding: 7px 0; font-size: 13px; }
+.contact-card { padding: 18px; background: var(--blue-soft); border-radius: 10px; }
+.contact-form { display: grid; gap: 16px; }
+.contact-form label { display: grid; gap: 6px; font-weight: 700; }
+.contact-form input, .contact-form textarea {
+  width: 100%; border: 1px solid #aeb8c8; border-radius: 8px; padding: 12px;
+  font: inherit; color: var(--ink); background: white;
+}
+.contact-form button {
+  border: 0; border-radius: 999px; padding: 12px 18px; background: var(--blue);
+  color: white; font: inherit; font-weight: 800; cursor: pointer;
+}
+.legal-footer {
+  border-top: 1px solid var(--line); background: white; color: var(--muted);
+  padding: 24px 16px; text-align: center; font-size: 13px;
+}
+code { overflow-wrap: anywhere; }
+@media (max-width: 800px) {
+  .legal-layout { grid-template-columns: 1fr; margin-top: 18px; }
+  .legal-nav { position: static; }
+}
+@media (max-width: 520px) {
+  .legal-header-inner, .legal-layout { width: min(100% - 24px, 1120px); }
+  .legal-main { padding: 22px 18px; }
+  .legal-brand span { display: none; }
+}

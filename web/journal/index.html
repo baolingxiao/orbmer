@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Orbmare Journal" />
+    <title>Journal | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=5" />
+  </head>
+  <body>
+    <div data-orb-header></div>
+    <main>
+      <section class="page-hero shell-wide" data-module="journal">
+        <h1 data-i18n="journal.title" data-editable="journal.title">Journal</h1>
+        <p data-i18n="journal.lead" data-editable="journal.lead">一本关于制作的奢华杂志——工艺、材料、国家、设计师，以及非凡物件背后的安静工作。</p>
+      </section>
+      <section class="section-tight shell-wide">
+        <div class="journal-list reveal" data-journal-list></div>
+      </section>
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountChrome } from "/shared/js/chrome.js";
+      import { applyI18n, getLang, onLangChange, t } from "/shared/js/editorial-i18n.js";
+
+      const FALLBACK_ITEMS = [
+        { cat: "工艺", catEn: "Craft", title: "锻造之内：日本刃物为何仍是标准", titleEn: "Inside forging: why Japanese blades remain the standard", href: "/craftsmanship/?id=forged" },
+        { cat: "材料", catEn: "Material", title: "Baby Cashmere——可感知的稀有", titleEn: "Baby Cashmere — rarity you can feel", href: "/materials/?id=baby-cashmere" },
+        { cat: "国家", catEn: "Country", title: "佛罗伦萨皮革与植鞣的耐心", titleEn: "Florentine leather and the patience of vegetable tanning", href: "/countries/italy/" },
+        { cat: "访谈", catEn: "Interview", title: "林薇谈瓷器、克制与景德镇的光", titleEn: "Lin Wei on porcelain, restraint, and Jingdezhen light", href: "/brand/?id=designer-lin-wei" },
+        { cat: "指南", catEn: "Guide", title: "如何辨识植鞣革的品质", titleEn: "How to recognise quality in vegetable-tanned leather", href: "/materials/?id=vegetable-tanned-leather" },
+        { cat: "走访", catEn: "Visit", title: "中国精品：为何傲马的中国不是“中国制造”", titleEn: "China curated: why Orbmare's China is not 'Made in China'", href: "/countries/china/" },
+      ];
+
+      async function loadJournal() {
+        try {
+          const res = await fetch(`/api/site-content?t=${Date.now()}`, {
+            cache: "no-store",
+            headers: { Accept: "application/json" },
+          });
+          if (!res.ok) return null;
+          const data = await res.json();
+          return data?.ok ? data.content?.journal : null;
+        } catch {
+          return null;
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      const journal = await loadJournal();
+      mountChrome({ title: "Journal | Orbmare" });
+
+      function render(lang = getLang()) {
+        applyI18n(lang);
+        if (journal?.title || journal?.titleEn) {
+          const titleEl = document.querySelector("[data-editable='journal.title']");
+          const leadEl = document.querySelector("[data-editable='journal.lead']");
+          if (titleEl) {
+            titleEl.textContent =
+              lang === "en" ? journal.titleEn || journal.title : journal.title || journal.titleEn;
+          }
+          if (leadEl) {
+            leadEl.textContent =
+              lang === "en" ? journal.leadEn || journal.lead : journal.lead || journal.leadEn;
+          }
+        }
+        const items = Array.isArray(journal?.items) && journal.items.length ? journal.items : FALLBACK_ITEMS;
+        const root = document.querySelector("[data-journal-list]");
+        if (!root) return;
+        root.innerHTML = items
+          .map((item) => {
+            const cat = lang === "en" ? item.catEn || item.cat : item.cat || item.catEn;
+            const title = lang === "en" ? item.titleEn || item.title : item.title || item.titleEn;
+            const href = item.href || "/journal/";
+            return `<a class="journal-item" href="${escapeHtml(href)}">
+              <time>${escapeHtml(cat || "")}</time>
+              <h3>${escapeHtml(title || "")}</h3>
+              <span>${escapeHtml(t("journal.read", lang))}</span>
+            </a>`;
+          })
+          .join("");
+      }
+
+      render(getLang());
+      onLangChange(render);
+    </script>
+  </body>
+</html>

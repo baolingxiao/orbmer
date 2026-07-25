@@ -1,0 +1,465 @@
+/* China pavilion extras (shared chrome lives in pavilion.css) */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.feature-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.feature-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  background: #f3f5f8;
+}
+
+.feature-card div {
+  padding: 14px;
+}
+
+.feature-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.pay-note {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--blue-soft);
+  color: var(--blue-deep);
+  font-size: 13px;
+}
+
+.trend-block {
+  scroll-margin-top: 84px;
+}
+
+.trend-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.trend-head h2 {
+  margin: 0 0 8px;
+  font-size: clamp(22px, 2.4vw, 28px);
+}
+
+.trend-head > div > p {
+  max-width: 65ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.trend-updated {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--blue-deep);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.source-status-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.source-status-loading {
+  grid-column: 1 / -1;
+  min-height: 92px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #f7f9fc;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 16px;
+}
+
+.source-status-item {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #f7f9fc;
+}
+
+.source-status-heading {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.source-status-heading a {
+  width: fit-content;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.source-status-heading a:hover {
+  color: var(--blue);
+}
+
+.source-status-heading strong {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.source-status-verified_snapshot {
+  border-color: #b9cdf6;
+  background: var(--blue-soft);
+}
+
+.source-status-verified_snapshot .source-status-heading strong {
+  color: var(--blue-deep);
+}
+
+.source-status-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.trend-toolbar {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin-bottom: 14px;
+}
+
+.trend-filter-group {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.trend-filter-group > span {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.trend-filter-scroll {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 2px 2px 5px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.trend-filter {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+.trend-filter:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.trend-filter:focus-visible {
+  outline: 3px solid rgba(26, 77, 179, 0.25);
+  outline-offset: 2px;
+}
+
+.trend-filter[aria-pressed="true"] {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.trend-filter:active {
+  transform: translateY(1px);
+}
+
+.trend-disclosure {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--blue-soft);
+  color: var(--blue-deep);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.trend-result-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: 16px 0 12px;
+}
+
+.trend-result-line strong {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.trend-result-line span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.trend-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.trend-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trend-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.trend-card-visual {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.96), rgba(232, 240, 255, 0.74)),
+    #eef3fb;
+  border-bottom: 1px solid var(--line);
+}
+
+.trend-card-visual img {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 10px 24px rgba(28, 52, 96, 0.13);
+}
+
+.trend-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 14px;
+}
+
+.trend-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.trend-card-meta strong {
+  margin-left: auto;
+  color: var(--blue-deep);
+  font-size: 12px;
+}
+
+.trend-card h3 {
+  display: -webkit-box;
+  min-height: 44px;
+  margin: 0;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.trend-card h3 a {
+  color: var(--ink);
+}
+
+.trend-card h3 a:hover {
+  color: var(--blue);
+}
+
+.trend-evidence {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.trend-evidence div {
+  display: grid;
+  gap: 2px;
+}
+
+.trend-evidence dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.trend-evidence dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.trend-review-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.trend-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 2px;
+}
+
+.trend-source-link {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.trend-source-link:hover {
+  color: var(--blue-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.trend-card-footer > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.trend-skeleton {
+  min-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(#edf2f8 0 0) top / 100% 180px no-repeat,
+    linear-gradient(#edf2f8 0 0) 14px 200px / 45% 12px no-repeat,
+    linear-gradient(#edf2f8 0 0) 14px 228px / calc(100% - 28px) 18px no-repeat,
+    linear-gradient(#edf2f8 0 0) 14px 254px / 72% 18px no-repeat,
+    #fff;
+}
+
+.trend-empty {
+  padding: 32px 20px;
+  border: 1px dashed #b9c7da;
+  border-radius: var(--radius);
+  background: #f7f9fc;
+  text-align: center;
+}
+
+.trend-empty h3 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.trend-empty p {
+  max-width: 58ch;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+#catalog {
+  margin-bottom: 40px;
+}
+
+@media (max-width: 1099px) {
+  .source-status-list,
+  .trend-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .source-status-list,
+  .trend-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .trend-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .source-status-list,
+  .trend-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trend-filter-group {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .trend-card-visual {
+    min-height: 190px;
+  }
+}

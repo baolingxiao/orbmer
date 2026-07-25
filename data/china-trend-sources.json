@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "reviewedAt": "2026-07-23",
+  "policy": "Fail closed when a source prohibits crawling, requires login, presents a CAPTCHA, or lacks a verifiable popularity definition.",
+  "sources": [
+    {
+      "platform": "1688",
+      "robotsUrl": "https://www.1688.com/robots.txt",
+      "termsUrl": "https://terms.alicdn.com/legal-agreement/terms/b_platform_service_agreement/20230919145316133/20230919145316133.html",
+      "officialAccessUrl": "https://open.1688.com/",
+      "webCollection": "prohibited",
+      "expectedRobotsSignals": [
+        "Disallow: /*?*",
+        "Disallow: /offer/",
+        "Disallow: /product/"
+      ],
+      "nextStep": "Obtain written permission for cross-border selection data and approved API fields."
+    },
+    {
+      "platform": "taobao",
+      "robotsUrl": "https://www.taobao.com/robots.txt",
+      "termsUrl": "https://developer.alibaba.com/docs/doc.htm?articleId=101163&docType=1&treeId=1",
+      "officialAccessUrl": "https://developer.alibaba.com/docs/api.htm?apiId=35896",
+      "webCollection": "prohibited",
+      "expectedRobotsSignals": [
+        "Disallow: /*?*"
+      ],
+      "nextStep": "Complete Taobao Alliance media registration and use signed official material APIs."
+    },
+    {
+      "platform": "jd",
+      "robotsUrl": "https://pro.m.jd.com/robots.txt",
+      "termsUrl": "https://jos.jd.com/jdunion",
+      "officialAccessUrl": "https://jos.jd.com/jdunion",
+      "webCollection": "manual_snapshot_only",
+      "expectedRobotsSignals": [
+        "Disallow: /*?"
+      ],
+      "nextStep": "Replace manually reviewed public ranking snapshots with JD Union/JOS data after approval."
+    },
+    {
+      "platform": "pdd",
+      "robotsUrl": "https://mobile.yangkeduo.com/robots.txt",
+      "termsUrl": "https://www.yangkeduo.com/pdd_user_services_agreement.pdf",
+      "officialAccessUrl": "https://open.pinduoduo.com/application/document/api?id=pdd.ddk.goods.search",
+      "webCollection": "prohibited",
+      "expectedRobotsSignals": [
+        "Disallow: /"
+      ],
+      "nextStep": "Obtain Duoduo Jinbao credentials and use the official recommendation or search API."
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>入口导航 | 傲马 Orbmare</title>
+    <link rel="stylesheet" href="/shared/css/platform.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: var(--font);
+        color: var(--ink);
+        background: linear-gradient(180deg, #eef3fb, var(--bg));
+        min-height: 100dvh;
+      }
+      main {
+        width: min(720px, calc(100% - 32px));
+        margin: 48px auto;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px 24px;
+        box-shadow: var(--shadow);
+      }
+      h1 { margin: 0 0 8px; font-size: 28px; color: var(--blue); }
+      p { color: var(--muted); line-height: 1.6; }
+      .links { display: grid; gap: 12px; margin-top: 20px; }
+      a.card {
+        display: block;
+        text-decoration: none;
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 16px;
+        background: #fafbfd;
+      }
+      a.card:hover { border-color: var(--blue); background: var(--blue-soft); }
+      a.card strong { display: block; color: var(--blue); margin-bottom: 4px; }
+      code { font-size: 13px; word-break: break-all; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>傲马专属入口</h1>
+      <p>请使用域名访问，其它电脑与手机均可打开。本地 <code>127.0.0.1</code> 仅本机调试。</p>
+      <div class="links">
+        <a class="card" href="https://orbmare.com/seller/">
+          <strong>卖家后台</strong>
+          <code>https://orbmare.com/seller/</code>
+        </a>
+        <a class="card" href="https://orbmare.com/auth/">
+          <strong>买家账户</strong>
+          <code>https://orbmare.com/auth/</code>
+        </a>
+        <a class="card" href="https://orbmare.com/shop/">
+          <strong>3D 打印馆</strong>
+          <code>https://orbmare.com/shop/</code>
+        </a>
+        <a class="card" href="https://orbmare.com/">
+          <strong>平台首页</strong>
+          <code>https://orbmare.com/</code>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

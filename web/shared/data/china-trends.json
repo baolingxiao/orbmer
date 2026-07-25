@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "1.0.0",
+  "datasetId": "china-trend-leads",
+  "generatedAt": "2026-07-23T15:30:00Z",
+  "observedAt": "2026-07-23",
+  "locale": "zh-CN",
+  "methodology": {
+    "name": "公开榜单人工复核快照",
+    "summary": "仅收录能够在平台官方公开榜单中回查标题、榜单位置和来源链接的采购线索。该数据不是实时库存、报价、销量保证或品牌授权证明。",
+    "refreshPolicy": "展示前复核，自动刷新待官方 API 授权后启用",
+    "imagePolicy": "不复制第三方平台商品图片；页面使用 Orbmare 自有分类图标作为占位图。",
+    "publicationRule": "只有 status 为 verified_snapshot 且 procurementStatus 为 lead_only 的条目可以出现在公开中国区趋势模块。"
+  },
+  "categories": [
+    {
+      "id": "home",
+      "label": "家居",
+      "icon": "/assets/platform/categories/cat-home.png"
+    },
+    {
+      "id": "kitchen",
+      "label": "厨房",
+      "icon": "/assets/platform/categories/cat-kitchen.png"
+    },
+    {
+      "id": "stationery",
+      "label": "文具",
+      "icon": "/assets/platform/categories/cat-stationery.png"
+    },
+    {
+      "id": "beauty",
+      "label": "美妆",
+      "icon": "/assets/platform/categories/cat-beauty.png"
+    },
+    {
+      "id": "fragrance",
+      "label": "香氛",
+      "icon": "/assets/platform/categories/cat-fragrance.png"
+    },
+    {
+      "id": "watches",
+      "label": "手表",
+      "icon": "/assets/platform/categories/cat-watches.png"
+    },
+    {
+      "id": "jewelry",
+      "label": "珠宝",
+      "icon": "/assets/platform/categories/cat-jewelry.png"
+    },
+    {
+      "id": "furniture",
+      "label": "家具",
+      "icon": "/assets/platform/categories/cat-furniture.png"
+    },
+    {
+      "id": "outdoor",
+      "label": "户外",
+      "icon": "/assets/platform/categories/cat-outdoor.png"
+    },
+    {
+      "id": "pets",
+      "label": "宠物",
+      "icon": "/assets/platform/categories/cat-pets.png"
+    }
+  ],
+  "sourceStatus": [
+    {
+      "platform": "jd",
+      "label": "京东",
+      "status": "verified_snapshot",
+      "statusLabel": "已复核公开榜单",
+      "message": "首批仅展示 2026-07-23 人工复核的京东公开排行榜 TOP 1 线索。",
+      "accessUrl": "https://jos.jd.com/jdunion"
+    },
+    {
+      "platform": "1688",
+      "label": "1688",
+      "status": "source_access_pending",
+      "statusLabel": "待官方授权",
+      "message": "商品与榜单网页不进行匿名抓取；待开放平台书面授权和 API 权限。",
+      "accessUrl": "https://open.1688.com/"
+    },
+    {
+      "platform": "taobao",
+      "label": "淘宝 / 天猫",
+      "status": "source_access_pending",
+      "statusLabel": "待淘宝联盟凭据",
+      "message": "待完成媒体备案并取得 AppKey、AppSecret 和推广位后接入官方物料 API。",
+      "accessUrl": "https://pub.alimama.com/"
+    },
+    {
+      "platform": "pdd",
+      "label": "拼多多",
+      "status": "source_access_pending",
+      "statusLabel": "待多多进宝凭据",
+      "message": "通用网页爬虫被 robots.txt 禁止；待多多进宝官方推荐或商品搜索 API 权限。",
+      "accessUrl": "https://jinbao.pinduoduo.com/"
+    }
+  ],
+  "items": [
+    {
+      "id": "jd-100109781366",
+      "platform": "jd",
+      "platformLabel": "京东",
+      "status": "verified_snapshot",
+      "title": "全友家居 奶油风头层牛皮茉伊真皮床头软包靠背卧室家用1.8米双人大床",
+      "categoryId": "furniture",
+      "categoryLabel": "家具",
+      "image": "/assets/platform/categories/cat-furniture.png",
+      "imageType": "category_placeholder",
+      "sourcePageTitle": "家居奢华排行榜",
+      "sourceUrl": "https://www.jd.com/phb/key_16203f89db06901ce514.html",
+      "productUrl": "https://item.jd.com/100109781366.html",
+      "rankPosition": 1,
+      "rankLabel": "TOP 1",
+      "popularityEvidence": "家居奢华排行榜 TOP 1；榜单页显示已有 20000 人评论",
+      "observedAt": "2026-07-23",
+      "procurementStatus": "lead_only",
+      "price": null,
+      "stock": "unverified",
+      "brandAuthorization": "unverified",
+      "crossBorderEligibility": "unverified",
+      "reviewNote": "大件家具需先核验体积重、国际物流可行性和售后责任。"
+    },
+    {
+      "id": "jd-10088636995062",
+      "platform": "jd",
+      "platformLabel": "京东",
+      "status": "verified_snapshot",
+      "title": "苏泊尔（SUPOR）锅具套装不粘锅家用不粘菜炒锅平底锅厨房全套装锅电磁炉燃气通用 居家8件套",
+      "categoryId": "kitchen",
+      "categoryLabel": "厨房",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "imageType": "category_placeholder",
+      "sourcePageTitle": "整套锅具排行榜",
+      "sourceUrl": "https://www.jd.com/phb/key_6196e463099020e5d962.html",
+      "productUrl": "https://item.jd.com/10088636995062.html",
+      "rankPosition": 1,
+      "rankLabel": "TOP 1",
+      "popularityEvidence": "整套锅具排行榜 TOP 1；榜单页显示已有 2000 人评论",
+      "observedAt": "2026-07-23",
+      "procurementStatus": "lead_only",
+      "price": null,
+      "stock": "unverified",
+      "brandAuthorization": "unverified",
+      "crossBorderEligibility": "unverified",
+      "reviewNote": "采购前需核验食品接触材料、涂层说明和目的国合规要求。"
+    },
+    {
+      "id": "jd-722599",
+      "platform": "jd",
+      "platformLabel": "京东",
+      "status": "verified_snapshot",
+      "title": "得力（deli）S01中性笔签字笔 0.5mm经典办公按动笔学生文具考试刷题笔水笔 黑色12支/盒",
+      "categoryId": "stationery",
+      "categoryLabel": "文具",
+      "image": "/assets/platform/categories/cat-stationery.png",
+      "imageType": "category_placeholder",
+      "sourcePageTitle": "京东自营商品黑笔排行榜",
+      "sourceUrl": "https://www.jd.com/phb/key_670d71dd7c10c2cba9a.html",
+      "productUrl": "https://item.jd.com/722599.html",
+      "rankPosition": 1,
+      "rankLabel": "TOP 1",
+      "popularityEvidence": "京东自营商品黑笔排行榜 TOP 1；榜单页显示已有 5000000 人评论",
+      "observedAt": "2026-07-23",
+      "procurementStatus": "lead_only",
+      "price": null,
+      "stock": "unverified",
+      "brandAuthorization": "unverified",
+      "crossBorderEligibility": "unverified",
+      "reviewNote": "采购前需复核具体 SKU、包装数量、墨水运输限制和最新商品页。"
+    },
+    {
+      "id": "jd-100033356660",
+      "platform": "jd",
+      "platformLabel": "京东",
+      "status": "verified_snapshot",
+      "title": "祖玛珑润唇膏 维他命E唇蜜15ml 礼盒",
+      "categoryId": "beauty",
+      "categoryLabel": "美妆",
+      "image": "/assets/platform/categories/cat-beauty.png",
+      "imageType": "category_placeholder",
+      "sourcePageTitle": "淡化唇色唇纹唇膏排行榜",
+      "sourceUrl": "https://www.jd.com/phb/key_1316ecc468aacdf43bb7.html",
+      "productUrl": "https://item.jd.com/100033356660.html",
+      "rankPosition": 1,
+      "rankLabel": "TOP 1",
+      "popularityEvidence": "淡化唇色唇纹唇膏排行榜 TOP 1；榜单页显示已有 50000 人评论",
+      "observedAt": "2026-07-23",
+      "procurementStatus": "lead_only",
+      "price": null,
+      "stock": "unverified",
+      "brandAuthorization": "unverified",
+      "crossBorderEligibility": "unverified",
+      "reviewNote": "美妆商品采购前需核验成分、标签、真伪、保质期和目的国化妆品要求。"
+    },
+    {
+      "id": "jd-100250242718",
+      "platform": "jd",
+      "platformLabel": "京东",
+      "status": "verified_snapshot",
+      "title": "阿柴与猫狗狗厕所 小中型犬训厕防踩屎金属铁架宠物尿砂盆 中号",
+      "categoryId": "pets",
+      "categoryLabel": "宠物",
+      "image": "/assets/platform/categories/cat-pets.png",
+      "imageType": "category_placeholder",
+      "sourcePageTitle": "狗狗厕所排行榜",
+      "sourceUrl": "https://www.jd.com/phb/key_699474b81650f0378988.html",
+      "productUrl": "https://item.jd.com/100250242718.html",
+      "rankPosition": 1,
+      "rankLabel": "TOP 1",
+      "popularityEvidence": "狗狗厕所排行榜 TOP 1；榜单页显示已有 20000 人评论",
+      "observedAt": "2026-07-23",
+      "procurementStatus": "lead_only",
+      "price": null,
+      "stock": "unverified",
+      "brandAuthorization": "unverified",
+      "crossBorderEligibility": "unverified",
+      "reviewNote": "采购前需核验尺寸、材料、清洁方式、物流体积和退货条件。"
+    },
+    {
+      "id": "jd-10137138632803",
+      "platform": "jd",
+      "platformLabel": "京东",
+      "status": "verified_snapshot",
+      "title": "迪卡侬不锈钢户外旅行运动保温杯 直饮便携大容量 活力橙800ml",
+      "categoryId": "outdoor",
+      "categoryLabel": "户外",
+      "image": "/assets/platform/categories/cat-outdoor.png",
+      "imageType": "category_placeholder",
+      "sourcePageTitle": "迪卡侬保温杯排行榜",
+      "sourceUrl": "https://www.jd.com/phb/key_6196708a4e7400d1f116.html",
+      "productUrl": "https://item.jd.com/10137138632803.html",
+      "rankPosition": 1,
+      "rankLabel": "TOP 1",
+      "popularityEvidence": "迪卡侬保温杯排行榜 TOP 1；榜单页显示已有 5000 人评论",
+      "observedAt": "2026-07-23",
+      "procurementStatus": "lead_only",
+      "price": null,
+      "stock": "unverified",
+      "brandAuthorization": "unverified",
+      "crossBorderEligibility": "unverified",
+      "reviewNote": "采购前需核验食品接触材料、容量、密封说明和目的国合规要求。"
+    }
+  ]
+}

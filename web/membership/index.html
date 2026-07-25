@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Orbmare Membership" />
+    <title>Membership | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=5" />
+  </head>
+  <body>
+    <div data-orb-header></div>
+    <main>
+      <section class="page-hero shell-wide" data-module="membership">
+        <h1 data-i18n="membership.title" data-editable="membership.title">傲马会员</h1>
+        <p data-i18n="membership.lead" data-editable="membership.lead">不是仓储式俱乐部。而是给重视工艺、材料与设计的收藏者的安静圈子。</p>
+      </section>
+      <section class="section shell-wide">
+        <div class="benefit-list reveal">
+          <article>
+            <div class="num">01</div>
+            <div>
+              <h3 data-i18n="membership.01" data-editable="membership.01">抢先体验</h3>
+              <p data-i18n="membership.01b" data-editable="membership.01b">在公开馆上线前，先看到新发现。</p>
+            </div>
+          </article>
+          <article>
+            <div class="num">02</div>
+            <div>
+              <h3 data-i18n="membership.02" data-editable="membership.02">专属系列</h3>
+              <p data-i18n="membership.02b" data-editable="membership.02b">为会员圈保留的工坊胶囊系列。</p>
+            </div>
+          </article>
+          <article>
+            <div class="num">03</div>
+            <div>
+              <h3 data-i18n="membership.03" data-editable="membership.03">更低国际运费</h3>
+              <p data-i18n="membership.03b" data-editable="membership.03b">跨境运送时的优惠费率。</p>
+            </div>
+          </article>
+          <article>
+            <div class="num">04</div>
+            <div>
+              <h3 data-i18n="membership.04" data-editable="membership.04">策展采购请求</h3>
+              <p data-i18n="membership.04b" data-editable="membership.04b">告诉我们你在寻找什么——我们替你寻访工坊与传承匠人。</p>
+            </div>
+          </article>
+          <article>
+            <div class="num">05</div>
+            <div>
+              <h3 data-i18n="membership.05" data-editable="membership.05">私人礼宾</h3>
+              <p data-i18n="membership.05b" data-editable="membership.05b">材料、尺寸与定制的人工指导。</p>
+            </div>
+          </article>
+          <article>
+            <div class="num">06</div>
+            <div>
+              <h3 data-i18n="membership.06" data-editable="membership.06">会员专属 Journal</h3>
+              <p data-i18n="membership.06b" data-editable="membership.06b">比公开杂志更深入的文章、工厂笔记与访谈。</p>
+            </div>
+          </article>
+        </div>
+        <p style="margin-top:48px">
+          <a class="btn" href="/auth/" data-i18n="membership.cta" data-editable="membership.cta">申请会员</a>
+        </p>
+      </section>
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountChrome } from "/shared/js/chrome.js";
+      import { applyI18n, getLang, onLangChange } from "/shared/js/editorial-i18n.js";
+      mountChrome({ title: "Membership | Orbmare" });
+      applyI18n(getLang());
+      onLangChange(applyI18n);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+/* Shared platform tokens — Orbmare / 傲马 */
+:root {
+  --blue: #1a4db3;
+  --blue-deep: #0f3a8f;
+  --blue-soft: #e8f0ff;
+  --ink: #1c2430;
+  --muted: #5b6776;
+  --line: #e6ebf2;
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --danger: #e11d2e;
+  --radius: 10px;
+  --shadow: 0 8px 24px rgba(28, 52, 96, 0.08);
+  --font: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  --brand-name: "Orbmare";
+  --brand-name-zh: "傲马";
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.platform-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--blue);
+  min-width: 0;
+  text-decoration: none;
+}
+
+.platform-brand-mark {
+  flex: 0 0 auto;
+  color: var(--blue);
+  display: grid;
+}
+
+.platform-brand-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.platform-brand-text strong {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--blue);
+}
+
+.platform-brand-text em {
+  font-style: normal;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--blue-deep);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.7rem 1.15rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-ghost:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-soft);
+}

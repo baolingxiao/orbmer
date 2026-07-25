@@ -1,0 +1,181 @@
+{
+  "region": "italy",
+  "flag": "it",
+  "nameZh": "意大利馆",
+  "nameEn": "Italy",
+  "tag": "Luxury Design",
+  "tagZh": "奢华设计",
+  "heroTitle": "意大利设计，材质为先",
+  "heroLede": "皮具、Cashmere、家居、小众珠宝与家具——奢华落在触感与比例上。",
+  "heroImage": "/assets/platform/pavilion-italy.png",
+  "searchPlaceholder": "搜索意大利馆 · 设计好物",
+  "categories": [
+    {
+      "id": "leather",
+      "label": "皮具",
+      "icon": "/assets/platform/categories/cat-home.png",
+      "blurb": "植鞣与细工缝线，包袋与小件经年更好看。"
+    },
+    {
+      "id": "cashmere",
+      "label": "Cashmere",
+      "icon": "/assets/platform/categories/cat-home.png",
+      "blurb": "羊绒针织与围巾，轻暖而轮廓干净。"
+    },
+    {
+      "id": "home",
+      "label": "家居",
+      "icon": "/assets/platform/categories/cat-home.png",
+      "blurb": "灯具、织物与餐桌物件，日常也讲究比例。"
+    },
+    {
+      "id": "jewelry",
+      "label": "小众珠宝",
+      "icon": "/assets/platform/categories/cat-jewelry.png",
+      "blurb": "独立工坊金工与宝石，低调而不雷同。"
+    },
+    {
+      "id": "furniture",
+      "label": "家具",
+      "icon": "/assets/platform/categories/cat-furniture.png",
+      "blurb": "椅凳、柜体与桌案，结构即美学。"
+    }
+  ],
+  "products": [
+    {
+      "id": "it-leather-01",
+      "categoryId": "leather",
+      "name": "植鞣手提包 · 中号",
+      "summary": "整裁皮面，边缘封边细密，越用越深。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-leather-02",
+      "categoryId": "leather",
+      "name": "卡片夹 · 双色拼接",
+      "summary": "极简口袋皮件，缝线外露克制。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-leather-03",
+      "categoryId": "leather",
+      "name": "皮带 · 无孔调节",
+      "summary": "头层牛皮，扣具哑光，腰线干净。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-cashmere-01",
+      "categoryId": "cashmere",
+      "name": "羊绒围巾 · 素色",
+      "summary": "轻薄大尺寸，可贴肤，边缘锁边平整。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-cashmere-02",
+      "categoryId": "cashmere",
+      "name": "圆领羊绒衫",
+      "summary": "合身不紧，针脚均匀，四季可叠穿。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-cashmere-03",
+      "categoryId": "cashmere",
+      "name": "羊绒手套 · 触屏",
+      "summary": "指尖导电纱，保暖不牺牲操作。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-home-01",
+      "categoryId": "home",
+      "name": "黄铜台灯 · 可调臂",
+      "summary": "桌面阅读灯，关节稳、光线柔。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-home-02",
+      "categoryId": "home",
+      "name": "亚麻桌布 · 自然色",
+      "summary": "水洗亚麻，褶皱自然，餐桌即景。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-home-03",
+      "categoryId": "home",
+      "name": "玻璃花瓶 · 手工吹制",
+      "summary": "微气泡痕迹保留，器形修长。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-jewelry-01",
+      "categoryId": "jewelry",
+      "name": "金线细链 · 项链",
+      "summary": "极细链条，日常可叠戴。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-jewelry.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-jewelry-02",
+      "categoryId": "jewelry",
+      "name": "雕塑感戒指 · 银",
+      "summary": "独立工坊铸造，棱角分明。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-jewelry.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-jewelry-03",
+      "categoryId": "jewelry",
+      "name": "珍珠耳钉 · 小颗",
+      "summary": "淡水珍珠，托架低调。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-jewelry.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-furniture-01",
+      "categoryId": "furniture",
+      "name": "餐椅 · 曲木扶手",
+      "summary": "座面织物可换，腿部比例修长。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-furniture.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-furniture-02",
+      "categoryId": "furniture",
+      "name": "边柜 · 胡桃木",
+      "summary": "低柜收纳，门缝与拉手极简。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-furniture.png",
+      "status": "curated"
+    },
+    {
+      "id": "it-furniture-03",
+      "categoryId": "furniture",
+      "name": "咖啡桌 · 石材台面",
+      "summary": "圆形台面，金属底座稳固。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-furniture.png",
+      "status": "curated"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+/* Pavilion category module — 2×5 card matching marketplace reference */
+.category-nav {
+  margin-top: 18px;
+}
+
+.category-nav-card {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 22px 16px;
+  padding: 28px 24px 24px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #e6ebf2);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(28, 52, 96, 0.08);
+}
+
+.category-nav-item {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink, #1c2430);
+  text-align: center;
+  min-width: 0;
+}
+
+.category-nav-orb {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  box-shadow:
+    0 6px 16px rgba(28, 52, 96, 0.1),
+    0 0 0 1px rgba(230, 235, 242, 0.9);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-nav-orb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.category-nav-label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.category-nav-item:hover .category-nav-orb,
+.category-nav-item:focus-visible .category-nav-orb {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow:
+    0 10px 22px rgba(28, 52, 96, 0.14),
+    0 0 0 1px rgba(26, 77, 179, 0.18);
+}
+
+.category-nav-item:hover .category-nav-label,
+.category-nav-item:focus-visible .category-nav-label,
+.category-nav-item.is-active .category-nav-label {
+  color: var(--blue, #1a4db3);
+  font-weight: 600;
+}
+
+.category-nav-item:focus-visible {
+  outline: none;
+}
+
+.category-nav-item.is-active .category-nav-orb {
+  box-shadow:
+    0 8px 18px rgba(26, 77, 179, 0.16),
+    0 0 0 2px rgba(26, 77, 179, 0.28);
+}
+
+@media (max-width: 720px) {
+  .category-nav-card {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px 8px;
+    padding: 20px 12px 16px;
+  }
+
+  .category-nav-orb {
+    width: 56px;
+    height: 56px;
+  }
+
+  .category-nav-label {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-nav-card {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px 4px;
+    padding: 16px 8px 14px;
+  }
+
+  .category-nav-orb {
+    width: 48px;
+    height: 48px;
+  }
+}

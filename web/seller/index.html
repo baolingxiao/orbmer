@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>卖家后台 | 傲马 Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/seller/seller.css?v=taste6" />
+  </head>
+  <body>
+    <main class="login-view" data-login-view>
+      <section class="login-stage">
+        <aside class="login-brand-pane" aria-hidden="true">
+          <div class="login-brand-pane-inner">
+            <p class="login-kicker">Seller Desk</p>
+            <h2>管好货架，履约可追踪</h2>
+            <p>商品发布、库存模式与跨境履约状态集中在一处。风格与傲马全站一致。</p>
+            <ul class="login-points">
+              <li>归属本店的商品与订单</li>
+              <li>发布后同步买家店铺目录</li>
+              <li>运单与状态可回写</li>
+            </ul>
+          </div>
+          <div class="login-orb"></div>
+        </aside>
+
+        <section class="login-panel" aria-labelledby="login-title">
+          <a class="ops-brand login-brand" href="/">
+            <span class="ops-brand-mark" aria-hidden="true">OM</span>
+            <span>
+              <strong>傲马</strong>
+              <em>Seller Portal</em>
+            </span>
+          </a>
+          <div class="login-copy">
+            <h1 id="login-title">卖家登录</h1>
+            <p>使用卖家邮箱进入后台。正式入口 <a href="https://orbmare.com/seller/">orbmare.com/seller</a></p>
+          </div>
+          <form class="login-form" data-login-form>
+            <div class="field">
+              <label for="loginEmail">卖家邮箱</label>
+              <input id="loginEmail" name="email" type="email" autocomplete="username" required />
+            </div>
+            <div class="field">
+              <label for="loginPassword">密码</label>
+              <input
+                id="loginPassword"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                minlength="14"
+                required
+              />
+            </div>
+            <p class="form-error" data-login-error role="alert" hidden></p>
+            <button class="button button-primary login-submit" type="submit">进入卖家后台</button>
+          </form>
+          <details class="reg-block">
+            <summary>注册新卖家账号</summary>
+            <form class="login-form" data-register-form>
+              <div class="field">
+                <label for="regStore">店铺名称</label>
+                <input id="regStore" name="storeName" required />
+              </div>
+              <div class="field">
+                <label for="regEmail">邮箱</label>
+                <input id="regEmail" name="email" type="email" required />
+              </div>
+              <div class="field">
+                <label for="regPassword">密码（至少14位）</label>
+                <input id="regPassword" name="password" type="password" minlength="14" required />
+              </div>
+              <div class="field">
+                <label for="regInvite">邀请码（生产环境必填）</label>
+                <input id="regInvite" name="inviteCode" />
+              </div>
+              <p class="form-error" data-register-error role="alert" hidden></p>
+              <button class="button button-ghost" type="submit">创建卖家账号</button>
+            </form>
+          </details>
+        </section>
+      </section>
+    </main>
+
+    <div class="ops-shell" data-ops-shell hidden>
+      <aside class="ops-sidebar">
+        <a class="ops-brand" href="/seller/">
+          <span class="ops-brand-mark" aria-hidden="true">OM</span>
+          <span>
+            <strong>卖家后台</strong>
+            <em data-store-name>Orbmare Seller</em>
+          </span>
+        </a>
+        <nav class="ops-nav" aria-label="卖家导航">
+          <button class="ops-nav-item is-active" type="button" data-section-target="overview">
+            <span class="nav-ico" aria-hidden="true"></span>总览
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="products">
+            <span class="nav-ico" aria-hidden="true"></span>我的商品
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="orders">
+            <span class="nav-ico" aria-hidden="true"></span>订单履约
+          </button>
+        </nav>
+        <p class="sidebar-note">仅本店商品与相关订单</p>
+      </aside>
+
+      <div class="ops-workspace">
+        <header class="ops-header">
+          <div>
+            <p class="section-kicker" data-section-kicker>卖家中心</p>
+            <h1 data-section-title>总览</h1>
+          </div>
+          <div class="ops-user">
+            <span class="ops-user-email" data-seller-email></span>
+            <button class="button button-ghost" type="button" data-logout>退出</button>
+          </div>
+        </header>
+
+        <section class="section-block" data-section="overview">
+          <div class="metric-strip" data-overview-metrics></div>
+          <div class="surface-block">
+            <div class="surface-head">
+              <h2>最近订单</h2>
+              <button class="text-link" type="button" data-section-target="orders">查看全部</button>
+            </div>
+            <div class="order-rail" data-overview-orders></div>
+          </div>
+        </section>
+
+        <section class="section-block" data-section="products" hidden>
+          <div class="surface-block">
+            <div class="surface-head">
+              <div>
+                <h2>我的商品</h2>
+                <p class="surface-sub">已发布会同步到买家店铺目录</p>
+              </div>
+              <button class="button button-primary" type="button" data-new-product>新建商品</button>
+            </div>
+            <div data-products-table></div>
+          </div>
+        </section>
+
+        <section class="section-block" data-section="orders" hidden>
+          <div class="surface-block">
+            <div class="surface-head">
+              <div>
+                <h2>订单履约</h2>
+                <p class="surface-sub">更新承运商、运单与配送状态</p>
+              </div>
+            </div>
+            <div class="orders-stack" data-orders-table></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <dialog class="product-dialog" data-product-dialog>
+      <form class="product-dialog-shell" data-product-form>
+        <header class="product-dialog-header">
+          <div>
+            <p class="section-kicker">货架</p>
+            <h2 data-product-form-title>新建商品</h2>
+          </div>
+          <button class="button button-ghost" type="button" data-cancel-product>关闭</button>
+        </header>
+        <div class="product-dialog-body">
+          <p class="surface-sub product-form-hint">
+            仅上架 3D 打印商品。商品 ID 在同一分类下必须唯一。可从电脑上传多张图片（不限数量），第一张为主图。
+          </p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="sellerProductId">商品 ID</label>
+              <input
+                id="sellerProductId"
+                name="id"
+                pattern="[a-z0-9][a-z0-9-]*"
+                required
+                placeholder="dragon-13cm"
+              />
+            </div>
+            <div class="field">
+              <label for="sellerProductPrice">价格 (USD)</label>
+              <input id="sellerProductPrice" name="price" type="number" step="0.01" min="0.5" required />
+            </div>
+            <div class="field">
+              <label for="sellerZhName">中文名</label>
+              <input id="sellerZhName" name="zhName" maxlength="120" required />
+            </div>
+            <div class="field">
+              <label for="sellerEnName">英文名</label>
+              <input id="sellerEnName" name="enName" maxlength="120" required />
+            </div>
+            <div class="field">
+              <label for="sellerMaterial">材料</label>
+              <input id="sellerMaterial" name="material" maxlength="120" required placeholder="PLA / 316L" />
+            </div>
+            <div class="field">
+              <label for="sellerCollection">分类</label>
+              <select id="sellerCollection" name="collection" required>
+                <option value="toys">玩具与收藏</option>
+                <option value="metal">工程金属件</option>
+                <option value="portrait">照片真人手办</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sellerLifecycle">状态</label>
+              <select id="sellerLifecycle" name="lifecycleStatus" required>
+                <option value="published">已发布（同步前台）</option>
+                <option value="draft">草稿</option>
+              </select>
+            </div>
+            <div class="field field-span">
+              <label for="sellerImageFiles">商品图片（拖拽或本地上传，可多选）</label>
+              <div
+                class="seller-image-drop"
+                data-image-dropzone
+                tabindex="0"
+                role="button"
+                aria-label="拖拽或选择商品图片"
+              >
+                <strong>拖拽图片到此处，或点击选择本地文件</strong>
+                <span>支持 JPG / PNG / WebP / GIF，可多选；第一张将作为主图</span>
+                <input
+                  id="sellerImageFiles"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  multiple
+                  hidden
+                  data-image-files
+                />
+              </div>
+              <div class="image-preview-grid" data-image-previews></div>
+              <small class="field-hint">可反复拖拽/选择以继续添加。</small>
+            </div>
+            <div class="field field-span">
+              <label for="sellerZhDesc">中文描述</label>
+              <textarea id="sellerZhDesc" name="zhDesc" maxlength="500" rows="3" required></textarea>
+            </div>
+            <div class="field field-span">
+              <label for="sellerEnDesc">英文描述</label>
+              <textarea id="sellerEnDesc" name="enDesc" maxlength="500" rows="3" required></textarea>
+            </div>
+          </div>
+          <p class="form-error" data-product-error hidden></p>
+        </div>
+        <footer class="product-dialog-actions">
+          <button class="button button-ghost" type="button" data-cancel-product>取消</button>
+          <button class="button button-primary" type="submit" value="save">保存商品</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div class="toast" data-toast hidden></div>
+    <script type="module" src="/seller/seller.js?v=taste6"></script>
+  </body>
+</html>

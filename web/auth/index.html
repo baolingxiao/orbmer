@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>账户 | 傲马 Orbmare</title>
+    <link rel="stylesheet" href="/auth/auth.css" />
+  </head>
+  <body>
+    <header class="auth-top">
+      <a class="brand" href="/">傲马 <span>Orbmare</span></a>
+      <a href="/shop/">去购物</a>
+    </header>
+
+    <main class="auth-shell">
+      <section class="auth-card" data-guest-view>
+        <h1>买家账户</h1>
+        <p class="brand-slogan">我们不是卖商品，我们是在为全球用户精选世界最好的材料、工艺和设计。</p>
+        <p class="lede">注册后可查看与邮箱关联的订单。管理员登录后可在全站编辑模块与文案。</p>
+
+        <div class="tabs">
+          <button type="button" class="is-active" data-tab="login">登录</button>
+          <button type="button" data-tab="register">注册</button>
+        </div>
+
+        <form data-login-form>
+          <label>邮箱<input name="email" type="email" required autocomplete="username" /></label>
+          <label>密码<input name="password" type="password" minlength="14" required autocomplete="current-password" /></label>
+          <p class="error" data-login-error hidden></p>
+          <button type="submit">登录</button>
+        </form>
+
+        <form data-register-form hidden>
+          <label>昵称<input name="displayName" autocomplete="nickname" /></label>
+          <label>邮箱<input name="email" type="email" required autocomplete="username" /></label>
+          <label>密码（至少14位）<input name="password" type="password" minlength="14" required autocomplete="new-password" /></label>
+          <p class="error" data-register-error hidden></p>
+          <button type="submit">创建买家账户</button>
+        </form>
+      </section>
+
+      <section class="auth-card" data-buyer-view hidden>
+        <h1>我的账户</h1>
+        <p data-user-email></p>
+        <div class="actions">
+          <button type="button" data-link-orders>关联历史订单</button>
+          <button type="button" class="ghost" data-logout>退出</button>
+        </div>
+        <h2>我的订单</h2>
+        <div data-orders></div>
+      </section>
+
+      <section class="auth-card" data-admin-view hidden>
+        <h1>管理员</h1>
+        <p data-admin-email></p>
+        <div class="admin-panel">
+          <p>你已进入站点编辑权限。浏览任意页面时，模块旁会出现「+」以新增卡片；点击文字或图片即可修改。买家不会看到这些控件。</p>
+          <div class="actions">
+            <a href="/" style="text-decoration:none"><button type="button">进入全站编辑</button></a>
+            <button type="button" class="ghost" data-logout>退出</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/auth/auth.js"></script>
+  </body>
+</html>

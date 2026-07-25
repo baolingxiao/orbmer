@@ -1,0 +1,143 @@
+/* Admin edit overlay — monochrome editorial, sharp corners */
+
+.has-admin-bar {
+  padding-top: 40px;
+}
+
+.admin-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 40px;
+  padding: 8px 20px;
+  background: #141414;
+  color: #fafafa;
+  font-family: var(--font-body, "Noto Sans SC", sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.admin-bar a,
+.admin-bar button {
+  color: #fafafa;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 4px 10px;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-bar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+html.is-admin-edit .admin-editable {
+  position: relative;
+  cursor: pointer;
+  outline: 1px dashed transparent;
+  outline-offset: 4px;
+  transition: outline-color 0.2s ease;
+}
+
+html.is-admin-edit .admin-editable:hover {
+  outline-color: rgba(20, 20, 20, 0.45);
+}
+
+html.is-admin-edit .hero-cinematic .admin-editable:hover,
+html.is-admin-edit .country-tile .admin-editable:hover {
+  outline-color: rgba(255, 255, 255, 0.55);
+}
+
+html.is-admin-edit .admin-editable::after {
+  content: "✎";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  line-height: 1;
+  color: #141414;
+  background: #fafafa;
+  border: 1px solid #141414;
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.is-admin-edit .admin-editable:hover::after {
+  opacity: 1;
+}
+
+.admin-module {
+  position: relative;
+}
+
+.admin-module-head {
+  position: relative;
+}
+
+.admin-add-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #141414;
+  background: #fafafa;
+  color: #141414;
+  font-size: 22px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.admin-add-btn:hover {
+  background: #141414;
+  color: #fafafa;
+}
+
+.admin-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(12px);
+  z-index: 1300;
+  padding: 10px 16px;
+  background: #141414;
+  color: #fafafa;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.admin-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.admin-toast.is-error {
+  background: #3a3a3a;
+}
+
+@media (max-width: 720px) {
+  .admin-add-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+}

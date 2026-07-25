@@ -1,0 +1,35 @@
+{
+  "name": "orbmare-checkout",
+  "private": true,
+  "version": "1.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node server/index.js",
+    "start": "node server/index.js",
+    "serve:static": "python3 -m http.server 5180 --bind 127.0.0.1",
+    "import:jinqi": "python3 scripts/import_jinqi.py",
+    "validate:china-trends": "node scripts/validate-china-trends.mjs",
+    "audit:trend-sources": "node scripts/audit-trend-sources.mjs",
+    "admin:hash-password": "node scripts/hash-admin-password.mjs",
+    "admin:reset": "node scripts/reset-admin-credentials.mjs",
+    "test:admin-security": "node scripts/test-admin-security.mjs",
+    "db:migrate": "node scripts/db-migrate.mjs",
+    "db:up": "docker compose up -d postgres",
+    "db:migrate-editorial": "node scripts/migrate-editorial-content.mjs",
+    "test:admin-rbac": "node scripts/test-admin-rbac.mjs",
+    "test:ai-optimize": "node scripts/test-ai-optimize.mjs",
+    "mi:build": "node scripts/generate-material-intelligence.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^2.2.0",
+    "openai": "^4.104.0",
+    "pg": "^8.22.0",
+    "stripe": "^18.5.0"
+  }
+}

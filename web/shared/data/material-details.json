@@ -1,0 +1,1534 @@
+{
+  "version": 1,
+  "materials": {
+    "baby-cashmere": {
+      "id": "baby-cashmere",
+      "name": "Baby Cashmere",
+      "nameZh": "Baby Cashmere",
+      "lyric": "A material memory of Italy / Mongolia",
+      "lyricZh": "意大利 / 蒙古的材料记忆",
+      "intro": "The first combing of young cashmere goats — rare, fine, and exceptionally soft.",
+      "introZh": "幼羊绒的第一次梳绒——稀有、细腻、极为柔软。",
+      "image": "/assets/editorial/materials/baby-cashmere.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "The first combing of young cashmere goats — rare, fine, and exceptionally soft.",
+        "bodyZh": "幼羊绒的第一次梳绒——稀有、细腻、极为柔软。",
+        "image": "/assets/editorial/materials/baby-cashmere-detail.jpg"
+      },
+      "origin": {
+        "country": "Europe",
+        "countryZh": "欧洲",
+        "region": "Italy / Mongolia",
+        "regionZh": "意大利 / 蒙古",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "The first combing of young cashmere goats — rare, fine, and exceptionally soft.",
+        "historyZh": "幼羊绒的第一次梳绒——稀有、细腻、极为柔软。",
+        "image": "/assets/editorial/materials/baby-cashmere-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Baby Cashmere at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的Baby Cashmere，尊重季节与限度。",
+          "image": "/assets/editorial/materials/baby-cashmere.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/baby-cashmere-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/baby-cashmere-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/baby-cashmere.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Baby Cashmere depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "Baby Cashmere依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/baby-cashmere.jpg",
+        "/assets/editorial/materials/baby-cashmere-scene.jpg",
+        "/assets/editorial/materials/baby-cashmere-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "french-linen",
+        "sea-island-cotton",
+        "vegetable-tanned-leather"
+      ]
+    },
+    "french-linen": {
+      "id": "french-linen",
+      "name": "French Linen",
+      "nameZh": "法国亚麻",
+      "lyric": "A material memory of France",
+      "lyricZh": "法国的材料记忆",
+      "intro": "Flax grown and woven with cool hand and lasting drape.",
+      "introZh": "凉爽手感与持久垂坠的亚麻织造。",
+      "image": "/assets/editorial/materials/french-linen.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Flax grown and woven with cool hand and lasting drape.",
+        "bodyZh": "凉爽手感与持久垂坠的亚麻织造。",
+        "image": "/assets/editorial/materials/french-linen-detail.jpg"
+      },
+      "origin": {
+        "country": "Europe",
+        "countryZh": "欧洲",
+        "region": "France",
+        "regionZh": "法国",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Flax grown and woven with cool hand and lasting drape.",
+        "historyZh": "凉爽手感与持久垂坠的亚麻织造。",
+        "image": "/assets/editorial/materials/french-linen-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true French Linen at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的法国亚麻，尊重季节与限度。",
+          "image": "/assets/editorial/materials/french-linen.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/french-linen-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/french-linen-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/french-linen.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "French Linen depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "法国亚麻依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/french-linen.jpg",
+        "/assets/editorial/materials/french-linen-scene.jpg",
+        "/assets/editorial/materials/french-linen-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "sea-island-cotton",
+        "vegetable-tanned-leather",
+        "japanese-denim"
+      ]
+    },
+    "sea-island-cotton": {
+      "id": "sea-island-cotton",
+      "name": "Sea Island Cotton",
+      "nameZh": "海岛棉",
+      "lyric": "A material memory of Caribbean / China mills",
+      "lyricZh": "加勒比 / 中国织造的材料记忆",
+      "intro": "Extra-long staple cotton prized for silk-like luster.",
+      "introZh": "超长绒棉，以丝绸般光泽著称。",
+      "image": "/assets/editorial/materials/sea-island-cotton.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Extra-long staple cotton prized for silk-like luster.",
+        "bodyZh": "超长绒棉，以丝绸般光泽著称。",
+        "image": "/assets/editorial/materials/sea-island-cotton-detail.jpg"
+      },
+      "origin": {
+        "country": "China",
+        "countryZh": "中国",
+        "region": "Caribbean / China mills",
+        "regionZh": "加勒比 / 中国织造",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Extra-long staple cotton prized for silk-like luster.",
+        "historyZh": "超长绒棉，以丝绸般光泽著称。",
+        "image": "/assets/editorial/materials/sea-island-cotton-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Sea Island Cotton at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的海岛棉，尊重季节与限度。",
+          "image": "/assets/editorial/materials/sea-island-cotton.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/sea-island-cotton-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/sea-island-cotton-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/sea-island-cotton.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Sea Island Cotton depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "海岛棉依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/sea-island-cotton.jpg",
+        "/assets/editorial/materials/sea-island-cotton-scene.jpg",
+        "/assets/editorial/materials/sea-island-cotton-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "vegetable-tanned-leather",
+        "japanese-denim",
+        "horween-leather"
+      ]
+    },
+    "vegetable-tanned-leather": {
+      "id": "vegetable-tanned-leather",
+      "name": "Vegetable Tanned Leather",
+      "nameZh": "植鞣革",
+      "lyric": "A material memory of Italy",
+      "lyricZh": "意大利的材料记忆",
+      "intro": "Plant-tanned hides that deepen with time and touch.",
+      "introZh": "植物鞣制，随时间与触感逐渐加深。",
+      "image": "/assets/editorial/materials/vegetable-tanned-leather.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Plant-tanned hides that deepen with time and touch.",
+        "bodyZh": "植物鞣制，随时间与触感逐渐加深。",
+        "image": "/assets/editorial/materials/vegetable-tanned-leather-detail.jpg"
+      },
+      "origin": {
+        "country": "Europe",
+        "countryZh": "欧洲",
+        "region": "Italy",
+        "regionZh": "意大利",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Plant-tanned hides that deepen with time and touch.",
+        "historyZh": "植物鞣制，随时间与触感逐渐加深。",
+        "image": "/assets/editorial/materials/vegetable-tanned-leather-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Vegetable Tanned Leather at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的植鞣革，尊重季节与限度。",
+          "image": "/assets/editorial/materials/vegetable-tanned-leather.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/vegetable-tanned-leather-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/vegetable-tanned-leather-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/vegetable-tanned-leather.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Vegetable Tanned Leather depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "植鞣革依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/vegetable-tanned-leather.jpg",
+        "/assets/editorial/materials/vegetable-tanned-leather-scene.jpg",
+        "/assets/editorial/materials/vegetable-tanned-leather-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "japanese-denim",
+        "horween-leather",
+        "vicuna"
+      ]
+    },
+    "japanese-denim": {
+      "id": "japanese-denim",
+      "name": "Japanese Denim",
+      "nameZh": "日本丹宁",
+      "lyric": "A material memory of Japan",
+      "lyricZh": "日本的材料记忆",
+      "intro": "Shuttle-loom selvedge with irregular character and slow fade.",
+      "introZh": "梭织赤耳，不规则纹理与缓慢褪色。",
+      "image": "/assets/editorial/materials/japanese-denim.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Shuttle-loom selvedge with irregular character and slow fade.",
+        "bodyZh": "梭织赤耳，不规则纹理与缓慢褪色。",
+        "image": "/assets/editorial/materials/japanese-denim-detail.jpg"
+      },
+      "origin": {
+        "country": "Japan",
+        "countryZh": "日本",
+        "region": "Japan",
+        "regionZh": "日本",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Shuttle-loom selvedge with irregular character and slow fade.",
+        "historyZh": "梭织赤耳，不规则纹理与缓慢褪色。",
+        "image": "/assets/editorial/materials/japanese-denim-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Japanese Denim at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的日本丹宁，尊重季节与限度。",
+          "image": "/assets/editorial/materials/japanese-denim.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/japanese-denim-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/japanese-denim-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/japanese-denim.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Japanese Denim depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "日本丹宁依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/japanese-denim.jpg",
+        "/assets/editorial/materials/japanese-denim-scene.jpg",
+        "/assets/editorial/materials/japanese-denim-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "horween-leather",
+        "vicuna",
+        "mulberry-silk-taihu"
+      ]
+    },
+    "horween-leather": {
+      "id": "horween-leather",
+      "name": "Horween Leather",
+      "nameZh": "Horween 皮革",
+      "lyric": "A material memory of USA / used in Italy workshops",
+      "lyricZh": "美国 / 意大利工坊常用的材料记忆",
+      "intro": "Chicago tannery leather known for rich pull-up and durability.",
+      "introZh": "芝加哥鞣革厂出品，以丰富 pull-up 与耐用著称。",
+      "image": "/assets/editorial/materials/horween-leather.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Chicago tannery leather known for rich pull-up and durability.",
+        "bodyZh": "芝加哥鞣革厂出品，以丰富 pull-up 与耐用著称。",
+        "image": "/assets/editorial/materials/horween-leather-detail.jpg"
+      },
+      "origin": {
+        "country": "Europe",
+        "countryZh": "欧洲",
+        "region": "USA / used in Italy workshops",
+        "regionZh": "美国 / 意大利工坊常用",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Chicago tannery leather known for rich pull-up and durability.",
+        "historyZh": "芝加哥鞣革厂出品，以丰富 pull-up 与耐用著称。",
+        "image": "/assets/editorial/materials/horween-leather-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Horween Leather at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的Horween 皮革，尊重季节与限度。",
+          "image": "/assets/editorial/materials/horween-leather.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/horween-leather-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/horween-leather-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/horween-leather.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Horween Leather depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "Horween 皮革依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/horween-leather.jpg",
+        "/assets/editorial/materials/horween-leather-scene.jpg",
+        "/assets/editorial/materials/horween-leather-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "vicuna",
+        "mulberry-silk-taihu",
+        "yak-wool"
+      ]
+    },
+    "vicuna": {
+      "id": "vicuna",
+      "name": "Vicuna",
+      "nameZh": "小羊驼绒",
+      "lyric": "A material memory of Andes (referenced)",
+      "lyricZh": "安第斯（参照）的材料记忆",
+      "intro": "One of the rarest animal fibers — reserved for exceptional pieces.",
+      "introZh": "最稀有的动物纤维之一——仅用于非凡之作。",
+      "image": "/assets/editorial/materials/vicuna.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "One of the rarest animal fibers — reserved for exceptional pieces.",
+        "bodyZh": "最稀有的动物纤维之一——仅用于非凡之作。",
+        "image": "/assets/editorial/materials/vicuna-detail.jpg"
+      },
+      "origin": {
+        "country": "World",
+        "countryZh": "世界",
+        "region": "Andes (referenced)",
+        "regionZh": "安第斯（参照）",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "One of the rarest animal fibers — reserved for exceptional pieces.",
+        "historyZh": "最稀有的动物纤维之一——仅用于非凡之作。",
+        "image": "/assets/editorial/materials/vicuna-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Vicuna at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的小羊驼绒，尊重季节与限度。",
+          "image": "/assets/editorial/materials/vicuna.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/vicuna-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/vicuna-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/vicuna.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Vicuna depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "小羊驼绒依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/vicuna.jpg",
+        "/assets/editorial/materials/vicuna-scene.jpg",
+        "/assets/editorial/materials/vicuna-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "mulberry-silk-taihu",
+        "yak-wool",
+        "ramie-xiabu"
+      ]
+    },
+    "mulberry-silk-taihu": {
+      "id": "mulberry-silk-taihu",
+      "name": "Mulberry Silk (Taihu)",
+      "nameZh": "桑蚕丝（太湖湖丝）",
+      "lyric": "A gentle gift from the Taihu basin",
+      "lyricZh": "来自太湖流域的温柔馈赠",
+      "intro": "Silk from the Taihu basin is born of mulberry groves, humid air, and centuries of sericulture — climate, soil, and human care in quiet collaboration.",
+      "introZh": "太湖沿岸的桑园、湿润的水汽与漫长的养蚕传统，共同孕育出细而韧的桑蚕丝。它不是工业产物，而是气候、水土与人手协作的结果。",
+      "image": "/assets/editorial/materials/mulberry-silk-taihu.jpg",
+      "traits": [
+        {
+          "label": "Natural protein fiber",
+          "labelZh": "天然蛋白纤维"
+        },
+        {
+          "label": "Soft hand",
+          "labelZh": "柔软"
+        },
+        {
+          "label": "Breathable",
+          "labelZh": "透气"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Warm humidity and generous mulberry leaves allow cocoons to form slowly. The near-triangular fiber cross-section catches light in a characteristic sheen — lake silk’s fine, even, soft character belongs to this water and air.",
+        "bodyZh": "太湖流域温暖湿润，桑叶肥厚，蚕茧得以缓慢结成。纤维截面近乎三角，折射出特有的光泽。只有在这样的水与气之间，湖丝才呈现出细、匀、柔的品质。",
+        "image": "/assets/editorial/materials/mulberry-silk-taihu-detail.jpg"
+      },
+      "origin": {
+        "country": "China",
+        "countryZh": "中国",
+        "region": "Taihu Lake basin (Jiangsu / Zhejiang)",
+        "regionZh": "太湖流域（江浙）",
+        "altitude": "Lowland lake plain",
+        "altitudeZh": "低海拔湖区平原",
+        "climate": "Humid subtropical, moisture-rich",
+        "climateZh": "亚热带湿润，水汽充沛",
+        "history": "Since antiquity, Taihu silk has been central to tribute and weaving traditions.",
+        "historyZh": "自先秦以来，太湖丝便是贡赋与织造的重要原料。",
+        "image": "/assets/editorial/materials/mulberry-silk-taihu-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Mulberry & silkworm",
+          "titleZh": "育桑养蚕",
+          "body": "Leaf selection, temperature, stillness. Only in the right humidity do silkworms spin an even filament.",
+          "bodyZh": "择叶、控温、静养。蚕只在适宜的湿度与安静中吐出匀细的丝。",
+          "image": "/assets/editorial/materials/mulberry-silk-taihu.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Cocoon & reeling",
+          "titleZh": "采茧抽丝",
+          "body": "Harvest at the right hour; warm water loosens ends; filaments join into raw silk. Timing governs sheen and strength.",
+          "bodyZh": "适时采茧，温水索绪，多绪合并成生丝。时机决定光泽与韧性。",
+          "image": "/assets/editorial/materials/mulberry-silk-taihu-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Degumming & finish",
+          "titleZh": "练漂整理",
+          "body": "Degumming clears impurities while keeping the fiber’s breath — never a factory gloss laid on top.",
+          "bodyZh": "脱胶去杂，保留纤维本身的呼吸感，而非覆盖一层工业光亮。",
+          "image": "/assets/editorial/materials/mulberry-silk-taihu-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Weaving",
+          "titleZh": "织造成匹",
+          "body": "Warp and weft meet at a patient pace. The cloth records small differences of place and season.",
+          "bodyZh": "经纬相交，慢工成型。布面记录着产地与季节的细微差别。",
+          "image": "/assets/editorial/materials/mulberry-silk-taihu.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Seasonal window",
+          "titleZh": "季节限定",
+          "body": "Fine cocoons depend on limited rearing seasons — they cannot be endlessly replicated year-round.",
+          "bodyZh": "优质蚕茧依赖有限的养蚕季节，无法全年无限量复制。"
+        },
+        {
+          "title": "Human care",
+          "titleZh": "人工参与",
+          "body": "From leaf picking to reeling, critical steps still rely on practiced hands.",
+          "bodyZh": "从采叶到索绪，关键步骤仍依赖经验与手感。"
+        },
+        {
+          "title": "Natural limits",
+          "titleZh": "自然约束",
+          "body": "Climate swings alter cocoon quality; yield and character remain bound to weather.",
+          "bodyZh": "气候异常会直接影响茧质，产量与品质同气候绑定。"
+        },
+        {
+          "title": "Long inheritance",
+          "titleZh": "悠久传承",
+          "body": "Taihu silk’s standard is inherited from centuries of textile culture, not short-cycle marketing craft.",
+          "bodyZh": "太湖丝的标准来自数百年织造文明的积累，而非短期工艺包装。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/mulberry-silk-taihu.jpg",
+        "/assets/editorial/materials/mulberry-silk-taihu-scene.jpg",
+        "/assets/editorial/materials/mulberry-silk-taihu-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "yak-wool",
+        "ramie-xiabu",
+        "han-hemp"
+      ]
+    },
+    "yak-wool": {
+      "id": "yak-wool",
+      "name": "Yak Wool",
+      "nameZh": "牦牛绒（青藏高原）",
+      "lyric": "Warmth gathered from highland wind and snow",
+      "lyricZh": "高原风雪里留下的温热",
+      "intro": "Yak underwool from the Qinghai–Tibet Plateau is light, warm, and resilient — shaped by thin air and cold.",
+      "introZh": "青藏高原的牦牛绒来自高寒环境中的底层绒毛。它轻、暖、有韧性，带着高原空气的干燥与澄明。",
+      "image": "/assets/editorial/materials/yak-wool.jpg",
+      "traits": [
+        {
+          "label": "Highland fiber",
+          "labelZh": "高寒纤维"
+        },
+        {
+          "label": "Light warmth",
+          "labelZh": "轻暖"
+        },
+        {
+          "label": "Breathable",
+          "labelZh": "透气"
+        },
+        {
+          "label": "Resilient",
+          "labelZh": "坚韧"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "As altitude rises and cold deepens, yaks grow finer underwool. The fiber is a biological answer to extremes — not a pastoral slogan.",
+        "bodyZh": "海拔升高，气温下降，牦牛生出更细密的底层绒以御寒。这种纤维不是牧场广告的产物，而是对极端气候的生物学回应。",
+        "image": "/assets/editorial/materials/yak-wool-detail.jpg"
+      },
+      "origin": {
+        "country": "China",
+        "countryZh": "中国",
+        "region": "Qinghai–Tibet Plateau",
+        "regionZh": "青藏高原",
+        "altitude": "Approx. 3,000–5,000 m",
+        "altitudeZh": "约3000–5000米",
+        "climate": "Cold highland, strong sun, wide day–night swings",
+        "climateZh": "高寒、日照强、昼夜温差大",
+        "history": "Pastoral peoples have long spun yak wool for warmth; fiber knowledge grew with highland life.",
+        "historyZh": "游牧民族长期以牦牛绒御寒与织造，纤维知识与高原生活同生。",
+        "image": "/assets/editorial/materials/yak-wool-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Yak Wool at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的牦牛绒（青藏高原），尊重季节与限度。",
+          "image": "/assets/editorial/materials/yak-wool.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/yak-wool-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/yak-wool-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/yak-wool.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Yak Wool depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "牦牛绒（青藏高原）依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/yak-wool.jpg",
+        "/assets/editorial/materials/yak-wool-scene.jpg",
+        "/assets/editorial/materials/yak-wool-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "ramie-xiabu",
+        "han-hemp"
+      ]
+    },
+    "ramie-xiabu": {
+      "id": "ramie-xiabu",
+      "name": "Ramie (Xia Bu)",
+      "nameZh": "苎麻（夏布原料）",
+      "lyric": "A material memory of China",
+      "lyricZh": "夏布背后的韧与凉",
+      "intro": "Bast fiber for Xia Bu summer cloth — cool hand, crisp structure, and lasting breathability.",
+      "introZh": "苎麻是夏布的原料。纤维长而有力，织成后透气清爽，带着江南夏日的干爽气质。",
+      "image": "/assets/editorial/materials/ramie-xiabu.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Bast fiber for Xia Bu summer cloth — cool hand, crisp structure, and lasting breathability.",
+        "bodyZh": "夏布原料苎麻——凉爽挺括、透气持久。",
+        "image": "/assets/editorial/materials/ramie-xiabu-detail.jpg"
+      },
+      "origin": {
+        "country": "China",
+        "countryZh": "中国",
+        "region": "China",
+        "regionZh": "中国",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Bast fiber for Xia Bu summer cloth — cool hand, crisp structure, and lasting breathability.",
+        "historyZh": "夏布原料苎麻——凉爽挺括、透气持久。",
+        "image": "/assets/editorial/materials/ramie-xiabu-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Ramie (Xia Bu) at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的苎麻（夏布原料），尊重季节与限度。",
+          "image": "/assets/editorial/materials/ramie-xiabu.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/ramie-xiabu-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/ramie-xiabu-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/ramie-xiabu.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Ramie (Xia Bu) depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "苎麻（夏布原料）依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/ramie-xiabu.jpg",
+        "/assets/editorial/materials/ramie-xiabu-scene.jpg",
+        "/assets/editorial/materials/ramie-xiabu-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "han-hemp",
+        "alxa-camel-wool"
+      ],
+      "lyricEn": "Cool strength behind Xia Bu cloth",
+      "introEn": "Ramie is the fiber behind Xia Bu. Long and strong, it weaves into a cool, dry summer cloth of Jiangnan."
+    },
+    "han-hemp": {
+      "id": "han-hemp",
+      "name": "Han Hemp",
+      "nameZh": "汉麻",
+      "lyric": "A material memory of China",
+      "lyricZh": "土地生长出的诚实织物",
+      "intro": "Chinese hemp valued for strength, moisture management, and honest texture.",
+      "introZh": "汉麻——强韧、导湿，纹理诚实。",
+      "image": "/assets/editorial/materials/han-hemp.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Chinese hemp valued for strength, moisture management, and honest texture.",
+        "bodyZh": "汉麻——强韧、导湿，纹理诚实。",
+        "image": "/assets/editorial/materials/han-hemp-detail.jpg"
+      },
+      "origin": {
+        "country": "China",
+        "countryZh": "中国",
+        "region": "China",
+        "regionZh": "中国",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Chinese hemp valued for strength, moisture management, and honest texture.",
+        "historyZh": "汉麻——强韧、导湿，纹理诚实。",
+        "image": "/assets/editorial/materials/han-hemp-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Han Hemp at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的汉麻，尊重季节与限度。",
+          "image": "/assets/editorial/materials/han-hemp.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/han-hemp-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/han-hemp-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/han-hemp.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Han Hemp depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "汉麻依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/han-hemp.jpg",
+        "/assets/editorial/materials/han-hemp-scene.jpg",
+        "/assets/editorial/materials/han-hemp-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "alxa-camel-wool"
+      ],
+      "lyricEn": "An honest cloth grown from the land"
+    },
+    "alxa-camel-wool": {
+      "id": "alxa-camel-wool",
+      "name": "Alxa Bactrian Camel Wool",
+      "nameZh": "阿拉善双峰驼绒",
+      "lyric": "A material memory of Alxa, Inner Mongolia, China",
+      "lyricZh": "阿拉善风沙里的轻暖",
+      "intro": "Rare Bactrian camel underwool from Alxa — warm, light, and deeply local.",
+      "introZh": "阿拉善双峰驼绒——稀有、轻暖，地域性极强。",
+      "image": "/assets/editorial/materials/alxa-camel-wool.jpg",
+      "traits": [
+        {
+          "label": "Natural",
+          "labelZh": "天然"
+        },
+        {
+          "label": "Honest",
+          "labelZh": "诚实"
+        },
+        {
+          "label": "Rare",
+          "labelZh": "珍稀"
+        },
+        {
+          "label": "Enduring",
+          "labelZh": "持久"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Rare Bactrian camel underwool from Alxa — warm, light, and deeply local.",
+        "bodyZh": "阿拉善双峰驼绒——稀有、轻暖，地域性极强。",
+        "image": "/assets/editorial/materials/alxa-camel-wool-detail.jpg"
+      },
+      "origin": {
+        "country": "China",
+        "countryZh": "中国",
+        "region": "Alxa, Inner Mongolia, China",
+        "regionZh": "中国内蒙古阿拉善",
+        "altitude": "—",
+        "altitudeZh": "—",
+        "climate": "—",
+        "climateZh": "—",
+        "history": "Rare Bactrian camel underwool from Alxa — warm, light, and deeply local.",
+        "historyZh": "阿拉善双峰驼绒——稀有、轻暖，地域性极强。",
+        "image": "/assets/editorial/materials/alxa-camel-wool-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Alxa Bactrian Camel Wool at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的阿拉善双峰驼绒，尊重季节与限度。",
+          "image": "/assets/editorial/materials/alxa-camel-wool.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/alxa-camel-wool-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/alxa-camel-wool-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/alxa-camel-wool.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Alxa Bactrian Camel Wool depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "阿拉善双峰驼绒依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/alxa-camel-wool.jpg",
+        "/assets/editorial/materials/alxa-camel-wool-scene.jpg",
+        "/assets/editorial/materials/alxa-camel-wool-detail.jpg"
+      ],
+      "relatedMaterialIds": [],
+      "lyricEn": "Light warmth from Alxa wind and sand"
+    },
+    "raw-lacquer": {
+      "id": "raw-lacquer",
+      "name": "Raw Lacquer (Da Qi)",
+      "nameZh": "天然生漆（大漆）",
+      "lyric": "From sap to sheen — a long waiting",
+      "lyricZh": "从树液到光泽的漫长等待",
+      "intro": "Raw lacquer is the sap of the lacquer tree. Sensitive to humidity yet dependent on it, it cures slowly into a deep, enduring finish.",
+      "introZh": "天然生漆取自漆树分泌的汁液。它怕潮又依潮，成膜缓慢，却能在器物表面留下深而耐久的光泽。",
+      "image": "/assets/editorial/materials/raw-lacquer.jpg",
+      "traits": [
+        {
+          "label": "Tree sap",
+          "labelZh": "树液"
+        },
+        {
+          "label": "Durable",
+          "labelZh": "耐久"
+        },
+        {
+          "label": "Deep sheen",
+          "labelZh": "深光"
+        },
+        {
+          "label": "Slow craft",
+          "labelZh": "慢工"
+        }
+      ],
+      "story": {
+        "title": "A gift of nature",
+        "titleZh": "自然的恩赐",
+        "body": "Lacquer trees need the right hills and time. Tapping is seasonal; yield is finite. Each drop marks the rhythm of tree and year.",
+        "bodyZh": "漆树需要适宜的山地气候与时间。割漆有季节，产量有限。每一滴生漆都标记着树木与年份的节奏。",
+        "image": "/assets/editorial/materials/raw-lacquer-detail.jpg"
+      },
+      "origin": {
+        "country": "China",
+        "countryZh": "中国",
+        "region": "Yangtze basin & southern hills",
+        "regionZh": "长江流域及以南山地",
+        "altitude": "Hills to low mountains",
+        "altitudeZh": "丘陵至低山",
+        "climate": "Warm and humid — favors laccase curing",
+        "climateZh": "温暖湿润，利于漆酶反应",
+        "history": "China’s lacquer tradition spans millennia, bound to ritual objects and vessel culture.",
+        "historyZh": "中国使用大漆的历史可追溯数千年，漆器文明与礼仪器物紧密相连。",
+        "image": "/assets/editorial/materials/raw-lacquer-scene.jpg"
+      },
+      "craft": [
+        {
+          "step": "01",
+          "title": "Sourcing",
+          "titleZh": "取材",
+          "body": "Identify and gather true Raw Lacquer (Da Qi) at origin — respecting season and limit.",
+          "bodyZh": "在产地识别并取得真正的天然生漆（大漆），尊重季节与限度。",
+          "image": "/assets/editorial/materials/raw-lacquer.jpg"
+        },
+        {
+          "step": "02",
+          "title": "Selection",
+          "titleZh": "筛选",
+          "body": "Grade by fiber, mineral, or wood character; keep what can become an object.",
+          "bodyZh": "按纤维、矿物或木质的品相分级，留下适合成器的部分。",
+          "image": "/assets/editorial/materials/raw-lacquer-detail.jpg"
+        },
+        {
+          "step": "03",
+          "title": "Working",
+          "titleZh": "加工",
+          "body": "Traditional process meets modern care — without erasing the material’s own presence.",
+          "bodyZh": "以传统工序与当代精度并行，避免破坏材料本有的气息。",
+          "image": "/assets/editorial/materials/raw-lacquer-scene.jpg"
+        },
+        {
+          "step": "04",
+          "title": "Becoming form",
+          "titleZh": "成器",
+          "body": "Material enters object and cloth — a passage from nature into culture.",
+          "bodyZh": "材料进入器物与织物，完成从自然到文明的一程。",
+          "image": "/assets/editorial/materials/raw-lacquer.jpg"
+        }
+      ],
+      "whyLuxury": [
+        {
+          "title": "Place-bound",
+          "titleZh": "产地限定",
+          "body": "Raw Lacquer (Da Qi) depends on specific geography and climate — it cannot be freely relocated at scale.",
+          "bodyZh": "天然生漆（大漆）依赖特定地理与气候，无法任意迁地量产。"
+        },
+        {
+          "title": "Human involvement",
+          "titleZh": "人工参与",
+          "body": "Critical steps still need judgment; machines cannot fully replace care.",
+          "bodyZh": "关键环节仍需经验判断，机器难以完全替代。"
+        },
+        {
+          "title": "Natural pace",
+          "titleZh": "自然节奏",
+          "body": "Growth, harvest, and maturity each hold their own window.",
+          "bodyZh": "生长、采集与成熟都有时间窗口。"
+        },
+        {
+          "title": "Cultural depth",
+          "titleZh": "文化积淀",
+          "body": "Value includes the civilization that used it — not a single performance metric.",
+          "bodyZh": "材料的价值包含使用它的文明史，而非单一功能指标。"
+        }
+      ],
+      "gallery": [
+        "/assets/editorial/materials/raw-lacquer.jpg",
+        "/assets/editorial/materials/raw-lacquer-scene.jpg",
+        "/assets/editorial/materials/raw-lacquer-detail.jpg"
+      ],
+      "relatedMaterialIds": [
+        "baby-cashmere",
+        "french-linen"
+      ]
+    }
+  }
+}

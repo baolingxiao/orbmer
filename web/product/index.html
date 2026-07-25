@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Orbmare product — editorial story of designer, material, craftsmanship, and country." />
+    <title>Product | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=4" />
+  </head>
+  <body>
+    <div data-orb-header></div>
+    <main class="shell-wide" data-pdp>
+      <p class="section-tight" style="color:var(--muted)">Loading…</p>
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountChrome, refreshBagChrome } from "/shared/js/chrome.js";
+      import { loadCatalog, productById, quietCardHtml, escapeHtml } from "/shared/js/catalog-editorial.js";
+      import { addCartLine } from "/shared/js/store.js";
+      import { t, getLang, loc, applyI18n, onLangChange } from "/shared/js/editorial-i18n.js";
+
+      mountChrome();
+      const id = new URLSearchParams(location.search).get("id");
+      const root = document.querySelector("[data-pdp]");
+      const catalog = await loadCatalog();
+      const p = id ? productById(catalog, id) : null;
+      let galleryIndex = 0;
+      let galleryBusy = false;
+
+      const CHEVRON_L = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.2 2.6 4.8 8l5.4 5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      const CHEVRON_R = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.8 2.6 11.2 8l-5.4 5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+      function productImages(product) {
+        const list = Array.isArray(product?.images) ? product.images.filter(Boolean) : [];
+        if (list.length) return list;
+        return product?.image ? [product.image] : [];
+      }
+
+      function bindGallery(gallery, images, lang) {
+        if (!gallery || images.length < 2) return;
+        const cards = [...gallery.querySelectorAll(".pdp-stack-card")];
+        const prevBtn = gallery.querySelector("[data-stack-prev]");
+        const nextBtn = gallery.querySelector("[data-stack-next]");
+        const n = images.length;
+        galleryIndex = ((galleryIndex % n) + n) % n;
+
+        function paint() {
+          cards.forEach((card, i) => {
+            const depth = (i - galleryIndex + n) % n;
+            card.dataset.depth = String(Math.min(depth, 3));
+            card.classList.toggle("is-active", depth === 0);
+            card.classList.remove("is-exit-left", "is-exit-right");
+          });
+        }
+
+        function step(dir) {
+          if (galleryBusy || n < 2) return;
+          galleryBusy = true;
+          const active = cards[galleryIndex];
+          active?.classList.add(dir > 0 ? "is-exit-left" : "is-exit-right");
+          window.setTimeout(() => {
+            galleryIndex = (galleryIndex + dir + n) % n;
+            paint();
+            galleryBusy = false;
+          }, 280);
+        }
+
+        paint();
+        prevBtn?.addEventListener("click", () => step(-1));
+        nextBtn?.addEventListener("click", () => step(1));
+        gallery.setAttribute("aria-label", `${t("pdp.prev", lang)} / ${t("pdp.next", lang)}`);
+      }
+
+      function render(lang = getLang()) {
+        applyI18n(lang);
+        if (!p) {
+          root.innerHTML = `<section class="page-hero"><h1 data-i18n="pdp.notfound">${t("pdp.notfound", lang)}</h1><p data-i18n="pdp.notfound.body">${t("pdp.notfound.body", lang)}</p><p><a class="btn btn-ghost" href="/discover/" data-i18n="nav.discover">${t("nav.discover", lang)}</a></p></section>`;
+          return;
+        }
+
+        document.title = `${loc(p, "name", lang)} | Orbmare`;
+        const related = catalog.products.filter((x) => x.country === p.country && x.id !== p.id).slice(0, 3);
+        const images = productImages(p);
+        const name = loc(p, "name", lang);
+        const cardsHtml = images
+          .map(
+            (src, i) => `<figure class="pdp-stack-card${i === 0 ? " is-active" : ""}" data-depth="${Math.min(i, 3)}">
+              <img src="${escapeHtml(src)}" alt="${escapeHtml(name)}" width="1000" height="1250" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} />
+            </figure>`
+          )
+          .join("");
+
+        root.innerHTML = `
+          <section class="pdp-layout">
+            <div class="pdp-gallery reveal" data-count="${images.length}" data-pdp-stack>
+              <div class="pdp-stack">
+                ${cardsHtml}
+                <p class="pdp-stack-ai-note" aria-hidden="true">${escapeHtml(t("pdp.aiNote", lang))}</p>
+              </div>
+              <button class="pdp-stack-nav pdp-stack-prev" type="button" data-stack-prev aria-label="${escapeHtml(t("pdp.prev", lang))}">${CHEVRON_L}</button>
+              <button class="pdp-stack-nav pdp-stack-next" type="button" data-stack-next aria-label="${escapeHtml(t("pdp.next", lang))}">${CHEVRON_R}</button>
+            </div>
+            <div class="pdp-story reveal">
+              <p class="meta">${escapeHtml(loc(p, "countryLabel", lang))} · ${escapeHtml(loc(p, "tag", lang))}</p>
+              <h1>${escapeHtml(name)}</h1>
+              <p class="lede">${escapeHtml(loc(p, "story", lang))}</p>
+
+              <div class="pdp-meta-row">
+                <div><strong data-i18n="pdp.designer">${t("pdp.designer", lang)}</strong><span><a href="/designers/?id=${encodeURIComponent(p.designerId)}">${escapeHtml(loc(p, "designerName", lang))}</a> · ${escapeHtml(loc(p, "studio", lang))}</span></div>
+                <div><strong data-i18n="pdp.material">${t("pdp.material", lang)}</strong><span><a href="/materials/">${escapeHtml(loc(p, "material", lang))}</a></span></div>
+                <div><strong data-i18n="pdp.craft">${t("pdp.craft", lang)}</strong><span><a href="/craftsmanship/">${escapeHtml(loc(p, "craft", lang))}</a></span></div>
+                <div><strong data-i18n="pdp.country">${t("pdp.country", lang)}</strong><span><a href="/countries/${escapeHtml(p.country)}/">${escapeHtml(loc(p, "countryLabel", lang))}</a></span></div>
+              </div>
+
+              <div class="prose">
+                <h2 data-i18n="pdp.production">${t("pdp.production", lang)}</h2>
+                <p data-i18n="pdp.production.body">${t("pdp.production.body", lang)}</p>
+                <h2 data-i18n="pdp.shipping">${t("pdp.shipping", lang)}</h2>
+                <p data-i18n="pdp.shipping.body">${t("pdp.shipping.body", lang)}</p>
+              </div>
+
+              <div class="pdp-purchase">
+                <p class="price">${escapeHtml(p.priceLabel)}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:12px">
+                  <button class="btn" type="button" data-add-bag data-i18n="pdp.add">${t("pdp.add", lang)}</button>
+                  <a class="btn btn-ghost" href="/membership/" data-i18n="pdp.inquire">${t("pdp.inquire", lang)}</a>
+                </div>
+                <p style="margin-top:14px;font-size:13px;color:var(--muted)" data-i18n="cart.note.curated">${t("cart.note.curated", lang)}</p>
+              </div>
+            </div>
+          </section>
+          <section class="section-tight">
+            <div class="featured-head">
+              <div class="section-head">
+                <h2 data-i18n="home.featured">${t("home.featured", lang)}</h2>
+              </div>
+              <a class="shop-pill" href="/countries/${escapeHtml(p.country)}/" data-i18n="pdp.moreFrom">${t("pdp.moreFrom", lang)}</a>
+            </div>
+            <div class="quiet-grid">${related.map((item) => quietCardHtml(item, lang)).join("")}</div>
+          </section>`;
+
+        document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-in"));
+        bindGallery(document.querySelector("[data-pdp-stack]"), images, lang);
+
+        const addBtn = document.querySelector("[data-add-bag]");
+        addBtn?.addEventListener("click", () => {
+          addCartLine({
+            productId: p.id,
+            name: loc(p, "name", getLang()),
+            price: p.price,
+            image: p.image,
+            variantLabel: "Curated",
+            variantId: "curated",
+            qty: 1,
+            maxQty: 3,
+          });
+          addBtn.textContent = t("pdp.added");
+          refreshBagChrome();
+          document.querySelector("[data-bag-toggle]")?.click();
+          setTimeout(() => {
+            addBtn.textContent = t("pdp.add");
+          }, 1400);
+        });
+      }
+
+      render();
+      onLangChange(render);
+    </script>
+  </body>
+</html>

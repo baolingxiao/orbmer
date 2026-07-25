@@ -1,0 +1,6567 @@
+[
+  {
+    "id": "jq-001-traditional-chinese-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-001-traditional-chinese-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-001-traditional-chinese-dragon-1.jpg",
+      "assets/toys/jinqi/jq-001-traditional-chinese-dragon-2.jpg",
+      "assets/toys/jinqi/jq-001-traditional-chinese-dragon-3.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 18.99,
+    "costCny": 1.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "13CM：长13宽2",
+        "color": "",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "8.7/16.6",
+        "note": ""
+      },
+      {
+        "spec": "30CM：长30宽4",
+        "color": "",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "21.7/37.3",
+        "note": ""
+      },
+      {
+        "spec": "45CM：长45宽7",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "44.4/74.3",
+        "note": ""
+      },
+      {
+        "spec": "60CM：长60宽9",
+        "color": "",
+        "priceCny": 13.5,
+        "priceUsd": 18.99,
+        "weight": "88.2/125.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "传统中国龙",
+      "desc": "规格：13CM：长13宽2 / 30CM：长30宽4 / 45CM：长45宽7 / 60CM：长60宽9。多尺寸可选，零售约 $6.99–$18.99"
+    },
+    "en": {
+      "name": "Traditional Chinese Dragon",
+      "desc": "Sizes: 13CM：长13宽2 / 30CM：长30宽4 / 45CM：长45宽7 / 60CM：长60宽9. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-002-gem-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-002-gem-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-002-gem-dragon-1.jpg",
+      "assets/toys/jinqi/jq-002-gem-dragon-2.jpg",
+      "assets/toys/jinqi/jq-002-gem-dragon-3.jpg",
+      "assets/toys/jinqi/jq-002-gem-dragon-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 2.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "22CM：长22宽4",
+        "color": "",
+        "priceCny": 2.2,
+        "priceUsd": 8.99,
+        "weight": "13.5/28.3",
+        "note": ""
+      },
+      {
+        "spec": "30CM：长30宽5",
+        "color": "",
+        "priceCny": 3.8,
+        "priceUsd": 8.99,
+        "weight": "24.2/45",
+        "note": ""
+      },
+      {
+        "spec": "40CM：长40宽7",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "41.9/90",
+        "note": ""
+      },
+      {
+        "spec": "54CM：长54宽10",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "73.3/120",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "宝石龙",
+      "desc": "规格：22CM：长22宽4 / 30CM：长30宽5 / 40CM：长40宽7 / 54CM：长54宽10。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Gem Dragon",
+      "desc": "Sizes: 22CM：长22宽4 / 30CM：长30宽5 / 40CM：长40宽7 / 54CM：长54宽10. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-003-winged-gem-dragon-short-tail",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-003-winged-gem-dragon-short-tail-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-003-winged-gem-dragon-short-tail-1.jpg",
+      "assets/toys/jinqi/jq-003-winged-gem-dragon-short-tail-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 26.99,
+    "costCny": 4.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：长15宽17",
+        "color": "",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "28.1/44",
+        "note": ""
+      },
+      {
+        "spec": "PRO：长21宽24",
+        "color": "",
+        "priceCny": 9.8,
+        "priceUsd": 13.99,
+        "weight": "63.1/114",
+        "note": ""
+      },
+      {
+        "spec": "MAX：长26宽32",
+        "color": "",
+        "priceCny": 19.5,
+        "priceUsd": 26.99,
+        "weight": "122/176",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "翅膀飞行宝石龙（短尾）",
+      "desc": "规格：MINI：长15宽17 / PRO：长21宽24 / MAX：长26宽32。多尺寸可选，零售约 $8.99–$26.99"
+    },
+    "en": {
+      "name": "Winged Gem Dragon (Short Tail)",
+      "desc": "Sizes: MINI：长15宽17 / PRO：长21宽24 / MAX：长26宽32. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-004-dragon-egg-box-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-004-dragon-egg-box-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-004-dragon-egg-box-set-1.jpg",
+      "assets/toys/jinqi/jq-004-dragon-egg-box-set-2.jpg",
+      "assets/toys/jinqi/jq-004-dragon-egg-box-set-3.jpg",
+      "assets/toys/jinqi/jq-004-dragon-egg-box-set-4.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 18.99,
+    "costCny": 5.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "超mini：宝石龙12+龙蛋6",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "20.7/30",
+        "note": "龙蛋可4个装，6个装，12个装，24个装，可定制展盒（600套起订）"
+      },
+      {
+        "spec": "MINI：宝石龙22+龙蛋8.5",
+        "color": "",
+        "priceCny": 5.8,
+        "priceUsd": 12.99,
+        "weight": "37.9/62",
+        "note": ""
+      },
+      {
+        "spec": "PRO：宝石龙30+龙蛋11",
+        "color": "",
+        "priceCny": 12.5,
+        "priceUsd": 18.99,
+        "weight": "77.3/111",
+        "note": ""
+      },
+      {
+        "spec": "MAX：宝石龙30+龙蛋13",
+        "color": "",
+        "priceCny": 13.5,
+        "priceUsd": 18.99,
+        "weight": "82.6/130.2",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "龙蛋盒装",
+      "desc": "规格：超mini：宝石龙12+龙蛋6 / MINI：宝石龙22+龙蛋8.5 / PRO：宝石龙30+龙蛋11 / MAX：宝石龙30+龙蛋13。龙蛋可4个装，6个装，12个装，24个装，可定制展盒（600套起订）。多尺寸可选，零售约 $12.99–$18.99"
+    },
+    "en": {
+      "name": "Dragon Egg Box Set",
+      "desc": "Sizes: 超mini：宝石龙12+龙蛋6 / MINI：宝石龙22+龙蛋8.5 / PRO：宝石龙30+龙蛋11 / MAX：宝石龙30+龙蛋13. 龙蛋可4个装，6个装，12个装，24个装，可定制展盒（600套起订）. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-005-gem-flying-dragon-long-tail",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-005-gem-flying-dragon-long-tail-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-005-gem-flying-dragon-long-tail-1.jpg",
+      "assets/toys/jinqi/jq-005-gem-flying-dragon-long-tail-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长22宽9",
+        "color": "",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "33/49",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "宝石飞行龙（长尾）",
+      "desc": "规格：长22宽9。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Gem Flying Dragon (Long Tail)",
+      "desc": "Sizes: 长22宽9. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-006-mech-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-006-mech-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-006-mech-dragon-1.jpg",
+      "assets/toys/jinqi/jq-006-mech-dragon-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 21.99,
+    "costCny": 3.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：长27宽11高6",
+        "color": "",
+        "priceCny": 3.8,
+        "priceUsd": 8.99,
+        "weight": "22.5/40",
+        "note": ""
+      },
+      {
+        "spec": "MAX：长50宽20高10",
+        "color": "",
+        "priceCny": 15.5,
+        "priceUsd": 21.99,
+        "weight": "99/142",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "机甲龙",
+      "desc": "规格：MINI：长27宽11高6 / MAX：长50宽20高10。多尺寸可选，零售约 $8.99–$21.99"
+    },
+    "en": {
+      "name": "Mech Dragon",
+      "desc": "Sizes: MINI：长27宽11高6 / MAX：长50宽20高10. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-007-standing-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-007-standing-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-007-standing-dragon-1.jpg",
+      "assets/toys/jinqi/jq-007-standing-dragon-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 23.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：长33宽6高3",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "21.5/39",
+        "note": ""
+      },
+      {
+        "spec": "PRO：长48宽9高4.5",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "50/73",
+        "note": ""
+      },
+      {
+        "spec": "MAX：长68宽12高6",
+        "color": "",
+        "priceCny": 17.5,
+        "priceUsd": 23.99,
+        "weight": "114/199",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "可立龙",
+      "desc": "规格：MINI：长33宽6高3 / PRO：长48宽9高4.5 / MAX：长68宽12高6。多尺寸可选，零售约 $8.99–$23.99"
+    },
+    "en": {
+      "name": "Standing Dragon",
+      "desc": "Sizes: MINI：长33宽6高3 / PRO：长48宽9高4.5 / MAX：长68宽12高6. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-008-baby-dragon-family-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-008-baby-dragon-family-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-008-baby-dragon-family-set-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图中有尺寸",
+        "color": "",
+        "priceCny": 4.0,
+        "priceUsd": 8.99,
+        "weight": "15/31",
+        "note": "详细数据看表9"
+      }
+    ],
+    "zh": {
+      "name": "BABY龙家族飞龙组合",
+      "desc": "规格：图中有尺寸。详细数据看表9。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Baby Dragon Family Set",
+      "desc": "Sizes: 图中有尺寸. 详细数据看表9. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-009-cloud-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-009-cloud-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-009-cloud-dragon-1.jpg",
+      "assets/toys/jinqi/jq-009-cloud-dragon-2.jpg",
+      "assets/toys/jinqi/jq-009-cloud-dragon-3.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 34.99,
+    "costCny": 5.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "30CM",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "34/51.2",
+        "note": ""
+      },
+      {
+        "spec": "40CM",
+        "color": "",
+        "priceCny": 11.0,
+        "priceUsd": 18.99,
+        "weight": "71/113.2",
+        "note": ""
+      },
+      {
+        "spec": "58CM",
+        "color": "",
+        "priceCny": 25.0,
+        "priceUsd": 34.99,
+        "weight": "166/224.3",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "祥云龙",
+      "desc": "规格：30CM / 40CM / 58CM。多尺寸可选，零售约 $12.99–$34.99"
+    },
+    "en": {
+      "name": "Cloud Dragon",
+      "desc": "Sizes: 30CM / 40CM / 58CM. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-010-toothless-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-010-toothless-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-010-toothless-dragon-1.jpg",
+      "assets/toys/jinqi/jq-010-toothless-dragon-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 4.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "30CM",
+        "color": "",
+        "priceCny": 4.0,
+        "priceUsd": 8.99,
+        "weight": "23.4/39.5",
+        "note": ""
+      },
+      {
+        "spec": "40CM",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "48.1/77.2",
+        "note": ""
+      },
+      {
+        "spec": "50CM",
+        "color": "",
+        "priceCny": 14.0,
+        "priceUsd": 18.99,
+        "weight": "90/135",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "无牙龙",
+      "desc": "规格：30CM / 40CM / 50CM。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Toothless Dragon",
+      "desc": "Sizes: 30CM / 40CM / 50CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-011-crystal-horn-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-011-crystal-horn-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-011-crystal-horn-dragon-1.jpg",
+      "assets/toys/jinqi/jq-011-crystal-horn-dragon-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长28CM,高3CM",
+        "color": "",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "24/38.9",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "水晶角龙",
+      "desc": "规格：长28CM,高3CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Crystal Horn Dragon",
+      "desc": "Sizes: 长28CM,高3CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-012-dragon-family",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-012-dragon-family-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-012-dragon-family-1.jpg",
+      "assets/toys/jinqi/jq-012-dragon-family-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 19.99,
+    "costCny": 1.7,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "1只，图片有尺寸",
+        "color": "",
+        "priceCny": 1.7,
+        "priceUsd": 6.99,
+        "weight": "8.0/17",
+        "note": "12条/套，可定制不同颜色为一套（需定制）"
+      },
+      {
+        "spec": "12只，图片有尺寸",
+        "color": "",
+        "priceCny": 14.5,
+        "priceUsd": 19.99,
+        "weight": "88.8/112.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "龙之家族",
+      "desc": "规格：1只，图片有尺寸 / 12只，图片有尺寸。12条/套，可定制不同颜色为一套（需定制）。多尺寸可选，零售约 $6.99–$19.99"
+    },
+    "en": {
+      "name": "Dragon Family",
+      "desc": "Sizes: 1只，图片有尺寸 / 12只，图片有尺寸. 12条/套，可定制不同颜色为一套（需定制）. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-013-big-horn-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-013-big-horn-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-013-big-horn-dragon-1.jpg",
+      "assets/toys/jinqi/jq-013-big-horn-dragon-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长30cm，宽9.5CM",
+        "color": "",
+        "priceCny": 5.4,
+        "priceUsd": 12.99,
+        "weight": "31/45.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "大角龙",
+      "desc": "规格：长30cm，宽9.5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Big Horn Dragon",
+      "desc": "Sizes: 长30cm，宽9.5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-014-t-rex",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-014-t-rex-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-014-t-rex-1.jpg",
+      "assets/toys/jinqi/jq-014-t-rex-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "17CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "18.4/32.8",
+        "note": "骨架系列可任意尺寸搭配套组售卖"
+      },
+      {
+        "spec": "25CM",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "41/64",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "霸王龙",
+      "desc": "规格：17CM / 25CM。骨架系列可任意尺寸搭配套组售卖。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "T-Rex",
+      "desc": "Sizes: 17CM / 25CM. 骨架系列可任意尺寸搭配套组售卖. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-015-mini-t-rex",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-015-mini-t-rex-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-015-mini-t-rex-1.jpg",
+      "assets/toys/jinqi/jq-015-mini-t-rex-2.jpg",
+      "assets/toys/jinqi/jq-015-mini-t-rex-3.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高：5cm，长7.2cm",
+        "color": "",
+        "priceCny": 1.2,
+        "priceUsd": 6.99,
+        "weight": "6/13.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "迷你霸王龙",
+      "desc": "规格：高：5cm，长7.2cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Mini T-Rex",
+      "desc": "Sizes: 高：5cm，长7.2cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-016-multicolor-dino-skeleton",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-016-multicolor-dino-skeleton-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-016-multicolor-dino-skeleton-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.35,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "看表12",
+        "color": "",
+        "priceCny": 3.35,
+        "priceUsd": 8.99,
+        "weight": "均净重13.8g",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "多色恐龙骨架",
+      "desc": "规格：看表12。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Multicolor Dino Skeleton",
+      "desc": "Sizes: 看表12. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-017-stegosaurus",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-017-stegosaurus-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-017-stegosaurus-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 9.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长25宽11.5高10",
+        "color": "",
+        "priceCny": 9.5,
+        "priceUsd": 12.99,
+        "weight": "57.7/93",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "剑龙",
+      "desc": "规格：长25宽11.5高10。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Stegosaurus",
+      "desc": "Sizes: 长25宽11.5高10. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-018-triceratops",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-018-triceratops-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-018-triceratops-1.jpg",
+      "assets/toys/jinqi/jq-018-triceratops-2.jpg",
+      "assets/toys/jinqi/jq-018-triceratops-3.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 8.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长22.5宽11.5高10",
+        "color": "",
+        "priceCny": 8.5,
+        "priceUsd": 12.99,
+        "weight": "55.7/98",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "三角龙",
+      "desc": "规格：长22.5宽11.5高10。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Triceratops",
+      "desc": "Sizes: 长22.5宽11.5高10. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-019-shark-skeleton",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-019-shark-skeleton-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-019-shark-skeleton-1.jpg",
+      "assets/toys/jinqi/jq-019-shark-skeleton-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长19CM，高6CM",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "31.2/55.4",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "鲨鱼鱼骨",
+      "desc": "规格：长19CM，高6CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Shark Skeleton",
+      "desc": "Sizes: 长19CM，高6CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-020-spinosaurus",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-020-spinosaurus-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-020-spinosaurus-1.jpg",
+      "assets/toys/jinqi/jq-020-spinosaurus-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 12.99,
+    "costCny": 1.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长13.5CM，高6CM",
+        "color": "",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "9.5/21",
+        "note": ""
+      },
+      {
+        "spec": "长19.5CM，高8CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "20.3/39.5",
+        "note": ""
+      },
+      {
+        "spec": "长27.5CM，高11CM",
+        "color": "",
+        "priceCny": 8.0,
+        "priceUsd": 12.99,
+        "weight": "52.2/77.2",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "棘背龙",
+      "desc": "规格：长13.5CM，高6CM / 长19.5CM，高8CM / 长27.5CM，高11CM。多尺寸可选，零售约 $6.99–$12.99"
+    },
+    "en": {
+      "name": "Spinosaurus",
+      "desc": "Sizes: 长13.5CM，高6CM / 长19.5CM，高8CM / 长27.5CM，高11CM. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-021-velociraptor",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-021-velociraptor-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-021-velociraptor-1.jpg",
+      "assets/toys/jinqi/jq-021-velociraptor-2.jpg",
+      "assets/toys/jinqi/jq-021-velociraptor-3.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 12.99,
+    "costCny": 1.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI:长9.5CM，高7CM",
+        "color": "",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "9.2/17",
+        "note": ""
+      },
+      {
+        "spec": "PRO:长13.5CM，高10CM",
+        "color": "",
+        "priceCny": 3.2,
+        "priceUsd": 8.99,
+        "weight": "19/35",
+        "note": ""
+      },
+      {
+        "spec": "MAX:长19CM，高7CM",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "42.5/76",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "迅猛龙",
+      "desc": "规格：MINI:长9.5CM，高7CM / PRO:长13.5CM，高10CM / MAX:长19CM，高7CM。多尺寸可选，零售约 $6.99–$12.99"
+    },
+    "en": {
+      "name": "Velociraptor",
+      "desc": "Sizes: MINI:长9.5CM，高7CM / PRO:长13.5CM，高10CM / MAX:长19CM，高7CM. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-022-mammoth",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-022-mammoth-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-022-mammoth-1.jpg",
+      "assets/toys/jinqi/jq-022-mammoth-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI:长8CM，高5CM",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "12.6/22",
+        "note": ""
+      },
+      {
+        "spec": "PRO:长11.5CM，高6.5CM",
+        "color": "",
+        "priceCny": 4.2,
+        "priceUsd": 8.99,
+        "weight": "25.2/42",
+        "note": ""
+      },
+      {
+        "spec": "MAX:长16CM，高10CM",
+        "color": "",
+        "priceCny": 8.5,
+        "priceUsd": 12.99,
+        "weight": "54.8/96",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "猛犸象",
+      "desc": "规格：MINI:长8CM，高5CM / PRO:长11.5CM，高6.5CM / MAX:长16CM，高10CM。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Mammoth",
+      "desc": "Sizes: MINI:长8CM，高5CM / PRO:长11.5CM，高6.5CM / MAX:长16CM，高10CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-023-ankylosaurus-skeleton",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-023-ankylosaurus-skeleton-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-023-ankylosaurus-skeleton-1.jpg",
+      "assets/toys/jinqi/jq-023-ankylosaurus-skeleton-2.jpg",
+      "assets/toys/jinqi/jq-023-ankylosaurus-skeleton-3.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 13.99,
+    "costCny": 2.1,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI:长8CM，高5CM",
+        "color": "",
+        "priceCny": 2.1,
+        "priceUsd": 8.99,
+        "weight": "12/22",
+        "note": ""
+      },
+      {
+        "spec": "PRO:长11.5CM，高6.5CM",
+        "color": "",
+        "priceCny": 4.2,
+        "priceUsd": 8.99,
+        "weight": "26/43",
+        "note": ""
+      },
+      {
+        "spec": "MAX:长16CM，高10CM",
+        "color": "",
+        "priceCny": 9.8,
+        "priceUsd": 13.99,
+        "weight": "64.1/106",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "甲龙骨",
+      "desc": "规格：MINI:长8CM，高5CM / PRO:长11.5CM，高6.5CM / MAX:长16CM，高10CM。多尺寸可选，零售约 $8.99–$13.99"
+    },
+    "en": {
+      "name": "Ankylosaurus Skeleton",
+      "desc": "Sizes: MINI:长8CM，高5CM / PRO:长11.5CM，高6.5CM / MAX:长16CM，高10CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-024-crocodile-skeleton",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-024-crocodile-skeleton-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-024-crocodile-skeleton-1.jpg",
+      "assets/toys/jinqi/jq-024-crocodile-skeleton-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 3.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：长23cm，高3cm",
+        "color": "",
+        "priceCny": 3.2,
+        "priceUsd": 8.99,
+        "weight": "18.8/34",
+        "note": ""
+      },
+      {
+        "spec": "PEO：长33cm，高4cm",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "43.3/75.3",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "鳄鱼骨",
+      "desc": "规格：MINI：长23cm，高3cm / PEO：长33cm，高4cm。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Crocodile Skeleton",
+      "desc": "Sizes: MINI：长23cm，高3cm / PEO：长33cm，高4cm. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-025-fidget-sphere-8-part",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-025-fidget-sphere-8-part-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-025-fidget-sphere-8-part-1.jpg",
+      "assets/toys/jinqi/jq-025-fidget-sphere-8-part-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 20.99,
+    "costCny": 8.9,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "PRO：直径7.5CM",
+        "color": "",
+        "priceCny": 8.9,
+        "priceUsd": 12.99,
+        "weight": "45.2/69",
+        "note": "解压系类"
+      },
+      {
+        "spec": "MAX：直径9.5CM",
+        "color": "",
+        "priceCny": 15.0,
+        "priceUsd": 20.99,
+        "weight": "84/118",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "解压球（人工组装8个零部件）",
+      "desc": "规格：PRO：直径7.5CM / MAX：直径9.5CM。解压系类。多尺寸可选，零售约 $12.99–$20.99"
+    },
+    "en": {
+      "name": "Fidget Sphere (8-part)",
+      "desc": "Sizes: PRO：直径7.5CM / MAX：直径9.5CM. 解压系类. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-026-spin-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-026-spin-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-026-spin-fidget-1.jpg",
+      "assets/toys/jinqi/jq-026-spin-fidget-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "底座直径3.8CM,高6.4CM",
+        "color": "",
+        "priceCny": 2.2,
+        "priceUsd": 8.99,
+        "weight": "11.2/23",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "旋旋乐",
+      "desc": "规格：底座直径3.8CM,高6.4CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Spin Fidget",
+      "desc": "Sizes: 底座直径3.8CM,高6.4CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-027-slime-dragon-egg-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-027-slime-dragon-egg-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-027-slime-dragon-egg-fidget-1.jpg",
+      "assets/toys/jinqi/jq-027-slime-dragon-egg-fidget-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 3.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高7.5cm，宽6.3cm(大号)",
+        "color": "",
+        "priceCny": 12.0,
+        "priceUsd": 18.99,
+        "weight": "78.5/103.5",
+        "note": ""
+      },
+      {
+        "spec": "高5.5cm，宽4.5cm(小号)",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "31/42",
+        "note": ""
+      },
+      {
+        "spec": "高7.5cm，宽6.3cm(大号)    轻量版",
+        "color": "",
+        "priceCny": 7.7,
+        "priceUsd": 12.99,
+        "weight": "51/76",
+        "note": ""
+      },
+      {
+        "spec": "高5.5cm，宽4.5cm(小号)   轻量版",
+        "color": "",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "20/31",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "史莱姆龙蛋（解压龙蛋、扭扭蛋）",
+      "desc": "规格：高7.5cm，宽6.3cm(大号) / 高5.5cm，宽4.5cm(小号) / 高7.5cm，宽6.3cm(大号)    轻量版 / 高5.5cm，宽4.5cm(小号)   轻量版。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Slime Dragon Egg Fidget",
+      "desc": "Sizes: 高7.5cm，宽6.3cm(大号) / 高5.5cm，宽4.5cm(小号) / 高7.5cm，宽6.3cm(大号)    轻量版 / 高5.5cm，宽4.5cm(小号)   轻量版. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-028-fidget-disc",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-028-fidget-disc-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-028-fidget-disc-1.jpg",
+      "assets/toys/jinqi/jq-028-fidget-disc-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 3.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：8.2*4.2",
+        "color": "",
+        "priceCny": 3.2,
+        "priceUsd": 8.99,
+        "weight": "19.3/21",
+        "note": ""
+      },
+      {
+        "spec": "MAX：14.5*7.4",
+        "color": "",
+        "priceCny": 9.0,
+        "priceUsd": 12.99,
+        "weight": "62/90",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "解压盘",
+      "desc": "规格：MINI：8.2*4.2 / MAX：14.5*7.4。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Fidget Disc",
+      "desc": "Sizes: MINI：8.2*4.2 / MAX：14.5*7.4. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-029-gear-spin-press-ball",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-029-gear-spin-press-ball-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-029-gear-spin-press-ball-1.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 12.99,
+    "costCny": 1.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "宽3cm",
+        "color": "=_xlfn.DISPIMG(\"ID_F18E69DC66084D8EB7BFE37A9F78E392\",1)",
+        "priceCny": 1.5,
+        "priceUsd": 6.99,
+        "weight": "6.8/14.1",
+        "note": ""
+      },
+      {
+        "spec": "宽4.5cm",
+        "color": "",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "17.8/25.4",
+        "note": ""
+      },
+      {
+        "spec": "宽6cm",
+        "color": "",
+        "priceCny": 5.8,
+        "priceUsd": 12.99,
+        "weight": "33.7/44.7",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "齿轮球旋转球按压球",
+      "desc": "规格：宽3cm / 宽4.5cm / 宽6cm。多尺寸可选，零售约 $6.99–$12.99"
+    },
+    "en": {
+      "name": "Gear Spin Press Ball",
+      "desc": "Sizes: 宽3cm / 宽4.5cm / 宽6cm. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-030-press-spin-ball",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-030-press-spin-ball-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-030-press-spin-ball-1.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 10.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长5.6cm，高6.2cm",
+        "color": "=_xlfn.DISPIMG(\"ID_42A51D44176C43B49E1B45E420803B99\",1)",
+        "priceCny": 10.5,
+        "priceUsd": 18.99,
+        "weight": "46/62.1",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "=_xlfn.DISPIMG(\"ID_A4F73500119941B79732BD687E5FFB46\",1)",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "按压旋转球",
+      "desc": "规格：长5.6cm，高6.2cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Press Spin Ball",
+      "desc": "Sizes: 长5.6cm，高6.2cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-031-galaxy-fidget-disc",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-031-galaxy-fidget-disc-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-031-galaxy-fidget-disc-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "直径9.5CM",
+        "color": "",
+        "priceCny": 5.8,
+        "priceUsd": 12.99,
+        "weight": "36.1/50",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "星际解压盘",
+      "desc": "规格：直径9.5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Galaxy Fidget Disc",
+      "desc": "Sizes: 直径9.5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-032-extendable-radish",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-032-extendable-radish-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-032-extendable-radish-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长13.5CM,宽4CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "22/29",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "伸缩萝卜",
+      "desc": "规格：长13.5CM,宽4CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Extendable Radish",
+      "desc": "Sizes: 长13.5CM,宽4CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-033-maze-egg",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-033-maze-egg-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-033-maze-egg-1.jpg",
+      "assets/toys/jinqi/jq-033-maze-egg-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 7.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "8CM",
+        "color": "",
+        "priceCny": 7.2,
+        "priceUsd": 12.99,
+        "weight": "47/80",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "迷宫蛋",
+      "desc": "规格：8CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Maze Egg",
+      "desc": "Sizes: 8CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-034-spin-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-034-spin-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-034-spin-fidget-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 6.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "5CM正方形",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "40.5/56.6",
+        "note": ""
+      },
+      {
+        "spec": "11.5CM三角形",
+        "color": "",
+        "priceCny": 8.5,
+        "priceUsd": 12.99,
+        "weight": "55/88.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "旋旋乐",
+      "desc": "规格：5CM正方形 / 11.5CM三角形。多尺寸可选，零售约 $12.99–$12.99"
+    },
+    "en": {
+      "name": "Spin Fidget",
+      "desc": "Sizes: 5CM正方形 / 11.5CM三角形. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-035-animal-spin-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-035-animal-spin-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-035-animal-spin-fidget-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 3.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "小猪",
+        "color": "=_xlfn.DISPIMG(\"ID_17B01B223F6144DBA07CE9756A9329C7\",1)",
+        "priceCny": 3.6,
+        "priceUsd": 8.99,
+        "weight": "11.9/19.6",
+        "note": ""
+      },
+      {
+        "spec": "鸭子",
+        "color": "=_xlfn.DISPIMG(\"ID_A7519CA5606748B28EF5CA349DD3BAF3\",1)",
+        "priceCny": 5.0,
+        "priceUsd": 12.99,
+        "weight": "12.6/20.2",
+        "note": ""
+      },
+      {
+        "spec": "小鸡",
+        "color": "=_xlfn.DISPIMG(\"ID_2446AAF061EA4A0695AED52EE0253D01\",1)",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "12.6/20.1",
+        "note": ""
+      },
+      {
+        "spec": "兔子",
+        "color": "=_xlfn.DISPIMG(\"ID_A6F71AD5331A4AC39CC6422E49BFD7C1\",1)",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "14.3/21.8",
+        "note": ""
+      },
+      {
+        "spec": "山羊",
+        "color": "=_xlfn.DISPIMG(\"ID_90503817D29F4057B7E2B57EEA9B3223\",1)",
+        "priceCny": 5.6,
+        "priceUsd": 12.99,
+        "weight": "14.2/21.7",
+        "note": ""
+      },
+      {
+        "spec": "奶牛",
+        "color": "=_xlfn.DISPIMG(\"ID_61884AA119B248C7A63611586FFEEDCB\",1)",
+        "priceCny": 5.9,
+        "priceUsd": 12.99,
+        "weight": "14.6/22.1",
+        "note": ""
+      },
+      {
+        "spec": "绵羊",
+        "color": "=_xlfn.DISPIMG(\"ID_7F632673643A4D7B8721C26067B7C78A\",1)",
+        "priceCny": 7.2,
+        "priceUsd": 12.99,
+        "weight": "18/25.6",
+        "note": ""
+      },
+      {
+        "spec": "猫咪",
+        "color": "=_xlfn.DISPIMG(\"ID_7AF7D64511CB4686A3AC9D3D7FF8E31D\",1)",
+        "priceCny": 5.6,
+        "priceUsd": 12.99,
+        "weight": "13.7/21.4",
+        "note": ""
+      },
+      {
+        "spec": "小马",
+        "color": "=_xlfn.DISPIMG(\"ID_C41B93CA8BDD49258E0C2FA3D343FFA1\",1)",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "13.3/20.6",
+        "note": ""
+      },
+      {
+        "spec": "小驴",
+        "color": "=_xlfn.DISPIMG(\"ID_08DA7D08406F48DE9B8FE559AFA94D6F\",1)",
+        "priceCny": 5.3,
+        "priceUsd": 12.99,
+        "weight": "13.1/20.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "动物解压旋旋乐",
+      "desc": "规格：小猪 / 鸭子 / 小鸡 / 兔子 / 山羊 / 奶牛。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Animal Spin Fidget",
+      "desc": "Sizes: 小猪 / 鸭子 / 小鸡 / 兔子 / 山羊 / 奶牛. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-036-pixel-fruit-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-036-pixel-fruit-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-036-pixel-fruit-fidget-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "3.5CM-4CM",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "苹果：29.1     葡萄：24.3      菠萝：30.9     草莓：27.8      包装盒子：11",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "像素解压水果系列",
+      "desc": "规格：3.5CM-4CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Pixel Fruit Fidget",
+      "desc": "Sizes: 3.5CM-4CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-037-chain-sword",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-037-chain-sword-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-037-chain-sword-1.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 8.99,
+    "costCny": 1.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：11.5CM",
+        "color": "",
+        "priceCny": 1.4,
+        "priceUsd": 6.99,
+        "weight": "6.6/14",
+        "note": ""
+      },
+      {
+        "spec": "MAX:15CM",
+        "color": "",
+        "priceCny": 2.3,
+        "priceUsd": 8.99,
+        "weight": "12.2/20",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "锁链剑",
+      "desc": "规格：MINI：11.5CM / MAX:15CM。多尺寸可选，零售约 $6.99–$8.99"
+    },
+    "en": {
+      "name": "Chain Sword",
+      "desc": "Sizes: MINI：11.5CM / MAX:15CM. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-038-polygon-spin-fidget-v1",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-038-polygon-spin-fidget-v1-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-038-polygon-spin-fidget-v1-1.jpg",
+      "assets/toys/jinqi/jq-038-polygon-spin-fidget-v1-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "2.5CM-5CM",
+        "color": "",
+        "priceCny": 1.3,
+        "priceUsd": 6.99,
+        "weight": "均重6.6/毛重13.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "多边形旋旋乐1代",
+      "desc": "规格：2.5CM-5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Polygon Spin Fidget V1",
+      "desc": "Sizes: 2.5CM-5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-039-spin-fidget-v2",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-039-spin-fidget-v2-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-039-spin-fidget-v2-1.jpg",
+      "assets/toys/jinqi/jq-039-spin-fidget-v2-2.jpg",
+      "assets/toys/jinqi/jq-039-spin-fidget-v2-3.jpg",
+      "assets/toys/jinqi/jq-039-spin-fidget-v2-4.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "2.5CM-5CM",
+        "color": "",
+        "priceCny": 1.5,
+        "priceUsd": 6.99,
+        "weight": "5.3",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "解压器（2代旋旋乐）",
+      "desc": "规格：2.5CM-5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Spin Fidget V2",
+      "desc": "Sizes: 2.5CM-5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-040-christmas-spin-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-040-christmas-spin-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-040-christmas-spin-fidget-1.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 8.99,
+    "costCny": 1.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "圣诞树：图中有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_E888D885F3EA428AA3429402D898AE97\",1)",
+        "priceCny": 2.0,
+        "priceUsd": 8.99,
+        "weight": "6.6/14.1",
+        "note": ""
+      },
+      {
+        "spec": "礼物堆：图中有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_0317EA3914374A0CB3E7302D705087DD\",1)",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "5.7/13.2",
+        "note": ""
+      },
+      {
+        "spec": "圣诞球：图中有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_9812DA1387FB447DB0097E52ADF87E06\",1)",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "12.6/20.1",
+        "note": ""
+      },
+      {
+        "spec": "糖果：图中有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_CE32EC5CCB084669AAD5058105448784\",1)",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "9/16.5",
+        "note": ""
+      },
+      {
+        "spec": "圣诞帽：图中有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_015306A0797C4E5A89996A635325C10E\",1)",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "9/16.5",
+        "note": ""
+      },
+      {
+        "spec": "雪人：图中有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_B620E97134A64CEFB8A09A3BD8E61D90\",1)",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "12.6/20.1",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "圣诞解压旋旋乐",
+      "desc": "规格：圣诞树：图中有尺寸 / 礼物堆：图中有尺寸 / 圣诞球：图中有尺寸 / 糖果：图中有尺寸 / 圣诞帽：图中有尺寸 / 雪人：图中有尺寸。多尺寸可选，零售约 $6.99–$8.99"
+    },
+    "en": {
+      "name": "Christmas Spin Fidget",
+      "desc": "Sizes: 圣诞树：图中有尺寸 / 礼物堆：图中有尺寸 / 圣诞球：图中有尺寸 / 糖果：图中有尺寸 / 圣诞帽：图中有尺寸 / 雪人：图中有尺寸. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-041-fingertip-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-041-fingertip-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-041-fingertip-fidget-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "圆形6.8CM",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "14.2/25",
+        "note": ""
+      },
+      {
+        "spec": "爱心7CM",
+        "color": "",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "17.2/28",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "指尖解压",
+      "desc": "规格：圆形6.8CM / 爱心7CM。多尺寸可选，零售约 $8.99–$8.99"
+    },
+    "en": {
+      "name": "Fingertip Fidget",
+      "desc": "Sizes: 圆形6.8CM / 爱心7CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-042-smile-heart-tire-fidget-disc",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-042-smile-heart-tire-fidget-disc-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-042-smile-heart-tire-fidget-disc-1.jpg",
+      "assets/toys/jinqi/jq-042-smile-heart-tire-fidget-disc-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长5.75cm宽5cm                   钥匙内圈2.2cm，外圈2.5cm，链长6cm",
+        "color": "",
+        "priceCny": 2.3,
+        "priceUsd": 8.99,
+        "weight": "笑脸：10.8 爱心：10 轮胎：10.3",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "笑脸、爱心、轮胎解压盘",
+      "desc": "规格：长5.75cm宽5cm                   钥匙内圈2.2cm，外圈2.5cm，链长6cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Smile Heart Tire Fidget Disc",
+      "desc": "Sizes: 长5.75cm宽5cm                   钥匙内圈2.2cm，外圈2.5cm，链长6cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-043-fidget-spinner",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-043-fidget-spinner-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-043-fidget-spinner-1.jpg",
+      "assets/toys/jinqi/jq-043-fidget-spinner-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长6.5cm",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "20.4/30",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "指尖陀螺",
+      "desc": "规格：长6.5cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Fidget Spinner",
+      "desc": "Sizes: 长6.5cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-044-armor-spin-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-044-armor-spin-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-044-armor-spin-fidget-1.jpg",
+      "assets/toys/jinqi/jq-044-armor-spin-fidget-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.9,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "宽：3.75cm，高：6.5cm",
+        "color": "",
+        "priceCny": 2.9,
+        "priceUsd": 8.99,
+        "weight": "16.4/23.4",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "铠甲旋旋乐",
+      "desc": "规格：宽：3.75cm，高：6.5cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Armor Spin Fidget",
+      "desc": "Sizes: 宽：3.75cm，高：6.5cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-045-3-in-1-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-045-3-in-1-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-045-3-in-1-fidget-1.jpg",
+      "assets/toys/jinqi/jq-045-3-in-1-fidget-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.7,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长8.6CM，宽3.3CM",
+        "color": "",
+        "priceCny": 2.7,
+        "priceUsd": 8.99,
+        "weight": "14/25",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "三合一解压器",
+      "desc": "规格：长8.6CM，宽3.3CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "3-in-1 Fidget",
+      "desc": "Sizes: 长8.6CM，宽3.3CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-046-banana",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-046-banana-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-046-banana-1.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 11.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长15.5宽3",
+        "color": "",
+        "priceCny": 11.0,
+        "priceUsd": 18.99,
+        "weight": "68/89",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "香蕉",
+      "desc": "规格：长15.5宽3。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Banana",
+      "desc": "Sizes: 长15.5宽3. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-047-eggshell-spin-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-047-eggshell-spin-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-047-eggshell-spin-fidget-1.jpg",
+      "assets/toys/jinqi/jq-047-eggshell-spin-fidget-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.9,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高4cm，宽3.3cm",
+        "color": "",
+        "priceCny": 1.9,
+        "priceUsd": 6.99,
+        "weight": "9.5/17",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "蛋壳旋旋乐",
+      "desc": "规格：高4cm，宽3.3cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Eggshell Spin Fidget",
+      "desc": "Sizes: 高4cm，宽3.3cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-048-mini-hand-massager",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-048-mini-hand-massager-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-048-mini-hand-massager-1.jpg",
+      "assets/toys/jinqi/jq-048-mini-hand-massager-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高3.8cm，宽3.3cm",
+        "color": "",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "低：5.8 中：7.8 高：8.3",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "MINI手握按摩棒",
+      "desc": "规格：高3.8cm，宽3.3cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Mini Hand Massager",
+      "desc": "Sizes: 高3.8cm，宽3.3cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-049-hand-massager",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-049-hand-massager-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-049-hand-massager-1.jpg",
+      "assets/toys/jinqi/jq-049-hand-massager-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高9.5cm，宽3.3cm",
+        "color": "",
+        "priceCny": 3.8,
+        "priceUsd": 8.99,
+        "weight": "低：17 中：20 高：21.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "手握按摩棒",
+      "desc": "规格：高9.5cm，宽3.3cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Hand Massager",
+      "desc": "Sizes: 高9.5cm，宽3.3cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-050-radish-tower",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-050-radish-tower-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-050-radish-tower-1.jpg",
+      "assets/toys/jinqi/jq-050-radish-tower-2.jpg",
+      "assets/toys/jinqi/jq-050-radish-tower-3.jpg",
+      "assets/toys/jinqi/jq-050-radish-tower-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "小号：长8.5cm",
+        "color": "",
+        "priceCny": 4.4,
+        "priceUsd": 8.99,
+        "weight": "22/36",
+        "note": ""
+      },
+      {
+        "spec": "大号：长11.8cm",
+        "color": "",
+        "priceCny": 8.0,
+        "priceUsd": 12.99,
+        "weight": "40/70",
+        "note": ""
+      },
+      {
+        "spec": "小号：长9cm",
+        "color": "",
+        "priceCny": 4.6,
+        "priceUsd": 8.99,
+        "weight": "23/37",
+        "note": ""
+      },
+      {
+        "spec": "大号：长11.5cm",
+        "color": "",
+        "priceCny": 6.2,
+        "priceUsd": 12.99,
+        "weight": "31/61",
+        "note": ""
+      },
+      {
+        "spec": "小号：长8.4cm",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "26/40",
+        "note": ""
+      },
+      {
+        "spec": "大号：长10cm",
+        "color": "",
+        "priceCny": 7.2,
+        "priceUsd": 12.99,
+        "weight": "37/67",
+        "note": ""
+      },
+      {
+        "spec": "小号：长8.8cm",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "14/28",
+        "note": ""
+      },
+      {
+        "spec": "大号：长11.2cm",
+        "color": "",
+        "priceCny": 4.4,
+        "priceUsd": 8.99,
+        "weight": "22/52",
+        "note": ""
+      },
+      {
+        "spec": "小号：长8cm",
+        "color": "",
+        "priceCny": 4.6,
+        "priceUsd": 8.99,
+        "weight": "24/38",
+        "note": ""
+      },
+      {
+        "spec": "大号：长10.5cm",
+        "color": "",
+        "priceCny": 8.0,
+        "priceUsd": 12.99,
+        "weight": "41/71",
+        "note": ""
+      },
+      {
+        "spec": "小号：长8cm",
+        "color": "",
+        "priceCny": 4.4,
+        "priceUsd": 8.99,
+        "weight": "22/36",
+        "note": ""
+      },
+      {
+        "spec": "大号：长11.5cm",
+        "color": "",
+        "priceCny": 9.2,
+        "priceUsd": 12.99,
+        "weight": "47/77",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "萝卜塔",
+      "desc": "规格：小号：长8.5cm / 大号：长11.8cm / 小号：长9cm / 大号：长11.5cm / 小号：长8.4cm / 大号：长10cm。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Radish Tower",
+      "desc": "Sizes: 小号：长8.5cm / 大号：长11.8cm / 小号：长9cm / 大号：长11.5cm / 小号：长8.4cm / 大号：长10cm. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-051-hermit-crab",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-051-hermit-crab-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-051-hermit-crab-1.jpg",
+      "assets/toys/jinqi/jq-051-hermit-crab-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 18.99,
+    "costCny": 5.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：14*6.5",
+        "color": "",
+        "priceCny": 5.8,
+        "priceUsd": 12.99,
+        "weight": "33.3/51",
+        "note": "海洋生物系列可组套组售卖"
+      },
+      {
+        "spec": "MAX：20*9",
+        "color": "",
+        "priceCny": 12.9,
+        "priceUsd": 18.99,
+        "weight": "80.2/103",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "寄居蟹",
+      "desc": "规格：MINI：14*6.5 / MAX：20*9。海洋生物系列可组套组售卖。多尺寸可选，零售约 $12.99–$18.99"
+    },
+    "en": {
+      "name": "Hermit Crab",
+      "desc": "Sizes: MINI：14*6.5 / MAX：20*9. 海洋生物系列可组套组售卖. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-052-cyberpunk-crab",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-052-cyberpunk-crab-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-052-cyberpunk-crab-1.jpg",
+      "assets/toys/jinqi/jq-052-cyberpunk-crab-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 18.99,
+    "costCny": 6.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：11CM*7CM",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "39.6/54",
+        "note": ""
+      },
+      {
+        "spec": "MAX：15CM*9CM",
+        "color": "",
+        "priceCny": 12.5,
+        "priceUsd": 18.99,
+        "weight": "80/118",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "赛博朋克螃蟹",
+      "desc": "规格：MINI：11CM*7CM / MAX：15CM*9CM。多尺寸可选，零售约 $12.99–$18.99"
+    },
+    "en": {
+      "name": "Cyberpunk Crab",
+      "desc": "Sizes: MINI：11CM*7CM / MAX：15CM*9CM. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-053-trilobite",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-053-trilobite-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-053-trilobite-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长11cm，宽6.5cm，高1.9cm",
+        "color": "",
+        "priceCny": 3.3,
+        "priceUsd": 8.99,
+        "weight": "19.4/32.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "三足虫",
+      "desc": "规格：长11cm，宽6.5cm，高1.9cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Trilobite",
+      "desc": "Sizes: 长11cm，宽6.5cm，高1.9cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-054-octopus",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-054-octopus-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-054-octopus-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "21CM",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "32.1/45",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "八爪鱼",
+      "desc": "规格：21CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Octopus",
+      "desc": "Sizes: 21CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-055-multicolor-squid",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-055-multicolor-squid-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-055-multicolor-squid-1.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 11.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长11.5cm，宽3.5cm，高3.12cm",
+        "color": "",
+        "priceCny": 11.0,
+        "priceUsd": 18.99,
+        "weight": "27.3/39.4",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "多色鱿鱼",
+      "desc": "规格：长11.5cm，宽3.5cm，高3.12cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Multicolor Squid",
+      "desc": "Sizes: 长11.5cm，宽3.5cm，高3.12cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-056-eel-skeleton",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-056-eel-skeleton-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-056-eel-skeleton-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高3cm，长9cm",
+        "color": "=_xlfn.DISPIMG(\"ID_B444535D23EF4FF4B8554A918B0B4188\",1)",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "14.6/25.9",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "鳗鱼骨头",
+      "desc": "规格：高3cm，长9cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Eel Skeleton",
+      "desc": "Sizes: 高3cm，长9cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-057-manta-ray",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-057-manta-ray-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-057-manta-ray-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 7.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长16CM，宽13CM",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "45.2/72",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "魔鬼鱼",
+      "desc": "规格：长16CM，宽13CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Manta Ray",
+      "desc": "Sizes: 长16CM，宽13CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-058-crystal-gem-crab",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-058-crystal-gem-crab-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-058-crystal-gem-crab-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长9CM，宽10.5CM",
+        "color": "",
+        "priceCny": 4.5,
+        "priceUsd": 8.99,
+        "weight": "25.4/41.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "水晶宝石螃蟹",
+      "desc": "规格：长9CM，宽10.5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Crystal Gem Crab",
+      "desc": "Sizes: 长9CM，宽10.5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-059-realistic-sea-turtle",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-059-realistic-sea-turtle-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-059-realistic-sea-turtle-1.jpg",
+      "assets/toys/jinqi/jq-059-realistic-sea-turtle-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长10CM，宽9CM",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "14.1/31",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "仿真海龟",
+      "desc": "规格：长10CM，宽9CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Realistic Sea Turtle",
+      "desc": "Sizes: 长10CM，宽9CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-060-viper",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-060-viper-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-060-viper-1.jpg",
+      "assets/toys/jinqi/jq-060-viper-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 23.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "30CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "19.2/33.6",
+        "note": "蛇类系列"
+      },
+      {
+        "spec": "50CM",
+        "color": "",
+        "priceCny": 6.8,
+        "priceUsd": 12.99,
+        "weight": "41.1/50",
+        "note": ""
+      },
+      {
+        "spec": "75CM",
+        "color": "",
+        "priceCny": 17.5,
+        "priceUsd": 23.99,
+        "weight": "114.3/130",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "蝰蛇",
+      "desc": "规格：30CM / 50CM / 75CM。蛇类系列。多尺寸可选，零售约 $8.99–$23.99"
+    },
+    "en": {
+      "name": "Viper",
+      "desc": "Sizes: 30CM / 50CM / 75CM. 蛇类系列. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-061-cobra",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-061-cobra-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-061-cobra-1.jpg",
+      "assets/toys/jinqi/jq-061-cobra-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 3.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长25CM,高6CM",
+        "color": "",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "17.8/21",
+        "note": ""
+      },
+      {
+        "spec": "长55CM,高7CM",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "35.5/52",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "眼镜蛇",
+      "desc": "规格：长25CM,高6CM / 长55CM,高7CM。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Cobra",
+      "desc": "Sizes: 长25CM,高6CM / 长55CM,高7CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-062-viper-box-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-062-viper-box-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-062-viper-box-set-1.jpg",
+      "assets/toys/jinqi/jq-062-viper-box-set-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 22.99,
+    "costCny": 7.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：蝰蛇30CM+蛇蛋7CM",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "44/61",
+        "note": ""
+      },
+      {
+        "spec": "MAX：蝰蛇50CM+蛇蛋10CM",
+        "color": "",
+        "priceCny": 16.5,
+        "priceUsd": 22.99,
+        "weight": "106/146",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "蝰蛇盒装",
+      "desc": "规格：MINI：蝰蛇30CM+蛇蛋7CM / MAX：蝰蛇50CM+蛇蛋10CM。多尺寸可选，零售约 $12.99–$22.99"
+    },
+    "en": {
+      "name": "Viper Box Set",
+      "desc": "Sizes: MINI：蝰蛇30CM+蛇蛋7CM / MAX：蝰蛇50CM+蛇蛋10CM. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-063-python",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-063-python-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-063-python-1.jpg",
+      "assets/toys/jinqi/jq-063-python-2.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 11.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长82CM",
+        "color": "",
+        "priceCny": 11.8,
+        "priceUsd": 18.99,
+        "weight": "75.3/100",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "蟒蛇",
+      "desc": "规格：长82CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Python",
+      "desc": "Sizes: 长82CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-064-crazy-cobra",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-064-crazy-cobra-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-064-crazy-cobra-1.jpg",
+      "assets/toys/jinqi/jq-064-crazy-cobra-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 38.99,
+    "costCny": 6.9,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长：34cm",
+        "color": "",
+        "priceCny": 6.9,
+        "priceUsd": 12.99,
+        "weight": "31.2/41",
+        "note": ""
+      },
+      {
+        "spec": "长：48cm",
+        "color": "",
+        "priceCny": 13.8,
+        "priceUsd": 18.99,
+        "weight": "66/94",
+        "note": ""
+      },
+      {
+        "spec": "长：69cm",
+        "color": "",
+        "priceCny": 27.8,
+        "priceUsd": 38.99,
+        "weight": "135/183",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "疯狂眼镜蛇",
+      "desc": "规格：长：34cm / 长：48cm / 长：69cm。多尺寸可选，零售约 $12.99–$38.99"
+    },
+    "en": {
+      "name": "Crazy Cobra",
+      "desc": "Sizes: 长：34cm / 长：48cm / 长：69cm. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-065-fairy-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-065-fairy-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-065-fairy-dragon-1.jpg",
+      "assets/toys/jinqi/jq-065-fairy-dragon-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长20CM,高5CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "18.2/28.9",
+        "note": ""
+      },
+      {
+        "spec": "长45CM,高5CM",
+        "color": "",
+        "priceCny": 10.5,
+        "priceUsd": 18.99,
+        "weight": "64.8/95",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "仙女龙",
+      "desc": "规格：长20CM,高5CM / 长45CM,高5CM。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Fairy Dragon",
+      "desc": "Sizes: 长20CM,高5CM / 长45CM,高5CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-066-cute-cat",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-066-cute-cat-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-066-cute-cat-1.jpg",
+      "assets/toys/jinqi/jq-066-cute-cat-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长20CM,高9CM",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "38/68",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "呆萌猫咪",
+      "desc": "规格：长20CM,高9CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Cute Cat",
+      "desc": "Sizes: 长20CM,高9CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-067-hairless-siamese-cat",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-067-hairless-siamese-cat-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-067-hairless-siamese-cat-1.jpg",
+      "assets/toys/jinqi/jq-067-hairless-siamese-cat-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 4.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长22CM，宽10CM",
+        "color": "",
+        "priceCny": 4.5,
+        "priceUsd": 8.99,
+        "weight": "27/41.5",
+        "note": ""
+      },
+      {
+        "spec": "长30CM，宽12CM",
+        "color": "",
+        "priceCny": 7.0,
+        "priceUsd": 12.99,
+        "weight": "44/83",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "无毛暹罗猫",
+      "desc": "规格：长22CM，宽10CM / 长30CM，宽12CM。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Hairless Siamese Cat",
+      "desc": "Sizes: 长22CM，宽10CM / 长30CM，宽12CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-068-cute-french-bulldog",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-068-cute-french-bulldog-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-068-cute-french-bulldog-1.jpg",
+      "assets/toys/jinqi/jq-068-cute-french-bulldog-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 8.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长10，高10",
+        "color": "",
+        "priceCny": 8.5,
+        "priceUsd": 12.99,
+        "weight": "51.1/78",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "呆萌法斗",
+      "desc": "规格：长10，高10。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Cute French Bulldog",
+      "desc": "Sizes: 长10，高10. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-069-cerberus",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-069-cerberus-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-069-cerberus-1.jpg",
+      "assets/toys/jinqi/jq-069-cerberus-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI:长6CM，高5.5CM",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "13/30",
+        "note": ""
+      },
+      {
+        "spec": "PRO:长9.5CM，高8CM",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "34.5/64",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "三头犬",
+      "desc": "规格：MINI:长6CM，高5.5CM / PRO:长9.5CM，高8CM。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Cerberus",
+      "desc": "Sizes: MINI:长6CM，高5.5CM / PRO:长9.5CM，高8CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-070-angel-demon-cats",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-070-angel-demon-cats-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-070-angel-demon-cats-1.jpg",
+      "assets/toys/jinqi/jq-070-angel-demon-cats-2.jpg",
+      "assets/toys/jinqi/jq-070-angel-demon-cats-3.jpg",
+      "assets/toys/jinqi/jq-070-angel-demon-cats-4.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 6.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长15CM，宽10CM",
+        "color": "",
+        "priceCny": 6.8,
+        "priceUsd": 12.99,
+        "weight": "41.2/74.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "天使、恶魔猫",
+      "desc": "规格：长15CM，宽10CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Angel & Demon Cats",
+      "desc": "Sizes: 长15CM，宽10CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-071-magic-cat",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-071-magic-cat-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-071-magic-cat-1.jpg",
+      "assets/toys/jinqi/jq-071-magic-cat-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 6.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长11CM，高10CM",
+        "color": "",
+        "priceCny": 6.3,
+        "priceUsd": 12.99,
+        "weight": "37/70",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "魔法猫咪",
+      "desc": "规格：长11CM，高10CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Magic Cat",
+      "desc": "Sizes: 长11CM，高10CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-072-big-ear-mouse",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-072-big-ear-mouse-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-072-big-ear-mouse-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：宽6.2CM，高6.2CM",
+        "color": "9个色",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "14/30",
+        "note": ""
+      },
+      {
+        "spec": "PRO：宽8.6CM，高8.6CM",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "32/57",
+        "note": ""
+      },
+      {
+        "spec": "MAX：宽13CM，高13CM",
+        "color": "",
+        "priceCny": 13.0,
+        "priceUsd": 18.99,
+        "weight": "82.2/140",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "大耳朵鼠",
+      "desc": "规格：MINI：宽6.2CM，高6.2CM / PRO：宽8.6CM，高8.6CM / MAX：宽13CM，高13CM。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Big-Ear Mouse",
+      "desc": "Sizes: MINI：宽6.2CM，高6.2CM / PRO：宽8.6CM，高8.6CM / MAX：宽13CM，高13CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-073-demon-chihuahua",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-073-demon-chihuahua-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-073-demon-chihuahua-1.jpg",
+      "assets/toys/jinqi/jq-073-demon-chihuahua-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 7.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长12cm 高10.5cm",
+        "color": "",
+        "priceCny": 7.8,
+        "priceUsd": 12.99,
+        "weight": "46.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "恶魔吉娃娃",
+      "desc": "规格：长12cm 高10.5cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Demon Chihuahua",
+      "desc": "Sizes: 长12cm 高10.5cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-074-spring-puppy",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-074-spring-puppy-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-074-spring-puppy-1.jpg",
+      "assets/toys/jinqi/jq-074-spring-puppy-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 8.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "宽3.2cm-4.25cm               高5.25cm-6.7cm",
+        "color": "",
+        "priceCny": 8.5,
+        "priceUsd": 12.99,
+        "weight": "51/74.8        单个8-10克",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "弹簧小狗",
+      "desc": "规格：宽3.2cm-4.25cm               高5.25cm-6.7cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Spring Puppy",
+      "desc": "Sizes: 宽3.2cm-4.25cm               高5.25cm-6.7cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-075-ghost-cat-dog",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-075-ghost-cat-dog-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-075-ghost-cat-dog-1.jpg",
+      "assets/toys/jinqi/jq-075-ghost-cat-dog-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 2.4,
+        "priceUsd": 8.99,
+        "weight": "10.4/19",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "幽灵猫狗",
+      "desc": "规格：图片有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Ghost Cat & Dog",
+      "desc": "Sizes: 图片有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-076-frost-monster",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-076-frost-monster-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-076-frost-monster-1.jpg",
+      "assets/toys/jinqi/jq-076-frost-monster-2.jpg",
+      "assets/toys/jinqi/jq-076-frost-monster-3.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 30.99,
+    "costCny": 4.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：13CM",
+        "color": "",
+        "priceCny": 4.5,
+        "priceUsd": 8.99,
+        "weight": "27.6/51.6",
+        "note": ""
+      },
+      {
+        "spec": "PRO：18CM",
+        "color": "",
+        "priceCny": 10.5,
+        "priceUsd": 18.99,
+        "weight": "67/101.5",
+        "note": ""
+      },
+      {
+        "spec": "MAX：26CM",
+        "color": "",
+        "priceCny": 22.5,
+        "priceUsd": 30.99,
+        "weight": "148/209",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "冰霜怪兽",
+      "desc": "规格：MINI：13CM / PRO：18CM / MAX：26CM。多尺寸可选，零售约 $8.99–$30.99"
+    },
+    "en": {
+      "name": "Frost Monster",
+      "desc": "Sizes: MINI：13CM / PRO：18CM / MAX：26CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-077-flying-elephant",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-077-flying-elephant-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-077-flying-elephant-1.jpg",
+      "assets/toys/jinqi/jq-077-flying-elephant-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "14.5CM",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "32/59",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "小飞象",
+      "desc": "规格：14.5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Flying Elephant",
+      "desc": "Sizes: 14.5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-078-multi-eye-spider",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-078-multi-eye-spider-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-078-multi-eye-spider-1.jpg",
+      "assets/toys/jinqi/jq-078-multi-eye-spider-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：6.5CM",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "11/20",
+        "note": ""
+      },
+      {
+        "spec": "PRO：7.5CM",
+        "color": "",
+        "priceCny": 2.9,
+        "priceUsd": 8.99,
+        "weight": "13/24",
+        "note": ""
+      },
+      {
+        "spec": "MAX：12.5",
+        "color": "",
+        "priceCny": 9.5,
+        "priceUsd": 12.99,
+        "weight": "54.5/88",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "多眼蜘蛛",
+      "desc": "规格：MINI：6.5CM / PRO：7.5CM / MAX：12.5。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Multi-Eye Spider",
+      "desc": "Sizes: MINI：6.5CM / PRO：7.5CM / MAX：12.5. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-079-mech-girl",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-079-mech-girl-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-079-mech-girl-1.jpg",
+      "assets/toys/jinqi/jq-079-mech-girl-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 18.99,
+    "costCny": 1.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：5.5CM（带钥匙扣）",
+        "color": "",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "11/19.5",
+        "note": ""
+      },
+      {
+        "spec": "PRO：10CM",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "33.7/50",
+        "note": ""
+      },
+      {
+        "spec": "MAX：14CM",
+        "color": "",
+        "priceCny": 11.0,
+        "priceUsd": 18.99,
+        "weight": "73/118",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "机械姬",
+      "desc": "规格：MINI：5.5CM（带钥匙扣） / PRO：10CM / MAX：14CM。多尺寸可选，零售约 $6.99–$18.99"
+    },
+    "en": {
+      "name": "Mech Girl",
+      "desc": "Sizes: MINI：5.5CM（带钥匙扣） / PRO：10CM / MAX：14CM. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-080-sloth",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-080-sloth-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-080-sloth-1.jpg",
+      "assets/toys/jinqi/jq-080-sloth-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 7.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长8CM，高2CM",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "17.2/27",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "树懒",
+      "desc": "规格：长8CM，高2CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Sloth",
+      "desc": "Sizes: 长8CM，高2CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-081-big-eye-turtle",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-081-big-eye-turtle-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-081-big-eye-turtle-1.jpg",
+      "assets/toys/jinqi/jq-081-big-eye-turtle-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长6.5CM，高2CM",
+        "color": "",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "10/18",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "大眼海龟",
+      "desc": "规格：长6.5CM，高2CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Big-Eye Turtle",
+      "desc": "Sizes: 长6.5CM，高2CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-082-christmas-raccoon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-082-christmas-raccoon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-082-christmas-raccoon-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 7.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长10CM，高4CM",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "17.8/24",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "圣诞小浣熊",
+      "desc": "规格：长10CM，高4CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Christmas Raccoon",
+      "desc": "Sizes: 长10CM，高4CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-083-bearded-dragon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-083-bearded-dragon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-083-bearded-dragon-1.jpg",
+      "assets/toys/jinqi/jq-083-bearded-dragon-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "PRO:长9CM，高5CM",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "14.7/32",
+        "note": ""
+      },
+      {
+        "spec": "MAX:长14CM，高7CM",
+        "color": "",
+        "priceCny": 6.9,
+        "priceUsd": 12.99,
+        "weight": "42.7/73",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "鬃狮蜥",
+      "desc": "规格：PRO:长9CM，高5CM / MAX:长14CM，高7CM。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Bearded Dragon",
+      "desc": "Sizes: PRO:长9CM，高5CM / MAX:长14CM，高7CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-084-pinecone-hedgehog",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-084-pinecone-hedgehog-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-084-pinecone-hedgehog-1.jpg",
+      "assets/toys/jinqi/jq-084-pinecone-hedgehog-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长7.5CM，高3CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "18/28",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "松果刺猬",
+      "desc": "规格：长7.5CM，高3CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Pinecone Hedgehog",
+      "desc": "Sizes: 长7.5CM，高3CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-085-pancake-octopus",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-085-pancake-octopus-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-085-pancake-octopus-1.jpg",
+      "assets/toys/jinqi/jq-085-pancake-octopus-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 6.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "13CM",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "38/54",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "煎饼章鱼",
+      "desc": "规格：13CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Pancake Octopus",
+      "desc": "Sizes: 13CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-086-loch-ness-monster",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-086-loch-ness-monster-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-086-loch-ness-monster-1.jpg",
+      "assets/toys/jinqi/jq-086-loch-ness-monster-2.jpg",
+      "assets/toys/jinqi/jq-086-loch-ness-monster-3.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 3.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：长9CM，高5.1CM",
+        "color": "",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "10.5/21",
+        "note": ""
+      },
+      {
+        "spec": "PRO：长12.5CM，高7.1CM",
+        "color": "",
+        "priceCny": 7.4,
+        "priceUsd": 12.99,
+        "weight": "31.1/45",
+        "note": ""
+      },
+      {
+        "spec": "MAX:长18CM，高10.2CM",
+        "color": "",
+        "priceCny": 12.5,
+        "priceUsd": 18.99,
+        "weight": "53.3/96",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "尼斯湖水怪",
+      "desc": "规格：MINI：长9CM，高5.1CM / PRO：长12.5CM，高7.1CM / MAX:长18CM，高10.2CM。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Loch Ness Monster",
+      "desc": "Sizes: MINI：长9CM，高5.1CM / PRO：长12.5CM，高7.1CM / MAX:长18CM，高10.2CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-087-skeleton",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-087-skeleton-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-087-skeleton-1.jpg",
+      "assets/toys/jinqi/jq-087-skeleton-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 8.99,
+    "costCny": 1.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：高8.1CM，宽4CM",
+        "color": "",
+        "priceCny": 1.4,
+        "priceUsd": 6.99,
+        "weight": "6.4/14.7",
+        "note": ""
+      },
+      {
+        "spec": "PRO：高12CM，宽5.5CM",
+        "color": "",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "17.8/35",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "骷髅骨架",
+      "desc": "规格：MINI：高8.1CM，宽4CM / PRO：高12CM，宽5.5CM。多尺寸可选，零售约 $6.99–$8.99"
+    },
+    "en": {
+      "name": "Skeleton",
+      "desc": "Sizes: MINI：高8.1CM，宽4CM / PRO：高12CM，宽5.5CM. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-088-glow-skeleton-hands-feet",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-088-glow-skeleton-hands-feet-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-088-glow-skeleton-hands-feet-1.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 8.99,
+    "costCny": 1.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "mini手骨，图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_1EFE4022BF28475489FC5B39CDEB67FF\",1)",
+        "priceCny": 1.3,
+        "priceUsd": 6.99,
+        "weight": "",
+        "note": ""
+      },
+      {
+        "spec": "MAX手骨，图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_BCC5165193874C5BA3601DC48B25A196\",1)",
+        "priceCny": 3.6,
+        "priceUsd": 8.99,
+        "weight": "",
+        "note": ""
+      },
+      {
+        "spec": "mini脚骨，图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_207C64FCF4134DEB8A06C979014479AB\",1)",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "",
+        "note": ""
+      },
+      {
+        "spec": "MAX脚骨，图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_60198CFC45FB4E908815F3622E3B0684\",1)",
+        "priceCny": 3.6,
+        "priceUsd": 8.99,
+        "weight": "",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "夜光骷髅手脚骨架",
+      "desc": "规格：mini手骨，图片有尺寸 / MAX手骨，图片有尺寸 / mini脚骨，图片有尺寸 / MAX脚骨，图片有尺寸。多尺寸可选，零售约 $6.99–$8.99"
+    },
+    "en": {
+      "name": "Glow Skeleton Hands & Feet",
+      "desc": "Sizes: mini手骨，图片有尺寸 / MAX手骨，图片有尺寸 / mini脚骨，图片有尺寸 / MAX脚骨，图片有尺寸. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-089-chameleon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-089-chameleon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-089-chameleon-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 4.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "17.5CM：长17.5cm，宽3.3cm",
+        "color": "",
+        "priceCny": 4.0,
+        "priceUsd": 8.99,
+        "weight": "21.9/39",
+        "note": ""
+      },
+      {
+        "spec": "29CM：长29cm，宽5.5cm",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "73/117",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "变色龙",
+      "desc": "规格：17.5CM：长17.5cm，宽3.3cm / 29CM：长29cm，宽5.5cm。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Chameleon",
+      "desc": "Sizes: 17.5CM：长17.5cm，宽3.3cm / 29CM：长29cm，宽5.5cm. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-090-jackson-chameleon-glow-accents",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-090-jackson-chameleon-glow-accents-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-090-jackson-chameleon-glow-accents-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 44.99,
+    "costCny": 4.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "mini：长11cm，高2.3cm",
+        "color": "=_xlfn.DISPIMG(\"ID_588E9FA3490745BC9B788618DED6EC32\",1)",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "10.8",
+        "note": ""
+      },
+      {
+        "spec": "PRO：长18.5cm，高3.5cm",
+        "color": "",
+        "priceCny": 13.9,
+        "priceUsd": 18.99,
+        "weight": "32.8",
+        "note": ""
+      },
+      {
+        "spec": "MAX:长26cm，高5cm",
+        "color": "",
+        "priceCny": 32.7,
+        "priceUsd": 44.99,
+        "weight": "79.7",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "杰克逊变色龙（角+眼睛是夜光）",
+      "desc": "规格：mini：长11cm，高2.3cm / PRO：长18.5cm，高3.5cm / MAX:长26cm，高5cm。多尺寸可选，零售约 $8.99–$44.99"
+    },
+    "en": {
+      "name": "Jackson Chameleon (Glow Accents)",
+      "desc": "Sizes: mini：长11cm，高2.3cm / PRO：长18.5cm，高3.5cm / MAX:长26cm，高5cm. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-091-whirl-velociraptor",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-091-whirl-velociraptor-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-091-whirl-velociraptor-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 3.1,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：长10.3cm，高6cm",
+        "color": "",
+        "priceCny": 3.1,
+        "priceUsd": 8.99,
+        "weight": "15.7/24.5",
+        "note": ""
+      },
+      {
+        "spec": "PRO：长15cm，高8.5cm",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "32.4/59",
+        "note": ""
+      },
+      {
+        "spec": "MAX:长22cm，高11.5cm",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "70.2/120",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "旋风迅猛龙",
+      "desc": "规格：MINI：长10.3cm，高6cm / PRO：长15cm，高8.5cm / MAX:长22cm，高11.5cm。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Whirl Velociraptor",
+      "desc": "Sizes: MINI：长10.3cm，高6cm / PRO：长15cm，高8.5cm / MAX:长22cm，高11.5cm. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-092-whirl-t-rex",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-092-whirl-t-rex-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-092-whirl-t-rex-1.jpg",
+      "assets/toys/jinqi/jq-092-whirl-t-rex-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 18.99,
+    "costCny": 5.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "pro：高8.5cm，长13.5cm",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "32.4/59.4",
+        "note": ""
+      },
+      {
+        "spec": "max：高12.5cm，长19.5cm",
+        "color": "",
+        "priceCny": 13.5,
+        "priceUsd": 18.99,
+        "weight": "87/131",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "旋风霸王龙",
+      "desc": "规格：pro：高8.5cm，长13.5cm / max：高12.5cm，长19.5cm。多尺寸可选，零售约 $12.99–$18.99"
+    },
+    "en": {
+      "name": "Whirl T-Rex",
+      "desc": "Sizes: pro：高8.5cm，长13.5cm / max：高12.5cm，长19.5cm. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-093-crested-lizard",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-093-crested-lizard-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-093-crested-lizard-1.jpg",
+      "assets/toys/jinqi/jq-093-crested-lizard-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 18.99,
+    "costCny": 5.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "mini：长17cm，高3.5cm",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "29.2/89.2",
+        "note": ""
+      },
+      {
+        "spec": "pro：长25cm，高6cm",
+        "color": "",
+        "priceCny": 10.5,
+        "priceUsd": 18.99,
+        "weight": "65/101.8",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "凤头蜥",
+      "desc": "规格：mini：长17cm，高3.5cm / pro：长25cm，高6cm。多尺寸可选，零售约 $12.99–$18.99"
+    },
+    "en": {
+      "name": "Crested Lizard",
+      "desc": "Sizes: mini：长17cm，高3.5cm / pro：长25cm，高6cm. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-094-cute-pony",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-094-cute-pony-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-094-cute-pony-1.jpg",
+      "assets/toys/jinqi/jq-094-cute-pony-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长12cm 高10.5cm",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "28.1/56.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "可爱小马",
+      "desc": "规格：长12cm 高10.5cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Cute Pony",
+      "desc": "Sizes: 长12cm 高10.5cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-095-angel-unicorn",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-095-angel-unicorn-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-095-angel-unicorn-1.jpg",
+      "assets/toys/jinqi/jq-095-angel-unicorn-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 8.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "宽18.5cm，高14.5，长12cm",
+        "color": "",
+        "priceCny": 8.5,
+        "priceUsd": 12.99,
+        "weight": "51.2/77.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "天使独角兽",
+      "desc": "规格：宽18.5cm，高14.5，长12cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Angel Unicorn",
+      "desc": "Sizes: 宽18.5cm，高14.5，长12cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-096-see-hear-speak-no-evil",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-096-see-hear-speak-no-evil-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-096-see-hear-speak-no-evil-1.jpg",
+      "assets/toys/jinqi/jq-096-see-hear-speak-no-evil-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 18.99,
+    "costCny": 5.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 5.0,
+        "priceUsd": 12.99,
+        "weight": "mini：10克/个        \n毛重：46克，3个装",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": 11.0,
+        "priceUsd": 18.99,
+        "weight": "pro:23.5克/个  毛重：102克，3个装",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "不听不看不说",
+      "desc": "规格：图片有尺寸。多尺寸可选，零售约 $12.99–$18.99"
+    },
+    "en": {
+      "name": "See Hear Speak No Evil",
+      "desc": "Sizes: 图片有尺寸. Multiple sizes from $12.99"
+    }
+  },
+  {
+    "id": "jq-097-pirate-octopus",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-097-pirate-octopus-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-097-pirate-octopus-1.jpg",
+      "assets/toys/jinqi/jq-097-pirate-octopus-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 3.6,
+        "priceUsd": 8.99,
+        "weight": "17.5/27.8、16.5/26.8、18.7/26.3",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "海盗章鱼",
+      "desc": "规格：图片有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Pirate Octopus",
+      "desc": "Sizes: 图片有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-098-mermaid",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-098-mermaid-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-098-mermaid-1.jpg",
+      "assets/toys/jinqi/jq-098-mermaid-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 12.99,
+    "costCny": 1.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸  小号",
+        "color": "",
+        "priceCny": 1.2,
+        "priceUsd": 6.99,
+        "weight": "5.9/14.5",
+        "note": ""
+      },
+      {
+        "spec": "图片有尺寸  中号",
+        "color": "",
+        "priceCny": 2.6,
+        "priceUsd": 8.99,
+        "weight": "14/30",
+        "note": ""
+      },
+      {
+        "spec": "图片有尺寸  大号",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "31.9/61",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "美人鱼",
+      "desc": "规格：图片有尺寸  小号 / 图片有尺寸  中号 / 图片有尺寸  大号。多尺寸可选，零售约 $6.99–$12.99"
+    },
+    "en": {
+      "name": "Mermaid",
+      "desc": "Sizes: 图片有尺寸  小号 / 图片有尺寸  中号 / 图片有尺寸  大号. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-099-christmas-mini-figure",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-099-christmas-mini-figure-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-099-christmas-mini-figure-1.jpg",
+      "assets/toys/jinqi/jq-099-christmas-mini-figure-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高：6.8cm，宽：6.4cm",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "13.3/24.1",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "圣诞小人",
+      "desc": "规格：高：6.8cm，宽：6.4cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Christmas Mini Figure",
+      "desc": "Sizes: 高：6.8cm，宽：6.4cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-100-skull-dice-tower",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-100-skull-dice-tower-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-100-skull-dice-tower-1.jpg",
+      "assets/toys/jinqi/jq-100-skull-dice-tower-2.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 13.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高12宽9",
+        "color": "",
+        "priceCny": 13.0,
+        "priceUsd": 18.99,
+        "weight": "65.2/150",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "骷髅骰子塔",
+      "desc": "规格：高12宽9。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Skull Dice Tower",
+      "desc": "Sizes: 高12宽9. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-101-mech-owl",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-101-mech-owl-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-101-mech-owl-1.jpg",
+      "assets/toys/jinqi/jq-101-mech-owl-2.jpg",
+      "assets/toys/jinqi/jq-101-mech-owl-3.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "mini，图片有尺寸",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "18/27.7",
+        "note": ""
+      },
+      {
+        "spec": "pro，图片有尺寸",
+        "color": "",
+        "priceCny": 6.8,
+        "priceUsd": 12.99,
+        "weight": "38/62",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "机械猫头鹰",
+      "desc": "规格：mini，图片有尺寸 / pro，图片有尺寸。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Mech Owl",
+      "desc": "Sizes: mini，图片有尺寸 / pro，图片有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-102-ball-button-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-102-ball-button-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-102-ball-button-fidget-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "9CM",
+        "color": "",
+        "priceCny": 2.2,
+        "priceUsd": 8.99,
+        "weight": "12/19.7",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "球类按键解压",
+      "desc": "规格：9CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Ball Button Fidget",
+      "desc": "Sizes: 9CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-103-bao-button-fidget-toy",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-103-bao-button-fidget-toy-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-103-bao-button-fidget-toy-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.7,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": 3.7,
+        "priceUsd": 8.99,
+        "weight": "33.1/43.4",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "按键包子解压玩具",
+      "desc": "PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Bao Button Fidget Toy",
+      "desc": "Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-104-bao-button-fidget-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-104-bao-button-fidget-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-104-bao-button-fidget-keychain-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "直径3.9cm，高3.7cm",
+        "color": "",
+        "priceCny": 4.2,
+        "priceUsd": 8.99,
+        "weight": "16.8/24.1",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "按键包子解压钥匙扣",
+      "desc": "规格：直径3.9cm，高3.7cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Bao Button Fidget Keychain",
+      "desc": "Sizes: 直径3.9cm，高3.7cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-105-fruit-button-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-105-fruit-button-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-105-fruit-button-fidget-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "（菠萝）",
+        "color": "=_xlfn.DISPIMG(\"ID_3D3FA46166644435B02A5949DF682D48\",1)",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "15.4/23",
+        "note": ""
+      },
+      {
+        "spec": "（草莓）",
+        "color": "=_xlfn.DISPIMG(\"ID_08130E6DDA4D4955B141A934161DC008\",1)",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "16.9/24.5",
+        "note": ""
+      },
+      {
+        "spec": "（火龙果）",
+        "color": "=_xlfn.DISPIMG(\"ID_25C79B1D30744ABDBC45DFF2BC8345A1\",1)",
+        "priceCny": 2.6,
+        "priceUsd": 8.99,
+        "weight": "13.2/20.7",
+        "note": ""
+      },
+      {
+        "spec": "（橘子）",
+        "color": "=_xlfn.DISPIMG(\"ID_732BCEA4578142B3B58F146BFF2ED143\",1)",
+        "priceCny": 3.4,
+        "priceUsd": 8.99,
+        "weight": "14/21.5",
+        "note": ""
+      },
+      {
+        "spec": "（梨）",
+        "color": "=_xlfn.DISPIMG(\"ID_FCB6E9A0AFA04D90AB1C79D410CBAA8F\",1)",
+        "priceCny": 3.4,
+        "priceUsd": 8.99,
+        "weight": "14.1/21.6",
+        "note": ""
+      },
+      {
+        "spec": "（柠檬）",
+        "color": "=_xlfn.DISPIMG(\"ID_96EDAFF8BDE34924AEC7938B820BAE4B\",1)",
+        "priceCny": 3.4,
+        "priceUsd": 8.99,
+        "weight": "14/21.5",
+        "note": ""
+      },
+      {
+        "spec": "（苹果）",
+        "color": "=_xlfn.DISPIMG(\"ID_77BBF801449D40B488918513C3BF426F\",1)",
+        "priceCny": 3.4,
+        "priceUsd": 8.99,
+        "weight": "14.1/21.6",
+        "note": ""
+      },
+      {
+        "spec": "（葡萄）",
+        "color": "=_xlfn.DISPIMG(\"ID_B281880A54D24D3FB4CE8E82BED7FFDF\",1)",
+        "priceCny": 3.3,
+        "priceUsd": 8.99,
+        "weight": "13.6/21.1",
+        "note": ""
+      },
+      {
+        "spec": "（山竹）",
+        "color": "=_xlfn.DISPIMG(\"ID_04B9774A4E624EEB9B3680495FF2313F\",1)",
+        "priceCny": 3.1,
+        "priceUsd": 8.99,
+        "weight": "12.9/20.4",
+        "note": ""
+      },
+      {
+        "spec": "（桃子）",
+        "color": "=_xlfn.DISPIMG(\"ID_7D791E57625943989B44F9BAD7BD97F8\",1)",
+        "priceCny": 3.3,
+        "priceUsd": 8.99,
+        "weight": "13.8/21.3",
+        "note": ""
+      },
+      {
+        "spec": "（西瓜）",
+        "color": "=_xlfn.DISPIMG(\"ID_4202FD96CC164A188DCA4886ADA674A8\",1)",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "21.7/29.2",
+        "note": ""
+      },
+      {
+        "spec": "（樱桃）",
+        "color": "=_xlfn.DISPIMG(\"ID_7A93255A43914E819E30A1F014FD78FB\",1)",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "12.2/19.7",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "水果按键",
+      "desc": "规格：（菠萝） / （草莓） / （火龙果） / （橘子） / （梨） / （柠檬）。多尺寸可选，零售约 $8.99–$8.99"
+    },
+    "en": {
+      "name": "Fruit Button Fidget",
+      "desc": "Sizes: （菠萝） / （草莓） / （火龙果） / （橘子） / （梨） / （柠檬）. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-106-turtle-button-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-106-turtle-button-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-106-turtle-button-fidget-1.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 12.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "11CM",
+        "color": "",
+        "priceCny": 12.5,
+        "priceUsd": 18.99,
+        "weight": "39/53",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "按键乌龟",
+      "desc": "规格：11CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Turtle Button Fidget",
+      "desc": "Sizes: 11CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-107-fidget-lollipop",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-107-fidget-lollipop-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-107-fidget-lollipop-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 18.99,
+    "costCny": 2.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "八角棒棒糖；mini，图中有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_A0EBA334C87647D79ADFE1648047BF9A\",1)",
+        "priceCny": 2.6,
+        "priceUsd": 8.99,
+        "weight": "16.5/28.6",
+        "note": ""
+      },
+      {
+        "spec": "八角棒棒糖：pro，图中有尺寸",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "36/64.5",
+        "note": ""
+      },
+      {
+        "spec": "八角棒棒糖：max，图中有尺寸",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "82.4/120.8",
+        "note": ""
+      },
+      {
+        "spec": "菱形棒棒糖；mini，图中有尺寸",
+        "color": "",
+        "priceCny": 2.6,
+        "priceUsd": 8.99,
+        "weight": "16.5/28.6",
+        "note": ""
+      },
+      {
+        "spec": "菱形棒棒糖：pro，图中有尺寸",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "36/64.5",
+        "note": ""
+      },
+      {
+        "spec": "菱形棒棒糖：max，图中有尺寸",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "82.4/120.8",
+        "note": ""
+      },
+      {
+        "spec": "圆形棒棒糖：mini，图中有尺寸",
+        "color": "",
+        "priceCny": 2.6,
+        "priceUsd": 8.99,
+        "weight": "16.5/28.6",
+        "note": ""
+      },
+      {
+        "spec": "圆形棒棒糖：pro，图中有尺寸",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "36/64.5",
+        "note": ""
+      },
+      {
+        "spec": "圆形棒棒糖：max，图中有尺寸",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "82.4/120.8",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "解压棒棒糖",
+      "desc": "规格：八角棒棒糖；mini，图中有尺寸 / 八角棒棒糖：pro，图中有尺寸 / 八角棒棒糖：max，图中有尺寸 / 菱形棒棒糖；mini，图中有尺寸 / 菱形棒棒糖：pro，图中有尺寸 / 菱形棒棒糖：max，图中有尺寸。多尺寸可选，零售约 $8.99–$18.99"
+    },
+    "en": {
+      "name": "Fidget Lollipop",
+      "desc": "Sizes: 八角棒棒糖；mini，图中有尺寸 / 八角棒棒糖：pro，图中有尺寸 / 八角棒棒糖：max，图中有尺寸 / 菱形棒棒糖；mini，图中有尺寸 / 菱形棒棒糖：pro，图中有尺寸 / 菱形棒棒糖：max，图中有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-108-edc-fruit-coin",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-108-edc-fruit-coin-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-108-edc-fruit-coin-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "直径3.8cm，高1.4cm",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "22.4/29.6",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "edc水果叮叮币",
+      "desc": "规格：直径3.8cm，高1.4cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "EDC Fruit Coin",
+      "desc": "Sizes: 直径3.8cm，高1.4cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-109-skull-button-series",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-109-skull-button-series-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-109-skull-button-series-1.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 11.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高3CM，宽2.5CM",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "46.3/63",
+        "note": "9个不同表情1盒"
+      }
+    ],
+    "zh": {
+      "name": "骷髅按键系列",
+      "desc": "规格：高3CM，宽2.5CM。9个不同表情1盒。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Skull Button Series",
+      "desc": "Sizes: 高3CM，宽2.5CM. 9个不同表情1盒. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-110-critter-button-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-110-critter-button-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-110-critter-button-fidget-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "3.5CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "13/22",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "按键小动物",
+      "desc": "规格：3.5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Critter Button Fidget",
+      "desc": "Sizes: 3.5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-111-plant-button-fidget",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-111-plant-button-fidget-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-111-plant-button-fidget-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高6.4CM，宽3.3CM",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "12/20",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "植物按键",
+      "desc": "规格：高6.4CM，宽3.3CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Plant Button Fidget",
+      "desc": "Sizes: 高6.4CM，宽3.3CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-112-space-explorer",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-112-space-explorer-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-112-space-explorer-1.jpg",
+      "assets/toys/jinqi/jq-112-space-explorer-2.jpg",
+      "assets/toys/jinqi/jq-112-space-explorer-3.jpg",
+      "assets/toys/jinqi/jq-112-space-explorer-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 52.99,
+    "costCny": 4.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "宽5.2cm 高3.5cm",
+        "color": "",
+        "priceCny": 8.2,
+        "priceUsd": 12.99,
+        "weight": "12.2/24.2",
+        "note": ""
+      },
+      {
+        "spec": "宽5.2cm 高3.7cm",
+        "color": "",
+        "priceCny": 8.2,
+        "priceUsd": 12.99,
+        "weight": "15.8/26.9",
+        "note": ""
+      },
+      {
+        "spec": "宽5.2cm 高4.1cm",
+        "color": "",
+        "priceCny": 8.2,
+        "priceUsd": 12.99,
+        "weight": "13.2/25.5",
+        "note": ""
+      },
+      {
+        "spec": "宽3.5cm 长5.2cm",
+        "color": "",
+        "priceCny": 4.5,
+        "priceUsd": 8.99,
+        "weight": "6.5/18",
+        "note": ""
+      },
+      {
+        "spec": "长9cm 宽3.4cm 高6cm",
+        "color": "",
+        "priceCny": 10.5,
+        "priceUsd": 18.99,
+        "weight": "10.9/23",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": 38.5,
+        "priceUsd": 52.99,
+        "weight": "58.6/84",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "太空探索",
+      "desc": "规格：宽5.2cm 高3.5cm / 宽5.2cm 高3.7cm / 宽5.2cm 高4.1cm / 宽3.5cm 长5.2cm / 长9cm 宽3.4cm 高6cm。多尺寸可选，零售约 $8.99–$52.99"
+    },
+    "en": {
+      "name": "Space Explorer",
+      "desc": "Sizes: 宽5.2cm 高3.5cm / 宽5.2cm 高3.7cm / 宽5.2cm 高4.1cm / 宽3.5cm 长5.2cm / 长9cm 宽3.4cm 高6cm. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-113-owl-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-113-owl-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-113-owl-keychain-1.jpg",
+      "assets/toys/jinqi/jq-113-owl-keychain-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.7,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高4.3CM，宽3.5CM",
+        "color": "",
+        "priceCny": 3.7,
+        "priceUsd": 8.99,
+        "weight": "14/22",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "猫头鹰钥匙扣",
+      "desc": "规格：高4.3CM，宽3.5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Owl Keychain",
+      "desc": "Sizes: 高4.3CM，宽3.5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-114-chameleon",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-114-chameleon-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-114-chameleon-1.jpg",
+      "assets/toys/jinqi/jq-114-chameleon-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长5.5CM，宽2.3CM",
+        "color": "",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "13/21",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "变色龙钥匙扣",
+      "desc": "规格：长5.5CM，宽2.3CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Chameleon",
+      "desc": "Sizes: 长5.5CM，宽2.3CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-115-turtle-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-115-turtle-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-115-turtle-keychain-1.jpg",
+      "assets/toys/jinqi/jq-115-turtle-keychain-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.1,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长5.5CM，宽5CM",
+        "color": "",
+        "priceCny": 2.1,
+        "priceUsd": 8.99,
+        "weight": "14/22",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "乌龟钥匙扣",
+      "desc": "规格：长5.5CM，宽5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Turtle Keychain",
+      "desc": "Sizes: 长5.5CM，宽5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-116-elephant-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-116-elephant-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-116-elephant-keychain-1.jpg",
+      "assets/toys/jinqi/jq-116-elephant-keychain-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长4.4CM，高3CM",
+        "color": "",
+        "priceCny": 2.3,
+        "priceUsd": 8.99,
+        "weight": "15/23",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "大象钥匙扣",
+      "desc": "规格：长4.4CM，高3CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Elephant Keychain",
+      "desc": "Sizes: 长4.4CM，高3CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-117-triceratops",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-117-triceratops-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-117-triceratops-1.jpg",
+      "assets/toys/jinqi/jq-117-triceratops-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长7CM，高3.2CM",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "13/22",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "三角龙钥匙扣",
+      "desc": "规格：长7CM，高3.2CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Triceratops",
+      "desc": "Sizes: 长7CM，高3.2CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-118-dolphin-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-118-dolphin-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-118-dolphin-keychain-1.jpg",
+      "assets/toys/jinqi/jq-118-dolphin-keychain-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.9,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长7CM，高4CM",
+        "color": "",
+        "priceCny": 1.9,
+        "priceUsd": 6.99,
+        "weight": "10/19",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "海豚钥匙扣",
+      "desc": "规格：长7CM，高4CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Dolphin Keychain",
+      "desc": "Sizes: 长7CM，高4CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-119-reindeer-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-119-reindeer-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-119-reindeer-keychain-1.jpg",
+      "assets/toys/jinqi/jq-119-reindeer-keychain-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.1,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "长4.5CM，高4.5CM",
+        "color": "",
+        "priceCny": 2.1,
+        "priceUsd": 8.99,
+        "weight": "12/22",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "驯鹿钥匙扣",
+      "desc": "规格：长4.5CM，高4.5CM。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Reindeer Keychain",
+      "desc": "Sizes: 长4.5CM，高4.5CM. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-120-shanhai-myth-figures",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-120-shanhai-myth-figures-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-120-shanhai-myth-figures-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "木棍人：长9.5CM，宽4CM",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "10/21",
+        "note": ""
+      },
+      {
+        "spec": "球鞋鲨鱼：长10.5CM，高5.5CM",
+        "color": "",
+        "priceCny": 6.7,
+        "priceUsd": 12.99,
+        "weight": "16/34",
+        "note": ""
+      },
+      {
+        "spec": "鳄鱼飞机：长8.5CM，宽6.5CM",
+        "color": "",
+        "priceCny": 5.1,
+        "priceUsd": 12.99,
+        "weight": "11.9/24",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "山海经",
+      "desc": "规格：木棍人：长9.5CM，宽4CM / 球鞋鲨鱼：长10.5CM，高5.5CM / 鳄鱼飞机：长8.5CM，宽6.5CM。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Shanhai Myth Figures",
+      "desc": "Sizes: 木棍人：长9.5CM，宽4CM / 球鞋鲨鱼：长10.5CM，高5.5CM / 鳄鱼飞机：长8.5CM，宽6.5CM. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-121-cat-dog-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-121-cat-dog-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-121-cat-dog-keychain-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "9.1/22",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "猫狗系列钥匙扣",
+      "desc": "规格：图片有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Cat & Dog Keychain",
+      "desc": "Sizes: 图片有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-122-knit-bear-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-122-knit-bear-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-122-knit-bear-keychain-1.jpg",
+      "assets/toys/jinqi/jq-122-knit-bear-keychain-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "高9cm，宽5cm",
+        "color": "",
+        "priceCny": 2.6,
+        "priceUsd": 8.99,
+        "weight": "17.5/37",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "编织小熊钥匙扣",
+      "desc": "规格：高9cm，宽5cm。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Knit Bear Keychain",
+      "desc": "Sizes: 高9cm，宽5cm. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-123-octopus-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-123-octopus-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-123-octopus-keychain-1.jpg",
+      "assets/toys/jinqi/jq-123-octopus-keychain-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 2.4,
+        "priceUsd": 8.99,
+        "weight": "13/21",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "章鱼钥匙扣",
+      "desc": "规格：图片有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Octopus Keychain",
+      "desc": "Sizes: 图片有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-124-frog-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-124-frog-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-124-frog-keychain-1.jpg",
+      "assets/toys/jinqi/jq-124-frog-keychain-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.9,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 1.9,
+        "priceUsd": 6.99,
+        "weight": "9.2/17.1",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "青蛙钥匙扣",
+      "desc": "规格：图片有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Frog Keychain",
+      "desc": "Sizes: 图片有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-125-frost-monster",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-125-frost-monster-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-125-frost-monster-1.jpg",
+      "assets/toys/jinqi/jq-125-frost-monster-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图中有尺寸",
+        "color": "",
+        "priceCny": 4.4,
+        "priceUsd": 8.99,
+        "weight": "21/35",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "冰霜怪兽钥匙扣",
+      "desc": "规格：图中有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Frost Monster",
+      "desc": "Sizes: 图中有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-126-lobster-keychain",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-126-lobster-keychain-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-126-lobster-keychain-1.jpg",
+      "assets/toys/jinqi/jq-126-lobster-keychain-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.95,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 1.95,
+        "priceUsd": 6.99,
+        "weight": "11/19.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "龙虾钥匙扣",
+      "desc": "规格：图片有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Lobster Keychain",
+      "desc": "Sizes: 图片有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-127-multicolor-critters",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-127-multicolor-critters-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-127-multicolor-critters-1.jpg"
+    ],
+    "price": 9.99,
+    "priceMax": 9.99,
+    "costCny": null,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "118款",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": "详细数据看表2"
+      }
+    ],
+    "zh": {
+      "name": "多色小动物",
+      "desc": "规格：118款。详细数据看表2。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Multicolor Critters",
+      "desc": "Sizes: 118款. 详细数据看表2. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-128-half-eye-multicolor-critters",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-128-half-eye-multicolor-critters-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-128-half-eye-multicolor-critters-1.jpg"
+    ],
+    "price": 9.99,
+    "priceMax": 9.99,
+    "costCny": null,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "86款",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": "详细数据看表10"
+      }
+    ],
+    "zh": {
+      "name": "半眼多色小动物",
+      "desc": "规格：86款。详细数据看表10。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Half-Eye Multicolor Critters",
+      "desc": "Sizes: 86款. 详细数据看表10. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-129-pocket-critter-series",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-129-pocket-critter-series-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-129-pocket-critter-series-1.jpg"
+    ],
+    "price": 9.99,
+    "priceMax": 9.99,
+    "costCny": null,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "79款",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": "详细数据看表11"
+      }
+    ],
+    "zh": {
+      "name": "口袋小动物系列",
+      "desc": "规格：79款。详细数据看表11。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Pocket Critter Series",
+      "desc": "Sizes: 79款. 详细数据看表11. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-130-ocean-series",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-130-ocean-series-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-130-ocean-series-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 35.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "单个",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "4-6.5",
+        "note": "详细数据看表4"
+      },
+      {
+        "spec": "12个装系列",
+        "color": "",
+        "priceCny": 26.0,
+        "priceUsd": 35.99,
+        "weight": "58.4/77.8",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "海洋系列",
+      "desc": "规格：单个 / 12个装系列。详细数据看表4。多尺寸可选，零售约 $8.99–$35.99"
+    },
+    "en": {
+      "name": "Ocean Series",
+      "desc": "Sizes: 单个 / 12个装系列. 详细数据看表4. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-131-sprout-series",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-131-sprout-series-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-131-sprout-series-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 25.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "单个",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "6",
+        "note": "详细数据看表6"
+      },
+      {
+        "spec": "8个装系列",
+        "color": "",
+        "priceCny": 18.5,
+        "priceUsd": 25.99,
+        "weight": "36/52",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "株萌系列",
+      "desc": "规格：单个 / 8个装系列。详细数据看表6。多尺寸可选，零售约 $8.99–$25.99"
+    },
+    "en": {
+      "name": "Sprout Series",
+      "desc": "Sizes: 单个 / 8个装系列. 详细数据看表6. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-132-critter-family",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-132-critter-family-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-132-critter-family-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "3CM-5.3CM",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "28.8/37",
+        "note": "详细数据看表3"
+      }
+    ],
+    "zh": {
+      "name": "小动物家族",
+      "desc": "规格：3CM-5.3CM。详细数据看表3。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Critter Family",
+      "desc": "Sizes: 3CM-5.3CM. 详细数据看表3. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-133-mini-duck",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-133-mini-duck-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-133-mini-duck-1.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "1.5CM",
+        "color": "",
+        "priceCny": 4.5,
+        "priceUsd": 8.99,
+        "weight": "27.4/23",
+        "note": "50只/盒"
+      }
+    ],
+    "zh": {
+      "name": "萌粒鸭子",
+      "desc": "规格：1.5CM。50只/盒。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Mini Duck",
+      "desc": "Sizes: 1.5CM. 50只/盒. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-134-spider-family",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-134-spider-family-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-134-spider-family-1.jpg",
+      "assets/toys/jinqi/jq-134-spider-family-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "4.7CM*4.2CM",
+        "color": "",
+        "priceCny": 5.8,
+        "priceUsd": 12.99,
+        "weight": "37.6/57.3",
+        "note": "10只/盒"
+      }
+    ],
+    "zh": {
+      "name": "蜘蛛家族",
+      "desc": "规格：4.7CM*4.2CM。10只/盒。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Spider Family",
+      "desc": "Sizes: 4.7CM*4.2CM. 10只/盒. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-135-mini-dino",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-135-mini-dino-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-135-mini-dino-1.jpg",
+      "assets/toys/jinqi/jq-135-mini-dino-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 18.99,
+    "costCny": 0.45,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 0.45,
+        "priceUsd": 6.99,
+        "weight": "1.6/2",
+        "note": "详细数据看表8"
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "25/32.8",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": 13.0,
+        "priceUsd": 18.99,
+        "weight": "51.2/67.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "恐龙萌粒",
+      "desc": "规格：图片有尺寸。详细数据看表8。多尺寸可选，零售约 $6.99–$18.99"
+    },
+    "en": {
+      "name": "Mini Dino",
+      "desc": "Sizes: 图片有尺寸. 详细数据看表8. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-136-myth-series",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-136-myth-series-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-136-myth-series-1.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 6.99,
+    "costCny": 1.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 1.6,
+        "priceUsd": 6.99,
+        "weight": "均重5.1g",
+        "note": "详细数据看表7"
+      }
+    ],
+    "zh": {
+      "name": "神话系列",
+      "desc": "规格：图片有尺寸。详细数据看表7。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Myth Series",
+      "desc": "Sizes: 图片有尺寸. 详细数据看表7. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-137-bread-buddy-sitters",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-137-bread-buddy-sitters-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-137-bread-buddy-sitters-1.jpg",
+      "assets/toys/jinqi/jq-137-bread-buddy-sitters-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 3.8,
+        "priceUsd": 8.99,
+        "weight": "均重11.5/均重20.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "面包伙伴坐姿小人",
+      "desc": "规格：图片有尺寸。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Bread Buddy Sitters",
+      "desc": "Sizes: 图片有尺寸. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-138-christmas-buddy-sitters",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-138-christmas-buddy-sitters-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-138-christmas-buddy-sitters-1.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 8.99,
+    "costCny": 1.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "圣诞老人：图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_8332070E307349DCAA25B83AFEB7BE01\",1)",
+        "priceCny": 1.9,
+        "priceUsd": 6.99,
+        "weight": "6.4/13.9",
+        "note": ""
+      },
+      {
+        "spec": "圣诞树小人：图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_592B2BEFD84641CE99B9D26D1DCCCB08\",1)",
+        "priceCny": 3.0,
+        "priceUsd": 8.99,
+        "weight": "7.5/15",
+        "note": ""
+      },
+      {
+        "spec": "雪人小人：图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_C917D4D0D41F40F7AC6A5101C4D49CF4\",1)",
+        "priceCny": 1.9,
+        "priceUsd": 6.99,
+        "weight": "4.7/12.2",
+        "note": ""
+      },
+      {
+        "spec": "驯鹿小人：图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_D5E27E9671564F42AED14F9B35DD72F4\",1)",
+        "priceCny": 1.6,
+        "priceUsd": 6.99,
+        "weight": "5.6/13.1",
+        "note": ""
+      },
+      {
+        "spec": "圣诞精灵小人：图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_DD0690F6AD8D470C9833776C4FF2B596\",1)",
+        "priceCny": 1.8,
+        "priceUsd": 6.99,
+        "weight": "4.5/12",
+        "note": ""
+      },
+      {
+        "spec": "礼物盒小人：图片有尺寸",
+        "color": "=_xlfn.DISPIMG(\"ID_AD94B2690A5B444381050902665E8F1D\",1)",
+        "priceCny": 4.0,
+        "priceUsd": 8.99,
+        "weight": "9.9/17.4",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "圣诞伙伴坐姿小人",
+      "desc": "规格：圣诞老人：图片有尺寸 / 圣诞树小人：图片有尺寸 / 雪人小人：图片有尺寸 / 驯鹿小人：图片有尺寸 / 圣诞精灵小人：图片有尺寸 / 礼物盒小人：图片有尺寸。多尺寸可选，零售约 $6.99–$8.99"
+    },
+    "en": {
+      "name": "Christmas Buddy Sitters",
+      "desc": "Sizes: 圣诞老人：图片有尺寸 / 圣诞树小人：图片有尺寸 / 雪人小人：图片有尺寸 / 驯鹿小人：图片有尺寸 / 圣诞精灵小人：图片有尺寸 / 礼物盒小人：图片有尺寸. Multiple sizes from $6.99"
+    }
+  },
+  {
+    "id": "jq-139-sitting-mini-figures",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-139-sitting-mini-figures-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-139-sitting-mini-figures-1.jpg",
+      "assets/toys/jinqi/jq-139-sitting-mini-figures-2.jpg",
+      "assets/toys/jinqi/jq-139-sitting-mini-figures-3.jpg",
+      "assets/toys/jinqi/jq-139-sitting-mini-figures-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.7,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "爱心小人  图上有尺寸",
+        "color": "",
+        "priceCny": 2.7,
+        "priceUsd": 8.99,
+        "weight": "11克/18克",
+        "note": ""
+      },
+      {
+        "spec": "便便小人   图上有尺寸",
+        "color": "",
+        "priceCny": 2.7,
+        "priceUsd": 8.99,
+        "weight": "11克/18克",
+        "note": ""
+      },
+      {
+        "spec": "蛋壳小人   图上有尺寸",
+        "color": "",
+        "priceCny": 3.9,
+        "priceUsd": 8.99,
+        "weight": "12克/18克",
+        "note": ""
+      },
+      {
+        "spec": "火焰小人   图上有尺寸",
+        "color": "",
+        "priceCny": 3.3,
+        "priceUsd": 8.99,
+        "weight": "15/23",
+        "note": ""
+      },
+      {
+        "spec": "水滴小人   图上有尺寸",
+        "color": "",
+        "priceCny": 3.3,
+        "priceUsd": 8.99,
+        "weight": "13/21",
+        "note": ""
+      },
+      {
+        "spec": "四叶草小人   图上有尺寸",
+        "color": "",
+        "priceCny": 3.3,
+        "priceUsd": 8.99,
+        "weight": "14/22",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "坐姿小人",
+      "desc": "规格：爱心小人  图上有尺寸 / 便便小人   图上有尺寸 / 蛋壳小人   图上有尺寸 / 火焰小人   图上有尺寸 / 水滴小人   图上有尺寸 / 四叶草小人   图上有尺寸。多尺寸可选，零售约 $8.99–$8.99"
+    },
+    "en": {
+      "name": "Sitting Mini Figures",
+      "desc": "Sizes: 爱心小人  图上有尺寸 / 便便小人   图上有尺寸 / 蛋壳小人   图上有尺寸 / 火焰小人   图上有尺寸 / 水滴小人   图上有尺寸 / 四叶草小人   图上有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-140-weather-mini-figures",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-140-weather-mini-figures-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-140-weather-mini-figures-1.jpg",
+      "assets/toys/jinqi/jq-140-weather-mini-figures-2.jpg",
+      "assets/toys/jinqi/jq-140-weather-mini-figures-3.jpg",
+      "assets/toys/jinqi/jq-140-weather-mini-figures-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "星星小人，图中有尺寸",
+        "color": "",
+        "priceCny": 2.5999999999999996,
+        "priceUsd": 8.99,
+        "weight": "12/19.7",
+        "note": ""
+      },
+      {
+        "spec": "云朵小人，图中有尺寸",
+        "color": "",
+        "priceCny": 2.4,
+        "priceUsd": 8.99,
+        "weight": "12.6/20.3",
+        "note": ""
+      },
+      {
+        "spec": "太阳小人，图中有尺寸",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "11/18.7",
+        "note": ""
+      },
+      {
+        "spec": "月亮小人，图中有尺寸",
+        "color": "",
+        "priceCny": 2.4,
+        "priceUsd": 8.99,
+        "weight": "12/19.7",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "天气小人",
+      "desc": "规格：星星小人，图中有尺寸 / 云朵小人，图中有尺寸 / 太阳小人，图中有尺寸 / 月亮小人，图中有尺寸。多尺寸可选，零售约 $8.99–$8.99"
+    },
+    "en": {
+      "name": "Weather Mini Figures",
+      "desc": "Sizes: 星星小人，图中有尺寸 / 云朵小人，图中有尺寸 / 太阳小人，图中有尺寸 / 月亮小人，图中有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-141-fruit-mini-figures",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-141-fruit-mini-figures-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-141-fruit-mini-figures-1.jpg",
+      "assets/toys/jinqi/jq-141-fruit-mini-figures-2.jpg",
+      "assets/toys/jinqi/jq-141-fruit-mini-figures-3.jpg",
+      "assets/toys/jinqi/jq-141-fruit-mini-figures-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "苹果小人，图中有尺寸",
+        "color": "",
+        "priceCny": 3.8,
+        "priceUsd": 8.99,
+        "weight": "12.5/20",
+        "note": ""
+      },
+      {
+        "spec": "草莓小人，图中有尺寸",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "14/22",
+        "note": ""
+      },
+      {
+        "spec": "桃子小人，图中有尺寸",
+        "color": "",
+        "priceCny": 4.5,
+        "priceUsd": 8.99,
+        "weight": "15/23",
+        "note": ""
+      },
+      {
+        "spec": "柠檬小人，图中有尺寸",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "16.5/26",
+        "note": ""
+      },
+      {
+        "spec": "雪梨小人，图中有尺寸",
+        "color": "",
+        "priceCny": 4.0,
+        "priceUsd": 8.99,
+        "weight": "13/21",
+        "note": ""
+      },
+      {
+        "spec": "香蕉小人，图中有尺寸",
+        "color": "",
+        "priceCny": 2.8,
+        "priceUsd": 8.99,
+        "weight": "14/23",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "水果小人",
+      "desc": "规格：苹果小人，图中有尺寸 / 草莓小人，图中有尺寸 / 桃子小人，图中有尺寸 / 柠檬小人，图中有尺寸 / 雪梨小人，图中有尺寸 / 香蕉小人，图中有尺寸。多尺寸可选，零售约 $8.99–$8.99"
+    },
+    "en": {
+      "name": "Fruit Mini Figures",
+      "desc": "Sizes: 苹果小人，图中有尺寸 / 草莓小人，图中有尺寸 / 桃子小人，图中有尺寸 / 柠檬小人，图中有尺寸 / 雪梨小人，图中有尺寸 / 香蕉小人，图中有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-142-pumpkin-buddies",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-142-pumpkin-buddies-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-142-pumpkin-buddies-1.jpg",
+      "assets/toys/jinqi/jq-142-pumpkin-buddies-2.jpg",
+      "assets/toys/jinqi/jq-142-pumpkin-buddies-3.jpg",
+      "assets/toys/jinqi/jq-142-pumpkin-buddies-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.8,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "方形南瓜小人1号，图片有尺寸",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "15.5/25.5",
+        "note": ""
+      },
+      {
+        "spec": "方形南瓜小人2号，图片有尺寸",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "15.5/25.5",
+        "note": ""
+      },
+      {
+        "spec": "方形南瓜小人3号，图片有尺寸",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "16/26",
+        "note": ""
+      },
+      {
+        "spec": "圆形南瓜小人4号，图片有尺寸",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "16.8/26.8",
+        "note": ""
+      },
+      {
+        "spec": "圆形南瓜小人5号，图片有尺寸",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "14.7/24.7",
+        "note": ""
+      },
+      {
+        "spec": "圆形南瓜小人6号，图片有尺寸",
+        "color": "",
+        "priceCny": 4.8,
+        "priceUsd": 8.99,
+        "weight": "15.8/26.8",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "南瓜伙伴",
+      "desc": "规格：方形南瓜小人1号，图片有尺寸 / 方形南瓜小人2号，图片有尺寸 / 方形南瓜小人3号，图片有尺寸 / 圆形南瓜小人4号，图片有尺寸 / 圆形南瓜小人5号，图片有尺寸 / 圆形南瓜小人6号，图片有尺寸。多尺寸可选，零售约 $8.99–$8.99"
+    },
+    "en": {
+      "name": "Pumpkin Buddies",
+      "desc": "Sizes: 方形南瓜小人1号，图片有尺寸 / 方形南瓜小人2号，图片有尺寸 / 方形南瓜小人3号，图片有尺寸 / 圆形南瓜小人4号，图片有尺寸 / 圆形南瓜小人5号，图片有尺寸 / 圆形南瓜小人6号，图片有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-143-multicolor-dino-egg-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-143-multicolor-dino-egg-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-143-multicolor-dino-egg-set-1.jpg",
+      "assets/toys/jinqi/jq-143-multicolor-dino-egg-set-2.jpg",
+      "assets/toys/jinqi/jq-143-multicolor-dino-egg-set-3.jpg",
+      "assets/toys/jinqi/jq-143-multicolor-dino-egg-set-4.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 6.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 6.5,
+        "priceUsd": 12.99,
+        "weight": "28.2/38",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "恐龙蛋多色套装",
+      "desc": "规格：图片有尺寸。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Multicolor Dino Egg Set",
+      "desc": "Sizes: 图片有尺寸. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-144-multicolor-dinosaurs",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-144-multicolor-dinosaurs-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-144-multicolor-dinosaurs-1.jpg",
+      "assets/toys/jinqi/jq-144-multicolor-dinosaurs-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 2.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "尺寸图",
+        "color": "颜色选择同上",
+        "priceCny": 2.0,
+        "priceUsd": 8.99,
+        "weight": "均净重4.8g/均毛重12.8g",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "多色恐龙",
+      "desc": "规格：尺寸图。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Multicolor Dinosaurs",
+      "desc": "Sizes: 尺寸图. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-145-hinged-dragon-egg",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-145-hinged-dragon-egg-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-145-hinged-dragon-egg-1.jpg",
+      "assets/toys/jinqi/jq-145-hinged-dragon-egg-2.jpg",
+      "assets/toys/jinqi/jq-145-hinged-dragon-egg-3.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图中有尺寸",
+        "color": "",
+        "priceCny": 3.2,
+        "priceUsd": 8.99,
+        "weight": "14.5/22.8",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "开合龙蛋",
+      "desc": "规格：图中有尺寸。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Hinged Dragon Egg",
+      "desc": "Sizes: 图中有尺寸. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-146-bunny-egg",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-146-bunny-egg-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-146-bunny-egg-1.jpg",
+      "assets/toys/jinqi/jq-146-bunny-egg-2.jpg",
+      "assets/toys/jinqi/jq-146-bunny-egg-3.jpg",
+      "assets/toys/jinqi/jq-146-bunny-egg-4.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "蛋：高6cm，宽4.1cm                     兔：高4.2cm，宽3.1cm",
+        "color": "",
+        "priceCny": 3.5,
+        "priceUsd": 8.99,
+        "weight": "18/26.2",
+        "note": "可任意搭配套组售卖"
+      },
+      {
+        "spec": "蛋：高8.5cm，宽5cm                     兔：高5cm，宽4cm",
+        "color": "",
+        "priceCny": 4.5,
+        "priceUsd": 8.99,
+        "weight": "23.4/43",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "兔子蛋",
+      "desc": "规格：蛋：高6cm，宽4.1cm                     兔：高4.2cm，宽3.1cm / 蛋：高8.5cm，宽5cm                     兔：高5cm，宽4cm。可任意搭配套组售卖。多尺寸可选，零售约 $8.99–$8.99"
+    },
+    "en": {
+      "name": "Bunny Egg",
+      "desc": "Sizes: 蛋：高6cm，宽4.1cm                     兔：高4.2cm，宽3.1cm / 蛋：高8.5cm，宽5cm                     兔：高5cm，宽4cm. 可任意搭配套组售卖. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-147-multicolor-bunny-egg-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-147-multicolor-bunny-egg-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-147-multicolor-bunny-egg-set-1.jpg",
+      "assets/toys/jinqi/jq-147-multicolor-bunny-egg-set-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图中有尺寸",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "25/33",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "多色兔子蛋套装",
+      "desc": "规格：图中有尺寸。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Multicolor Bunny Egg Set",
+      "desc": "Sizes: 图中有尺寸. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-148-bubble-dragon-egg",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-148-bubble-dragon-egg-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-148-bubble-dragon-egg-1.jpg",
+      "assets/toys/jinqi/jq-148-bubble-dragon-egg-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 3.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "龙：长10.5M,宽9.5CM             蛋：高8.7cm，宽7.1cm",
+        "color": "",
+        "priceCny": 3.2,
+        "priceUsd": 8.99,
+        "weight": "龙：16.5/ 26.1                   龙+蛋：60/78.4",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "泡泡龙蛋",
+      "desc": "规格：龙：长10.5M,宽9.5CM             蛋：高8.7cm，宽7.1cm。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Bubble Dragon Egg",
+      "desc": "Sizes: 龙：长10.5M,宽9.5CM             蛋：高8.7cm，宽7.1cm. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-149-big-eye-scorpion",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-149-big-eye-scorpion-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-149-big-eye-scorpion-1.jpg",
+      "assets/toys/jinqi/jq-149-big-eye-scorpion-2.jpg",
+      "assets/toys/jinqi/jq-149-big-eye-scorpion-3.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 2.1,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "mini：长15cm，宽7.5cm",
+        "color": "",
+        "priceCny": 2.1,
+        "priceUsd": 8.99,
+        "weight": "11.7/22",
+        "note": ""
+      },
+      {
+        "spec": "max：长26cm，宽13cm",
+        "color": "",
+        "priceCny": 7.5,
+        "priceUsd": 12.99,
+        "weight": "43.3/69.5",
+        "note": ""
+      },
+      {
+        "spec": "蛋：高8.5cm，宽7.5cm，蝎子：长15cm，宽7.5cm",
+        "color": "",
+        "priceCny": 9.5,
+        "priceUsd": 12.99,
+        "weight": "58.7/82",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "大眼蝎子",
+      "desc": "规格：mini：长15cm，宽7.5cm / max：长26cm，宽13cm / 蛋：高8.5cm，宽7.5cm，蝎子：长15cm，宽7.5cm。可任意搭配套组售卖。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Big-Eye Scorpion",
+      "desc": "Sizes: mini：长15cm，宽7.5cm / max：长26cm，宽13cm / 蛋：高8.5cm，宽7.5cm，蝎子：长15cm，宽7.5cm. 可任意搭配套组售卖. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-150-spring-spider",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-150-spring-spider-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-150-spring-spider-1.jpg",
+      "assets/toys/jinqi/jq-150-spring-spider-2.jpg",
+      "assets/toys/jinqi/jq-150-spring-spider-3.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 13.99,
+    "costCny": 2.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MINI：12CM（不带蛋）",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "14.5/22",
+        "note": ""
+      },
+      {
+        "spec": "PRO：17CM（不带蛋）",
+        "color": "",
+        "priceCny": 5.0,
+        "priceUsd": 12.99,
+        "weight": "32/53",
+        "note": ""
+      },
+      {
+        "spec": "MAX：24CM（不带蛋）",
+        "color": "",
+        "priceCny": 9.9,
+        "priceUsd": 13.99,
+        "weight": "65/104",
+        "note": ""
+      },
+      {
+        "spec": "蜘蛛展开12cm款，长7.5cm，                         蛋：高8cm，宽6.8cm",
+        "color": "",
+        "priceCny": 6.8,
+        "priceUsd": 12.99,
+        "weight": "44/65",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "弹力蜘蛛",
+      "desc": "规格：MINI：12CM（不带蛋） / PRO：17CM（不带蛋） / MAX：24CM（不带蛋） / 蜘蛛展开12cm款，长7.5cm，                         蛋：高8cm，宽6.8cm。可任意搭配套组售卖。多尺寸可选，零售约 $8.99–$13.99"
+    },
+    "en": {
+      "name": "Spring Spider",
+      "desc": "Sizes: MINI：12CM（不带蛋） / PRO：17CM（不带蛋） / MAX：24CM（不带蛋） / 蜘蛛展开12cm款，长7.5cm，                         蛋：高8cm，宽6.8cm. 可任意搭配套组售卖. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-151-hatching-dragon-egg",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-151-hatching-dragon-egg-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-151-hatching-dragon-egg-1.jpg",
+      "assets/toys/jinqi/jq-151-hatching-dragon-egg-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 8.99,
+    "costCny": 4.3,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图片有尺寸",
+        "color": "",
+        "priceCny": 4.3,
+        "priceUsd": 8.99,
+        "weight": "22.3/32.1",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "破壳龙蛋",
+      "desc": "规格：图片有尺寸。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Hatching Dragon Egg",
+      "desc": "Sizes: 图片有尺寸. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-152-fantasy-fruit-dragon-egg-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-152-fantasy-fruit-dragon-egg-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-152-fantasy-fruit-dragon-egg-set-1.jpg",
+      "assets/toys/jinqi/jq-152-fantasy-fruit-dragon-egg-set-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 24.99,
+    "costCny": 3.1,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "图中有尺寸",
+        "color": "",
+        "priceCny": 3.1,
+        "priceUsd": 8.99,
+        "weight": "8.0/17",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": 18.0,
+        "priceUsd": 24.99,
+        "weight": "43.5/85.7",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "奇幻龙蛋水果多色套装",
+      "desc": "规格：图中有尺寸。可任意搭配套组售卖。多尺寸可选，零售约 $8.99–$24.99"
+    },
+    "en": {
+      "name": "Fantasy Fruit Dragon Egg Set",
+      "desc": "Sizes: 图中有尺寸. 可任意搭配套组售卖. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-153-ice-crystal-dragon-egg-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-153-ice-crystal-dragon-egg-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-153-ice-crystal-dragon-egg-set-1.jpg",
+      "assets/toys/jinqi/jq-153-ice-crystal-dragon-egg-set-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 2.1,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "龙蛋：高6cm，宽5cm           龙：长12cm，宽5.5cm",
+        "color": "",
+        "priceCny": 5.2,
+        "priceUsd": 12.99,
+        "weight": "28.6/38.5",
+        "note": "可任意搭配套组售卖"
+      },
+      {
+        "spec": "龙：长12cm，宽5.5cm",
+        "color": "",
+        "priceCny": 2.1,
+        "priceUsd": 8.99,
+        "weight": "8.3/16.1",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "冰晶龙蛋套装",
+      "desc": "规格：龙蛋：高6cm，宽5cm           龙：长12cm，宽5.5cm / 龙：长12cm，宽5.5cm。可任意搭配套组售卖。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Ice Crystal Dragon Egg Set",
+      "desc": "Sizes: 龙蛋：高6cm，宽5cm           龙：长12cm，宽5.5cm / 龙：长12cm，宽5.5cm. 可任意搭配套组售卖. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-154-multicolor-glow-dragon-egg-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-154-multicolor-glow-dragon-egg-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-154-multicolor-glow-dragon-egg-set-1.jpg",
+      "assets/toys/jinqi/jq-154-multicolor-glow-dragon-egg-set-2.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 5.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "蛋：高6cm，宽4.75cm                龙：长14cm，宽3cm",
+        "color": "",
+        "priceCny": 5.5,
+        "priceUsd": 12.99,
+        "weight": "24.6/32",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "多色夜光龙蛋套装",
+      "desc": "规格：蛋：高6cm，宽4.75cm                龙：长14cm，宽3cm。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Multicolor Glow Dragon Egg Set",
+      "desc": "Sizes: 蛋：高6cm，宽4.75cm                龙：长14cm，宽3cm. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-155-phoenix-dragon-egg",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-155-phoenix-dragon-egg-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-155-phoenix-dragon-egg-1.jpg",
+      "assets/toys/jinqi/jq-155-phoenix-dragon-egg-2.jpg"
+    ],
+    "price": 22.99,
+    "priceMax": 22.99,
+    "costCny": 16.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "MAX飞行宝石龙长尾23+龙蛋15",
+        "color": "",
+        "priceCny": 16.5,
+        "priceUsd": 22.99,
+        "weight": "110/220",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "凤凰龙蛋",
+      "desc": "规格：MAX飞行宝石龙长尾23+龙蛋15。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Phoenix Dragon Egg",
+      "desc": "Sizes: MAX飞行宝石龙长尾23+龙蛋15. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-156-butterfly-dragon-egg",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-156-butterfly-dragon-egg-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-156-butterfly-dragon-egg-1.jpg",
+      "assets/toys/jinqi/jq-156-butterfly-dragon-egg-2.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 11.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "15.5CM+龙蛋11",
+        "color": "",
+        "priceCny": 11.0,
+        "priceUsd": 18.99,
+        "weight": "71.2/130",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "蝴蝶龙蛋",
+      "desc": "规格：15.5CM+龙蛋11。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Butterfly Dragon Egg",
+      "desc": "Sizes: 15.5CM+龙蛋11. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-157-crystal-horn-dragon-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-157-crystal-horn-dragon-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-157-crystal-horn-dragon-set-1.jpg",
+      "assets/toys/jinqi/jq-157-crystal-horn-dragon-set-2.jpg",
+      "assets/toys/jinqi/jq-157-crystal-horn-dragon-set-3.jpg"
+    ],
+    "price": 18.99,
+    "priceMax": 18.99,
+    "costCny": 13.5,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "龙：长28CM,高3CM             龙蛋：高9.5cm，宽7.5cm",
+        "color": "",
+        "priceCny": 13.5,
+        "priceUsd": 18.99,
+        "weight": "80.3",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "水晶角龙套装",
+      "desc": "规格：龙：长28CM,高3CM             龙蛋：高9.5cm，宽7.5cm。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Crystal Horn Dragon Set",
+      "desc": "Sizes: 龙：长28CM,高3CM             龙蛋：高9.5cm，宽7.5cm. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-158-dino-dragon-egg-box-set",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-158-dino-dragon-egg-box-set-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-158-dino-dragon-egg-box-set-1.jpg"
+    ],
+    "price": 12.99,
+    "priceMax": 12.99,
+    "costCny": 8.0,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "10CM蛋+12CM龙",
+        "color": "",
+        "priceCny": 8.0,
+        "priceUsd": 12.99,
+        "weight": "51/93",
+        "note": "可任意搭配套组售卖"
+      }
+    ],
+    "zh": {
+      "name": "恐龙龙蛋盒装",
+      "desc": "规格：10CM蛋+12CM龙。可任意搭配套组售卖。PLA 彩色3D打印玩具，可定制尺寸与颜色。"
+    },
+    "en": {
+      "name": "Dino Dragon Egg Box Set",
+      "desc": "Sizes: 10CM蛋+12CM龙. 可任意搭配套组售卖. Color PLA 3D-printed toy. Size and color customizable."
+    }
+  },
+  {
+    "id": "jq-159-magnetic-gecko",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-159-magnetic-gecko-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-159-magnetic-gecko-1.jpg",
+      "assets/toys/jinqi/jq-159-magnetic-gecko-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 4.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "小号   图中有尺寸",
+        "color": "",
+        "priceCny": 4.2,
+        "priceUsd": 8.99,
+        "weight": "17/27",
+        "note": ""
+      },
+      {
+        "spec": "大号   图中有尺寸",
+        "color": "",
+        "priceCny": 9.0,
+        "priceUsd": 12.99,
+        "weight": "40/56.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "磁吸壁虎",
+      "desc": "规格：小号   图中有尺寸 / 大号   图中有尺寸。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Magnetic Gecko",
+      "desc": "Sizes: 小号   图中有尺寸 / 大号   图中有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-160-magnetic-axolotl-fridge-magnet",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-160-magnetic-axolotl-fridge-magnet-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-160-magnetic-axolotl-fridge-magnet-1.jpg",
+      "assets/toys/jinqi/jq-160-magnetic-axolotl-fridge-magnet-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 4.4,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "小号   图中有尺寸",
+        "color": "",
+        "priceCny": 4.4,
+        "priceUsd": 8.99,
+        "weight": "18/28",
+        "note": ""
+      },
+      {
+        "spec": "大号   图中有尺寸",
+        "color": "",
+        "priceCny": 8.8,
+        "priceUsd": 12.99,
+        "weight": "40/55",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "磁吸娃娃鱼冰箱贴",
+      "desc": "规格：小号   图中有尺寸 / 大号   图中有尺寸。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Magnetic Axolotl Fridge Magnet",
+      "desc": "Sizes: 小号   图中有尺寸 / 大号   图中有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-161-magnetic-frog-fridge-magnet",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-161-magnetic-frog-fridge-magnet-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-161-magnetic-frog-fridge-magnet-1.jpg",
+      "assets/toys/jinqi/jq-161-magnetic-frog-fridge-magnet-2.jpg"
+    ],
+    "price": 8.99,
+    "priceMax": 12.99,
+    "costCny": 4.2,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "小号   图中有尺寸",
+        "color": "",
+        "priceCny": 4.2,
+        "priceUsd": 8.99,
+        "weight": "16/25.5",
+        "note": ""
+      },
+      {
+        "spec": "大号   图中有尺寸",
+        "color": "",
+        "priceCny": 7.6,
+        "priceUsd": 12.99,
+        "weight": "33.5/49.5",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "磁吸青蛙冰箱贴",
+      "desc": "规格：小号   图中有尺寸 / 大号   图中有尺寸。多尺寸可选，零售约 $8.99–$12.99"
+    },
+    "en": {
+      "name": "Magnetic Frog Fridge Magnet",
+      "desc": "Sizes: 小号   图中有尺寸 / 大号   图中有尺寸. Multiple sizes from $8.99"
+    }
+  },
+  {
+    "id": "jq-162-monkey-fridge-magnet",
+    "collection": "toys",
+    "image": "assets/toys/jinqi/jq-162-monkey-fridge-magnet-1.jpg",
+    "images": [
+      "assets/toys/jinqi/jq-162-monkey-fridge-magnet-1.jpg",
+      "assets/toys/jinqi/jq-162-monkey-fridge-magnet-2.jpg"
+    ],
+    "price": 6.99,
+    "priceMax": 18.99,
+    "costCny": 1.6,
+    "material": "PLA",
+    "supplier": "Jinqi",
+    "variants": [
+      {
+        "spec": "小号磁吸叶子挂柄 图中有尺寸",
+        "color": "",
+        "priceCny": 1.6,
+        "priceUsd": 6.99,
+        "weight": "8克/13克",
+        "note": ""
+      },
+      {
+        "spec": "大号磁吸叶子挂柄 图中有尺寸",
+        "color": "",
+        "priceCny": 2.5,
+        "priceUsd": 8.99,
+        "weight": "9.5/25.5",
+        "note": ""
+      },
+      {
+        "spec": "小号多色猴子  图中有尺寸",
+        "color": "",
+        "priceCny": 5.3,
+        "priceUsd": 12.99,
+        "weight": "13.5/21.5",
+        "note": ""
+      },
+      {
+        "spec": "大号多色猴子  图中有尺寸",
+        "color": "",
+        "priceCny": 11.5,
+        "priceUsd": 18.99,
+        "weight": "28.4/44.4",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": ""
+      },
+      {
+        "spec": "",
+        "color": "",
+        "priceCny": null,
+        "priceUsd": null,
+        "weight": "",
+        "note": ""
+      }
+    ],
+    "zh": {
+      "name": "猴子冰箱贴",
+      "desc": "规格：小号磁吸叶子挂柄 图中有尺寸 / 大号磁吸叶子挂柄 图中有尺寸 / 小号多色猴子  图中有尺寸 / 大号多色猴子  图中有尺寸。多尺寸可选，零售约 $6.99–$18.99"
+    },
+    "en": {
+      "name": "Monkey Fridge Magnet",
+      "desc": "Sizes: 小号磁吸叶子挂柄 图中有尺寸 / 大号磁吸叶子挂柄 图中有尺寸 / 小号多色猴子  图中有尺寸 / 大号多色猴子  图中有尺寸. Multiple sizes from $6.99"
+    }
+  }
+]

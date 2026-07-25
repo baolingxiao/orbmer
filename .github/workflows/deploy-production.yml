@@ -1,0 +1,71 @@
+# Auto-deploy to Vultr when main is pushed.
+# One-time setup in GitHub → Settings → Secrets and variables → Actions:
+#   DEPLOY_HOST          e.g. root@45.32.91.40
+#   DEPLOY_SSH_KEY       private key contents (ed25519/rsa) that can SSH as that user
+#   DEPLOY_PATH          optional, default /var/www/printnova
+#
+# Never store production .env in the repo. Server keeps its own .env.
+
+name: Deploy production
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          test -n "$DEPLOY_SSH_KEY" || (echo "Missing secret DEPLOY_SSH_KEY" && exit 1)
+          test -n "$DEPLOY_HOST" || (echo "Missing secret DEPLOY_HOST" && exit 1)
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          HOST_ONLY="${DEPLOY_HOST#*@}"
+          ssh-keyscan -H "$HOST_ONLY" >> ~/.ssh/known_hosts
+          echo "HOST=$DEPLOY_HOST" >> "$GITHUB_ENV"
+
+      - name: Rsync code
+        env:
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          REMOTE="${DEPLOY_PATH:-/var/www/printnova}"
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            --exclude node_modules \
+            --exclude .git \
+            --exclude .env \
+            --exclude .env.* \
+            --exclude 'server/runtime-data' \
+            --exclude '.DS_Store' \
+            --exclude 'assets/toys/jinqi/*.jpg' \
+            ./ \
+            "$HOST:$REMOTE/"
+
+      - name: Install, migrate, restart
+        env:
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          REMOTE="${DEPLOY_PATH:-/var/www/printnova}"
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes "$HOST" "bash -s" <<REMOTE
+          set -euo pipefail
+          cd '$REMOTE'
+          npm install --omit=dev
+          npm run db:migrate
+          npm run db:migrate-editorial || true
+          pm2 restart printnova || pm2 start server/index.js --name printnova
+          pm2 save
+          REMOTE

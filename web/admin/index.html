@@ -1,0 +1,1358 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <title>运营管理 | 傲马 Orbmare</title>
+    <link rel="stylesheet" href="./admin.css" />
+    <link rel="stylesheet" href="./ai/ai.css?v=1" />
+  </head>
+  <body>
+    <main class="login-view" data-login-view>
+      <section class="login-panel" aria-labelledby="login-title">
+        <a class="ops-brand login-brand" href="/">
+          <span class="ops-brand-mark" aria-hidden="true">OM</span>
+          <span>
+            <strong>傲马</strong>
+            <small>Orbmare Operations</small>
+          </span>
+        </a>
+        <div class="login-copy">
+          <p class="section-label">受保护的内部系统</p>
+          <h1 id="login-title">运营人员登录</h1>
+          <p>商品发布、库存调整和运输信息仅对授权人员开放。</p>
+        </div>
+        <form class="login-form" data-login-form>
+          <div class="field">
+            <label for="loginEmail">管理员邮箱</label>
+            <input
+              id="loginEmail"
+              name="email"
+              type="email"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="loginPassword">密码</label>
+            <input
+              id="loginPassword"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              minlength="14"
+              required
+            />
+          </div>
+          <p class="form-error" data-login-error role="alert" hidden></p>
+          <button class="button button-primary login-submit" type="submit">
+            安全登录
+          </button>
+        </form>
+        <p class="security-note">
+          连续失败会触发临时锁定。请勿共享管理员凭据。
+        </p>
+      </section>
+    </main>
+
+    <div class="ops-shell" data-ops-shell hidden>
+      <aside class="ops-sidebar">
+        <a class="ops-brand" href="/">
+          <span class="ops-brand-mark" aria-hidden="true">OM</span>
+          <span>
+            <strong>傲马</strong>
+            <small>运营管理</small>
+          </span>
+        </a>
+        <nav class="ops-nav" aria-label="运营管理">
+          <p class="ops-nav-group">Overview</p>
+          <button class="ops-nav-item is-active" type="button" data-section-target="overview" data-requires-permission="product.read,order.read">
+            总览
+          </button>
+          <p class="ops-nav-group">Catalog</p>
+          <button class="ops-nav-item" type="button" data-section-target="products" data-requires-permission="product.read">
+            商品
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="brands" data-requires-permission="brand.read">
+            品牌
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="materials" data-requires-permission="material.read">
+            材料
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="countries" data-requires-permission="country.read">
+            国家馆
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="crafts" data-requires-permission="content.read">
+            工艺
+          </button>
+          <p class="ops-nav-group">Commerce</p>
+          <button class="ops-nav-item" type="button" data-section-target="inventory" data-requires-permission="inventory.read">
+            库存
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="shipping" data-requires-permission="order.read">
+            订单
+          </button>
+          <p class="ops-nav-group">Content</p>
+          <button class="ops-nav-item" type="button" data-section-target="content" data-requires-permission="content.read">
+            站点文案
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="media" data-requires-permission="media.read">
+            媒体库
+          </button>
+          <p class="ops-nav-group">System</p>
+          <button class="ops-nav-item" type="button" data-section-target="team" data-requires-permission="team.read">
+            团队权限
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="trash" data-requires-permission="audit.read">
+            删除记录
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="audit" data-requires-permission="audit.read">
+            操作记录
+          </button>
+        </nav>
+        <p class="sidebar-note">
+          内部系统。所有写入操作都会记录管理员、时间和对象。
+        </p>
+      </aside>
+
+      <div class="ops-workspace">
+        <header class="ops-header">
+          <div>
+            <p class="section-label" data-section-kicker>运营总览</p>
+            <h1 data-section-title>总览</h1>
+          </div>
+          <div class="ops-header-tools">
+            <div class="global-search">
+              <label class="visually-hidden" for="globalSearch">全局搜索</label>
+              <input id="globalSearch" type="search" placeholder="搜索商品、订单、品牌、材料…" data-global-search />
+              <div class="global-search-results" data-global-search-results hidden></div>
+            </div>
+            <span class="env-pill" data-admin-env>staging</span>
+            <div class="ops-user">
+              <span data-admin-email></span>
+              <small data-admin-role></small>
+              <button class="button button-secondary" type="button" data-logout>
+                退出
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <main class="ops-main">
+          <section class="ops-section is-active" data-section="overview" aria-labelledby="overview-title">
+            <div class="section-heading">
+              <h2 id="overview-title">今日运营状态</h2>
+              <button class="button button-secondary" type="button" data-refresh>
+                刷新数据
+              </button>
+            </div>
+            <div class="metric-grid" aria-label="运营指标">
+              <article class="metric">
+                <span>已发布商品</span>
+                <strong data-metric-published>0</strong>
+                <small data-metric-product-detail>共 0 件商品</small>
+              </article>
+              <article class="metric">
+                <span>库存提醒</span>
+                <strong data-metric-stock-alerts>0</strong>
+                <small>达到补货线或停止供应</small>
+              </article>
+              <article class="metric">
+                <span>运输中订单</span>
+                <strong data-metric-active-orders>0</strong>
+                <small data-metric-tracking-detail>0 个缺少追踪号</small>
+              </article>
+            </div>
+            <div class="overview-grid">
+              <section class="data-panel" aria-labelledby="stock-alert-title">
+                <div class="panel-heading">
+                  <h3 id="stock-alert-title">需要处理的库存</h3>
+                  <button class="text-button" type="button" data-jump-section="inventory">
+                    查看库存
+                  </button>
+                </div>
+                <div data-overview-stock></div>
+              </section>
+              <section class="data-panel" aria-labelledby="recent-order-title">
+                <div class="panel-heading">
+                  <h3 id="recent-order-title">最近订单</h3>
+                  <button class="text-button" type="button" data-jump-section="shipping">
+                    查看运输
+                  </button>
+                </div>
+                <div data-overview-orders></div>
+              </section>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="products" aria-labelledby="products-title" hidden>
+            <div class="section-heading">
+              <div>
+                <h2 id="products-title">商品管理</h2>
+                <p>
+                  管理 3D 打印与甄选商品。草稿仅后台可见；发布后分别同步到 /shop/ 与国家馆 / 发现页。无发布权限时保存为「审核中」。
+                  「推荐」商品会出现在前台 Orbmare 精选页下方的滚动推荐带。
+                </p>
+              </div>
+              <button class="button button-primary" type="button" data-new-product>
+                新建商品
+              </button>
+            </div>
+
+            <aside class="sync-guide" aria-labelledby="sync-guide-title">
+              <h3 id="sync-guide-title">前台同步位置（3D 打印）</h3>
+              <ul>
+                <li>
+                  <strong>发现页 · 3D打印馆</strong> —
+                  <a href="/discover/#print-catalog" target="_blank" rel="noopener">/discover/#print-catalog</a>
+                </li>
+                <li>
+                  <strong>店铺</strong> —
+                  <a href="/shop/" target="_blank" rel="noopener">/shop/</a>
+                  · 详情 <code>/product/shop.html?id=…</code>
+                </li>
+              </ul>
+              <p class="sync-guide-note">
+                虚假甄选数据已从商品库移除。国家馆静态内容不经此商品库。ID 使用小写字母、数字与连字符，且必须唯一。
+              </p>
+            </aside>
+
+            <div class="toolbar">
+              <div class="field compact-field">
+                <label for="productSearch">搜索商品</label>
+                <input id="productSearch" type="search" data-product-search />
+              </div>
+              <div class="field compact-field">
+                <label for="productChannelFilter">渠道</label>
+                <select id="productChannelFilter" data-product-channel-filter>
+                  <option value="all" selected>全部</option>
+                  <option value="shop">3D打印馆</option>
+                  <option value="editorial">甄选馆</option>
+                </select>
+              </div>
+              <div class="field compact-field">
+                <label for="productStatusFilter">发布状态</label>
+                <select id="productStatusFilter" data-product-status-filter>
+                  <option value="all">全部</option>
+                  <option value="published">已发布</option>
+                  <option value="draft">草稿</option>
+                  <option value="in_review">审核中</option>
+                  <option value="hidden">隐藏</option>
+                  <option value="archived">已归档</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">商品</th>
+                    <th scope="col">分类</th>
+                    <th scope="col">价格</th>
+                    <th scope="col">状态</th>
+                    <th scope="col">库存方式</th>
+                    <th scope="col">更新时间</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody data-product-table></tbody>
+              </table>
+              <div class="empty-state" data-product-empty hidden>
+                <h3>没有匹配商品</h3>
+                <p>调整搜索条件，或者创建新的商品草稿。</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="inventory" aria-labelledby="inventory-title" hidden>
+            <div class="section-heading">
+              <div>
+                <h2 id="inventory-title">库存管理</h2>
+                <p>区分按单采购、实物库存和暂停供应，结账会使用服务端库存限制。</p>
+              </div>
+            </div>
+            <div class="inventory-summary" data-inventory-summary></div>
+            <div class="table-frame">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">商品</th>
+                    <th scope="col">方式</th>
+                    <th scope="col">现有</th>
+                    <th scope="col">预留</th>
+                    <th scope="col">可售</th>
+                    <th scope="col">补货线</th>
+                    <th scope="col">每单上限</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody data-inventory-table></tbody>
+              </table>
+              <div class="empty-state" data-inventory-empty hidden>
+                <h3>暂无商品库存记录</h3>
+                <p>先在商品管理中创建商品。</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="shipping" aria-labelledby="shipping-title" hidden>
+            <div class="section-heading">
+              <div>
+                <h2 id="shipping-title">订单与运输</h2>
+                <p>记录采购、国际运输、清关和派送状态，以及承运商追踪信息。</p>
+              </div>
+            </div>
+            <div class="toolbar">
+              <div class="field compact-field">
+                <label for="shippingSearch">搜索订单</label>
+                <input id="shippingSearch" type="search" data-shipping-search />
+              </div>
+              <div class="field compact-field">
+                <label for="shippingStatusFilter">订单状态</label>
+                <select id="shippingStatusFilter" data-shipping-status-filter>
+                  <option value="all">全部</option>
+                </select>
+              </div>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">订单</th>
+                    <th scope="col">客户</th>
+                    <th scope="col">状态</th>
+                    <th scope="col">承运商</th>
+                    <th scope="col">追踪号</th>
+                    <th scope="col">更新时间</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody data-shipping-table></tbody>
+              </table>
+              <div class="empty-state" data-shipping-empty hidden>
+                <h3>暂无需要显示的订单</h3>
+                <p>完成测试订单后，运输记录会出现在这里。</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="brands" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>品牌管理 · Orbmare 精选</h2>
+                <p>
+                  统一管理三类主体：<code>brand-</code> 品牌、<code>studio-</code> 工作室、
+                  <code>designer-</code> 设计师。发布后出现在前台「Orbmare 精选」。
+                  点「推荐」的主体会进入精选页下方的慢速滚动推荐带。
+                </p>
+              </div>
+              <button class="button button-primary" type="button" data-new-entity="brand" data-requires-permission="brand.write">新建</button>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead><tr><th>名称</th><th>类型</th><th>ID</th><th>状态</th><th>推荐</th><th>更新</th><th>操作</th></tr></thead>
+                <tbody data-brand-table></tbody>
+              </table>
+              <div class="empty-state" data-brand-empty hidden><h3>暂无精选主体</h3><p>新建品牌 / 工作室 / 设计师，或运行迁移脚本导入。</p></div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="materials" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>材料管理</h2>
+                <p>材料是 Orbmare 核心差异化内容。AI 草稿不得自动标记为已验证事实。</p>
+              </div>
+              <button class="button button-primary" type="button" data-new-entity="material" data-requires-permission="material.write">新建材料</button>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead><tr><th>名称</th><th>ID</th><th>状态</th><th>更新</th><th>操作</th></tr></thead>
+                <tbody data-material-table></tbody>
+              </table>
+              <div class="empty-state" data-material-empty hidden><h3>暂无材料</h3><p>可从迁移脚本导入现有材料馆。</p></div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="countries" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>国家馆</h2>
+                <p>维护 Japan / Italy / China 等国家专题页文案、材料与工艺列表。发布后驱动前台国家馆。</p>
+              </div>
+              <button class="button button-primary" type="button" data-new-entity="country" data-requires-permission="country.write">新建国家</button>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead><tr><th>名称</th><th>ID</th><th>状态</th><th>更新</th><th>操作</th></tr></thead>
+                <tbody data-country-table></tbody>
+              </table>
+              <div class="empty-state" data-country-empty hidden><h3>暂无国家馆</h3><p>运行迁移脚本可导入 MVP 三国。</p></div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="crafts" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>工艺管理</h2>
+                <p>工艺馆列表与详情文案。发布后出现在 /craftsmanship/。</p>
+              </div>
+              <button class="button button-primary" type="button" data-new-entity="craft" data-requires-permission="content.update">新建工艺</button>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead><tr><th>名称</th><th>ID</th><th>状态</th><th>更新</th><th>操作</th></tr></thead>
+                <tbody data-craft-table></tbody>
+              </table>
+              <div class="empty-state" data-craft-empty hidden><h3>暂无工艺</h3><p>可从迁移脚本导入现有工艺条目。</p></div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="content" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>站点文案</h2>
+                <p>首页、关于、会员、Journal 等页面文案。保存后访客刷新即可看到。</p>
+              </div>
+            </div>
+            <form class="content-form" data-site-content-form data-requires-permission="content.update">
+              <fieldset>
+                <legend>首页 Hero</legend>
+                <div class="form-grid">
+                  <div class="field"><label>中文标题</label><input name="heroTitle" /></div>
+                  <div class="field"><label>英文标题</label><input name="heroTitleEn" /></div>
+                  <div class="field field-span-2"><label>中文副文</label><textarea name="heroBody" rows="3"></textarea></div>
+                  <div class="field field-span-2"><label>英文副文</label><textarea name="heroBodyEn" rows="3"></textarea></div>
+                  <div class="field"><label>中文 CTA</label><input name="heroCta" /></div>
+                  <div class="field"><label>英文 CTA</label><input name="heroCtaEn" /></div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>关于页</legend>
+                <div class="form-grid">
+                  <div class="field"><label>标题中文</label><input name="aboutTitle" /></div>
+                  <div class="field"><label>标题英文</label><input name="aboutTitleEn" /></div>
+                  <div class="field field-span-2"><label>导语中文</label><textarea name="aboutBody" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>导语英文</label><textarea name="aboutBodyEn" rows="2"></textarea></div>
+                  <div class="field"><label>小节1标题中</label><input name="aboutH1" /></div>
+                  <div class="field"><label>小节1标题英</label><input name="aboutH1En" /></div>
+                  <div class="field field-span-2"><label>段落1中</label><textarea name="aboutP1" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>段落1英</label><textarea name="aboutP1En" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>段落2中</label><textarea name="aboutP2" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>段落2英</label><textarea name="aboutP2En" rows="2"></textarea></div>
+                  <div class="field"><label>小节2标题中</label><input name="aboutH2" /></div>
+                  <div class="field"><label>小节2标题英</label><input name="aboutH2En" /></div>
+                  <div class="field field-span-2"><label>段落3中</label><textarea name="aboutP3" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>段落3英</label><textarea name="aboutP3En" rows="2"></textarea></div>
+                  <div class="field"><label>小节3标题中</label><input name="aboutH3" /></div>
+                  <div class="field"><label>小节3标题英</label><input name="aboutH3En" /></div>
+                  <div class="field field-span-2"><label>段落4中</label><textarea name="aboutP4" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>段落4英</label><textarea name="aboutP4En" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>使命句中</label><input name="aboutMission" /></div>
+                  <div class="field field-span-2"><label>使命句英</label><input name="aboutMissionEn" /></div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>会员页</legend>
+                <div class="form-grid">
+                  <div class="field"><label>标题中</label><input name="membershipTitle" /></div>
+                  <div class="field"><label>标题英</label><input name="membershipTitleEn" /></div>
+                  <div class="field field-span-2"><label>导语中</label><textarea name="membershipLead" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>导语英</label><textarea name="membershipLeadEn" rows="2"></textarea></div>
+                  <div class="field"><label>权益1标题中</label><input name="membership01" /></div>
+                  <div class="field"><label>权益1标题英</label><input name="membership01En" /></div>
+                  <div class="field field-span-2"><label>权益1说明中</label><input name="membership01b" /></div>
+                  <div class="field field-span-2"><label>权益1说明英</label><input name="membership01bEn" /></div>
+                  <div class="field"><label>权益2标题中</label><input name="membership02" /></div>
+                  <div class="field"><label>权益2标题英</label><input name="membership02En" /></div>
+                  <div class="field field-span-2"><label>权益2说明中</label><input name="membership02b" /></div>
+                  <div class="field field-span-2"><label>权益2说明英</label><input name="membership02bEn" /></div>
+                  <div class="field"><label>权益3标题中</label><input name="membership03" /></div>
+                  <div class="field"><label>权益3标题英</label><input name="membership03En" /></div>
+                  <div class="field field-span-2"><label>权益3说明中</label><input name="membership03b" /></div>
+                  <div class="field field-span-2"><label>权益3说明英</label><input name="membership03bEn" /></div>
+                  <div class="field"><label>权益4标题中</label><input name="membership04" /></div>
+                  <div class="field"><label>权益4标题英</label><input name="membership04En" /></div>
+                  <div class="field field-span-2"><label>权益4说明中</label><input name="membership04b" /></div>
+                  <div class="field field-span-2"><label>权益4说明英</label><input name="membership04bEn" /></div>
+                  <div class="field"><label>权益5标题中</label><input name="membership05" /></div>
+                  <div class="field"><label>权益5标题英</label><input name="membership05En" /></div>
+                  <div class="field field-span-2"><label>权益5说明中</label><input name="membership05b" /></div>
+                  <div class="field field-span-2"><label>权益5说明英</label><input name="membership05bEn" /></div>
+                  <div class="field"><label>权益6标题中</label><input name="membership06" /></div>
+                  <div class="field"><label>权益6标题英</label><input name="membership06En" /></div>
+                  <div class="field field-span-2"><label>权益6说明中</label><input name="membership06b" /></div>
+                  <div class="field field-span-2"><label>权益6说明英</label><input name="membership06bEn" /></div>
+                  <div class="field"><label>CTA 中</label><input name="membershipCta" /></div>
+                  <div class="field"><label>CTA 英</label><input name="membershipCtaEn" /></div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Journal</legend>
+                <div class="form-grid">
+                  <div class="field"><label>标题中</label><input name="journalTitle" /></div>
+                  <div class="field"><label>标题英</label><input name="journalTitleEn" /></div>
+                  <div class="field field-span-2"><label>导语中</label><textarea name="journalLead" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>导语英</label><textarea name="journalLeadEn" rows="2"></textarea></div>
+                  <div class="field field-span-2"><label>条目 JSON（数组：cat/catEn/title/titleEn/href）</label><textarea name="journalItemsJson" rows="10" spellcheck="false"></textarea></div>
+                </div>
+              </fieldset>
+              <button class="button button-primary" type="submit">保存站点文案</button>
+            </form>
+          </section>
+
+          <section class="ops-section" data-section="media" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>媒体库</h2>
+                <p>上传图片/视频/PDF。支持拖拽与本地导入；路径可复制到商品与材料字段。</p>
+              </div>
+              <label class="button button-primary" data-requires-permission="media.upload">
+                选择文件
+                <input type="file" accept="image/*,video/mp4,video/webm,application/pdf" multiple hidden data-media-upload />
+              </label>
+            </div>
+            <div
+              class="entity-image-drop entity-image-drop-multi media-dropzone"
+              data-media-dropzone
+              data-requires-permission="media.upload"
+              tabindex="0"
+              role="button"
+              aria-label="拖拽上传媒体"
+            >
+              <div class="entity-image-drop-empty">
+                <strong>拖拽文件到此处上传</strong>
+                <span>或点击右上角「选择文件」· 支持图片 / 视频 / PDF，可多选</span>
+              </div>
+            </div>
+            <div class="media-grid" data-media-grid></div>
+            <div class="empty-state standalone-empty" data-media-empty hidden><h3>暂无媒体</h3><p>上传后会出现在这里。</p></div>
+          </section>
+
+          <section class="ops-section" data-section="team" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>团队与权限</h2>
+                <p>基于角色的访问控制。敏感操作均在服务端再次校验。</p>
+              </div>
+            </div>
+            <form class="team-form" data-team-form data-requires-permission="team.manage">
+              <div class="form-grid">
+                <div class="field"><label>邮箱</label><input name="email" type="email" required /></div>
+                <div class="field"><label>显示名</label><input name="displayName" /></div>
+                <div class="field"><label>初始密码（≥14）</label><input name="password" type="password" minlength="14" required /></div>
+                <div class="field">
+                  <label>角色</label>
+                  <select name="roleId">
+                    <option value="viewer">Viewer</option>
+                    <option value="buyer">Buyer</option>
+                    <option value="content_editor">Content Editor</option>
+                    <option value="sales">Sales</option>
+                    <option value="inventory_manager">Inventory Manager</option>
+                    <option value="finance">Finance</option>
+                    <option value="administrator">Administrator</option>
+                    <option value="super_admin">Super Admin</option>
+                  </select>
+                </div>
+              </div>
+              <button class="button button-primary" type="submit">创建员工</button>
+            </form>
+            <div class="table-frame" style="margin-top:1.5rem">
+              <table>
+                <thead><tr><th>邮箱</th><th>名称</th><th>角色</th><th>状态</th></tr></thead>
+                <tbody data-team-table></tbody>
+              </table>
+              <div class="empty-state" data-team-empty hidden><h3>暂无员工列表</h3><p>需要 PostgreSQL。</p></div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="trash" hidden>
+            <div class="section-heading">
+              <div>
+                <h2>删除记录</h2>
+                <p>软删除内容在此保留 <strong>7 天</strong>，可恢复；到期后启动时自动永久清除。</p>
+              </div>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead>
+                  <tr>
+                    <th>标题</th>
+                    <th>类型</th>
+                    <th>ID</th>
+                    <th>删除人</th>
+                    <th>删除时间</th>
+                    <th>预计清除</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody data-trash-table></tbody>
+              </table>
+              <div class="empty-state" data-trash-empty hidden>
+                <h3>暂无删除记录</h3>
+                <p>删除商品、品牌、材料等后会出现在这里。</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="audit" aria-labelledby="audit-title" hidden>
+            <div class="section-heading">
+              <div>
+                <h2 id="audit-title">操作记录</h2>
+                <p>最近 100 次管理员登录、商品、库存、内容和运输操作。</p>
+              </div>
+            </div>
+            <div class="audit-list" data-audit-list></div>
+            <div class="empty-state standalone-empty" data-audit-empty hidden>
+              <h3>暂无操作记录</h3>
+              <p>完成第一次管理操作后，这里会显示记录。</p>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <dialog class="ops-dialog product-dialog" data-product-dialog>
+      <form method="dialog" class="dialog-shell" data-product-form>
+        <header class="dialog-header">
+          <div>
+            <p class="section-label">商品资料</p>
+            <h2 data-product-dialog-title>新建商品</h2>
+          </div>
+          <button class="dialog-close" type="button" data-close-product aria-label="关闭">
+            关闭
+          </button>
+        </header>
+        <div class="dialog-body">
+          <input type="hidden" name="editingId" />
+
+          <p class="field-map-banner">
+            带「前台」标注的字段会直接出现在发现页 / 店铺 / 详情页。灰色说明告诉你该填什么。
+          </p>
+
+          <fieldset>
+            <legend>① 发布与分类 · 控制是否上架</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="productId">商品 ID</label>
+                <input id="productId" name="id" pattern="[a-z0-9][a-z0-9-]*" required placeholder="dragon-13cm" />
+                <small>小写字母、数字和连字符；创建后不可修改；全局唯一。</small>
+              </div>
+              <div class="field">
+                <label for="productChannel">前台渠道</label>
+                <select id="productChannel" name="channel" required data-product-channel>
+                  <option value="shop" selected>3D打印馆（店铺 / 结账）</option>
+                  <option value="editorial">甄选馆（国家 / 发现页）</option>
+                </select>
+                <small>甄选商品发布后进入 /api/editorial-catalog。</small>
+              </div>
+              <div class="field">
+                <label for="productStatus">发布状态</label>
+                <select id="productStatus" name="lifecycleStatus" required>
+                  <option value="draft">草稿（仅后台可见）</option>
+                  <option value="in_review">提交审核</option>
+                  <option value="published">已发布（同步到前台）</option>
+                  <option value="hidden">隐藏</option>
+                  <option value="archived">已归档</option>
+                </select>
+              </div>
+              <div class="field" data-finance-fields>
+                <label for="productCost">成本价 USD</label>
+                <input id="productCost" name="costPrice" type="number" min="0" step="0.01" />
+                <small>仅财务/有权限员工可见。</small>
+              </div>
+              <div class="field">
+                <label for="productCompare">原价 / 对比价 USD</label>
+                <input id="productCompare" name="compareAtPrice" type="number" min="0" step="0.01" />
+              </div>
+              <div class="field" data-shop-fields>
+                <label for="productCollection">商品系列</label>
+                <select id="productCollection" name="collection" data-shop-collection>
+                  <option value="metal">工程金属件</option>
+                  <option value="toys">玩具与收藏</option>
+                  <option value="portrait">照片真人手办</option>
+                </select>
+                <small>前台：发现页 3D 馆筛选、店铺系列。</small>
+              </div>
+              <div class="field" data-editorial-fields hidden>
+                <label for="productCountry">国家馆</label>
+                <select id="productCountry" name="editorialCountry" data-editorial-collection>
+                  <option value="japan">日本 Japan</option>
+                  <option value="italy">意大利 Italy</option>
+                  <option value="china">中国 China</option>
+                </select>
+                <small>前台：/countries/{country}/ 商品栏。</small>
+              </div>
+              <div class="field" data-editorial-fields hidden>
+                <label for="editorialStatus">策展位置</label>
+                <select id="editorialStatus" name="editorialStatus">
+                  <option value="editors-pick">编辑精选 editors-pick</option>
+                  <option value="new">新品 new</option>
+                  <option value="hidden-gem">隐秘好物 hidden-gem</option>
+                  <option value="curated">普通甄选 curated</option>
+                  <option value="most-loved">最受喜爱 most-loved</option>
+                  <option value="seasonal">季节 seasonal</option>
+                </select>
+                <small>前台：首页 / 发现页对应轨道。</small>
+              </div>
+              <div class="field">
+                <label for="productPrice">基础价格 USD</label>
+                <input id="productPrice" name="price" type="number" min="0.5" step="0.01" required />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset data-editorial-fields hidden>
+            <legend>①b 甄选故事 · 国家馆与编辑页</legend>
+            <div class="form-grid">
+              <div class="field field-span-2">
+                <label for="productStoryZh">中文故事</label>
+                <textarea id="productStoryZh" name="storyZh" maxlength="2000" rows="3" placeholder="材料与工艺叙事（详情页主文）"></textarea>
+              </div>
+              <div class="field field-span-2">
+                <label for="productStoryEn">英文故事</label>
+                <textarea id="productStoryEn" name="story" maxlength="2000" rows="3"></textarea>
+              </div>
+              <div class="field">
+                <label for="productCraft">工艺（英）</label>
+                <input id="productCraft" name="craft" maxlength="120" placeholder="Hand Finished" />
+              </div>
+              <div class="field">
+                <label for="productCraftZh">工艺（中）</label>
+                <input id="productCraftZh" name="craftZh" maxlength="120" placeholder="手工精整" />
+              </div>
+              <div class="field">
+                <label for="productDesignerName">设计师（英）</label>
+                <input id="productDesignerName" name="designerName" maxlength="120" />
+              </div>
+              <div class="field">
+                <label for="productDesignerNameZh">设计师（中）</label>
+                <input id="productDesignerNameZh" name="designerNameZh" maxlength="120" />
+              </div>
+              <div class="field">
+                <label for="productStudio">工作室（英）</label>
+                <input id="productStudio" name="studio" maxlength="120" />
+              </div>
+              <div class="field">
+                <label for="productStudioZh">工作室（中）</label>
+                <input id="productStudioZh" name="studioZh" maxlength="120" />
+              </div>
+              <div class="field">
+                <label for="productDesignerId">设计师 ID</label>
+                <input id="productDesignerId" name="designerId" maxlength="80" placeholder="kenji-mori" />
+              </div>
+              <div class="field">
+                <label for="productMaterialZh">材料（中）</label>
+                <input id="productMaterialZh" name="materialZh" maxlength="120" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>② 展示文案 · 名称与说明（必填中英）</legend>
+            <div class="form-grid">
+              <div class="field field-span-2">
+                <label for="productZhName">中文名称 · 前台</label>
+                <input id="productZhName" name="zhName" maxlength="120" required />
+                <small>发现页卡片标题、店铺列表、详情页主标题（中文站）。</small>
+              </div>
+              <div class="field field-span-2">
+                <label for="productEnName">英文名称 · 前台</label>
+                <input id="productEnName" name="enName" maxlength="120" required />
+                <small>英文语言切换后的标题。</small>
+              </div>
+              <div class="field field-span-2">
+                <label for="productZhDesc">中文说明 · 前台</label>
+                <textarea id="productZhDesc" name="zhDesc" maxlength="500" rows="3" required></textarea>
+                <small>发现页摘要与详情描述（建议 1–3 句，说清用途与卖点）。</small>
+              </div>
+              <div class="field field-span-2">
+                <label for="productEnDesc">英文说明 · 前台</label>
+                <textarea id="productEnDesc" name="enDesc" maxlength="500" rows="3" required></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>③ 视觉与规格 · 图片 / 材料 / 尺寸 / 多规格</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="productMaterial">材料 · 前台</label>
+                <input id="productMaterial" name="material" maxlength="120" required placeholder="例：PLA / Brass / Silk" />
+                <small>卡片与详情材料行。</small>
+              </div>
+              <div class="field">
+                <label for="productDimensions">尺寸 · 前台</label>
+                <input id="productDimensions" name="dimensions" maxlength="160" placeholder="例：13×2×2 cm 或 Ø45mm" />
+                <small>店铺详情 sourcing；甄选可空。</small>
+              </div>
+              <div
+                class="field field-span-2"
+                data-path-upload
+                data-upload-target="image"
+                data-upload-multiple="0"
+                data-upload-folder="products"
+              >
+                <label for="productImage">主图 · 前台</label>
+                <div class="entity-image-drop" data-upload-drop tabindex="0" role="button" aria-label="上传主图">
+                  <img data-upload-preview alt="" hidden width="320" height="400" />
+                  <div class="entity-image-drop-empty" data-upload-empty>
+                    <strong>拖拽图片到此处，或点击选择本地文件</strong>
+                    <span>支持 JPG / PNG / WebP / GIF</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden data-upload-file />
+                </div>
+                <div class="entity-image-toolbar">
+                  <button class="button button-secondary button-compact" type="button" data-upload-pick>选择图片</button>
+                  <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
+                </div>
+                <input id="productImage" name="image" placeholder="/assets/..." required />
+                <small>可拖拽/本地导入，或粘贴 <code>/assets/...</code> 路径。</small>
+              </div>
+              <div
+                class="field field-span-2"
+                data-path-upload
+                data-upload-target="images"
+                data-upload-multiple="1"
+                data-upload-folder="products"
+              >
+                <label for="productImages">图集（可选，可多张）· 前台</label>
+                <div class="entity-image-drop entity-image-drop-multi" data-upload-drop tabindex="0" role="button" aria-label="上传图集">
+                  <div class="upload-grid" data-upload-grid hidden></div>
+                  <div class="entity-image-drop-empty" data-upload-empty>
+                    <strong>拖拽多张图片到此处，或点击选择本地文件</strong>
+                    <span>可多次添加；第一张建议与主图一致</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden data-upload-file />
+                </div>
+                <div class="entity-image-toolbar">
+                  <button class="button button-secondary button-compact" type="button" data-upload-pick>选择图片</button>
+                  <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
+                </div>
+                <textarea id="productImages" name="images" rows="3" placeholder="/assets/...&#10;/assets/..."></textarea>
+                <small>拖拽/本地导入后自动填入路径；也可每行粘贴一张。</small>
+              </div>
+              <div class="field field-span-2" data-shop-fields>
+                <label for="productVariants">多规格（可选，每行：规格名|价格）· 前台</label>
+                <textarea
+                  id="productVariants"
+                  name="variants"
+                  rows="4"
+                  placeholder="13CM：长13宽2|6.99&#10;30CM：长30宽4|8.99"
+                ></textarea>
+                <small>仅 3D 打印馆使用。留空则单规格 Standard。</small>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>④ 履约信息 · 发现页事实栏与详情页</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="originCountry">来源 / 采购国家 · 前台</label>
+                <input id="originCountry" name="originCountry" value="China" maxlength="80" required />
+                <small>发现页「来源国」、详情 Source country。</small>
+              </div>
+              <div class="field">
+                <label for="shippingProfile">运输方案代码</label>
+                <input id="shippingProfile" name="shippingProfile" value="cross_border_standard" maxlength="80" required />
+              </div>
+              <div class="field field-span-2">
+                <label for="processingTime">采购处理时间 · 前台</label>
+                <input id="processingTime" name="processingTime" maxlength="160" required placeholder="例：下单后 3–7 个工作日核实供货" />
+              </div>
+              <div class="field field-span-2">
+                <label for="internationalShippingTime">国际运输时间 · 前台</label>
+                <input id="internationalShippingTime" name="internationalShippingTime" maxlength="160" required placeholder="例：发货后 7–18 天送达美国" />
+              </div>
+              <div class="field field-span-2">
+                <label for="productImageSource">图片来源说明</label>
+                <input id="productImageSource" name="imageSource" maxlength="200" placeholder="例：供应商实拍 / Orbmare 本地素材" />
+              </div>
+              <div class="field field-span-2">
+                <label for="productSafetyWarning">安全提示</label>
+                <textarea id="productSafetyWarning" name="safetyWarning" maxlength="500" rows="2" placeholder="年龄建议、材料注意事项等"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>SEO</legend>
+            <div class="form-grid">
+              <div class="field field-span-2">
+                <label for="seoTitle">SEO Title</label>
+                <input id="seoTitle" name="seoTitle" maxlength="120" />
+              </div>
+              <div class="field field-span-2">
+                <label for="seoDescription">Meta Description</label>
+                <textarea id="seoDescription" name="seoDescription" maxlength="320" rows="2"></textarea>
+              </div>
+              <div class="field">
+                <label for="seoSlug">URL Slug</label>
+                <input id="seoSlug" name="seoSlug" maxlength="120" />
+                <small>默认使用商品 ID；发布后请保持稳定以保护 SEO。</small>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>⑤ 库存 · 是否可购买</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="inventoryMode">库存方式</label>
+                <select id="inventoryMode" name="inventoryMode" required>
+                  <option value="source_after_order">按单采购（前台：Sourced After Order）</option>
+                  <option value="stocked">实物库存（前台：Stock Managed）</option>
+                  <option value="unavailable">暂停供应（不可购买）</option>
+                </select>
+                <small>影响发现页「履约」标签与能否结账。</small>
+              </div>
+              <div class="field" data-stock-only>
+                <label for="inventoryOnHand">现有数量</label>
+                <input id="inventoryOnHand" name="onHand" type="number" min="0" step="1" value="0" />
+              </div>
+              <div class="field" data-stock-only>
+                <label for="inventoryReorderPoint">补货提醒线</label>
+                <input id="inventoryReorderPoint" name="reorderPoint" type="number" min="0" step="1" value="0" />
+              </div>
+              <div class="field">
+                <label for="inventoryMaxPerOrder">每单上限</label>
+                <input id="inventoryMaxPerOrder" name="maxPerOrder" type="number" min="1" max="1000" step="1" value="20" required />
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="sync-preview" data-product-sync-preview hidden>
+            <p class="section-label">保存后可打开前台核对</p>
+            <div class="sync-preview-links" data-product-sync-links></div>
+          </div>
+
+          <p class="form-error" data-product-error role="alert" hidden></p>
+        </div>
+        <footer class="dialog-actions">
+          <button class="button button-secondary" type="button" data-cancel-product>
+            取消
+          </button>
+          <button class="button button-primary" type="submit">
+            保存商品
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="ops-dialog inventory-dialog" data-inventory-dialog>
+      <form method="dialog" class="dialog-shell dialog-shell-small" data-inventory-form>
+        <header class="dialog-header">
+          <div>
+            <p class="section-label">库存调整</p>
+            <h2 data-inventory-product-name>商品库存</h2>
+          </div>
+          <button class="dialog-close" type="button" data-close-inventory aria-label="关闭">
+            关闭
+          </button>
+        </header>
+        <div class="dialog-body">
+          <input type="hidden" name="id" />
+          <div class="field">
+            <label for="quickInventoryMode">库存方式</label>
+            <select id="quickInventoryMode" name="mode" required>
+              <option value="source_after_order">按单采购</option>
+              <option value="stocked">实物库存</option>
+              <option value="unavailable">暂停供应</option>
+            </select>
+          </div>
+          <div class="form-grid">
+            <div class="field" data-quick-stock-only>
+              <label for="quickOnHand">现有数量</label>
+              <input id="quickOnHand" name="onHand" type="number" min="0" step="1" />
+            </div>
+            <div class="field" data-quick-stock-only>
+              <label for="quickReorderPoint">补货提醒线</label>
+              <input id="quickReorderPoint" name="reorderPoint" type="number" min="0" step="1" />
+            </div>
+            <div class="field">
+              <label for="quickMaxPerOrder">每单上限</label>
+              <input id="quickMaxPerOrder" name="maxPerOrder" type="number" min="1" max="1000" step="1" required />
+            </div>
+          </div>
+          <p class="form-error" data-inventory-error role="alert" hidden></p>
+        </div>
+        <footer class="dialog-actions">
+          <button class="button button-secondary" type="button" data-cancel-inventory>
+            取消
+          </button>
+          <button class="button button-primary" type="submit">
+            保存库存
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="ops-dialog shipping-dialog" data-shipping-dialog>
+      <form method="dialog" class="dialog-shell dialog-shell-small" data-shipping-form>
+        <header class="dialog-header">
+          <div>
+            <p class="section-label">运输记录</p>
+            <h2 data-shipping-order-id>更新订单</h2>
+          </div>
+          <button class="dialog-close" type="button" data-close-shipping aria-label="关闭">
+            关闭
+          </button>
+        </header>
+        <div class="dialog-body">
+          <input type="hidden" name="id" />
+          <div class="field">
+            <label for="orderStatus">订单状态</label>
+            <select id="orderStatus" name="status" required></select>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="shippingCarrier">承运商</label>
+              <input id="shippingCarrier" name="carrier" maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="shippingTrackingNumber">追踪号</label>
+              <input id="shippingTrackingNumber" name="trackingNumber" maxlength="160" />
+            </div>
+            <div class="field field-span-2">
+              <label for="shippingTrackingUrl">追踪网址</label>
+              <input id="shippingTrackingUrl" name="trackingUrl" type="url" placeholder="https://..." />
+            </div>
+            <div class="field">
+              <label for="shippingEstimatedDelivery">预计送达</label>
+              <input id="shippingEstimatedDelivery" name="estimatedDelivery" type="date" />
+            </div>
+            <div class="field">
+              <label for="shippingShippedAt">发货日期</label>
+              <input id="shippingShippedAt" name="shippedAt" type="date" />
+            </div>
+            <div class="field field-span-2">
+              <label for="shippingNote">状态备注</label>
+              <textarea id="shippingNote" name="note" maxlength="500" rows="3"></textarea>
+            </div>
+          </div>
+          <p class="form-error" data-shipping-error role="alert" hidden></p>
+        </div>
+        <footer class="dialog-actions">
+          <button class="button button-secondary" type="button" data-cancel-shipping>
+            取消
+          </button>
+          <button class="button button-primary" type="submit">
+            保存运输信息
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="ops-dialog" data-entity-dialog>
+      <form method="post" action="#" class="dialog-shell" data-entity-form novalidate>
+        <header class="dialog-header">
+          <div>
+            <p class="section-label">内容实体</p>
+            <h2 data-entity-dialog-title>新建</h2>
+          </div>
+          <button class="dialog-close" type="button" data-close-entity aria-label="关闭">关闭</button>
+        </header>
+        <div class="dialog-body">
+          <div class="form-grid">
+            <div class="field" data-brand-kind-field hidden>
+              <label>类型</label>
+              <select name="kind" data-brand-kind>
+                <option value="brand">品牌 brand-</option>
+                <option value="studio">工作室 studio-</option>
+                <option value="designer">设计师 designer-</option>
+              </select>
+              <small>ID 会自动加对应前缀；创建后类型与前缀固定。</small>
+            </div>
+            <div class="field"><label>ID</label><input name="id" required pattern="[a-z0-9][a-z0-9-]*" placeholder="如 brand-rossi 或先填 rossi" /></div>
+            <div class="field"><label>Slug</label><input name="slug" /></div>
+            <div class="field">
+              <label>状态</label>
+              <select name="status">
+                <option value="draft">草稿</option>
+                <option value="in_review">审核中</option>
+                <option value="published">已发布</option>
+                <option value="hidden">隐藏</option>
+                <option value="archived">已归档</option>
+              </select>
+            </div>
+            <div class="field"><label>英文名</label><input name="nameEn" required /></div>
+            <div class="field"><label>中文名</label><input name="nameZh" /></div>
+            <div class="field" data-brand-extra-field hidden><label>关联工作室（设计师可用）</label><input name="studio" /></div>
+            <div class="field" data-brand-extra-field hidden><label>关联工作室中文</label><input name="studioZh" /></div>
+            <div
+              class="field field-span-2"
+              data-path-upload
+              data-upload-target="image"
+              data-upload-folder="entities"
+            >
+              <label>主图（卡片 / 默认封面）</label>
+              <div
+                class="entity-image-drop"
+                data-upload-drop
+                tabindex="0"
+                role="button"
+                aria-label="上传或拖入图片"
+              >
+                <img data-upload-preview alt="" hidden width="320" height="400" />
+                <div class="entity-image-drop-empty" data-upload-empty>
+                  <strong>拖拽图片到此处，或点击选择本地文件</strong>
+                  <span>支持 JPG / PNG / WebP / GIF。上传后写入媒体库，前台直接显示图片。</span>
+                </div>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  hidden
+                  data-upload-file
+                />
+              </div>
+              <div class="entity-image-toolbar">
+                <button class="button button-secondary button-compact" type="button" data-upload-pick>
+                  选择图片
+                </button>
+                <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>
+                  清除图片
+                </button>
+              </div>
+              <input name="image" placeholder="/assets/..." value="" />
+            </div>
+            <div class="field field-span-2"><label>英文简介（列表卡）</label><textarea name="blurb" rows="3"></textarea></div>
+            <div class="field field-span-2"><label>中文简介（列表卡）</label><textarea name="blurbZh" rows="3"></textarea></div>
+            <div class="field field-span-2"><label>英文故事</label><textarea name="story" rows="4"></textarea></div>
+            <div class="field field-span-2"><label>中文故事</label><textarea name="storyZh" rows="4"></textarea></div>
+          </div>
+
+          <fieldset data-brand-editorial hidden>
+            <legend>品牌编辑页 · Hero</legend>
+            <div class="form-grid">
+              <div class="field field-span-2"><label>Slogan 中文（大标题）</label><input name="sloganZh" maxlength="120" placeholder="明木作 · 北京" /></div>
+              <div class="field field-span-2"><label>Slogan 英文</label><input name="slogan" maxlength="120" /></div>
+              <div class="field field-span-2"><label>副文 / Description 中文</label><textarea name="descriptionZh" rows="2" maxlength="220"></textarea></div>
+              <div class="field field-span-2"><label>副文 / Description 英文</label><textarea name="description" rows="2" maxlength="220"></textarea></div>
+              <div
+                class="field"
+                data-path-upload
+                data-upload-target="logo"
+                data-upload-folder="brands"
+              >
+                <label>Logo</label>
+                <div class="entity-image-drop entity-image-drop-sm" data-upload-drop tabindex="0" role="button">
+                  <img data-upload-preview alt="" hidden width="200" height="200" />
+                  <div class="entity-image-drop-empty" data-upload-empty>
+                    <strong>拖拽 / 点击上传</strong>
+                    <span>Logo</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden data-upload-file />
+                </div>
+                <div class="entity-image-toolbar">
+                  <button class="button button-secondary button-compact" type="button" data-upload-pick>选择</button>
+                  <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
+                </div>
+                <input name="logo" placeholder="/assets/..." />
+              </div>
+              <div
+                class="field"
+                data-path-upload
+                data-upload-target="heroImage"
+                data-upload-folder="brands"
+              >
+                <label>Hero 大图</label>
+                <div class="entity-image-drop entity-image-drop-sm" data-upload-drop tabindex="0" role="button">
+                  <img data-upload-preview alt="" hidden width="200" height="250" />
+                  <div class="entity-image-drop-empty" data-upload-empty>
+                    <strong>拖拽 / 点击上传</strong>
+                    <span>详情右侧大图</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden data-upload-file />
+                </div>
+                <div class="entity-image-toolbar">
+                  <button class="button button-secondary button-compact" type="button" data-upload-pick>选择</button>
+                  <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
+                </div>
+                <input name="heroImage" placeholder="空则用主图" />
+              </div>
+              <div
+                class="field field-span-2"
+                data-path-upload
+                data-upload-target="storyImage"
+                data-upload-folder="brands"
+              >
+                <label>故事配图</label>
+                <div class="entity-image-drop" data-upload-drop tabindex="0" role="button">
+                  <img data-upload-preview alt="" hidden width="320" height="400" />
+                  <div class="entity-image-drop-empty" data-upload-empty>
+                    <strong>拖拽图片到此处，或点击选择本地文件</strong>
+                    <span>空则用 Hero</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden data-upload-file />
+                </div>
+                <div class="entity-image-toolbar">
+                  <button class="button button-secondary button-compact" type="button" data-upload-pick>选择图片</button>
+                  <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
+                </div>
+                <input name="storyImage" placeholder="空则用 Hero" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset data-brand-editorial hidden>
+            <legend>为什么是傲马的选择 / Why it's a Orbmare Curates</legend>
+            <div class="form-grid">
+              <div class="field field-span-2"><label>为什么是傲马的选择（中文）</label><textarea name="editorsNoteZh" rows="4" maxlength="500"></textarea></div>
+              <div class="field field-span-2"><label>Why it's a Orbmare Curates（英文）</label><textarea name="editorsNote" rows="4" maxlength="500"></textarea></div>
+            </div>
+          </fieldset>
+
+          <fieldset data-brand-editorial hidden>
+            <legend>身份档案 Identity</legend>
+            <div class="form-grid">
+              <div class="field"><label>品牌名</label><input name="identityBrand" /></div>
+              <div class="field"><label>国家</label><input name="identityCountry" placeholder="China / 中国" /></div>
+              <div class="field"><label>创立</label><input name="identityFounded" /></div>
+              <div class="field"><label>创始人</label><input name="identityFounder" /></div>
+              <div class="field"><label>总部</label><input name="identityHeadquarters" /></div>
+              <div class="field"><label>设计风格</label><input name="identityDesignStyle" placeholder="如：安静克制 / Quiet restraint" /></div>
+              <div class="field"><label>设计语言</label><input name="identityDesignLanguage" /></div>
+              <div class="field"><label>价位</label><input name="identityPriceRange" /></div>
+              <div class="field"><label>材料</label><input name="identityMaterials" /></div>
+              <div class="field"><label>网站</label><input name="identityWebsite" type="url" /></div>
+            </div>
+          </fieldset>
+
+          <fieldset data-brand-editorial hidden>
+            <legend>设计哲学（最多 4 条）</legend>
+            <div class="form-grid" data-philosophy-fields></div>
+          </fieldset>
+
+          <fieldset data-brand-editorial hidden>
+            <legend>工艺卡片（最多 3 条）</legend>
+            <div class="form-grid" data-craft-card-fields></div>
+          </fieldset>
+
+          <fieldset data-brand-editorial hidden>
+            <legend>关联与影像</legend>
+            <div class="form-grid">
+              <div class="field field-span-2"><label>材料 ID（每行一个）</label><textarea name="materialIds" rows="3" placeholder="japanese-denim"></textarea></div>
+              <div class="field field-span-2"><label>代表作品商品 ID（每行一个）</label><textarea name="signatureProductIds" rows="3"></textarea></div>
+              <div class="field field-span-2"><label>相关品牌 ID（每行一个）</label><textarea name="relatedBrandIds" rows="3" placeholder="brand-xxx"></textarea></div>
+              <div
+                class="field field-span-2"
+                data-path-upload
+                data-upload-target="gallery"
+                data-upload-multiple="1"
+                data-upload-folder="brands"
+              >
+                <label>Gallery 影像集</label>
+                <div class="entity-image-drop entity-image-drop-multi" data-upload-drop tabindex="0" role="button">
+                  <div class="upload-grid" data-upload-grid hidden></div>
+                  <div class="entity-image-drop-empty" data-upload-empty>
+                    <strong>拖拽多张图片到此处，或点击选择本地文件</strong>
+                    <span>可多次添加</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden data-upload-file />
+                </div>
+                <div class="entity-image-toolbar">
+                  <button class="button button-secondary button-compact" type="button" data-upload-pick>选择图片</button>
+                  <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
+                </div>
+                <textarea name="gallery" rows="4" placeholder="/assets/..."></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset data-brand-editorial hidden>
+            <legend>傲马视角 + 评分</legend>
+            <div class="form-grid">
+              <div class="field field-span-2"><label>Why it matters 中</label><textarea name="perspectiveWhyMattersZh" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>Why it matters 英</label><textarea name="perspectiveWhyMatters" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>Who it's for 中</label><textarea name="perspectiveWhoForZh" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>Who it's for 英</label><textarea name="perspectiveWhoFor" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>What makes it different 中</label><textarea name="perspectiveDifferentZh" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>What makes it different 英</label><textarea name="perspectiveDifferent" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>Verdict 中</label><textarea name="perspectiveVerdictZh" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>Verdict 英</label><textarea name="perspectiveVerdict" rows="2"></textarea></div>
+              <div class="field"><label>工艺</label><input name="ratingCraftsmanship" type="number" min="0" max="10" step="0.1" /></div>
+              <div class="field"><label>经久</label><input name="ratingTimelessness" type="number" min="0" max="10" step="0.1" /></div>
+              <div class="field"><label>材料</label><input name="ratingMaterials" type="number" min="0" max="10" step="0.1" /></div>
+              <div class="field"><label>设计</label><input name="ratingDesign" type="number" min="0" max="10" step="0.1" /></div>
+              <div class="field"><label>价值</label><input name="ratingValue" type="number" min="0" max="10" step="0.1" /></div>
+              <div class="field"><label>真伪气质</label><input name="ratingAuthenticity" type="number" min="0" max="10" step="0.1" /></div>
+            </div>
+          </fieldset>
+
+          <fieldset data-country-fields hidden>
+            <legend>国家馆内容</legend>
+            <div class="form-grid">
+              <div class="field"><label>定位标签中</label><input name="tagZh" placeholder="匠心工艺" /></div>
+              <div class="field"><label>定位标签英</label><input name="tag" placeholder="Craftsmanship" /></div>
+              <div
+                class="field field-span-2"
+                data-path-upload
+                data-upload-target="coverImage"
+                data-upload-folder="countries"
+              >
+                <label>封面图</label>
+                <div class="entity-image-drop" data-upload-drop tabindex="0" role="button">
+                  <img data-upload-preview alt="" hidden width="320" height="180" />
+                  <div class="entity-image-drop-empty" data-upload-empty>
+                    <strong>拖拽图片到此处，或点击选择本地文件</strong>
+                    <span>国家馆封面</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden data-upload-file />
+                </div>
+                <div class="entity-image-toolbar">
+                  <button class="button button-secondary button-compact" type="button" data-upload-pick>选择图片</button>
+                  <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
+                </div>
+                <input name="coverImage" placeholder="/assets/editorial/country-japan.jpg" />
+              </div>
+              <div class="field field-span-2"><label>文化导语中</label><textarea name="cultureZh" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>文化导语英</label><textarea name="culture" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>历史正文中（段落用空行分隔）</label><textarea name="historyZh" rows="5"></textarea></div>
+              <div class="field field-span-2"><label>历史正文英</label><textarea name="history" rows="5"></textarea></div>
+              <div class="field field-span-2"><label>要点列表中（每行一条）</label><textarea name="historyLinesZh" rows="4"></textarea></div>
+              <div class="field field-span-2"><label>要点列表英</label><textarea name="historyLines" rows="4"></textarea></div>
+              <div class="field field-span-2"><label>材料条目（每行：id|中文名|英文名|备注中|备注英）</label><textarea name="pavilionMaterials" rows="5" placeholder="yak-wool|牦牛绒|Yak Wool|青藏高原|Qinghai–Tibet"></textarea></div>
+              <div class="field field-span-2"><label>工艺列表中（每行）</label><textarea name="pavilionCraftsZh" rows="3"></textarea></div>
+              <div class="field field-span-2"><label>工艺列表英（每行）</label><textarea name="pavilionCrafts" rows="3"></textarea></div>
+              <div class="field field-span-2"><label>商品区导语中</label><textarea name="productsBodyZh" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>商品区导语英</label><textarea name="productsBody" rows="2"></textarea></div>
+            </div>
+          </fieldset>
+
+          <fieldset data-material-fields hidden>
+            <legend>材料详情文案</legend>
+            <div class="form-grid">
+              <div class="field"><label>产地英</label><input name="origin" /></div>
+              <div class="field"><label>产地中</label><input name="originZh" /></div>
+              <div class="field field-span-2"><label>引言中</label><textarea name="introZh" rows="3"></textarea></div>
+              <div class="field field-span-2"><label>引言英</label><textarea name="intro" rows="3"></textarea></div>
+              <div class="field field-span-2"><label>抒情句中</label><textarea name="lyricZh" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>抒情句英</label><textarea name="lyric" rows="2"></textarea></div>
+              <div class="field field-span-2"><label>特质（每行一条中文；可写 中|英）</label><textarea name="traitsText" rows="4"></textarea></div>
+              <div class="field field-span-2"><label>Intelligence JSON（可选，覆盖静态 MI）</label><textarea name="intelligenceJson" rows="8" spellcheck="false" placeholder='{"identity":[],"evidence":[]}'></textarea></div>
+            </div>
+          </fieldset>
+
+          <fieldset data-craft-fields hidden>
+            <legend>工艺详情</legend>
+            <div class="form-grid">
+              <div class="field field-span-2"><label>关联国家英（每行）</label><textarea name="countriesText" rows="3" placeholder="Japan"></textarea></div>
+              <div class="field field-span-2"><label>关联国家中（每行）</label><textarea name="countriesZhText" rows="3" placeholder="日本"></textarea></div>
+              <div class="field field-span-2"><label>历史/说明中</label><textarea name="craftHistoryZh" rows="4"></textarea></div>
+              <div class="field field-span-2"><label>历史/说明英</label><textarea name="craftHistory" rows="4"></textarea></div>
+            </div>
+          </fieldset>
+        </div>
+        <footer class="dialog-footer">
+          <button class="button button-secondary" type="button" data-cancel-entity>取消</button>
+          <button class="button button-primary" type="submit">保存</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./admin.js?v=25"></script>
+  </body>
+</html>

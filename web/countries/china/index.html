@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="China on Orbmare — Original Design. 中国精品." />
+    <title>China | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=4" />
+  </head>
+  <body>
+    <div data-orb-header></div>
+    <main>
+      <section class="cover-hero" data-country-cover></section>
+      <section class="section shell-wide country-history-section">
+        <div class="country-history reveal" data-country-history></div>
+      </section>
+      <hr class="section-rule shell-wide" />
+      <section class="section-tight shell-wide">
+        <div class="section-head reveal">
+          <h2 data-i18n="country.materials">材料</h2>
+          <p data-i18n="country.materials.body">代表该国制作的材料。</p>
+        </div>
+        <div class="material-grid reveal" data-country-materials></div>
+      </section>
+      <section class="section-tight shell-wide">
+        <div class="section-head reveal">
+          <h2 data-i18n="country.crafts">工艺</h2>
+          <p data-i18n="country.crafts.body">定义该国工坊的技艺。</p>
+        </div>
+        <div class="material-grid reveal" data-country-crafts></div>
+      </section>
+      <section class="section-tight shell-wide">
+        <div class="section-head reveal">
+          <h2 data-i18n="country.designers">精选设计师</h2>
+          <p data-i18n="country.designers.body">我们甄选中的独立创作者与工作室。</p>
+        </div>
+        <div class="quiet-grid reveal" data-country-designers></div>
+      </section>
+      <section class="section shell-wide">
+        <div class="section-head reveal">
+          <h2 data-i18n="country.products">精选作品</h2>
+          <p data-country-products-body data-i18n="country.products.cn">原创品牌、非遗、家具、茶具与面料。</p>
+        </div>
+        <div class="quiet-grid reveal" data-country-products></div>
+      </section>
+
+      <section class="section-tight" id="print-shop">
+        <div class="shell-wide reveal">
+          <div class="print-band">
+            <div>
+              <p class="meta" style="color:rgba(245,245,245,.65)">Digital Manufacturing</p>
+              <h2 data-i18n="china.print.title">3D打印专区</h2>
+              <p data-i18n="china.print.body">中国馆内的数字制造板块。商品可加入购物袋，结账仍使用原 Stripe 流程。</p>
+              <div style="display:flex;flex-wrap:wrap;gap:12px">
+                <a class="btn" href="/shop/" data-i18n="china.print.cta">进入完整店铺</a>
+                <a class="btn btn-ghost" href="/shop/?filter=toys#shop" style="border-color:#f5f5f5;color:#f5f5f5">Toys</a>
+                <a class="btn btn-ghost" href="/shop/?filter=metal#shop" style="border-color:#f5f5f5;color:#f5f5f5">Metal</a>
+                <a class="btn btn-ghost" href="/shop/?filter=portrait#shop" style="border-color:#f5f5f5;color:#f5f5f5">Portrait</a>
+              </div>
+            </div>
+            <div class="print-band-visual">
+              <a href="/shop/?filter=toys#shop"><img src="/assets/toys/jinqi/jq-001-traditional-chinese-dragon-1.jpg" alt="" width="400" height="400" loading="lazy" /></a>
+              <a href="/shop/?filter=metal#shop"><img src="/assets/metal/gen-metal-lattice.png" alt="" width="400" height="400" loading="lazy" /></a>
+              <a href="/shop/?filter=portrait#shop"><img src="/assets/portrait/gen-portrait-elder.png" alt="" width="400" height="400" loading="lazy" /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountCountryPage } from "/shared/js/country-page.js";
+      mountCountryPage("china");
+    </script>
+  </body>
+</html>

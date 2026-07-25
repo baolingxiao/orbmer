@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Orbmare Brand Editorial — a magazine archive of curated makers" />
+    <title>Brand Editorial | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=22" />
+    <link rel="stylesheet" href="/shared/css/brand-editorial.css?v=1" />
+  </head>
+  <body class="be-page">
+    <div data-orb-header></div>
+    <main>
+      <div data-brand-editorial>
+        <section class="be-section">
+          <div class="be-shell be-narrow">
+            <p class="be-kicker">Orbmare</p>
+            <h1 class="be-h2">Brand Editorial</h1>
+            <p class="be-body">Loading archive…</p>
+          </div>
+        </section>
+      </div>
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountChrome } from "/shared/js/chrome.js";
+      import { loadCatalog } from "/shared/js/catalog-editorial.js";
+      import { applyI18n, getLang, onLangChange } from "/shared/js/editorial-i18n.js";
+      import { fetchBrandDetail, renderBrandEditorial } from "/shared/js/brand-editorial.js";
+
+      const id = new URLSearchParams(location.search).get("id");
+      if (!id) {
+        location.replace("/designers/");
+      } else {
+        await mountChrome({ title: "Brand Editorial | Orbmare" });
+        const root = document.querySelector("[data-brand-editorial]");
+        const catalog = await loadCatalog().catch(() => ({ products: [], materials: [] }));
+        const data = await fetchBrandDetail(id);
+
+        async function render(lang = getLang()) {
+          applyI18n(lang);
+          if (!data?.brand) {
+            root.innerHTML = `<section class="be-section"><div class="be-shell be-narrow">
+              <p class="be-kicker">Orbmare</p>
+              <h1 class="be-h2">${lang === "zh" ? "未找到该档案" : "Archive not found"}</h1>
+              <p class="be-body"><a href="/designers/">${
+                lang === "zh" ? "返回 Orbmare 精选" : "Back to Orbmare Picks"
+              }</a></p>
+            </div></section>`;
+            return;
+          }
+          const name =
+            lang === "zh"
+              ? data.brand.nameZh || data.brand.nameEn
+              : data.brand.nameEn || data.brand.nameZh;
+          document.title = `${name || id} | Orbmare`;
+          renderBrandEditorial(
+            root,
+            { brand: data.brand, related: data.related || [], catalog },
+            lang
+          );
+        }
+
+        onLangChange(render);
+        await render();
+      }
+    </script>
+  </body>
+</html>

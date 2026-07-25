@@ -1,0 +1,181 @@
+{
+  "region": "japan",
+  "flag": "jp",
+  "nameZh": "日本馆",
+  "nameEn": "Japan",
+  "tag": "Craftsmanship",
+  "tagZh": "匠心工艺",
+  "heroTitle": "日本匠心，物尽其美",
+  "heroLede": "文具、厨刀、陶瓷、茶具与生活用品——以工艺精度定义日常之物。",
+  "heroImage": "/assets/platform/pavilion-japan.png",
+  "searchPlaceholder": "搜索日本馆 · 匠心好物",
+  "categories": [
+    {
+      "id": "stationery",
+      "label": "文具",
+      "icon": "/assets/platform/categories/cat-stationery.png",
+      "blurb": "书写工具与纸本，精确到毫米的日常手感。"
+    },
+    {
+      "id": "knives",
+      "label": "厨刀",
+      "icon": "/assets/platform/categories/cat-kitchen.png",
+      "blurb": "锻打刃物与厨房利器，刀锋即工艺。"
+    },
+    {
+      "id": "ceramics",
+      "label": "陶瓷",
+      "icon": "/assets/platform/categories/cat-home.png",
+      "blurb": "器形克制、釉面细腻，餐桌与陈设皆可。"
+    },
+    {
+      "id": "tea",
+      "label": "茶具",
+      "icon": "/assets/platform/categories/cat-kitchen.png",
+      "blurb": "茶碗、铁壶与茶道具，仪式感落在手上。"
+    },
+    {
+      "id": "lifestyle",
+      "label": "生活用品",
+      "icon": "/assets/platform/categories/cat-home.png",
+      "blurb": "收纳、清洁与居家小物，耐用即优雅。"
+    }
+  ],
+  "products": [
+    {
+      "id": "jp-stationery-01",
+      "categoryId": "stationery",
+      "name": "黄铜钢笔 · 细笔尖",
+      "summary": "黄铜笔身随手温氧化，书写阻尼均匀。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-stationery.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-stationery-02",
+      "categoryId": "stationery",
+      "name": "和纸笔记本 · A5",
+      "summary": "中性纸张，适合钢笔与铅笔长时书写。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-stationery.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-stationery-03",
+      "categoryId": "stationery",
+      "name": "铝合金尺规套装",
+      "summary": "制图级公差，桌面陈列亦干净。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-stationery.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-knives-01",
+      "categoryId": "knives",
+      "name": "三德刀 · 165mm",
+      "summary": "家用万能刃型，刃线直、握感稳。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-knives-02",
+      "categoryId": "knives",
+      "name": "柳刃 · 刺身专用",
+      "summary": "单刃长刀，切片薄而不断层。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-knives-03",
+      "categoryId": "knives",
+      "name": "小刀 · 去皮与细工",
+      "summary": "短刃利落，厨房细活趁手。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-ceramics-01",
+      "categoryId": "ceramics",
+      "name": "白瓷饭碗 · 一对",
+      "summary": "薄胎白瓷，碗沿微弧，手感轻。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-ceramics-02",
+      "categoryId": "ceramics",
+      "name": "炻器餐盘 · 雾灰",
+      "summary": "哑光釉面，耐热耐用，适合日常。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-ceramics-03",
+      "categoryId": "ceramics",
+      "name": "花器 · 一輪挿し",
+      "summary": "单枝插花器形，桌面即景。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-tea-01",
+      "categoryId": "tea",
+      "name": "茶碗 · 抹茶碗",
+      "summary": "宽口厚壁，适合抹茶点茶。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-tea-02",
+      "categoryId": "tea",
+      "name": "铸铁茶壶 · 小容量",
+      "summary": "保温持久，壶身纹理沉稳。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-tea-03",
+      "categoryId": "tea",
+      "name": "茶则与茶匙套装",
+      "summary": "竹木茶道具，取茶计量顺手。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-kitchen.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-lifestyle-01",
+      "categoryId": "lifestyle",
+      "name": "桧木入浴桶 · 小型",
+      "summary": "木香清淡，居家沐浴仪式感。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-lifestyle-02",
+      "categoryId": "lifestyle",
+      "name": "棉麻收纳盒",
+      "summary": "可折叠收纳，结构挺括不塌。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    },
+    {
+      "id": "jp-lifestyle-03",
+      "categoryId": "lifestyle",
+      "name": "不锈钢清洁刷",
+      "summary": "耐用刷丝，厨房与浴室通用。",
+      "priceLabel": "精选筹备中",
+      "image": "/assets/platform/categories/cat-home.png",
+      "status": "curated"
+    }
+  ]
+}

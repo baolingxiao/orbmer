@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About Orbmare" />
+    <title>About | Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=5" />
+  </head>
+  <body>
+    <div data-orb-header></div>
+    <main>
+      <section class="page-hero shell-wide" data-module="about">
+        <h1 data-i18n="about.title" data-editable="about.title">傲马为何存在。</h1>
+        <p data-i18n="about.lead" data-editable="about.body">我们相信世界值得更好的产品——而不是更多的产品。</p>
+      </section>
+      <section class="section shell-wide">
+        <div class="prose reveal">
+          <h2 data-i18n="about.h1" data-editable="about.h1">一座图书馆，而非店面。</h2>
+          <p data-i18n="about.p1" data-editable="about.p1">傲马基于一个简单信念：工艺、材料与设计，值得比无尽滚动的购物平台更安静的家。</p>
+          <p data-i18n="about.p2" data-editable="about.p2">我们甄选世界最好的制作——来自独立设计师、匠人与顶级工坊——让发现像走入博物馆，而不是冲过仓库。</p>
+          <h2 data-i18n="about.h2" data-editable="about.h2">为何工艺重要。</h2>
+          <p data-i18n="about.p3" data-editable="about.p3">用心制作的物件更持久，随时间更有尊严，并把我们与塑造它们的人与地方相连。当你理解纤维、锻造与针脚——你会以不同的方式购买。</p>
+          <h2 data-i18n="about.h3" data-editable="about.h3">为何更好的产品。</h2>
+          <p data-i18n="about.p4" data-editable="about.p4">数量文化教会我们追逐价格与新鲜感。傲马选择诚信：更少的作品、更清晰的故事、以及对制作者的尊重。</p>
+          <p>
+            <em style="font-family:var(--font-display);font-size:1.35em;color:var(--ink)" data-i18n="about.mission" data-editable="about.mission">
+              我们甄选世界最好的材料、工艺与设计。
+            </em>
+          </p>
+        </div>
+      </section>
+    </main>
+    <div data-orb-footer></div>
+    <script type="module">
+      import { mountChrome } from "/shared/js/chrome.js";
+      import { applyI18n, getLang, onLangChange } from "/shared/js/editorial-i18n.js";
+      mountChrome({ title: "About | Orbmare" });
+      applyI18n(getLang());
+      onLangChange(applyI18n);
+    </script>
+  </body>
+</html>
