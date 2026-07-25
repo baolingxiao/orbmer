@@ -95,6 +95,25 @@ app.post(
 app.use(express.json({ limit: "256kb" }));
 app.use("/api/stripe", apiCors, stripeRouter);
 
+let adminHostRouter = null;
+const adminHost = String(ADMIN_HOST || "")
+  .trim()
+  .toLowerCase()
+  .replace(/^https?:\/\//, "")
+  .split("/")[0]
+  .split(":")[0];
+
+// The admin host must be handled before the public API. Otherwise routes such as
+// /api/brands answer the console with published-only public cards that drop
+// updatedAt and the editorial payload.
+app.use((req, res, next) => {
+  if (!adminHostRouter || !adminHost) return next();
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  if (host !== adminHost) return next();
+  if (req.path.startsWith("/assets/") || req.path.startsWith("/shared/")) return next();
+  return adminHostRouter(req, res, next);
+});
+
 app.get("/api/catalog", async (_req, res) => {
   res.setHeader("Cache-Control", "no-store");
   res.json({ ok: true, products: await listPublishedProducts() });
@@ -338,13 +357,6 @@ const adminCredentials = {
 };
 
 let adminConfigured = false;
-let adminHostRouter = null;
-const adminHost = String(ADMIN_HOST || "")
-  .trim()
-  .toLowerCase()
-  .replace(/^https?:\/\//, "")
-  .split("/")[0]
-  .split(":")[0];
 
 if (adminBasePath) {
   const admin = createAdminRouter({
@@ -368,13 +380,8 @@ if (adminHost) {
     ...adminCredentials,
   });
   adminConfigured = adminConfigured || hosted.configured;
+  // Consumed by the early host guard registered above the public API routes.
   adminHostRouter = hosted.router;
-  app.use((req, res, next) => {
-    const host = String(req.headers.host || "").split(":")[0].toLowerCase();
-    if (host !== adminHost) return next();
-    if (req.path.startsWith("/assets/") || req.path.startsWith("/shared/")) return next();
-    return adminHostRouter(req, res, next);
-  });
 }
 
 const seller = createSellerRouter({
