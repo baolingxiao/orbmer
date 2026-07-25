@@ -29,22 +29,48 @@ jobs:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
         run: |
-          test -n "$DEPLOY_SSH_KEY" || (echo "Missing secret DEPLOY_SSH_KEY" && exit 1)
-          test -n "$DEPLOY_HOST" || (echo "Missing secret DEPLOY_HOST" && exit 1)
+          set -euo pipefail
+          test -n "${DEPLOY_SSH_KEY:-}" || { echo "Missing secret DEPLOY_SSH_KEY"; exit 1; }
+          test -n "${DEPLOY_HOST:-}" || { echo "Missing secret DEPLOY_HOST"; exit 1; }
+
+          if printf '%s' "$DEPLOY_SSH_KEY" | grep -q '^ssh-ed25519 \|^ssh-rsa \|^ecdsa-'; then
+            echo "DEPLOY_SSH_KEY looks like a PUBLIC key (ssh-ed25519/ssh-rsa)."
+            echo "Paste the PRIVATE key instead (starts with -----BEGIN OPENSSH PRIVATE KEY-----)."
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
-          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          # Normalize: CRLF → LF; literal \n sequences → real newlines (common paste mistakes)
+          KEY="$DEPLOY_SSH_KEY"
+          KEY="${KEY//$'\r'/}"
+          if ! printf '%s' "$KEY" | grep -q 'BEGIN .*PRIVATE KEY'; then
+            KEY="$(printf '%s' "$KEY" | sed 's/\\n/\n/g')"
+          fi
+          printf '%s\n' "$KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+
+          if ! grep -q 'BEGIN .*PRIVATE KEY' ~/.ssh/deploy_key; then
+            echo "DEPLOY_SSH_KEY does not contain a private key header."
+            echo "Expected a block starting with -----BEGIN OPENSSH PRIVATE KEY-----"
+            exit 1
+          fi
+
           HOST_ONLY="${DEPLOY_HOST#*@}"
-          ssh-keyscan -H "$HOST_ONLY" >> ~/.ssh/known_hosts
+          ssh-keyscan -H "$HOST_ONLY" >> ~/.ssh/known_hosts 2>/dev/null
           echo "HOST=$DEPLOY_HOST" >> "$GITHUB_ENV"
+
+          echo "Testing SSH to $DEPLOY_HOST ..."
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=15 \
+            "$DEPLOY_HOST" "echo ssh_ok && hostname"
 
       - name: Rsync code
         env:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
+          set -euo pipefail
           REMOTE="${DEPLOY_PATH:-/var/www/printnova}"
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes" \
             --exclude node_modules \
             --exclude .git \
             --exclude .env \
@@ -59,8 +85,9 @@ jobs:
         env:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
+          set -euo pipefail
           REMOTE="${DEPLOY_PATH:-/var/www/printnova}"
-          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes "$HOST" "bash -s" <<REMOTE
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes "$HOST" "bash -s" <<REMOTE
           set -euo pipefail
           cd '$REMOTE'
           npm install --omit=dev
