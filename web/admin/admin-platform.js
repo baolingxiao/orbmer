@@ -176,22 +176,23 @@
         .map(
           (i) => `
           <div class="field field-span-2" data-path-upload data-upload-target="craftCard${i}Image" data-upload-folder="brands">
-            <label>工艺卡 ${i + 1} 图片</label>
-            <div class="entity-image-drop entity-image-drop-sm" data-upload-drop tabindex="0" role="button">
+            <label>细节图 ${i + 1}</label>
+            <div class="entity-image-drop entity-image-drop-sm" data-upload-drop tabindex="0" role="button" aria-label="上传细节图 ${i + 1}">
               <img data-upload-preview alt="" hidden width="200" height="250" />
-              <div class="entity-image-drop-empty" data-upload-empty><strong>拖拽 / 点击上传</strong><span>工艺卡图</span></div>
+              <div class="entity-image-drop-empty" data-upload-empty><strong>拖拽 / 点击上传</strong><span>产品细节近景</span></div>
               <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden data-upload-file />
             </div>
             <div class="entity-image-toolbar">
               <button class="button button-secondary button-compact" type="button" data-upload-pick>选择</button>
               <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
             </div>
-            <input name="craftCard${i}Image" placeholder="/assets/..." />
+            <input name="craftCard${i}Image" placeholder="/assets/uploads/..." />
+            <small>上传后路径会写入此框；必须点弹窗底部「保存」才会进数据库。</small>
           </div>
-          <div class="field"><label>标题中</label><input name="craftCard${i}TitleZh" /></div>
-          <div class="field"><label>标题英</label><input name="craftCard${i}Title" /></div>
-          <div class="field field-span-2"><label>说明中</label><textarea name="craftCard${i}BodyZh" rows="2"></textarea></div>
-          <div class="field field-span-2"><label>说明英</label><textarea name="craftCard${i}Body" rows="2"></textarea></div>`
+          <div class="field"><label>标题中（可选）</label><input name="craftCard${i}TitleZh" placeholder="如：缝线细节" /></div>
+          <div class="field"><label>标题英（可选）</label><input name="craftCard${i}Title" placeholder="e.g. Stitching" /></div>
+          <div class="field field-span-2"><label>说明中（可选）</label><textarea name="craftCard${i}BodyZh" rows="2" maxlength="200"></textarea></div>
+          <div class="field field-span-2"><label>说明英（可选）</label><textarea name="craftCard${i}Body" rows="2" maxlength="200"></textarea></div>`
         )
         .join("");
       refreshUploads(craftRoot);
@@ -330,12 +331,13 @@
     }
     const crafts = [];
     for (let i = 0; i < 3; i += 1) {
-      const title = formValue(form, `craftCard${i}Title`);
-      const titleZh = formValue(form, `craftCard${i}TitleZh`);
-      const body = formValue(form, `craftCard${i}Body`);
-      const bodyZh = formValue(form, `craftCard${i}BodyZh`);
-      const image = formValue(form, `craftCard${i}Image`);
-      if (title || titleZh || body || bodyZh || image) {
+      const title = formValue(form, `craftCard${i}Title`).trim();
+      const titleZh = formValue(form, `craftCard${i}TitleZh`).trim();
+      const body = formValue(form, `craftCard${i}Body`).trim();
+      const bodyZh = formValue(form, `craftCard${i}BodyZh`).trim();
+      const image = formValue(form, `craftCard${i}Image`).trim();
+      // Image-only detail shots are valid (title/body optional).
+      if (image || title || titleZh || body || bodyZh) {
         crafts.push({ title, titleZh, body, bodyZh, image });
       }
     }
@@ -347,7 +349,8 @@
       descriptionZh: formValue(form, "descriptionZh"),
       logo: formValue(form, "logo"),
       heroImage,
-      storyImage: formValue(form, "storyImage") || heroImage,
+      // Keep empty when unset — public page falls back to hero; do not overwrite DB.
+      storyImage: formValue(form, "storyImage"),
       editorsNote: formValue(form, "editorsNote"),
       editorsNoteZh: formValue(form, "editorsNoteZh"),
       identity: {
@@ -505,10 +508,19 @@
     };
   }
 
-  function openEntityDialog(type, item = null) {
+  async function openEntityDialog(type, item = null) {
     const dialog = document.querySelector("[data-entity-dialog]");
     const form = document.querySelector("[data-entity-form]");
     if (!dialog || !form) return;
+    // Always re-fetch on edit so image paths match the database (list rows can be stale).
+    if (item?.id) {
+      try {
+        const data = await api(`/${type}s/${encodeURIComponent(item.id)}`);
+        if (data?.item) item = data.item;
+      } catch {
+        /* keep list snapshot */
+      }
+    }
     ensureRepeatFields();
     form.reset();
     form.dataset.entityType = type;
@@ -576,6 +588,8 @@
       ? `编辑${titles[type] || type}`
       : `新建${titles[type] || type}`;
     refreshUploads(form);
+    // Second pass after paint: path inputs are filled before previews bind/refresh.
+    requestAnimationFrame(() => refreshUploads(form));
     const ai = bridge().ai;
     if (ai?.mountForm) {
       ai.mountForm(form, {
@@ -605,7 +619,11 @@
 
   function setValue(form, name, value) {
     const field = form.elements.namedItem(name);
-    if (field) field.value = value ?? "";
+    if (!field || field instanceof RadioNodeList) return;
+    field.value = value ?? "";
+    // Notify upload widgets bound to this path field.
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+    field.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
   function formValue(form, name) {

@@ -55,16 +55,17 @@ export function normalizeBrandEditorial(input = {}, existing = {}) {
     }))
     .filter((row) => row.title || row.titleZh || row.body || row.bodyZh);
 
-  const crafts = listOf(src.crafts ?? existing.crafts)
+  // Detail shots (legacy key: crafts). Keep rows that have an image and/or copy.
+  const crafts = listOf(src.crafts ?? src.details ?? existing.crafts)
     .slice(0, 9)
     .map((row) => ({
       image: text(row?.image, 400),
       title: text(row?.title, 80),
       titleZh: text(row?.titleZh, 80),
-      body: text(row?.body, 120),
-      bodyZh: text(row?.bodyZh, 120),
+      body: text(row?.body, 200),
+      bodyZh: text(row?.bodyZh, 200),
     }))
-    .filter((row) => row.title || row.titleZh);
+    .filter((row) => row.image || row.title || row.titleZh || row.body || row.bodyZh);
 
   const gallery = listOf(src.gallery ?? existing.gallery)
     .map((row) => (typeof row === "string" ? row : row?.image || row?.src || ""))
@@ -260,28 +261,36 @@ export function enrichBrandEditorial(brand) {
       },
     ];
   }
+  // Keep only detail images that still exist on disk; drop broken upload paths.
+  editorial.crafts = (editorial.crafts || [])
+    .map((row) => ({
+      ...row,
+      image: pickExistingAsset(row.image) || "",
+    }))
+    .filter((row) => row.image || row.title || row.titleZh || row.body || row.bodyZh);
+
   if (!editorial.crafts.length) {
     editorial.crafts = [
       {
         image,
-        title: "Considered Finishing",
-        titleZh: "审慎收尾",
-        body: "Edges, seams, and hardware resolved with patience.",
-        bodyZh: "边角、缝线与五金都以耐心完成。",
+        title: "Silhouette",
+        titleZh: "轮廓",
+        body: "Proportion and line in close view.",
+        bodyZh: "近看比例与轮廓。",
       },
       {
         image,
-        title: "Material Selection",
-        titleZh: "材料甄选",
-        body: "Chosen for hand-feel, ageing, and structural integrity.",
-        bodyZh: "以手感、老化与结构完整性为标准。",
+        title: "Material",
+        titleZh: "材料",
+        body: "Surface, hand-feel, and ageing character.",
+        bodyZh: "表面、手感与老化气质。",
       },
       {
         image,
-        title: "Small-batch Making",
-        titleZh: "小批量制作",
-        body: "Scale kept close enough for care to remain visible.",
-        bodyZh: "规模克制，好让用心仍可被看见。",
+        title: "Detail",
+        titleZh: "细节",
+        body: "Seams, hardware, and finishing up close.",
+        bodyZh: "缝线、五金与收尾的近景。",
       },
     ];
   }

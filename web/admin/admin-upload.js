@@ -61,28 +61,34 @@ export function createAdminUploader({ api, toast } = {}) {
           </figure>`
         )
         .join("");
-      grid.hidden = !list.length;
+      if (list.length) grid.removeAttribute("hidden");
+      else grid.setAttribute("hidden", "");
     }
 
     if (preview && !multiple) {
       const src = list[0] || "";
       if (src) {
+        // Bust cache so a re-uploaded file at a new path always paints.
         preview.src = src;
-        preview.hidden = false;
-        empty && (empty.hidden = true);
+        preview.removeAttribute("hidden");
+        empty?.setAttribute("hidden", "");
         drop?.classList.add("has-image");
       } else {
         preview.removeAttribute("src");
-        preview.hidden = true;
-        empty && (empty.hidden = false);
+        preview.setAttribute("hidden", "");
+        empty?.removeAttribute("hidden");
         drop?.classList.remove("has-image");
       }
     } else if (multiple) {
-      empty && (empty.hidden = Boolean(list.length));
+      if (list.length) empty?.setAttribute("hidden", "");
+      else empty?.removeAttribute("hidden");
       drop?.classList.toggle("has-image", Boolean(list.length));
     }
 
-    if (clearBtn) clearBtn.hidden = !list.length;
+    if (clearBtn) {
+      if (list.length) clearBtn.removeAttribute("hidden");
+      else clearBtn.setAttribute("hidden", "");
+    }
   }
 
   function readTarget(target) {

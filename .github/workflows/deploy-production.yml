@@ -79,13 +79,16 @@ jobs:
         run: |
           set -euo pipefail
           REMOTE="${DEPLOY_PATH:-/var/www/printnova}"
+          # Never --delete uploads or runtime data: they are gitignored and live
+          # only on the server. Without these excludes, every deploy wipes media.
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes" \
             --exclude node_modules \
             --exclude .git \
             --exclude .env \
             --exclude .env.* \
-            --exclude 'server/runtime-data' \
+            --exclude 'server/runtime-data/' \
+            --exclude 'web/assets/uploads/' \
             --exclude '.DS_Store' \
             --exclude 'assets/toys/jinqi/*.jpg' \
             ./ \

@@ -198,8 +198,8 @@ export function renderBrandEditorial(root, { brand, related = [], catalog }, lan
 
     <section class="be-section">
       <div class="be-shell">
-        <p class="be-kicker">${lang === "zh" ? "工艺" : "Craftsmanship"}</p>
-        <h2 class="be-h2">${lang === "zh" ? "制作方式" : "How It Is Made"}</h2>
+        <p class="be-kicker">${lang === "zh" ? "细节" : "Details"}</p>
+        <h2 class="be-h2">${lang === "zh" ? "细节展示" : "In Detail"}</h2>
         <div class="be-craft-grid">
           ${crafts
             .map((item) => {
@@ -207,7 +207,7 @@ export function renderBrandEditorial(root, { brand, related = [], catalog }, lan
               const body = lang === "zh" ? item.bodyZh || item.body : item.body || item.bodyZh;
               const img = item.image || hero;
               return `<article class="be-craft-card">
-                <div class="be-media-45"><img src="${escapeHtml(img)}" alt="" width="640" height="800" loading="lazy" /></div>
+                <div class="be-media-45"><img src="${escapeHtml(img)}" alt="${escapeHtml(title || "")}" width="640" height="800" loading="lazy" /></div>
                 <h3>${escapeHtml(title || "")}</h3>
                 <p>${escapeHtml(body || "")}</p>
               </article>`;

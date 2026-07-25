@@ -189,7 +189,7 @@ export const ENTITY_FIELD_REGISTRY = {
     ...[0, 1, 2].flatMap((i) => [
       field({
         field: `craftCard${i}TitleZh`,
-        label: `工艺卡 ${i + 1} 标题中`,
+        label: `细节图 ${i + 1} 标题中`,
         language: "zh",
         contentType: "design_philosophy",
         maxLength: 80,
@@ -197,7 +197,7 @@ export const ENTITY_FIELD_REGISTRY = {
       }),
       field({
         field: `craftCard${i}Title`,
-        label: `工艺卡 ${i + 1} 标题英`,
+        label: `细节图 ${i + 1} 标题英`,
         language: "en",
         contentType: "design_philosophy",
         maxLength: 80,
@@ -205,18 +205,18 @@ export const ENTITY_FIELD_REGISTRY = {
       }),
       field({
         field: `craftCard${i}BodyZh`,
-        label: `工艺卡 ${i + 1} 说明中`,
+        label: `细节图 ${i + 1} 说明中`,
         language: "zh",
         contentType: "material_story",
-        maxLength: 120,
+        maxLength: 200,
         relatedFields: [`craftCard${i}TitleZh`, `craftCard${i}Body`],
       }),
       field({
         field: `craftCard${i}Body`,
-        label: `工艺卡 ${i + 1} 说明英`,
+        label: `细节图 ${i + 1} 说明英`,
         language: "en",
         contentType: "material_story",
-        maxLength: 120,
+        maxLength: 200,
         relatedFields: [`craftCard${i}Title`, `craftCard${i}BodyZh`],
       }),
     ]),

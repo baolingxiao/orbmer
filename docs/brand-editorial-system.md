@@ -53,6 +53,6 @@ Orbmare is a static Express + editorial HTML stack (not Next.js). The Brand Edit
 
 ## Data
 
-Brand payload may include: `logo`, `slogan(Zh)`, `description(Zh)`, `heroImage`, `editorsNote(Zh)`, `identity{}`, `storyImage`, `philosophy[]`, `crafts[]`, `materialIds[]`, `signatureProductIds[]`, `gallery[]`, `perspective{}`, `ratings{}`, `relatedBrandIds[]`.
+Brand payload may include: `logo`, `slogan(Zh)`, `description(Zh)`, `heroImage`, `editorsNote(Zh)`, `identity{}`, `storyImage`, `philosophy[]`, `crafts[]` (detail shots / 细节展示; image-first rows OK), `materialIds[]`, `signatureProductIds[]`, `gallery[]`, `perspective{}`, `ratings{}`, `relatedBrandIds[]`.
 
 Missing fields are enriched from legacy blurb/story so every published entity still renders a complete magazine archive.
