@@ -1022,7 +1022,7 @@
           renderEntityTable("craft", list);
         }
 
-        bridge().ai?.markClean?.(form);
+        bridge().ai?.markClean?.(entityForm);
         document.querySelector("[data-entity-dialog]")?.close();
         toast(`已写入数据库：${saved.id}`);
 
