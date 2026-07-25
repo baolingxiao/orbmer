@@ -163,6 +163,25 @@ function can(permission) {
   return (state.user?.permissions || []).includes(permission);
 }
 
+async function refreshCsrfFromSession() {
+  const response = await fetch("./api/session", {
+    method: "GET",
+    credentials: "same-origin",
+    headers: { Accept: "application/json" },
+  });
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    data = { ok: false };
+  }
+  if (data?.authenticated && data.csrfToken) {
+    state.csrfToken = data.csrfToken;
+    if (data.user) state.user = data.user;
+  }
+  return data;
+}
+
 async function api(path, options = {}) {
   const method = options.method || "GET";
   const headers = { Accept: "application/json", ...(options.headers || {}) };
@@ -195,6 +214,16 @@ async function api(path, options = {}) {
   if (response.status === 401 && path !== "/login") {
     showLogin();
     throw new Error("登录已失效，请重新登录。");
+  }
+  // Session may rotate CSRF after server restart / multi-tab; refresh once and retry.
+  if (
+    response.status === 403 &&
+    /security token/i.test(String(data.error || "")) &&
+    !options._csrfRetry &&
+    path !== "/session"
+  ) {
+    await refreshCsrfFromSession();
+    return api(path, { ...options, _csrfRetry: true });
   }
   if (!response.ok || data.ok === false) {
     const error = new Error(data.error || "操作失败。");
