@@ -99,11 +99,25 @@ jobs:
           REMOTE="${DEPLOY_PATH:-/var/www/printnova}"
           ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes "$HOST" "bash -s" <<REMOTE
           set -euo pipefail
+          # Non-interactive SSH often misses nvm/pm2 on PATH
+          export NVM_DIR="\$HOME/.nvm"
+          if [ -s "\$NVM_DIR/nvm.sh" ]; then
+            . "\$NVM_DIR/nvm.sh"
+          fi
+          export PATH="/usr/local/bin:/usr/bin:\$HOME/.nvm/versions/node/v22.22.0/bin:\$PATH"
           cd '$REMOTE'
           npm install --omit=dev
           npm run db:migrate
           npm run db:migrate-editorial || true
-          pm2 restart printnova || pm2 start server/index.js --name printnova
-          pm2 save
-          pm2 status printnova
+          if command -v pm2 >/dev/null 2>&1; then
+            pm2 restart printnova || pm2 start server/index.js --name printnova
+            pm2 save
+            pm2 status printnova
+          else
+            echo "pm2 not found on PATH; attempting common nvm location"
+            PM2_BIN="\$HOME/.nvm/versions/node/v22.22.0/bin/pm2"
+            "\$PM2_BIN" restart printnova || "\$PM2_BIN" start server/index.js --name printnova
+            "\$PM2_BIN" save
+            "\$PM2_BIN" status printnova
+          fi
           REMOTE

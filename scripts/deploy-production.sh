@@ -29,6 +29,11 @@ rsync -avz --delete \
 echo "==> Remote install / migrate / restart"
 ssh "$HOST" "bash -s" <<REMOTE
 set -euo pipefail
+export NVM_DIR="\$HOME/.nvm"
+if [ -s "\$NVM_DIR/nvm.sh" ]; then
+  . "\$NVM_DIR/nvm.sh"
+fi
+export PATH="/usr/local/bin:/usr/bin:\$HOME/.nvm/versions/node/v22.22.0/bin:\$PATH"
 cd '$REMOTE'
 npm install --omit=dev
 npm run db:migrate
