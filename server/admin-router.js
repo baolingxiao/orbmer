@@ -80,6 +80,7 @@ import { validateFulfillmentRule } from "../web/shared/js/commerce-display.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const adminWebRoot = path.join(__dirname, "..", "web", "admin");
+const tinaWebRoot = path.join(__dirname, "..", "web", "tina");
 
 function clientIp(req) {
   return req.ip || req.socket?.remoteAddress || "";
@@ -246,6 +247,14 @@ export function createAdminRouter({
       return res.status(503).sendFile(path.join(adminWebRoot, "unavailable.html"));
     }
     return res.sendFile(path.join(adminWebRoot, "index.html"));
+  });
+
+  router.get(["/tina", "/tina/"], (_req, res) => {
+    res.setHeader(
+      "Content-Security-Policy",
+      "default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"
+    );
+    return res.sendFile(path.join(tinaWebRoot, "index.html"));
   });
 
   router.get("/api/session", async (req, res) => {
