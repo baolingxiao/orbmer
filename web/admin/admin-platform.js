@@ -103,27 +103,27 @@
 
   const JS_STATUSES = ["draft", "researching", "writing", "layout", "review", "scheduled", "published", "archived"];
   const JS_STATUS_LABELS = {
-    draft: "Draft",
-    researching: "Researching",
-    writing: "Writing",
-    layout: "Layout",
-    review: "Review",
-    scheduled: "Scheduled",
-    published: "Published",
-    archived: "Archived",
+    draft: "草稿",
+    researching: "资料整理",
+    writing: "写作中",
+    layout: "排版中",
+    review: "审核中",
+    scheduled: "已排期",
+    published: "已发布",
+    archived: "已归档",
   };
   const JS_STEPS = ["research", "insight", "outline", "editorial", "images", "layout", "products", "seo", "preview", "publish"];
   const JS_STEP_LABELS = {
-    research: "Research",
-    insight: "Insight",
-    outline: "Outline",
-    editorial: "Writing",
-    images: "Images",
-    layout: "Canvas",
-    products: "Products",
+    research: "资料",
+    insight: "洞察",
+    outline: "大纲",
+    editorial: "写作",
+    images: "图片",
+    layout: "画布",
+    products: "商品",
     seo: "SEO",
-    preview: "Preview",
-    publish: "Publish",
+    preview: "预览",
+    publish: "发布",
   };
   const JS_CATEGORIES = ["lifestyle", "objects", "materials", "brands", "countries", "craft", "designers"];
   const mediaSelection = new Set();
@@ -1043,12 +1043,12 @@
   function jsDefaultBlock(type = "paragraph") {
     const id = `block-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 5)}`;
     const defaults = {
-      hero: { type: "hero", label: "Hero", text: "Stories behind exceptional objects.", image: "/assets/editorial/designer-atelier.jpg", width: "wide" },
-      heading: { type: "heading", label: "Heading", text: "A section about material, origin, and time.", level: "h2", width: "normal" },
-      paragraph: { type: "paragraph", label: "Paragraph", text: "Write with restraint. Explain why the object, material, or maker deserves attention without sounding promotional.", width: "normal" },
-      quote: { type: "quote", label: "Pull Quote", text: "Good objects do not ask to be replaced quickly.", width: "narrow" },
-      image: { type: "image", label: "Image", image: "/assets/editorial/country-japan.jpg", caption: "Editorial image caption.", width: "wide" },
-      productGrid: { type: "productGrid", label: "Featured Objects", text: "Inspired by this story.", productIds: [], width: "wide" },
+      hero: { type: "hero", label: "封面", text: "好作品背后的故事。", image: "/assets/editorial/designer-atelier.jpg", width: "wide" },
+      heading: { type: "heading", label: "标题", text: "关于材料、来源与时间的一节。", level: "h2", width: "normal" },
+      paragraph: { type: "paragraph", label: "正文", text: "用克制的语言说明这个物件、材料或创作者为什么值得被看见，不要写成促销文案。", width: "normal" },
+      quote: { type: "quote", label: "重点引语", text: "好的物件，不急着要求你更换它。", width: "narrow" },
+      image: { type: "image", label: "图片", image: "/assets/editorial/country-japan.jpg", caption: "图片说明。", width: "wide" },
+      productGrid: { type: "productGrid", label: "关联物件", text: "由这篇故事延伸出的物件。", productIds: [], width: "wide" },
     };
     return {
       id,
@@ -1109,12 +1109,12 @@
       updatedAt: nowIso(),
       workflow: Object.fromEntries(JS_STEPS.map((step, index) => [step, index === 0 ? "in_progress" : "not_started"])),
       researchCards: [
-        { id: "research-01", title: "Brand philosophy", source: "Official sources", summary: "Collect verified information before drafting. Research stays factual and separate from editorial writing.", confidence: "Medium", favorite: true },
+        { id: "research-01", title: "品牌理念", source: "官方来源", summary: "先收集可验证信息，再进入写作。资料保持事实属性，不和编辑表达混在一起。", confidence: "中", favorite: true },
       ],
-      outline: ["Introduction", "Material context", "Craft and origin", "How to choose", "Featured Objects"],
+      outline: ["引入", "材料背景", "工艺与来源", "如何选择", "关联物件"],
       blocks: [jsDefaultBlock("hero"), jsDefaultBlock("paragraph"), jsDefaultBlock("quote"), jsDefaultBlock("image"), jsDefaultBlock("productGrid")],
       seo: { metaTitle: "The Quiet Luxury Issue | Orbmare Journal", description: "A digital issue by Orbmare on materials, craft, and objects worth keeping.", slug: "quiet-luxury-issue", keywords: ["Orbmare", "quiet luxury", "craft"] },
-      versions: [{ id: `version-${Date.now().toString(36)}`, label: "Initial draft", createdAt: nowIso() }],
+      versions: [{ id: `version-${Date.now().toString(36)}`, label: "初始草稿", createdAt: nowIso() }],
     };
   }
 
@@ -1131,7 +1131,7 @@
     return studio.issues.find((issue) => issue.id === journalStudioState.activeIssueId) || null;
   }
 
-  async function saveJournalStudio(studio, message = "Journal Studio 已保存。") {
+  async function saveJournalStudio(studio, message = "杂志工作室已保存。") {
     await api("/site-content", { method: "PATCH", body: { patch: { journalStudio: studio } } });
     toast(message);
     await loadPlatformData();
@@ -1220,22 +1220,22 @@
       card.dataset.jsOpenIssue = issue.id;
       card.innerHTML = `
         <img src="${issue.cover || "/assets/editorial/designer-atelier.jpg"}" alt="" />
-        <span>${issue.status || "draft"} · ${issue.language || "zh/en"}</span>
-        <strong>Issue ${issue.issueNumber || "—"}<br>${issue.title || "Untitled"}</strong>
-        <small>${issue.categories?.join(" · ") || "No category"} · ${(issue.blocks || []).length} blocks</small>
+        <span>${JS_STATUS_LABELS[issue.status] || "草稿"} · ${issue.language || "中/英"}</span>
+        <strong>专题 ${issue.issueNumber || "—"}<br>${issue.title || "未命名"}</strong>
+        <small>${issue.categories?.join(" · ") || "未分类"} · ${(issue.blocks || []).length} 个模块</small>
       `;
       grid.appendChild(card);
     });
     const issues = studio.issues || [];
     stats.innerHTML = `
-      <p class="section-label">Quick Statistics</p>
-      <h3>Studio Health</h3>
+      <p class="section-label">快速统计</p>
+      <h3>工作室状态</h3>
       <dl>
-        <div><dt>Issues</dt><dd>${issues.length}</dd></div>
-        <div><dt>Articles</dt><dd>${issues.length}</dd></div>
-        <div><dt>Blocks</dt><dd>${issues.reduce((sum, issue) => sum + (issue.blocks || []).length, 0)}</dd></div>
-        <div><dt>Products Linked</dt><dd>${issues.reduce((sum, issue) => sum + (issue.blocks || []).flatMap((block) => block.productIds || []).length, 0)}</dd></div>
-        <div><dt>Published</dt><dd>${issues.filter((issue) => issue.status === "published").length}</dd></div>
+        <div><dt>专题</dt><dd>${issues.length}</dd></div>
+        <div><dt>文章</dt><dd>${issues.length}</dd></div>
+        <div><dt>模块</dt><dd>${issues.reduce((sum, issue) => sum + (issue.blocks || []).length, 0)}</dd></div>
+        <div><dt>已关联商品</dt><dd>${issues.reduce((sum, issue) => sum + (issue.blocks || []).flatMap((block) => block.productIds || []).length, 0)}</dd></div>
+        <div><dt>已发布</dt><dd>${issues.filter((issue) => issue.status === "published").length}</dd></div>
       </dl>
     `;
   }
@@ -1259,9 +1259,9 @@
     const nav = document.querySelector("[data-js-navigator]");
     if (!nav) return;
     nav.innerHTML = `
-      <h3>Issue ${issue.issueNumber}</h3>
+      <h3>专题 ${issue.issueNumber}</h3>
       <p>${issue.title}</p>
-      ${["Cover", "Research", "Outline", "Writing", "Images", "Canvas", "Products", "SEO", "Preview", "Publish", "Version History"].map((item) => `<button type="button">${item}</button>`).join("")}
+      ${["封面", "资料", "大纲", "写作", "图片", "画布", "商品", "SEO", "预览", "发布", "版本记录"].map((item) => `<button type="button">${item}</button>`).join("")}
     `;
   }
 
@@ -1277,29 +1277,29 @@
     const selectedIds = journalStudioState.selectedBlockIds || new Set();
     const selected = block.id === journalStudioState.activeBlockId || selectedIds.has(block.id) ? " is-selected" : "";
     const grouped = block.groupId ? " is-grouped" : "";
-    const groupBadge = block.groupId ? `<span class="js-block-group">Group</span>` : "";
+    const groupBadge = block.groupId ? `<span class="js-block-group">分组</span>` : "";
     if (block.type === "hero") {
       return `<section class="js-block js-block-hero${selected}${grouped}" data-js-block="${block.id}">
-        ${groupBadge}<span class="js-block-drag">Move</span><img src="${block.image || ""}" alt="" /><h1>${block.text || ""}</h1>
+        ${groupBadge}<span class="js-block-drag">移动</span><img src="${block.image || ""}" alt="" /><h1>${block.text || ""}</h1>
       </section>`;
     }
     if (block.type === "image") {
       return `<figure class="js-block js-block-image${selected}${grouped}" data-js-block="${block.id}">
-        ${groupBadge}<span class="js-block-drag">Move</span><img src="${block.image || ""}" alt="" /><figcaption>${block.caption || ""}</figcaption>
+        ${groupBadge}<span class="js-block-drag">移动</span><img src="${block.image || ""}" alt="" /><figcaption>${block.caption || ""}</figcaption>
       </figure>`;
     }
     if (block.type === "quote") {
-      return `<blockquote class="js-block js-block-quote${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">Move</span>${block.text || ""}</blockquote>`;
+      return `<blockquote class="js-block js-block-quote${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">移动</span>${block.text || ""}</blockquote>`;
     }
     if (block.type === "productGrid") {
       return `<section class="js-block js-block-products${selected}${grouped}" data-js-block="${block.id}">
-        ${groupBadge}<span class="js-block-drag">Move</span><p>${block.label || "Featured Objects"}</p><h3>${block.text || ""}</h3><small>${(block.productIds || []).join(", ") || "No products linked yet."}</small>
+        ${groupBadge}<span class="js-block-drag">移动</span><p>${block.label || "关联物件"}</p><h3>${block.text || ""}</h3><small>${(block.productIds || []).join(", ") || "还没有关联商品。"}</small>
       </section>`;
     }
     if (block.type === "heading") {
-      return `<h2 class="js-block js-block-heading${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">Move</span>${block.text || ""}</h2>`;
+      return `<h2 class="js-block js-block-heading${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">移动</span>${block.text || ""}</h2>`;
     }
-    return `<p class="js-block js-block-paragraph${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">Move</span>${block.text || ""}</p>`;
+    return `<p class="js-block js-block-paragraph${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">移动</span>${block.text || ""}</p>`;
   }
 
   function renderJournalCanvas(issue) {
@@ -1326,27 +1326,27 @@
     const block = (issue.blocks || []).find((item) => item.id === journalStudioState.activeBlockId) || (issue.blocks || [])[0];
     if (!journalStudioState.activeBlockId && block) journalStudioState.activeBlockId = block.id;
     if (!block) {
-      form.innerHTML = `<p class="panel-empty">选择一个 Block 后编辑属性。</p>`;
+      form.innerHTML = `<p class="panel-empty">选择一个模块后编辑属性。</p>`;
       return;
     }
     form.innerHTML = `
-      <p class="section-label">Inspector</p>
+      <p class="section-label">属性面板</p>
       <h3>${block.label || block.type}</h3>
-      <label>Block Type<input name="type" value="${block.type}" readonly /></label>
-      <label>Label<input name="label" value="${block.label || ""}" /></label>
-      <label>Text<textarea name="text" rows="5">${block.text || ""}</textarea></label>
-      <label>Image<input name="image" value="${block.image || ""}" /></label>
-      <label>Caption<input name="caption" value="${block.caption || ""}" /></label>
-      <label>Product IDs<input name="productIds" value="${(block.productIds || []).join(", ")}" /></label>
+      <label>模块类型<input name="type" value="${block.type}" readonly /></label>
+      <label>名称<input name="label" value="${block.label || ""}" /></label>
+      <label>文字<textarea name="text" rows="5">${block.text || ""}</textarea></label>
+      <label>图片<input name="image" value="${block.image || ""}" /></label>
+      <label>图片说明<input name="caption" value="${block.caption || ""}" /></label>
+      <label>商品 ID<input name="productIds" value="${(block.productIds || []).join(", ")}" /></label>
       <div class="form-grid">
         <label>X<input name="x" type="number" value="${block.x || 0}" /></label>
         <label>Y<input name="y" type="number" value="${block.y || 0}" /></label>
-        <label>Width<input name="w" type="number" value="${block.w || 760}" /></label>
-        <label>Height<input name="h" type="number" value="${block.h || 160}" /></label>
+        <label>宽度<input name="w" type="number" value="${block.w || 760}" /></label>
+        <label>高度<input name="h" type="number" value="${block.h || 160}" /></label>
       </div>
       <div class="js-inspector-actions">
-        <button class="button button-secondary" type="button" data-js-duplicate-block>Duplicate</button>
-        <button class="button button-secondary" type="button" data-js-delete-block>Delete</button>
+        <button class="button button-secondary" type="button" data-js-duplicate-block>复制</button>
+        <button class="button button-secondary" type="button" data-js-delete-block>删除</button>
       </div>
     `;
   }
@@ -1762,7 +1762,7 @@
           if (issue) issue.updatedAt = nowIso();
           try {
             await persistJournalStudioDraft(studio);
-            toast("Canvas position saved.");
+            toast("画布位置已保存。");
           } catch (error) {
             toast(error.message || "Canvas 保存失败。", true);
           }
@@ -1790,15 +1790,15 @@
         journalStudioState.activeIssueId = issue.id;
         journalStudioState.activeBlockId = issue.blocks[0]?.id || "";
         journalStudioState.selectedBlockIds = new Set(journalStudioState.activeBlockId ? [journalStudioState.activeBlockId] : []);
-      }, "已创建新的 Magazine Issue。");
+      }, "已创建新的杂志专题。");
     });
 
     document.querySelector("[data-js-save]")?.addEventListener("click", async () => {
-      await saveJournalStudio(getJournalStudio(), "Journal Studio 已手动保存。");
+      await saveJournalStudio(getJournalStudio(), "杂志工作室已手动保存。");
     });
 
     document.querySelector("[data-js-import]")?.addEventListener("click", () => {
-      toast("Import 入口已预留：后续可接 Notion、CSV、Google Docs 或品牌资料库。");
+      toast("导入入口已预留：后续可接入文档、表格或品牌资料库。");
     });
 
     document.querySelector("[data-js-back]")?.addEventListener("click", () => {
@@ -1840,7 +1840,7 @@
           issue.updatedAt = nowIso();
           journalStudioState.activeBlockId = block.id;
           journalStudioState.selectedBlockIds = new Set([block.id]);
-        }, "已添加 Canvas Block。");
+        }, "已添加画布模块。");
         return;
       }
 
@@ -1860,7 +1860,7 @@
       if (event.target.closest("[data-js-group-blocks]")) {
         const selected = Array.from(journalStudioState.selectedBlockIds || []);
         if (selected.length < 2) {
-          toast("至少选择两个 Block 才能分组。", true);
+          toast("至少选择两个模块才能分组。", true);
           return;
         }
         await mutateJournalStudio((studio) => {
@@ -1869,7 +1869,7 @@
           blocks.forEach((block) => {
             if (selected.includes(block.id)) block.groupId = groupId;
           });
-        }, "Block 已分组。");
+        }, "模块已分组。");
         return;
       }
 
@@ -1881,7 +1881,7 @@
           blocks.forEach((block) => {
             if (selected.includes(block.id) || groupIds.has(block.groupId)) block.groupId = "";
           });
-        }, "Block 已取消分组。");
+        }, "模块已取消分组。");
         return;
       }
 
@@ -1900,13 +1900,13 @@
         const issue = getActiveIssue();
         const block = issue?.blocks?.find((item) => item.id === journalStudioState.activeBlockId);
         if (!issue || !block) {
-          toast("先选择一个可编辑的 Block。", true);
+          toast("先选择一个可编辑的模块。", true);
           return;
         }
         const field = block.type === "image" ? "caption" : "text";
         const currentValue = String(block[field] || "").trim();
         if (!currentValue) {
-          toast("当前 Block 没有可优化的文字。", true);
+          toast("当前模块没有可优化的文字。", true);
           return;
         }
         try {
@@ -1948,7 +1948,7 @@
             if (targetIssue) targetIssue.updatedAt = nowIso();
             await persistJournalStudioDraft(studio);
             renderJournalStudio();
-            toast("AI 草稿已写入选中 Block。");
+            toast("AI 草稿已写入选中模块。");
           }
         } catch (error) {
           toast(error.message || "AI 请求失败。", true);
@@ -1965,7 +1965,7 @@
           issue.blocks.push(copy);
           journalStudioState.activeBlockId = copy.id;
           journalStudioState.selectedBlockIds = new Set([copy.id]);
-        }, "Block 已复制。");
+        }, "模块已复制。");
         return;
       }
 
@@ -1975,13 +1975,13 @@
           if (!issue) return;
           issue.blocks = (issue.blocks || []).filter((block) => block.id !== journalStudioState.activeBlockId);
           journalStudioState.activeBlockId = issue.blocks[0]?.id || "";
-        }, "Block 已删除。");
+        }, "模块已删除。");
         return;
       }
 
       if (event.target.closest("[data-js-preview]")) {
         const issue = getActiveIssue();
-        toast(issue ? `Preview：${issue.title}` : "请选择 Issue。");
+        toast(issue ? `预览：${issue.title}` : "请选择专题。");
         return;
       }
 

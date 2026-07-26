@@ -40,22 +40,22 @@ const toast = document.querySelector("[data-toast]");
 
 const sectionMeta = {
   overview: { kicker: "运营总览", title: "总览" },
-  products: { kicker: "Catalog", title: "商品" },
-  brands: { kicker: "Catalog", title: "品牌 · Orbmare精选" },
-  materials: { kicker: "Catalog", title: "材料" },
-  countries: { kicker: "Catalog", title: "国家馆" },
-  crafts: { kicker: "Catalog", title: "工艺" },
-  inventory: { kicker: "Commerce", title: "库存" },
-  shipping: { kicker: "Commerce", title: "订单" },
-  customers: { kicker: "Commerce", title: "客户与会员" },
-  memberships: { kicker: "Commerce", title: "Memberships" },
-  concierge: { kicker: "Commerce", title: "Concierge Requests" },
-  "journal-studio": { kicker: "Content", title: "Journal Studio" },
-  content: { kicker: "Content", title: "站点文案" },
-  media: { kicker: "Content", title: "媒体库" },
-  team: { kicker: "System", title: "团队权限" },
-  trash: { kicker: "System", title: "删除记录" },
-  audit: { kicker: "System", title: "操作记录" },
+  products: { kicker: "商品资料", title: "商品" },
+  brands: { kicker: "商品资料", title: "品牌 · Orbmare精选" },
+  materials: { kicker: "商品资料", title: "材料" },
+  countries: { kicker: "商品资料", title: "国家馆" },
+  crafts: { kicker: "商品资料", title: "工艺" },
+  inventory: { kicker: "交易与会员", title: "库存" },
+  shipping: { kicker: "交易与会员", title: "订单" },
+  customers: { kicker: "交易与会员", title: "客户与会员" },
+  memberships: { kicker: "交易与会员", title: "会员等级" },
+  concierge: { kicker: "交易与会员", title: "专属服务申请" },
+  "journal-studio": { kicker: "内容管理", title: "杂志工作室" },
+  content: { kicker: "内容管理", title: "站点文案" },
+  media: { kicker: "内容管理", title: "媒体库" },
+  team: { kicker: "系统管理", title: "团队权限" },
+  trash: { kicker: "系统管理", title: "删除记录" },
+  audit: { kicker: "系统管理", title: "操作记录" },
 };
 
 // ensure platform state field exists
@@ -906,7 +906,7 @@ function renderCustomers() {
     const row = element("tr");
     const tier = customer.membership_status === "member" ? "journal" : customer.membership_status === "standard" ? "explorer" : customer.membership_status;
     const membership = tier !== "explorer";
-    const action = element("button", { className: "table-action", type: "button", text: membership ? "改回 Explorer" : "开通 Journal" });
+    const action = element("button", { className: "table-action", type: "button", text: membership ? "改回探索者" : "开通阅读会员" });
     action.dataset.customerMembership = customer.id;
     action.dataset.membershipStatus = membership ? "explorer" : "journal";
     const status = element("td");
@@ -923,7 +923,29 @@ function renderCustomers() {
 }
 
 function tierLabel(tier) {
-  return TIER_META[tier]?.titleZh || tier || "Explorer";
+  return TIER_META[tier]?.titleZh || tier || "探索者";
+}
+
+function membershipStatusLabel(status) {
+  const labels = {
+    active: "有效",
+    trialing: "试用中",
+    inactive: "未启用",
+    canceled: "已取消",
+    past_due: "逾期",
+  };
+  return labels[status] || status || "未启用";
+}
+
+function billingIntervalLabel(interval) {
+  const labels = {
+    none: "无",
+    month: "月付",
+    monthly: "月付",
+    year: "年付",
+    yearly: "年付",
+  };
+  return labels[interval] || interval || "无";
 }
 
 function serviceTypeLabel(type) {
@@ -957,8 +979,8 @@ function renderMemberships() {
     row.append(
       element("td", { text: membership.email }),
       element("td", { text: tierLabel(membership.membership_status) }),
-      element("td", { text: membership.billing_interval || "none" }),
-      element("td", { text: membership.status || "inactive" }),
+      element("td", { text: billingIntervalLabel(membership.billing_interval) }),
+      element("td", { text: membershipStatusLabel(membership.status) }),
       element("td", { text: formatDate(membership.current_period_start) }),
       element("td", { text: formatDate(membership.current_period_end) }),
       element("td", { text: membership.cancel_at_period_end ? "是" : "否" }),
@@ -1747,7 +1769,7 @@ document.addEventListener("click", async (event) => {
   const membershipButton = event.target.closest("[data-customer-membership]");
   if (membershipButton) {
     const status = membershipButton.dataset.membershipStatus;
-    const label = status === "journal" ? "开通 Journal" : "改回 Explorer";
+    const label = status === "journal" ? "开通阅读会员" : "改回探索者";
     if (!confirm(`确认${label}该客户的会员资格？`)) return;
     try {
       await api(`/customers/${encodeURIComponent(membershipButton.dataset.customerMembership)}/membership`, { method: "PUT", body: { status } });

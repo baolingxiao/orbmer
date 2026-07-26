@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <title>运营管理 | 傲马 Orbmare</title>
-    <link rel="stylesheet" href="./admin.css?v=35" />
+    <link rel="stylesheet" href="./admin.css?v=36" />
     <link rel="stylesheet" href="./ai/ai.css?v=1" />
   </head>
   <body>
@@ -66,11 +66,11 @@
           </span>
         </a>
         <nav class="ops-nav" aria-label="运营管理">
-          <p class="ops-nav-group">Overview</p>
+          <p class="ops-nav-group">概览</p>
           <button class="ops-nav-item is-active" type="button" data-section-target="overview" data-requires-permission="product.read,order.read">
             总览
           </button>
-          <p class="ops-nav-group">Catalog</p>
+          <p class="ops-nav-group">商品资料</p>
           <button class="ops-nav-item" type="button" data-section-target="products" data-requires-permission="product.read">
             商品
           </button>
@@ -86,15 +86,15 @@
           <button class="ops-nav-item" type="button" data-section-target="crafts" data-requires-permission="content.read">
             工艺
           </button>
-          <p class="ops-nav-group">Commerce</p>
+          <p class="ops-nav-group">交易与会员</p>
           <button class="ops-nav-item" type="button" data-section-target="customers" data-requires-permission="customer.read">
             客户与会员
           </button>
           <button class="ops-nav-item" type="button" data-section-target="memberships" data-requires-permission="membership.read,customer.read">
-            Memberships
+            会员等级
           </button>
           <button class="ops-nav-item" type="button" data-section-target="concierge" data-requires-permission="concierge.read">
-            Concierge Requests
+            专属服务申请
           </button>
           <button class="ops-nav-item" type="button" data-section-target="inventory" data-requires-permission="inventory.read">
             库存
@@ -102,9 +102,9 @@
           <button class="ops-nav-item" type="button" data-section-target="shipping" data-requires-permission="order.read">
             订单
           </button>
-          <p class="ops-nav-group">Content</p>
+          <p class="ops-nav-group">内容管理</p>
           <button class="ops-nav-item" type="button" data-section-target="journal-studio" data-requires-permission="content.read">
-            Journal Studio
+            杂志工作室
           </button>
           <button class="ops-nav-item" type="button" data-section-target="content" data-requires-permission="content.read">
             站点文案
@@ -112,7 +112,7 @@
           <button class="ops-nav-item" type="button" data-section-target="media" data-requires-permission="media.read">
             媒体库
           </button>
-          <p class="ops-nav-group">System</p>
+          <p class="ops-nav-group">系统管理</p>
           <button class="ops-nav-item" type="button" data-section-target="team" data-requires-permission="team.read">
             团队权限
           </button>
@@ -201,7 +201,7 @@
           <section class="ops-section" data-section="memberships" aria-labelledby="memberships-title" hidden>
             <div class="section-heading">
               <div>
-                <h2 id="memberships-title">Memberships</h2>
+                <h2 id="memberships-title">会员等级</h2>
                 <p>查看客户会员等级、订阅周期和状态。这里是会员权限的后台事实来源，不依赖前端显示。</p>
               </div>
             </div>
@@ -209,18 +209,18 @@
               <input data-membership-search placeholder="搜索邮箱" />
               <select data-membership-tier>
                 <option value="">全部等级</option>
-                <option value="explorer">Explorer</option>
-                <option value="journal">Journal</option>
-                <option value="collector">Collector</option>
-                <option value="black">Black</option>
+                <option value="explorer">探索者</option>
+                <option value="journal">阅读会员</option>
+                <option value="collector">收藏家</option>
+                <option value="black">黑卡会员</option>
               </select>
               <select data-membership-subscription-status>
                 <option value="">全部状态</option>
-                <option value="active">active</option>
-                <option value="trialing">trialing</option>
-                <option value="inactive">inactive</option>
-                <option value="canceled">canceled</option>
-                <option value="past_due">past_due</option>
+                <option value="active">有效</option>
+                <option value="trialing">试用中</option>
+                <option value="inactive">未启用</option>
+                <option value="canceled">已取消</option>
+                <option value="past_due">逾期</option>
               </select>
             </div>
             <div class="table-frame">
@@ -235,19 +235,19 @@
           <section class="ops-section" data-section="concierge" aria-labelledby="concierge-title" hidden>
             <div class="section-heading">
               <div>
-                <h2 id="concierge-title">Concierge Requests</h2>
-                <p>查看 Collector 提交的真人服务申请。第一版只做人工状态管理和内部备注。</p>
+                <h2 id="concierge-title">专属服务申请</h2>
+                <p>查看收藏家会员提交的真人服务申请。第一版只做人工状态管理和内部备注。</p>
               </div>
             </div>
             <div class="filter-row">
               <select data-concierge-status-filter>
                 <option value="">全部状态</option>
-                <option value="submitted">submitted</option>
-                <option value="reviewing">reviewing</option>
-                <option value="awaiting_customer">awaiting_customer</option>
-                <option value="sourcing">sourcing</option>
-                <option value="completed">completed</option>
-                <option value="declined">declined</option>
+                <option value="submitted">已提交</option>
+                <option value="reviewing">审核中</option>
+                <option value="awaiting_customer">等待客户回复</option>
+                <option value="sourcing">寻货中</option>
+                <option value="completed">已完成</option>
+                <option value="declined">已拒绝</option>
               </select>
               <select data-concierge-type-filter>
                 <option value="">全部服务类型</option>
@@ -263,7 +263,7 @@
                 <thead><tr><th>编号</th><th>客户</th><th>类型</th><th>状态</th><th>预算</th><th>国家</th><th>创建时间</th><th>操作</th></tr></thead>
                 <tbody data-concierge-table></tbody>
               </table>
-              <div class="empty-state" data-concierge-empty hidden><h3>暂无服务申请</h3><p>Collector 会员提交后会出现在这里。</p></div>
+              <div class="empty-state" data-concierge-empty hidden><h3>暂无服务申请</h3><p>收藏家会员提交后会出现在这里。</p></div>
             </div>
           </section>
 
@@ -643,7 +643,7 @@
                       <button type="button" data-add-journal-article="public">新增公开文章</button>
                     </div>
                     <textarea name="journalItemsJson" rows="14" spellcheck="false"></textarea>
-                    <p class="field-hint">requiresMembership: true 仅会员可读；false 所有人可读。支持 category、coverImage、author、publishedAt、readingTime、body、relatedProductIds。</p>
+                    <p class="field-hint">会员权限：true 仅会员可读；false 所有人可读。支持分类、封面图、作者、发布日期、阅读时间、正文和关联商品。</p>
                   </div>
                 </div>
               </fieldset>
@@ -655,14 +655,14 @@
             <div class="journal-studio" data-journal-studio>
               <div class="js-topbar">
                 <div>
-                  <p class="section-label">Editorial Magazine System</p>
-                  <h2>Journal Studio</h2>
-                  <p>从 Research 到 Publish 的数字杂志工作室。不是博客后台，也不是 Markdown 编辑器。</p>
+                  <p class="section-label">杂志内容系统</p>
+                  <h2>杂志工作室</h2>
+                  <p>从资料整理到发布的数字杂志工作室。不是博客后台，也不是 Markdown 编辑器。</p>
                 </div>
                 <div class="js-actions">
-                  <button class="button button-secondary" type="button" data-js-import>Import</button>
-                  <button class="button button-secondary" type="button" data-js-save>Manual Save</button>
-                  <button class="button button-primary" type="button" data-js-new-issue>New Issue</button>
+                  <button class="button button-secondary" type="button" data-js-import>导入</button>
+                  <button class="button button-secondary" type="button" data-js-save>手动保存</button>
+                  <button class="button button-primary" type="button" data-js-new-issue>新建专题</button>
                 </div>
               </div>
 
@@ -681,15 +681,15 @@
                 <section class="js-canvas-shell">
                   <div class="js-flow" data-js-flow></div>
                   <div class="js-canvas-toolbar">
-                    <button type="button" data-js-add-block="heading">Heading</button>
-                    <button type="button" data-js-add-block="paragraph">Paragraph</button>
-                    <button type="button" data-js-add-block="image">Image</button>
-                    <button type="button" data-js-add-block="quote">Pull Quote</button>
-                    <button type="button" data-js-add-block="productGrid">Product Grid</button>
-                    <button type="button" data-js-group-blocks>Group</button>
-                    <button type="button" data-js-ungroup-blocks>Ungroup</button>
-                    <button type="button" data-js-reset-view>Reset View</button>
-                    <label>Zoom <input type="range" min="70" max="120" value="92" data-js-zoom /></label>
+                    <button type="button" data-js-add-block="heading">标题</button>
+                    <button type="button" data-js-add-block="paragraph">正文</button>
+                    <button type="button" data-js-add-block="image">图片</button>
+                    <button type="button" data-js-add-block="quote">重点引语</button>
+                    <button type="button" data-js-add-block="productGrid">关联商品</button>
+                    <button type="button" data-js-group-blocks>分组</button>
+                    <button type="button" data-js-ungroup-blocks>取消分组</button>
+                    <button type="button" data-js-reset-view>重置视图</button>
+                    <label>缩放 <input type="range" min="70" max="120" value="92" data-js-zoom /></label>
                   </div>
                   <div class="js-canvas-viewport">
                     <article class="js-canvas" data-js-canvas></article>
@@ -698,18 +698,18 @@
 
                 <aside class="js-inspector">
                   <div class="js-ai-panel">
-                    <p class="section-label">AI Editorial Assistant</p>
+                    <p class="section-label">AI 编辑助手</p>
                     <h3>人工审核前置</h3>
-                    <p>AI 会基于当前选中的 Block 生成建议；结果会先写回草稿，员工仍需手动保存与发布。</p>
+                    <p>AI 会基于当前选中的内容模块生成建议；结果会先写回草稿，员工仍需手动保存与发布。</p>
                     <div class="js-ai-actions">
-                      <button class="button button-secondary" type="button" data-js-ai-rewrite>Rewrite Selected</button>
-                      <button class="button button-secondary" type="button" data-js-ai-shorten>Shorten</button>
+                      <button class="button button-secondary" type="button" data-js-ai-rewrite>改写选中内容</button>
+                      <button class="button button-secondary" type="button" data-js-ai-shorten>缩短</button>
                     </div>
                   </div>
                   <form data-js-inspector></form>
                   <div class="js-publish-panel">
-                    <button class="button button-secondary" type="button" data-js-preview>Preview</button>
-                    <button class="button button-primary" type="button" data-js-publish>Publish to Journal</button>
+                    <button class="button button-secondary" type="button" data-js-preview>预览</button>
+                    <button class="button button-primary" type="button" data-js-publish>发布到阅读</button>
                   </div>
                 </aside>
               </div>
@@ -768,7 +768,7 @@
                   <select name="roleId">
                     <option value="viewer">Viewer</option>
                     <option value="buyer">Buyer</option>
-                    <option value="content_editor">Content Editor</option>
+                    <option value="content_editor">内容编辑</option>
                     <option value="sales">Sales</option>
                     <option value="inventory_manager">Inventory Manager</option>
                     <option value="finance">Finance</option>
@@ -1566,7 +1566,7 @@
                   <button class="button button-secondary button-compact" type="button" data-upload-pick>选择图片</button>
                   <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
                 </div>
-                <input name="storyImage" placeholder="空则用 Hero" />
+                <input name="storyImage" placeholder="空则用封面图" />
               </div>
             </div>
           </fieldset>
@@ -1785,6 +1785,6 @@
     </dialog>
 
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./admin.js?v=34"></script>
+    <script type="module" src="./admin.js?v=35"></script>
   </body>
 </html>
