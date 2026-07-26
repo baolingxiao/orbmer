@@ -1,13 +1,85 @@
 export const JOURNAL_WEEKLY_LIMIT = 5;
 
+export const JOURNAL_CATEGORIES = Object.freeze([
+  { key: "all", zh: "全部", en: "All" },
+  { key: "lifestyle", zh: "生活方式", en: "Lifestyle" },
+  { key: "objects", zh: "物件", en: "Objects" },
+  { key: "materials", zh: "材料", en: "Materials" },
+  { key: "brands", zh: "品牌", en: "Brands" },
+  { key: "countries", zh: "国家", en: "Countries" },
+  { key: "craft", zh: "工艺", en: "Craft" },
+  { key: "designers", zh: "设计师", en: "Designers" },
+  { key: "issues", zh: "杂志专题", en: "Magazine Issues" },
+]);
+
+export const JOURNAL_COLLECTIONS = Object.freeze([
+  { id: "material-library", titleZh: "材料图书馆", titleEn: "The Material Library", count: 8 },
+  { id: "quiet-luxury", titleZh: "安静奢华", titleEn: "Quiet Luxury", count: 6 },
+  { id: "made-in-japan", titleZh: "日本制造", titleEn: "Made in Japan", count: 7 },
+  { id: "modern-craft", titleZh: "当代工艺", titleEn: "Modern Craft", count: 5 },
+  { id: "everyday-objects", titleZh: "日常物件", titleEn: "Everyday Objects", count: 9 },
+  { id: "slow-living", titleZh: "缓慢生活", titleEn: "Slow Living", count: 4 },
+  { id: "natural-materials", titleZh: "天然材料", titleEn: "Natural Materials", count: 6 },
+  { id: "design-icons", titleZh: "设计经典", titleEn: "Design Icons", count: 5 },
+]);
+
+export const JOURNAL_ISSUES = Object.freeze([
+  {
+    id: "issue-01",
+    titleZh: "Issue 01 · 安静奢华",
+    titleEn: "Issue 01 · Quiet Luxury",
+    bodyZh: "关于克制、材质和长期拥有的第一期。",
+    bodyEn: "A first issue on restraint, materials, and long ownership.",
+    coverImage: "/assets/editorial/designer-atelier.jpg",
+    articleCount: 6,
+  },
+  {
+    id: "issue-02",
+    titleZh: "Issue 02 · 日本",
+    titleEn: "Issue 02 · Japan",
+    bodyZh: "器物、金属、纸张、刀具与日常工艺。",
+    bodyEn: "Objects, metal, paper, blades, and everyday craft.",
+    coverImage: "/assets/editorial/country-japan.jpg",
+    articleCount: 7,
+  },
+  {
+    id: "issue-03",
+    titleZh: "Issue 03 · 物件",
+    titleEn: "Issue 03 · Objects",
+    bodyZh: "值得留在生活里的全球精品好物。",
+    bodyEn: "Exceptional objects worth keeping in daily life.",
+    coverImage: "/assets/editorial/country-italy.jpg",
+    articleCount: 8,
+  },
+  {
+    id: "issue-04",
+    titleZh: "Issue 04 · 材料",
+    titleEn: "Issue 04 · Materials",
+    bodyZh: "羊绒、苎麻、皮革、金属与天然纤维。",
+    bodyEn: "Cashmere, ramie, leather, metal, and natural fibres.",
+    coverImage: "/assets/editorial/material-cashmere.jpg",
+    articleCount: 9,
+  },
+]);
+
 export const JOURNAL_ARTICLES = Object.freeze([
   {
     id: "history-of-ramie",
+    category: "materials",
     titleZh: "苎麻的历史",
     titleEn: "The History of Ramie",
     categoryZh: "材料",
     categoryEn: "Material",
     image: "/assets/editorial/material-cashmere.jpg",
+    coverImage: "/assets/editorial/material-cashmere.jpg",
+    authorZh: "Orbmare 编辑部",
+    authorEn: "Orbmare Editors",
+    publishedAt: "2026-07-22",
+    readingTime: 5,
+    issue: "issue-04",
+    collection: "material-library",
+    requiresMembership: true,
+    relatedProductIds: ["ja-003", "cn-015", "it-007"],
     excerptZh: "一种古老纤维如何在当代日常里重新变得轻盈、坚韧和值得被保存。",
     excerptEn: "How an ancient fibre became light, resilient, and worth keeping in contemporary life.",
     bodyZh: [
@@ -23,11 +95,21 @@ export const JOURNAL_ARTICLES = Object.freeze([
   },
   {
     id: "japanese-copper-aging",
+    category: "craft",
     titleZh: "为什么日本黄铜愈用愈美",
     titleEn: "Why Japanese Copper Ages Beautifully",
     categoryZh: "工艺",
     categoryEn: "Craft",
     image: "/assets/editorial/country-japan.jpg",
+    coverImage: "/assets/editorial/country-japan.jpg",
+    authorZh: "Orbmare 编辑部",
+    authorEn: "Orbmare Editors",
+    publishedAt: "2026-07-19",
+    readingTime: 6,
+    issue: "issue-02",
+    collection: "made-in-japan",
+    requiresMembership: true,
+    relatedProductIds: ["ja-001", "ja-004", "ja-006"],
     excerptZh: "时间不是瑕疵，而是黄铜、铜器与日常器物共同完成的表面语言。",
     excerptEn: "Time is not a flaw, but a surface language shared by brass, copper, and daily objects.",
     bodyZh: [
@@ -43,11 +125,21 @@ export const JOURNAL_ARTICLES = Object.freeze([
   },
   {
     id: "quiet-luxury-beauty",
+    category: "lifestyle",
     titleZh: "安静奢华的美",
     titleEn: "The Beauty of Quiet Luxury",
     categoryZh: "观点",
     categoryEn: "Perspective",
     image: "/assets/editorial/designer-atelier.jpg",
+    coverImage: "/assets/editorial/designer-atelier.jpg",
+    authorZh: "Orbmare 编辑部",
+    authorEn: "Orbmare Editors",
+    publishedAt: "2026-07-16",
+    readingTime: 7,
+    issue: "issue-01",
+    collection: "quiet-luxury",
+    requiresMembership: false,
+    relatedProductIds: ["it-001", "it-009", "cn-004"],
     excerptZh: "真正的奢华并不总是大声说话，它常常藏在比例、材质和不被打扰的使用感里。",
     excerptEn: "Luxury does not always speak loudly. It often lives in proportion, material, and undisturbed use.",
     bodyZh: [
@@ -63,11 +155,21 @@ export const JOURNAL_ARTICLES = Object.freeze([
   },
   {
     id: "italian-leather-explained",
+    category: "materials",
     titleZh: "意大利皮革释义",
     titleEn: "Italian Leather Explained",
     categoryZh: "材料",
     categoryEn: "Material",
     image: "/assets/editorial/country-italy.jpg",
+    coverImage: "/assets/editorial/country-italy.jpg",
+    authorZh: "Orbmare 编辑部",
+    authorEn: "Orbmare Editors",
+    publishedAt: "2026-07-12",
+    readingTime: 6,
+    issue: "issue-04",
+    collection: "natural-materials",
+    requiresMembership: true,
+    relatedProductIds: ["it-002", "it-003", "it-010"],
     excerptZh: "从植鞣到手感，意大利皮革的价值并不只来自产地，而来自处理方式与时间。",
     excerptEn: "From vegetable tanning to handfeel, Italian leather is shaped less by origin alone than by process and time.",
     bodyZh: [
@@ -83,11 +185,21 @@ export const JOURNAL_ARTICLES = Object.freeze([
   },
   {
     id: "cashmere-care",
+    category: "materials",
     titleZh: "羊绒为什么需要慢慢照顾",
     titleEn: "Why Cashmere Rewards Slow Care",
     categoryZh: "护理",
     categoryEn: "Care",
     image: "/assets/editorial/material-cashmere.jpg",
+    coverImage: "/assets/editorial/material-cashmere.jpg",
+    authorZh: "Orbmare 编辑部",
+    authorEn: "Orbmare Editors",
+    publishedAt: "2026-07-08",
+    readingTime: 4,
+    issue: "issue-04",
+    collection: "natural-materials",
+    requiresMembership: false,
+    relatedProductIds: ["it-004", "it-005", "it-006"],
     excerptZh: "好的羊绒不是一次性消费，它需要休息、梳理和足够温柔的日常节奏。",
     excerptEn: "Good cashmere is not disposable. It needs rest, brushing, and a gentler daily rhythm.",
     bodyZh: [
@@ -103,11 +215,21 @@ export const JOURNAL_ARTICLES = Object.freeze([
   },
   {
     id: "desk-objects",
+    category: "objects",
     titleZh: "一张好书桌需要什么",
     titleEn: "What a Good Desk Needs",
     categoryZh: "日常",
     categoryEn: "Everyday",
     image: "/assets/editorial/designer-atelier.jpg",
+    coverImage: "/assets/editorial/designer-atelier.jpg",
+    authorZh: "Orbmare 编辑部",
+    authorEn: "Orbmare Editors",
+    publishedAt: "2026-07-05",
+    readingTime: 5,
+    issue: "issue-03",
+    collection: "everyday-objects",
+    requiresMembership: true,
+    relatedProductIds: ["ja-001", "ja-002", "cn-003"],
     excerptZh: "书桌不需要被填满。它需要少量稳定、顺手、不会打断注意力的物件。",
     excerptEn: "A desk does not need to be full. It needs a few stable objects that do not interrupt attention.",
     bodyZh: [
@@ -125,4 +247,75 @@ export const JOURNAL_ARTICLES = Object.freeze([
 
 export function getJournalArticle(id) {
   return JOURNAL_ARTICLES.find((article) => article.id === id) || null;
+}
+
+function cleanText(value, fallback = "") {
+  return String(value ?? fallback ?? "").trim();
+}
+
+function cleanArray(value, fallback = []) {
+  if (Array.isArray(value)) return value.map((item) => cleanText(item)).filter(Boolean);
+  const text = cleanText(value);
+  return text ? [text] : fallback;
+}
+
+export function normalizeJournalArticle(item = {}, index = 0) {
+  const id = cleanText(item.id || item.slug || item.href?.split("id=")?.[1], `journal-${index + 1}`);
+  const titleZh = cleanText(item.titleZh || item.title, "未命名文章");
+  const titleEn = cleanText(item.titleEn || item.title, titleZh);
+  const categoryKey = cleanText(item.category || item.categoryKey || item.catEn || item.cat, "lifestyle")
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+  const categoryMeta =
+    JOURNAL_CATEGORIES.find((category) => category.key === categoryKey) ||
+    JOURNAL_CATEGORIES.find((category) => category.en.toLowerCase() === categoryKey) ||
+    JOURNAL_CATEGORIES.find((category) => category.zh === item.cat) ||
+    JOURNAL_CATEGORIES[1];
+  const bodyZh = cleanArray(item.bodyZh || item.body, [
+    cleanText(item.excerptZh || item.excerpt || "这篇文章正在整理中。"),
+  ]);
+  const bodyEn = cleanArray(item.bodyEn || item.body, [
+    cleanText(item.excerptEn || item.excerpt || "This story is being prepared."),
+  ]);
+  return {
+    ...item,
+    id,
+    href: `/journal/?id=${encodeURIComponent(id)}`,
+    category: categoryMeta.key,
+    categoryZh: cleanText(item.categoryZh || item.cat || categoryMeta.zh, categoryMeta.zh),
+    categoryEn: cleanText(item.categoryEn || item.catEn || categoryMeta.en, categoryMeta.en),
+    titleZh,
+    titleEn,
+    excerptZh: cleanText(item.excerptZh || item.excerpt || bodyZh[0], bodyZh[0]),
+    excerptEn: cleanText(item.excerptEn || item.excerpt || bodyEn[0], bodyEn[0]),
+    image: cleanText(item.coverImage || item.image, "/assets/editorial/designer-atelier.jpg"),
+    coverImage: cleanText(item.coverImage || item.image, "/assets/editorial/designer-atelier.jpg"),
+    authorZh: cleanText(item.authorZh || item.author, "Orbmare 编辑部"),
+    authorEn: cleanText(item.authorEn || item.author, "Orbmare Editors"),
+    publishedAt: cleanText(item.publishedAt || item.date, "2026-07-26"),
+    readingTime: Math.max(1, Number(item.readingTime || item.readingTimeMinutes || 5)),
+    issue: cleanText(item.issue, "issue-01"),
+    collection: cleanText(item.collection, "quiet-luxury"),
+    requiresMembership: item.requiresMembership !== false,
+    relatedProductIds: Array.isArray(item.relatedProductIds) ? item.relatedProductIds.slice(0, 6) : [],
+    bodyZh,
+    bodyEn,
+  };
+}
+
+export function normalizeJournalArticles(items = JOURNAL_ARTICLES) {
+  const source = Array.isArray(items) && items.length ? items : JOURNAL_ARTICLES;
+  return source.map((item, index) => normalizeJournalArticle(item, index));
+}
+
+export function isModernJournalItem(item = {}) {
+  return Boolean(
+    item.id ||
+      item.coverImage ||
+      item.body ||
+      item.bodyZh ||
+      item.bodyEn ||
+      Object.prototype.hasOwnProperty.call(item, "requiresMembership") ||
+      item.relatedProductIds
+  );
 }

@@ -6,7 +6,12 @@ import multer from "multer";
 import Stripe from "stripe";
 import { createPortalAuth } from "./portal-auth.js";
 import { isDatabaseEnabled, query } from "./db/index.js";
-import { JOURNAL_WEEKLY_LIMIT, getJournalArticle } from "../web/shared/js/journal-data.js";
+import {
+  JOURNAL_WEEKLY_LIMIT,
+  getJournalArticle,
+  isModernJournalItem,
+  normalizeJournalArticles,
+} from "../web/shared/js/journal-data.js";
 import { tierRank } from "../web/shared/js/membership-data.js";
 import { recordJournalRead } from "./db/journal-repo.js";
 import {
@@ -58,6 +63,13 @@ function publicJournalArticle(article, lang = "zh") {
     excerpt: useEn ? article.excerptEn : article.excerptZh,
     body: useEn ? article.bodyEn : article.bodyZh,
   };
+}
+
+function journalArticleFromContent(id) {
+  const journal = getSiteContent()?.journal || {};
+  const cmsItems = Array.isArray(journal.items) && journal.items.some(isModernJournalItem) ? journal.items : undefined;
+  const articles = normalizeJournalArticles(cmsItems);
+  return articles.find((article) => article.id === id) || getJournalArticle(id);
 }
 
 function looksLikeRealKey(value) {
@@ -483,27 +495,47 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
     }
   });
 
-  router.get("/api/journal/:id", auth.requireSession, async (req, res) => {
+  router.get("/api/journal/:id", async (req, res) => {
     try {
-      if (req.portalSession.role !== "buyer") {
-        return res.status(403).json({ ok: false, error: "Buyer access required." });
-      }
-      const article = getJournalArticle(req.params.id);
+      const article = journalArticleFromContent(req.params.id);
       if (!article) return res.status(404).json({ ok: false, error: "Journal article not found." });
 
       const lang = String(req.query?.lang || "zh").trim() === "en" ? "en" : "zh";
+      if (article.requiresMembership === false) {
+        return res.json({
+          ok: true,
+          article: publicJournalArticle(article, lang),
+          access: { tier: "public", unlimited: true, used: null, limit: null, resetAt: null, requiresMembership: false },
+        });
+      }
+
       if (!isDatabaseEnabled()) {
         return res.status(503).json({ ok: false, error: "Database is required for Journal access." });
       }
 
-      const membership = await getMembershipForUser(req.portalSession.userId);
-      const tier = membership?.tier || req.portalSession.membershipStatus || "explorer";
+      const session = await auth.sessionFromRequest(req);
+      if (!session) {
+        return res.status(401).json({
+          ok: false,
+          code: "MEMBERSHIP_REQUIRED",
+          error: "Authentication required.",
+          currentTier: "guest",
+          requiredTier: "journal",
+          access: { tier: "guest", unlimited: false, used: 0, limit: JOURNAL_WEEKLY_LIMIT, resetAt: null, requiresMembership: true },
+        });
+      }
+      if (session.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+
+      const membership = await getMembershipForUser(session.userId);
+      const tier = membership?.tier || session.membershipStatus || "explorer";
 
       if (["collector", "black"].includes(tier)) {
         return res.json({
           ok: true,
           article: publicJournalArticle(article, lang),
-          access: { tier, unlimited: true, used: null, limit: null, resetAt: null },
+          access: { tier, unlimited: true, used: null, limit: null, resetAt: null, requiresMembership: true },
         });
       }
 
@@ -514,11 +546,11 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
           error: "Journal membership is required.",
           currentTier: tier,
           requiredTier: "journal",
-          access: { tier, unlimited: false, used: 0, limit: JOURNAL_WEEKLY_LIMIT, resetAt: null },
+          access: { tier, unlimited: false, used: 0, limit: JOURNAL_WEEKLY_LIMIT, resetAt: null, requiresMembership: true },
         });
       }
 
-      const access = await recordJournalRead(req.portalSession.userId, article.id);
+      const access = await recordJournalRead(session.userId, article.id);
       if (!access.allowed) {
         return res.status(403).json({
           ok: false,
@@ -526,7 +558,7 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
           error: "Weekly Journal reading limit reached.",
           currentTier: tier,
           requiredTier: "collector",
-          access: { tier, unlimited: false, used: access.used, limit: access.limit, resetAt: access.resetAt },
+          access: { tier, unlimited: false, used: access.used, limit: access.limit, resetAt: access.resetAt, requiresMembership: true },
         });
       }
 
@@ -539,6 +571,7 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
           used: access.used,
           limit: access.limit,
           resetAt: access.resetAt,
+          requiresMembership: true,
           alreadyReadInWindow: access.alreadyReadInWindow,
         },
       });

@@ -8,30 +8,157 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=6" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=7" />
   </head>
   <body>
     <div data-orb-header></div>
-    <main data-journal-page>
-      <section class="page-hero shell-wide" data-module="journal" data-journal-hero>
-        <h1 data-i18n="journal.title" data-editable="journal.title">Journal</h1>
-        <p data-i18n="journal.lead" data-editable="journal.lead">一本关于制作的奢华杂志——工艺、材料、国家、设计师，以及非凡物件背后的安静工作。</p>
+    <main class="journal-magazine" data-journal-page>
+      <section class="journal-cover shell-wide" data-journal-home>
+        <div class="journal-cover-copy">
+          <p class="section-kicker">Journal</p>
+          <h1>Journal</h1>
+          <h2 data-journal-hero-line>Stories behind exceptional objects.</h2>
+          <p data-journal-hero-body>关于生活方式、全球精品、材料、品牌与工艺的精选读物。</p>
+        </div>
+        <a class="journal-cover-story" data-featured-cover href="/journal/">
+          <span data-featured-label>本周封面</span>
+          <figure><img src="/assets/editorial/designer-atelier.jpg" alt="" /></figure>
+          <div>
+            <h3></h3>
+            <p></p>
+            <em>Read Story →</em>
+          </div>
+        </a>
       </section>
+
+      <section class="journal-featured shell-wide reveal" data-journal-home>
+        <div class="journal-section-head">
+          <p class="section-kicker" data-copy="featuredKicker">Featured Story</p>
+          <h2 data-copy="featuredTitle">本周重点</h2>
+        </div>
+        <div data-featured-story></div>
+      </section>
+
+      <section class="journal-tabs-wrap shell-wide" data-journal-home>
+        <nav class="journal-tabs" data-category-tabs aria-label="Journal categories"></nav>
+      </section>
+
+      <section class="journal-latest shell-wide reveal" data-journal-home>
+        <div class="journal-section-head">
+          <p class="section-kicker" data-copy="latestKicker">Latest Stories</p>
+          <h2 data-copy="latestTitle">最新文章</h2>
+        </div>
+        <div class="journal-editorial-grid" data-journal-grid></div>
+      </section>
+
+      <section class="journal-collections shell-wide reveal" data-journal-home>
+        <div class="journal-section-head">
+          <p class="section-kicker" data-copy="collectionsKicker">Editorial Collections</p>
+          <h2 data-copy="collectionsTitle">专题推荐</h2>
+        </div>
+        <div class="journal-collection-grid" data-collection-grid></div>
+      </section>
+
+      <section class="journal-issues shell-wide reveal" data-journal-home>
+        <div class="journal-section-head">
+          <p class="section-kicker" data-copy="issuesKicker">Magazine Issues</p>
+          <h2 data-copy="issuesTitle">杂志专题</h2>
+        </div>
+        <div class="journal-issue-grid" data-issue-grid></div>
+      </section>
+
       <section class="section-tight shell-wide">
-        <div class="journal-list reveal" data-journal-list></div>
         <article class="journal-article" data-journal-article hidden></article>
       </section>
     </main>
     <div data-orb-footer></div>
     <script type="module">
       import { mountChrome } from "/shared/js/chrome.js";
-      import { applyI18n, getLang, onLangChange, t } from "/shared/js/editorial-i18n.js";
-      import { JOURNAL_ARTICLES, JOURNAL_WEEKLY_LIMIT, getJournalArticle } from "/shared/js/journal-data.js";
+      import { applyI18n, getLang, onLangChange } from "/shared/js/editorial-i18n.js";
+      import { loadCatalog } from "/shared/js/catalog-editorial.js";
+      import {
+        JOURNAL_ARTICLES,
+        JOURNAL_CATEGORIES,
+        JOURNAL_COLLECTIONS,
+        JOURNAL_ISSUES,
+        JOURNAL_WEEKLY_LIMIT,
+        getJournalArticle,
+        isModernJournalItem,
+        normalizeJournalArticles,
+      } from "/shared/js/journal-data.js";
 
       const params = new URLSearchParams(window.location.search);
       const articleId = params.get("id") || "";
+      let articles = normalizeJournalArticles(JOURNAL_ARTICLES);
+      let activeCategory = "all";
       let currentPayload = null;
       let currentError = null;
+      let catalog = { products: [] };
+
+      const COPY = {
+        zh: {
+          heroLine: "Stories behind exceptional objects.",
+          heroBody: "关于生活方式、全球精品、材料、品牌与工艺的精选读物。",
+          featuredLabel: "本周封面",
+          readStory: "Read Story →",
+          featuredKicker: "Featured Story",
+          featuredTitle: "本周重点",
+          latestKicker: "Latest Stories",
+          latestTitle: "最新文章",
+          collectionsKicker: "Editorial Collections",
+          collectionsTitle: "专题推荐",
+          issuesKicker: "Magazine Issues",
+          issuesTitle: "杂志专题",
+          continue: "继续阅读",
+          objects: "Featured Objects",
+          objectsBody: "Inspired by this story.",
+          related: "Related Stories",
+          share: "Share",
+          back: "返回 Journal",
+          public: "公开阅读",
+          member: "会员阅读",
+          minutes: "分钟阅读",
+          stories: "篇文章",
+          lockTitle: "这篇 Journal 需要会员阅读",
+          limitTitle: "本周 Journal 阅读次数已用完",
+          lockBody: "登录并开通 Journal 会员后可以阅读。Collector 会员不受每周篇数限制。",
+          limitBody: `Journal 会员每 7 天可以阅读 ${JOURNAL_WEEKLY_LIMIT} 篇。Collector 会员可以无限量阅读 Journal。`,
+          viewMembership: "查看会员",
+        },
+        en: {
+          heroLine: "Stories behind exceptional objects.",
+          heroBody: "Selected reading on lifestyle, exceptional objects, materials, brands, and craft.",
+          featuredLabel: "Featured Story",
+          readStory: "Read Story →",
+          featuredKicker: "Featured Story",
+          featuredTitle: "This Week",
+          latestKicker: "Latest Stories",
+          latestTitle: "Latest Stories",
+          collectionsKicker: "Editorial Collections",
+          collectionsTitle: "Editorial Collections",
+          issuesKicker: "Magazine Issues",
+          issuesTitle: "Magazine Issues",
+          continue: "Continue Reading",
+          objects: "Featured Objects",
+          objectsBody: "Inspired by this story.",
+          related: "Related Stories",
+          share: "Share",
+          back: "Back to Journal",
+          public: "Public",
+          member: "Members",
+          minutes: "min read",
+          stories: "stories",
+          lockTitle: "This Journal story is for members",
+          limitTitle: "You have used this week’s Journal reads",
+          lockBody: "Sign in with an active Journal membership to read this story. Collector members can read without limits.",
+          limitBody: `Journal members can read ${JOURNAL_WEEKLY_LIMIT} stories every 7 days. Collector members have unlimited Journal access.`,
+          viewMembership: "View membership",
+        },
+      };
+
+      function copy(key, lang = getLang()) {
+        return COPY[lang]?.[key] || COPY.zh[key] || key;
+      }
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -41,12 +168,38 @@
           .replace(/"/g, "&quot;");
       }
 
-      async function authApi(path, options = {}) {
+      function text(item, field, lang = getLang()) {
+        const suffix = lang === "en" ? "En" : "Zh";
+        return item?.[`${field}${suffix}`] || item?.[field] || item?.[`${field}Zh`] || item?.[`${field}En`] || "";
+      }
+
+      function formatDate(date, lang = getLang()) {
+        const parsed = new Date(date);
+        if (Number.isNaN(parsed.getTime())) return escapeHtml(date || "");
+        return parsed.toLocaleDateString(lang === "en" ? "en-US" : "zh-CN", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      async function loadJournalContent() {
+        try {
+          const res = await fetch(`/api/site-content?t=${Date.now()}`, { cache: "no-store", headers: { Accept: "application/json" } });
+          if (!res.ok) return;
+          const data = await res.json();
+          const items = data?.content?.journal?.items;
+          if (Array.isArray(items) && items.some(isModernJournalItem)) articles = normalizeJournalArticles(items);
+        } catch {
+          // Static fallback keeps the magazine usable if CMS content is unavailable.
+        }
+      }
+
+      async function authApi(path) {
         const res = await fetch(`/auth/api${path}`, {
           credentials: "include",
           cache: "no-store",
-          headers: { Accept: "application/json", ...(options.headers || {}) },
-          ...options,
+          headers: { Accept: "application/json" },
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
@@ -58,127 +211,168 @@
         return data;
       }
 
-      function articleText(article, field, lang = getLang()) {
-        if (!article) return "";
-        const suffix = lang === "en" ? "En" : "Zh";
-        return article[`${field}${suffix}`] || article[`${field}Zh`] || article[`${field}En`] || "";
+      function storyCard(item, lang = getLang(), { large = false } = {}) {
+        return `<a class="journal-story-card${large ? " is-large" : ""}" href="${escapeHtml(item.href)}">
+          <figure><img src="${escapeHtml(item.coverImage || item.image)}" alt="" loading="lazy" /></figure>
+          <div class="journal-card-meta">
+            <span>${escapeHtml(text(item, "category", lang))}</span>
+            <span>${escapeHtml(item.requiresMembership === false ? copy("public", lang) : copy("member", lang))}</span>
+          </div>
+          <h3>${escapeHtml(text(item, "title", lang))}</h3>
+          <p>${escapeHtml(text(item, "excerpt", lang))}</p>
+          <div class="journal-card-foot">
+            <span>${escapeHtml(formatDate(item.publishedAt, lang))}</span>
+            <span>${escapeHtml(item.readingTime)} ${escapeHtml(copy("minutes", lang))}</span>
+            <em>${escapeHtml(copy("readStory", lang))}</em>
+          </div>
+        </a>`;
       }
 
-      function renderList(lang = getLang()) {
-        const list = document.querySelector("[data-journal-list]");
-        const articleRoot = document.querySelector("[data-journal-article]");
-        if (!list) return;
-        list.hidden = false;
-        if (articleRoot) articleRoot.hidden = true;
-        list.innerHTML = JOURNAL_ARTICLES.map((item) => {
-          const cat = articleText(item, "category", lang);
-          const title = articleText(item, "title", lang);
-          const excerpt = articleText(item, "excerpt", lang);
-          return `<a class="journal-item" href="/journal/?id=${encodeURIComponent(item.id)}">
-            <time>${escapeHtml(cat)}</time>
-            <h3>${escapeHtml(title)}</h3>
-            <p>${escapeHtml(excerpt)}</p>
-            <span>${escapeHtml(t("journal.read", lang))}</span>
-          </a>`;
+      function renderHome(lang = getLang()) {
+        document.querySelectorAll("[data-journal-home]").forEach((node) => { node.hidden = false; });
+        document.querySelector("[data-journal-article]").hidden = true;
+        document.querySelector("[data-journal-hero-line]").textContent = copy("heroLine", lang);
+        document.querySelector("[data-journal-hero-body]").textContent = copy("heroBody", lang);
+        document.querySelector("[data-featured-label]").textContent = copy("featuredLabel", lang);
+        document.querySelectorAll("[data-copy]").forEach((node) => {
+          node.textContent = copy(node.dataset.copy, lang);
+        });
+
+        const sorted = [...articles].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+        const featured = sorted[0];
+        const cover = document.querySelector("[data-featured-cover]");
+        if (featured && cover) {
+          cover.href = featured.href;
+          cover.querySelector("img").src = featured.coverImage || featured.image;
+          cover.querySelector("h3").textContent = text(featured, "title", lang);
+          cover.querySelector("p").textContent = text(featured, "excerpt", lang);
+          cover.querySelector("em").textContent = copy("readStory", lang);
+        }
+        document.querySelector("[data-featured-story]").innerHTML = featured
+          ? `<article class="journal-featured-panel">
+              <figure><img src="${escapeHtml(featured.coverImage || featured.image)}" alt="" loading="lazy" /></figure>
+              <div>
+                <p class="section-kicker">${escapeHtml(text(featured, "category", lang))}</p>
+                <h3>${escapeHtml(text(featured, "title", lang))}</h3>
+                <div class="journal-byline">
+                  <span>${escapeHtml(text(featured, "author", lang))}</span>
+                  <span>${escapeHtml(formatDate(featured.publishedAt, lang))}</span>
+                  <span>${escapeHtml(featured.readingTime)} ${escapeHtml(copy("minutes", lang))}</span>
+                </div>
+                <p>${escapeHtml(text(featured, "excerpt", lang))}</p>
+                <a href="${escapeHtml(featured.href)}">${escapeHtml(copy("readStory", lang))}</a>
+              </div>
+            </article>`
+          : "";
+
+        document.querySelector("[data-category-tabs]").innerHTML = JOURNAL_CATEGORIES.map((category) => {
+          const label = lang === "en" ? category.en : category.zh;
+          return `<button type="button" data-category="${escapeHtml(category.key)}" class="${category.key === activeCategory ? "is-active" : ""}">${escapeHtml(label)}</button>`;
         }).join("");
+
+        const visible = activeCategory === "all" ? sorted : sorted.filter((item) => item.category === activeCategory);
+        document.querySelector("[data-journal-grid]").innerHTML = visible.map((item, index) => storyCard(item, lang, { large: index === 0 })).join("");
+
+        document.querySelector("[data-collection-grid]").innerHTML = JOURNAL_COLLECTIONS.map((item) => `<button type="button" data-collection="${escapeHtml(item.id)}">
+          <span>${escapeHtml(lang === "en" ? item.titleEn : item.titleZh)}</span>
+          <em>${escapeHtml(item.count)} ${escapeHtml(copy("stories", lang))}</em>
+        </button>`).join("");
+
+        document.querySelector("[data-issue-grid]").innerHTML = JOURNAL_ISSUES.map((issue) => `<article class="journal-issue-card">
+          <figure><img src="${escapeHtml(issue.coverImage)}" alt="" loading="lazy" /></figure>
+          <div>
+            <h3>${escapeHtml(lang === "en" ? issue.titleEn : issue.titleZh)}</h3>
+            <p>${escapeHtml(lang === "en" ? issue.bodyEn : issue.bodyZh)}</p>
+            <span>${escapeHtml(issue.articleCount)} ${escapeHtml(copy("stories", lang))}</span>
+          </div>
+        </article>`).join("");
       }
 
       function renderLock({ code, access, article }, lang = getLang()) {
-        const isEn = lang === "en";
         const isLimit = code === "JOURNAL_WEEKLY_LIMIT";
-        const title = isLimit
-          ? isEn
-            ? "You have used this week’s Journal reads"
-            : "本周 Journal 阅读次数已用完"
-          : isEn
-            ? "This Journal story is for members"
-            : "这篇 Journal 需要会员阅读";
-        const body = isLimit
-          ? isEn
-            ? `Journal members can read ${JOURNAL_WEEKLY_LIMIT} stories every 7 days. Collector members have unlimited Journal access.`
-            : `Journal 会员每 7 天可以阅读 ${JOURNAL_WEEKLY_LIMIT} 篇。Collector 会员可以无限量阅读 Journal。`
-          : isEn
-            ? `Sign in with an active Journal membership to read this story. Collector members can read without limits.`
-            : `登录并开通 Journal 会员后可以阅读。Collector 会员不受每周篇数限制。`;
         const reset = access?.resetAt
-          ? new Date(access.resetAt).toLocaleString(isEn ? "en-US" : "zh-CN", { dateStyle: "medium", timeStyle: "short" })
+          ? new Date(access.resetAt).toLocaleString(lang === "en" ? "en-US" : "zh-CN", { dateStyle: "medium", timeStyle: "short" })
           : "";
-        const articleTitle = article ? articleText(article, "title", lang) : "";
         return `<div class="journal-lock">
           <div class="journal-lock-icon" aria-hidden="true">
-            <svg viewBox="0 0 72 72" role="img">
-              <path d="M22 31v-8c0-8 6-14 14-14s14 6 14 14v8" />
-              <rect x="17" y="31" width="38" height="30" rx="3" />
-              <path d="M36 43v8" />
-            </svg>
+            <svg viewBox="0 0 72 72" role="img"><path d="M22 31v-8c0-8 6-14 14-14s14 6 14 14v8" /><rect x="17" y="31" width="38" height="30" rx="3" /><path d="M36 43v8" /></svg>
           </div>
           <p class="section-kicker">Orbmare Journal</p>
-          <h1>${escapeHtml(title)}</h1>
-          ${articleTitle ? `<h2>${escapeHtml(articleTitle)}</h2>` : ""}
-          <p>${escapeHtml(body)}</p>
-          ${isLimit && reset ? `<p class="journal-lock-meta">${escapeHtml(isEn ? `Next reads start around ${reset}.` : `下一次额度大约在 ${reset} 恢复。`)}</p>` : ""}
+          <h1>${escapeHtml(isLimit ? copy("limitTitle", lang) : copy("lockTitle", lang))}</h1>
+          ${article ? `<h2>${escapeHtml(text(article, "title", lang))}</h2>` : ""}
+          <p>${escapeHtml(isLimit ? copy("limitBody", lang) : copy("lockBody", lang))}</p>
+          ${isLimit && reset ? `<p class="journal-lock-meta">${escapeHtml(lang === "en" ? `Next reads start around ${reset}.` : `下一次额度大约在 ${reset} 恢复。`)}</p>` : ""}
           <div class="journal-lock-actions">
-            <a class="btn" href="/membership/">${escapeHtml(isEn ? "View membership" : "查看会员")}</a>
-            <a class="btn ghost" href="/journal/">${escapeHtml(isEn ? "Back to Journal" : "返回 Journal")}</a>
+            <a class="btn" href="/membership/">${escapeHtml(copy("viewMembership", lang))}</a>
+            <a class="btn ghost" href="/journal/">${escapeHtml(copy("back", lang))}</a>
           </div>
         </div>`;
       }
 
+      function productCard(product, lang = getLang()) {
+        const title = lang === "en" ? product.name : product.nameZh || product.name;
+        const meta = lang === "en" ? product.countryLabel || product.country : product.countryLabelZh || product.countryLabel || product.country;
+        return `<a class="journal-object-card" href="/product/?id=${encodeURIComponent(product.id)}">
+          <img src="${escapeHtml(product.image)}" alt="" loading="lazy" />
+          <span>${escapeHtml(meta || "")}</span>
+          <h4>${escapeHtml(title || "")}</h4>
+          <p>${escapeHtml(product.priceLabel || "")}</p>
+        </a>`;
+      }
+
       function renderArticle(lang = getLang()) {
+        document.querySelectorAll("[data-journal-home]").forEach((node) => { node.hidden = true; });
         const root = document.querySelector("[data-journal-article]");
-        const list = document.querySelector("[data-journal-list]");
-        const hero = document.querySelector("[data-journal-hero]");
-        if (!root) return;
-        if (list) list.hidden = true;
-        if (hero) hero.hidden = true;
         root.hidden = false;
-
-        const localArticle = getJournalArticle(articleId);
-        if (!articleId || !localArticle) {
-          root.innerHTML = renderLock({
-            code: "NOT_FOUND",
-            article: null,
-            access: null,
-          }, lang);
+        const localArticle = articles.find((item) => item.id === articleId) || getJournalArticle(articleId);
+        if (!localArticle) {
+          root.innerHTML = renderLock({ code: "NOT_FOUND", article: null, access: null }, lang);
           return;
         }
-
         if (currentError) {
-          root.innerHTML = renderLock({
-            code: currentError.code,
-            article: localArticle,
-            access: currentError.access,
-          }, lang);
+          root.innerHTML = renderLock({ code: currentError.code, article: localArticle, access: currentError.access }, lang);
           return;
         }
-
         if (!currentPayload?.article) {
-          root.innerHTML = `<div class="journal-loading">${escapeHtml(lang === "en" ? "Checking your Journal access…" : "正在确认你的 Journal 阅读权限…")}</div>`;
+          root.innerHTML = `<div class="journal-loading">${escapeHtml(lang === "en" ? "Opening the story…" : "正在打开文章…")}</div>`;
           return;
         }
 
-        const article = currentPayload.article;
-        const access = currentPayload.access || {};
+        const article = { ...localArticle, ...currentPayload.article };
         const body = Array.isArray(article.body) ? article.body : [];
-        const counter = access.unlimited
-          ? lang === "en"
-            ? "Collector access · unlimited Journal reading"
-            : "Collector 权限 · Journal 不限量阅读"
-          : lang === "en"
-            ? `Journal access · ${access.used || 0}/${access.limit || JOURNAL_WEEKLY_LIMIT} reads used this week`
-            : `Journal 权限 · 本周已读 ${access.used || 0}/${access.limit || JOURNAL_WEEKLY_LIMIT} 篇`;
+        const related = articles.filter((item) => item.id !== localArticle.id && (item.category === localArticle.category || item.collection === localArticle.collection)).slice(0, 3);
+        const relatedProducts = (localArticle.relatedProductIds || [])
+          .map((id) => (catalog.products || []).find((product) => product.id === id))
+          .filter(Boolean)
+          .slice(0, 6);
+        const access = currentPayload.access || {};
+        const accessLine = access.requiresMembership === false
+          ? copy("public", lang)
+          : access.unlimited
+            ? "Collector · Unlimited"
+            : `${copy("member", lang)} · ${access.used || 0}/${access.limit || JOURNAL_WEEKLY_LIMIT}`;
 
-        root.innerHTML = `<a class="journal-back" href="/journal/">${escapeHtml(lang === "en" ? "Back to Journal" : "返回 Journal")}</a>
+        root.innerHTML = `<a class="journal-back" href="/journal/">${escapeHtml(copy("back", lang))}</a>
           <header class="journal-article-head">
-            <p class="section-kicker">${escapeHtml(article.category || "")}</p>
-            <h1>${escapeHtml(article.title || "")}</h1>
-            <p>${escapeHtml(article.excerpt || "")}</p>
-            <span>${escapeHtml(counter)}</span>
+            <p class="section-kicker">${escapeHtml(text(localArticle, "category", lang))}</p>
+            <h1>${escapeHtml(article.title || text(localArticle, "title", lang))}</h1>
+            <div class="journal-byline">
+              <span>${escapeHtml(text(localArticle, "author", lang))}</span>
+              <span>${escapeHtml(formatDate(localArticle.publishedAt, lang))}</span>
+              <span>${escapeHtml(localArticle.readingTime)} ${escapeHtml(copy("minutes", lang))}</span>
+              <span>${escapeHtml(accessLine)}</span>
+            </div>
+            <p>${escapeHtml(article.excerpt || text(localArticle, "excerpt", lang))}</p>
           </header>
-          <img class="journal-article-image" src="${escapeHtml(article.image || "")}" alt="" loading="lazy" />
+          <figure class="journal-article-hero"><img src="${escapeHtml(localArticle.coverImage || localArticle.image)}" alt="" /></figure>
           <div class="journal-article-body">
-            ${body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
-          </div>`;
+            ${body.map((paragraph, index) => index === 1
+              ? `<blockquote>${escapeHtml(paragraph)}</blockquote>`
+              : `<p>${escapeHtml(paragraph)}</p>`).join("")}
+          </div>
+          ${related.length ? `<section class="journal-related"><h3>${escapeHtml(copy("related", lang))}</h3><div>${related.map((item) => storyCard(item, lang)).join("")}</div></section>` : ""}
+          ${relatedProducts.length ? `<section class="journal-featured-objects"><p class="section-kicker">${escapeHtml(copy("objects", lang))}</p><h3>${escapeHtml(copy("objectsBody", lang))}</h3><div>${relatedProducts.map((product) => productCard(product, lang)).join("")}</div></section>` : ""}
+          <footer class="journal-share"><span>${escapeHtml(copy("share", lang))}</span><button type="button" data-copy-link>${escapeHtml(window.location.href)}</button></footer>`;
       }
 
       async function loadArticleAccess() {
@@ -196,23 +390,38 @@
       }
 
       mountChrome({ title: "Journal | Orbmare" });
+      await loadJournalContent();
+      try { catalog = await loadCatalog(); } catch {}
+      if (articleId) await loadArticleAccess();
 
-      async function render(lang = getLang()) {
+      function render(lang = getLang()) {
         applyI18n(lang);
-        if (!articleId) {
-          renderList(lang);
-          return;
-        }
-        renderArticle(lang);
+        if (articleId) renderArticle(lang);
+        else renderHome(lang);
       }
 
-      if (articleId) await loadArticleAccess();
       render(getLang());
       onLangChange(async (lang) => {
-        if (articleId && currentPayload?.article) {
-          await loadArticleAccess();
-        }
+        if (articleId) await loadArticleAccess();
         render(lang);
+      });
+
+      document.addEventListener("click", async (event) => {
+        const tab = event.target.closest("[data-category]");
+        if (tab) {
+          activeCategory = tab.dataset.category || "all";
+          renderHome(getLang());
+        }
+        const collection = event.target.closest("[data-collection]");
+        if (collection) {
+          const first = articles.find((item) => item.collection === collection.dataset.collection);
+          if (first) window.location.href = first.href;
+        }
+        const copyLink = event.target.closest("[data-copy-link]");
+        if (copyLink) {
+          await navigator.clipboard?.writeText(window.location.href);
+          copyLink.textContent = getLang() === "en" ? "Copied" : "已复制";
+        }
       });
     </script>
   </body>

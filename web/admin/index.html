@@ -633,7 +633,15 @@
                   <div class="field"><label>标题英</label><input name="journalTitleEn" /></div>
                   <div class="field field-span-2"><label>导语中</label><textarea name="journalLead" rows="2"></textarea></div>
                   <div class="field field-span-2"><label>导语英</label><textarea name="journalLeadEn" rows="2"></textarea></div>
-                  <div class="field field-span-2"><label>条目 JSON（数组：cat/catEn/title/titleEn/href）</label><textarea name="journalItemsJson" rows="10" spellcheck="false"></textarea></div>
+                  <div class="field field-span-2">
+                    <label>文章 JSON（含 requiresMembership 权限开关）</label>
+                    <div class="inline-actions" style="margin:0 0 10px">
+                      <button type="button" data-add-journal-article="member">新增会员文章</button>
+                      <button type="button" data-add-journal-article="public">新增公开文章</button>
+                    </div>
+                    <textarea name="journalItemsJson" rows="14" spellcheck="false"></textarea>
+                    <p class="field-hint">requiresMembership: true 仅会员可读；false 所有人可读。支持 category、coverImage、author、publishedAt、readingTime、body、relatedProductIds。</p>
+                  </div>
                 </div>
               </fieldset>
               <button class="button button-primary" type="submit">保存站点文案</button>

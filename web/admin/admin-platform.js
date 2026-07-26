@@ -957,6 +957,47 @@
     return form.elements.namedItem(name)?.value ?? "";
   }
 
+  function journalTemplate(requiresMembership) {
+    const suffix = Date.now().toString(36).slice(-5);
+    return {
+      id: `story-${suffix}`,
+      category: "materials",
+      categoryZh: "材料",
+      categoryEn: "Materials",
+      title: "新的 Journal 文章",
+      titleEn: "New Journal Story",
+      excerpt: "用 40 到 80 字写清这篇文章的核心：材料、工艺、品牌或生活方式如何值得被理解。",
+      excerptEn: "Write a concise 40–80 word summary of the story: material, craft, brand, or lifestyle context.",
+      coverImage: "/assets/editorial/designer-atelier.jpg",
+      author: "Orbmare 编辑部",
+      authorEn: "Orbmare Editors",
+      publishedAt: new Date().toISOString().slice(0, 10),
+      readingTime: 5,
+      issue: "issue-01",
+      collection: "quiet-luxury",
+      requiresMembership,
+      relatedProductIds: [],
+      body: [
+        "第一段正文。用杂志语气讲清楚这件事为什么值得读。",
+        "第二段正文。可以作为页面里的 Pull Quote 呈现，适合写一个有记忆点的判断。",
+        "第三段正文。把内容自然连接回 Orbmare 的材料、工艺或商品理解。",
+      ],
+      bodyEn: [
+        "First paragraph. Explain why this story is worth reading in an editorial tone.",
+        "Second paragraph. This may appear as a pull quote, so make it memorable.",
+        "Third paragraph. Bring the story naturally back to Orbmare’s view of material, craft, or objects.",
+      ],
+    };
+  }
+
+  function parseJournalItems(form) {
+    const raw = formValue(form, "journalItemsJson").trim();
+    if (!raw) return [];
+    const items = JSON.parse(raw);
+    if (!Array.isArray(items)) throw new Error("Journal 文章必须是数组。");
+    return items;
+  }
+
   async function loadPlatformData() {
     const state = bridge().state;
     const tasks = [];
@@ -1613,15 +1654,23 @@
     });
 
     const siteForm = document.querySelector("[data-site-content-form]");
+    siteForm?.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-add-journal-article]");
+      if (!button) return;
+      try {
+        const items = parseJournalItems(siteForm);
+        items.unshift(journalTemplate(button.dataset.addJournalArticle !== "public"));
+        setValue(siteForm, "journalItemsJson", JSON.stringify(items, null, 2));
+        toast(button.dataset.addJournalArticle === "public" ? "已新增公开 Journal 文章模板。" : "已新增会员 Journal 文章模板。");
+      } catch (error) {
+        toast(error.message || "Journal JSON 无法解析。", true);
+      }
+    });
+
     siteForm?.addEventListener("submit", async (event) => {
       event.preventDefault();
       try {
-        let journalItems = [];
-        const journalRaw = formValue(siteForm, "journalItemsJson").trim();
-        if (journalRaw) {
-          journalItems = JSON.parse(journalRaw);
-          if (!Array.isArray(journalItems)) throw new Error("Journal 条目必须是数组。");
-        }
+        const journalItems = parseJournalItems(siteForm);
         const membership = {
           title: formValue(siteForm, "membershipTitle"),
           titleEn: formValue(siteForm, "membershipTitleEn"),
