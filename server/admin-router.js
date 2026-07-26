@@ -8,7 +8,7 @@ import {
   updateManagedProduct,
   withMarginFields,
 } from "./product-store.js";
-import { listAdminOrders, updateOrderOperations } from "./order-store.js";
+import { getOrder, listAdminOrders, updateOrderOperations } from "./order-store.js";
 import { ORDER_STATUSES } from "./order-statuses.js";
 import { appendAuditEvent, listAuditEvents } from "./audit-store.js";
 import { sameOriginOnly } from "./security.js";
@@ -51,6 +51,12 @@ import {
 } from "./rbac.js";
 import { listAiFieldRegistry, optimizeContent } from "./ai/service.js";
 import { getAiConfig } from "./ai/config.js";
+import {
+  buildEmailDraft,
+  getEmailConfig,
+  listEmailTemplates,
+  sendEmail,
+} from "./email-service.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const adminWebRoot = path.join(__dirname, "..", "web", "admin");
@@ -539,11 +545,76 @@ export function createAdminRouter({
         ok: true,
         orders: await listAdminOrders(),
         statuses: ORDER_STATUSES,
+        email: {
+          config: getEmailConfig(),
+          templates: listEmailTemplates(),
+        },
       });
     } catch (error) {
       return routeError(res, error, 500);
     }
   });
+
+  router.get("/api/orders/:id/email-draft", requirePermission("order.read"), async (req, res) => {
+    try {
+      const order = await getOrder(req.params.id);
+      if (!order) return routeError(res, new Error("Order not found."), 404);
+      const draft = buildEmailDraft({
+        templateId: req.query.templateId,
+        language: req.query.language || order.language,
+        order,
+      });
+      return res.json({
+        ok: true,
+        config: getEmailConfig(),
+        templates: listEmailTemplates(),
+        draft,
+        to: order.customer?.email || "",
+        customerName: order.customer?.name || "",
+      });
+    } catch (error) {
+      return routeError(res, error);
+    }
+  });
+
+  router.post(
+    "/api/orders/:id/email",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("order.update"),
+    async (req, res) => {
+      try {
+        const order = await getOrder(req.params.id);
+        if (!order) return routeError(res, new Error("Order not found."), 404);
+        const to = req.body?.to || order.customer?.email || "";
+        const templateId = String(req.body?.templateId || "manual").trim();
+        const result = await sendEmail({
+          to,
+          subject: req.body?.subject,
+          text: req.body?.body,
+          orderId: order.id,
+          templateId,
+        });
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "order_email_sent",
+          entityType: "order",
+          entityId: order.id,
+          details: {
+            to: result.to,
+            subject: result.subject,
+            templateId: result.templateId,
+            provider: result.provider,
+            messageId: result.messageId,
+          },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, email: result });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
 
   router.put(
     "/api/orders/:id/shipment",
@@ -554,6 +625,32 @@ export function createAdminRouter({
       try {
         const order = await updateOrderOperations(req.params.id, req.body || {});
         if (!order) return routeError(res, new Error("Order not found."), 404);
+        let emailResult = null;
+        let emailError = "";
+        if (req.body?.notifyCustomer === true && order.customer?.email) {
+          try {
+            const draft = buildEmailDraft({
+              templateId: "tracking_update",
+              language: order.language,
+              order,
+            });
+            emailResult = await sendEmail({
+              to: order.customer.email,
+              subject: draft.subject,
+              text: [
+                draft.body,
+                order.shipment?.carrier ? `\nCarrier: ${order.shipment.carrier}` : "",
+                order.shipment?.trackingNumber ? `Tracking: ${order.shipment.trackingNumber}` : "",
+                order.shipment?.trackingUrl ? `Tracking URL: ${order.shipment.trackingUrl}` : "",
+                order.shipment?.estimatedDelivery ? `Estimated delivery: ${order.shipment.estimatedDelivery}` : "",
+              ].join("\n"),
+              orderId: order.id,
+              templateId: "tracking_update",
+            });
+          } catch (error) {
+            emailError = error.message || "Email notification failed.";
+          }
+        }
         await appendAuditEvent({
           actor: req.adminSession.email,
           action: "shipment_updated",
@@ -563,10 +660,13 @@ export function createAdminRouter({
             status: order.status,
             carrier: order.shipment?.carrier || "",
             trackingNumber: order.shipment?.trackingNumber || "",
+            notifiedCustomer: Boolean(emailResult),
+            emailMessageId: emailResult?.messageId || "",
+            emailError,
           },
           ip: clientIp(req),
         });
-        return res.json({ ok: true, order });
+        return res.json({ ok: true, order, email: emailResult, emailError });
       } catch (error) {
         return routeError(res, error);
       }

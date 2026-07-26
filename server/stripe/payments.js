@@ -15,6 +15,7 @@ import {
   publicOrder,
 } from "../order-store.js";
 import { isDatabaseEnabled } from "../db/index.js";
+import { buildEmailDraft, sendEmail } from "../email-service.js";
 
 function looksLikeRealKey(value) {
   if (!value || /x{4,}|your[_-]?|replace|changeme|example|sk_test_xxx|pk_test_xxx/i.test(value)) {
@@ -335,6 +336,28 @@ export function stripeWebhookHandler({ stripe, webhookSecret }) {
             order.updatedAt = new Date().toISOString();
           }
     );
+
+    if (!result.duplicate && event.type === "payment_intent.succeeded") {
+      try {
+        const order = await getOrderByPaymentIntent(paymentIntentReference);
+        if (order?.customer?.email) {
+          const draft = buildEmailDraft({
+            templateId: "payment_received",
+            language: order.language,
+            order,
+          });
+          await sendEmail({
+            to: order.customer.email,
+            subject: draft.subject,
+            text: draft.body,
+            orderId: order.id,
+            templateId: "payment_received",
+          });
+        }
+      } catch (error) {
+        console.warn("[email] payment notification failed", error.message);
+      }
+    }
 
     return res.json({ received: true, duplicate: result.duplicate });
   };

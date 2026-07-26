@@ -1110,6 +1110,10 @@
               <label for="shippingNote">状态备注</label>
               <textarea id="shippingNote" name="note" maxlength="500" rows="3"></textarea>
             </div>
+            <div class="field field-span-2">
+              <label><input name="notifyCustomer" type="checkbox" /> 保存后邮件通知客户</label>
+              <small>适合已有承运商、追踪号或预计送达时间时使用。</small>
+            </div>
           </div>
           <p class="form-error" data-shipping-error role="alert" hidden></p>
         </div>
@@ -1119,6 +1123,56 @@
           </button>
           <button class="button button-primary" type="submit">
             保存运输信息
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="ops-dialog email-dialog" data-email-dialog>
+      <form method="dialog" class="dialog-shell dialog-shell-small" data-email-form>
+        <header class="dialog-header">
+          <div>
+            <p class="section-label">客户邮件</p>
+            <h2 data-email-order-id>发送订单邮件</h2>
+          </div>
+          <button class="dialog-close" type="button" data-close-email aria-label="关闭">
+            关闭
+          </button>
+        </header>
+        <div class="dialog-body">
+          <input type="hidden" name="id" />
+          <div class="email-config-note" data-email-config-note></div>
+          <div class="field">
+            <label for="emailTemplate">邮件类型</label>
+            <select id="emailTemplate" name="templateId" data-email-template>
+              <option value="payment_received">付款收到</option>
+              <option value="sourcing_update">采购更新</option>
+              <option value="shipping_adjustment">运费差额确认</option>
+              <option value="supplier_unavailable">供应商无货</option>
+              <option value="tracking_update">物流更新</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="emailTo">收件人邮箱</label>
+            <input id="emailTo" name="to" type="email" required />
+            <small>默认使用订单里的客户邮箱，也可以手动改成客户指定邮箱。</small>
+          </div>
+          <div class="field">
+            <label for="emailSubject">主题</label>
+            <input id="emailSubject" name="subject" maxlength="180" required />
+          </div>
+          <div class="field">
+            <label for="emailBody">正文</label>
+            <textarea id="emailBody" name="body" rows="9" maxlength="10000" required></textarea>
+          </div>
+          <p class="form-error" data-email-error role="alert" hidden></p>
+        </div>
+        <footer class="dialog-actions">
+          <button class="button button-secondary" type="button" data-cancel-email>
+            取消
+          </button>
+          <button class="button button-primary" type="submit">
+            发送邮件
           </button>
         </footer>
       </form>

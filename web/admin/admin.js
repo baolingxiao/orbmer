@@ -10,6 +10,7 @@ const state = {
   products: [],
   orders: [],
   statuses: [],
+  email: { config: { configured: false }, templates: [] },
   auditEvents: [],
   brands: [],
   materials: [],
@@ -129,6 +130,7 @@ const auditActionLabels = {
   product_batch_deleted: "批量删除商品",
   inventory_updated: "调整库存",
   shipment_updated: "更新运输",
+  order_email_sent: "发送订单邮件",
   trash_restored: "恢复删除",
   trash_purged: "清理回收站",
   brand_batch_deleted: "批量删除品牌",
@@ -823,7 +825,10 @@ function renderShipping() {
     });
     const updated = element("td", { text: formatDate(order.updatedAt, true) });
     const actions = element("td");
-    actions.appendChild(actionButton("更新", "editShipping", order.id));
+    actions.append(
+      actionButton("更新", "editShipping", order.id),
+      actionButton("发邮件", "emailOrder", order.id)
+    );
     row.append(id, customer, statusCell, carrier, tracking, updated, actions);
     table.appendChild(row);
   });
@@ -911,6 +916,7 @@ async function loadData({ quiet = false } = {}) {
         api("/orders").then((data) => {
           state.orders = data.orders;
           state.statuses = data.statuses;
+          state.email = data.email || state.email;
         })
       );
     }
@@ -964,6 +970,8 @@ const inventoryDialog = document.querySelector("[data-inventory-dialog]");
 const inventoryForm = document.querySelector("[data-inventory-form]");
 const shippingDialog = document.querySelector("[data-shipping-dialog]");
 const shippingForm = document.querySelector("[data-shipping-form]");
+const emailDialog = document.querySelector("[data-email-dialog]");
+const emailForm = document.querySelector("[data-email-form]");
 
 function openProductDialog(product = null) {
   productForm.reset();
@@ -1204,8 +1212,48 @@ function openShippingDialog(order) {
     "shippedAt",
     String(order.shipment?.shippedAt || "").slice(0, 10)
   );
+  shippingForm.elements.namedItem("notifyCustomer").checked = false;
   document.querySelector("[data-shipping-order-id]").textContent = order.id;
   shippingDialog.showModal();
+}
+
+async function loadEmailDraft(order, templateId = "sourcing_update") {
+  const data = await api(
+    `/orders/${encodeURIComponent(order.id)}/email-draft?templateId=${encodeURIComponent(templateId)}&language=${encodeURIComponent(order.language || "zh")}`
+  );
+  state.email = {
+    config: data.config || state.email.config,
+    templates: data.templates || state.email.templates,
+  };
+  return data;
+}
+
+function emailConfigText(config = state.email.config || {}) {
+  if (config.configured) return "邮件服务已连接。发送前请确认主题和正文。";
+  return "邮件服务尚未配置完成，当前不能发送。请检查 EMAIL_PROVIDER、RESEND_API_KEY 和 EMAIL_FROM。";
+}
+
+async function openEmailDialog(order) {
+  emailForm.reset();
+  showInlineError(document.querySelector("[data-email-error]"));
+  setFormValue(emailForm, "id", order.id);
+  document.querySelector("[data-email-order-id]").textContent = `发送订单邮件 · ${order.id}`;
+  const note = document.querySelector("[data-email-config-note]");
+  note.textContent = "正在读取邮件模板。";
+  emailDialog.showModal();
+  try {
+    const data = await loadEmailDraft(order, formValue(emailForm, "templateId") || "sourcing_update");
+    setFormValue(emailForm, "to", data.to || order.customer?.email || "");
+    setFormValue(emailForm, "subject", data.draft?.subject || "");
+    setFormValue(emailForm, "body", data.draft?.body || "");
+    note.textContent = emailConfigText(data.config);
+    note.dataset.mode = data.config?.configured ? "ok" : "error";
+    emailForm.querySelector("button[type='submit']").disabled = !data.config?.configured;
+  } catch (error) {
+    note.textContent = error.message;
+    note.dataset.mode = "error";
+    emailForm.querySelector("button[type='submit']").disabled = true;
+  }
 }
 
 loginForm?.addEventListener("submit", async (event) => {
@@ -1295,6 +1343,14 @@ document.addEventListener("click", async (event) => {
       (entry) => entry.id === shippingButton.dataset.editShipping
     );
     if (order) openShippingDialog(order);
+    return;
+  }
+  const emailButton = event.target.closest("[data-email-order]");
+  if (emailButton) {
+    const order = state.orders.find(
+      (entry) => entry.id === emailButton.dataset.emailOrder
+    );
+    if (order) openEmailDialog(order);
     return;
   }
   const deleteButton = event.target.closest("[data-delete-product]");
@@ -1480,7 +1536,7 @@ shippingForm?.addEventListener("submit", async (event) => {
   submit.disabled = true;
   try {
     const id = formValue(shippingForm, "id");
-    await api(`/orders/${encodeURIComponent(id)}/shipment`, {
+    const result = await api(`/orders/${encodeURIComponent(id)}/shipment`, {
       method: "PUT",
       body: {
         status: formValue(shippingForm, "status"),
@@ -1490,11 +1546,58 @@ shippingForm?.addEventListener("submit", async (event) => {
         estimatedDelivery: formValue(shippingForm, "estimatedDelivery"),
         shippedAt: formValue(shippingForm, "shippedAt"),
         note: formValue(shippingForm, "note"),
+        notifyCustomer: Boolean(shippingForm.elements.namedItem("notifyCustomer")?.checked),
       },
     });
     shippingDialog.close();
     await loadData({ quiet: true });
-    showToast("运输信息已更新。");
+    showToast(result.emailError ? `运输信息已更新，但邮件未发送：${result.emailError}` : "运输信息已更新。");
+  } catch (error) {
+    showInlineError(errorNode, error.message);
+  } finally {
+    submit.disabled = false;
+  }
+});
+
+emailForm?.querySelector("[data-email-template]")?.addEventListener("change", async () => {
+  const id = formValue(emailForm, "id");
+  const order = state.orders.find((entry) => entry.id === id);
+  if (!order) return;
+  const note = document.querySelector("[data-email-config-note]");
+  note.textContent = "正在更新邮件模板。";
+  note.dataset.mode = "";
+  try {
+    const data = await loadEmailDraft(order, formValue(emailForm, "templateId"));
+    setFormValue(emailForm, "subject", data.draft?.subject || "");
+    setFormValue(emailForm, "body", data.draft?.body || "");
+    note.textContent = emailConfigText(data.config);
+    note.dataset.mode = data.config?.configured ? "ok" : "error";
+  } catch (error) {
+    note.textContent = error.message;
+    note.dataset.mode = "error";
+  }
+});
+
+emailForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const errorNode = document.querySelector("[data-email-error]");
+  showInlineError(errorNode);
+  const submit = emailForm.querySelector("button[type='submit']");
+  submit.disabled = true;
+  try {
+    const id = formValue(emailForm, "id");
+    await api(`/orders/${encodeURIComponent(id)}/email`, {
+      method: "POST",
+      body: {
+        templateId: formValue(emailForm, "templateId"),
+        to: formValue(emailForm, "to"),
+        subject: formValue(emailForm, "subject"),
+        body: formValue(emailForm, "body"),
+      },
+    });
+    emailDialog.close();
+    await loadData({ quiet: true });
+    showToast("邮件已发送，并已记录到操作日志。");
   } catch (error) {
     showInlineError(errorNode, error.message);
   } finally {
@@ -1520,6 +1623,8 @@ const adminAi = createAiOptimization({
   ["[data-cancel-inventory]", inventoryDialog, null],
   ["[data-close-shipping]", shippingDialog, null],
   ["[data-cancel-shipping]", shippingDialog, null],
+  ["[data-close-email]", emailDialog, null],
+  ["[data-cancel-email]", emailDialog, null],
 ].forEach(([selector, dialog, form]) => {
   document.querySelector(selector)?.addEventListener("click", () => {
     if (form && !adminAi.confirmCloseIfDirty(form)) return;

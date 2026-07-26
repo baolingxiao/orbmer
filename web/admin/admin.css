@@ -1531,6 +1531,23 @@ fieldset .field small {
   font-size: 0.84rem;
 }
 
+.email-config-note {
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--line, #e6e6e6);
+  border-bottom: 1px solid var(--line, #e6e6e6);
+  color: #6f6f6f;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.email-config-note[data-mode="ok"] {
+  color: #31513c;
+}
+
+.email-config-note[data-mode="error"] {
+  color: #9f3328;
+}
+
 .relation-picker-option:last-child {
   border-bottom: 0;
 }
