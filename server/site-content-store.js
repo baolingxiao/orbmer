@@ -167,6 +167,65 @@ export const DEFAULT_SITE_CONTENT = {
       },
     ],
   },
+  journalStudio: {
+    updatedAt: null,
+    issues: [
+      {
+        id: "issue-001-quiet-luxury",
+        issueNumber: "001",
+        title: "The Quiet Luxury Issue",
+        titleEn: "The Quiet Luxury Issue",
+        subtitle: "Discover Better Objects.",
+        description: "A digital issue about better materials, slower decisions, and objects worth keeping.",
+        cover: "/assets/editorial/designer-atelier.jpg",
+        theme: "Quiet Luxury",
+        season: "2026 Summer",
+        language: "zh/en",
+        publishDate: "2026-07-26",
+        categories: ["lifestyle", "objects", "materials"],
+        tags: ["quiet-luxury", "materials", "objects"],
+        status: "draft",
+        updatedAt: null,
+        workflow: {
+          research: "in_progress",
+          insight: "not_started",
+          outline: "not_started",
+          editorial: "not_started",
+          images: "not_started",
+          layout: "not_started",
+          products: "not_started",
+          seo: "not_started",
+          preview: "not_started",
+          publish: "not_started"
+        },
+        researchCards: [
+          {
+            id: "research-01",
+            title: "Brand philosophy",
+            source: "Official sources",
+            summary: "Collect verified information before drafting. Research stays factual and separate from editorial writing.",
+            confidence: "Medium",
+            favorite: true
+          }
+        ],
+        outline: ["Introduction", "Material context", "Craft and origin", "How to choose", "Featured Objects"],
+        blocks: [
+          { id: "block-hero", type: "hero", label: "Hero", text: "Stories behind exceptional objects.", image: "/assets/editorial/designer-atelier.jpg", width: "wide", marginTop: 0 },
+          { id: "block-intro", type: "paragraph", label: "Paragraph", text: "Write with restraint. Explain why the object, material, or maker deserves attention without sounding promotional.", width: "normal", marginTop: 28 },
+          { id: "block-quote", type: "quote", label: "Pull Quote", text: "Good objects do not ask to be replaced quickly.", width: "narrow", marginTop: 28 },
+          { id: "block-image", type: "image", label: "Image", image: "/assets/editorial/country-japan.jpg", caption: "Editorial image caption.", width: "wide", marginTop: 28 },
+          { id: "block-products", type: "productGrid", label: "Featured Objects", text: "Inspired by this story.", productIds: [], width: "wide", marginTop: 28 }
+        ],
+        seo: {
+          metaTitle: "The Quiet Luxury Issue | Orbmare Journal",
+          description: "A digital issue by Orbmare on materials, craft, and objects worth keeping.",
+          slug: "quiet-luxury-issue",
+          keywords: ["Orbmare", "quiet luxury", "craft"]
+        },
+        versions: [{ id: "version-initial", label: "Initial draft", createdAt: "2026-07-26T00:00:00.000Z" }]
+      }
+    ]
+  },
 };
 
 function clone(value) {

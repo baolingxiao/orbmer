@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <title>运营管理 | 傲马 Orbmare</title>
-    <link rel="stylesheet" href="./admin.css?v=34" />
+    <link rel="stylesheet" href="./admin.css?v=35" />
     <link rel="stylesheet" href="./ai/ai.css?v=1" />
   </head>
   <body>
@@ -103,6 +103,9 @@
             订单
           </button>
           <p class="ops-nav-group">Content</p>
+          <button class="ops-nav-item" type="button" data-section-target="journal-studio" data-requires-permission="content.read">
+            Journal Studio
+          </button>
           <button class="ops-nav-item" type="button" data-section-target="content" data-requires-permission="content.read">
             站点文案
           </button>
@@ -646,6 +649,64 @@
               </fieldset>
               <button class="button button-primary" type="submit">保存站点文案</button>
             </form>
+          </section>
+
+          <section class="ops-section" data-section="journal-studio" hidden>
+            <div class="journal-studio" data-journal-studio>
+              <div class="js-topbar">
+                <div>
+                  <p class="section-label">Editorial Magazine System</p>
+                  <h2>Journal Studio</h2>
+                  <p>从 Research 到 Publish 的数字杂志工作室。不是博客后台，也不是 Markdown 编辑器。</p>
+                </div>
+                <div class="js-actions">
+                  <button class="button button-secondary" type="button" data-js-import>Import</button>
+                  <button class="button button-secondary" type="button" data-js-save>Manual Save</button>
+                  <button class="button button-primary" type="button" data-js-new-issue>New Issue</button>
+                </div>
+              </div>
+
+              <div class="js-dashboard" data-js-dashboard>
+                <aside class="js-status-rail" data-js-status-rail></aside>
+                <section class="js-issue-grid" data-js-issue-grid></section>
+                <aside class="js-stats" data-js-stats></aside>
+              </div>
+
+              <div class="js-workbench" data-js-workbench hidden>
+                <aside class="js-navigator">
+                  <button class="js-back" type="button" data-js-back>← Dashboard</button>
+                  <div data-js-navigator></div>
+                </aside>
+
+                <section class="js-canvas-shell">
+                  <div class="js-flow" data-js-flow></div>
+                  <div class="js-canvas-toolbar">
+                    <button type="button" data-js-add-block="heading">Heading</button>
+                    <button type="button" data-js-add-block="paragraph">Paragraph</button>
+                    <button type="button" data-js-add-block="image">Image</button>
+                    <button type="button" data-js-add-block="quote">Pull Quote</button>
+                    <button type="button" data-js-add-block="productGrid">Product Grid</button>
+                    <label>Zoom <input type="range" min="70" max="120" value="92" data-js-zoom /></label>
+                  </div>
+                  <div class="js-canvas-viewport">
+                    <article class="js-canvas" data-js-canvas></article>
+                  </div>
+                </section>
+
+                <aside class="js-inspector">
+                  <div class="js-ai-panel">
+                    <p class="section-label">AI Editorial Assistant</p>
+                    <h3>人工审核前置</h3>
+                    <p>Research、Fact Check、Rewrite、SEO、Layout Suggestion 等入口已预留。所有 AI 输出都应先进入草稿，不覆盖正文。</p>
+                  </div>
+                  <form data-js-inspector></form>
+                  <div class="js-publish-panel">
+                    <button class="button button-secondary" type="button" data-js-preview>Preview</button>
+                    <button class="button button-primary" type="button" data-js-publish>Publish to Journal</button>
+                  </div>
+                </aside>
+              </div>
+            </div>
           </section>
 
           <section class="ops-section" data-section="media" hidden>

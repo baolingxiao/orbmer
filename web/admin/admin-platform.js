@@ -88,6 +88,38 @@
     country: new Set(),
     craft: new Set(),
   };
+
+  const journalStudioState = {
+    activeIssueId: "",
+    activeBlockId: "",
+    zoom: 92,
+  };
+
+  const JS_STATUSES = ["draft", "researching", "writing", "layout", "review", "scheduled", "published", "archived"];
+  const JS_STATUS_LABELS = {
+    draft: "Draft",
+    researching: "Researching",
+    writing: "Writing",
+    layout: "Layout",
+    review: "Review",
+    scheduled: "Scheduled",
+    published: "Published",
+    archived: "Archived",
+  };
+  const JS_STEPS = ["research", "insight", "outline", "editorial", "images", "layout", "products", "seo", "preview", "publish"];
+  const JS_STEP_LABELS = {
+    research: "Research",
+    insight: "Insight",
+    outline: "Outline",
+    editorial: "Writing",
+    images: "Images",
+    layout: "Canvas",
+    products: "Products",
+    seo: "SEO",
+    preview: "Preview",
+    publish: "Publish",
+  };
+  const JS_CATEGORIES = ["lifestyle", "objects", "materials", "brands", "countries", "craft", "designers"];
   const mediaSelection = new Set();
 
   function writePermFor(type) {
@@ -998,6 +1030,254 @@
     return items;
   }
 
+  function nowIso() {
+    return new Date().toISOString();
+  }
+
+  function jsDefaultBlock(type = "paragraph") {
+    const id = `block-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 5)}`;
+    const defaults = {
+      hero: { type: "hero", label: "Hero", text: "Stories behind exceptional objects.", image: "/assets/editorial/designer-atelier.jpg", width: "wide" },
+      heading: { type: "heading", label: "Heading", text: "A section about material, origin, and time.", level: "h2", width: "normal" },
+      paragraph: { type: "paragraph", label: "Paragraph", text: "Write with restraint. Explain why the object, material, or maker deserves attention without sounding promotional.", width: "normal" },
+      quote: { type: "quote", label: "Pull Quote", text: "Good objects do not ask to be replaced quickly.", width: "narrow" },
+      image: { type: "image", label: "Image", image: "/assets/editorial/country-japan.jpg", caption: "Editorial image caption.", width: "wide" },
+      productGrid: { type: "productGrid", label: "Featured Objects", text: "Inspired by this story.", productIds: [], width: "wide" },
+    };
+    return { id, locked: false, collapsed: false, marginTop: 28, ...defaults[type] || defaults.paragraph };
+  }
+
+  function jsDefaultIssue() {
+    const id = `issue-${Date.now().toString(36)}`;
+    return {
+      id,
+      issueNumber: "001",
+      title: "The Quiet Luxury Issue",
+      titleEn: "The Quiet Luxury Issue",
+      subtitle: "Discover Better Objects.",
+      description: "A digital issue about better materials, slower decisions, and objects worth keeping.",
+      cover: "/assets/editorial/designer-atelier.jpg",
+      theme: "Quiet Luxury",
+      season: "2026 Summer",
+      language: "zh/en",
+      publishDate: new Date().toISOString().slice(0, 10),
+      categories: ["lifestyle", "objects", "materials"],
+      tags: ["quiet-luxury", "materials", "objects"],
+      status: "draft",
+      updatedAt: nowIso(),
+      workflow: Object.fromEntries(JS_STEPS.map((step, index) => [step, index === 0 ? "in_progress" : "not_started"])),
+      researchCards: [
+        { id: "research-01", title: "Brand philosophy", source: "Official sources", summary: "Collect verified information before drafting. Research stays factual and separate from editorial writing.", confidence: "Medium", favorite: true },
+      ],
+      outline: ["Introduction", "Material context", "Craft and origin", "How to choose", "Featured Objects"],
+      blocks: [jsDefaultBlock("hero"), jsDefaultBlock("paragraph"), jsDefaultBlock("quote"), jsDefaultBlock("image"), jsDefaultBlock("productGrid")],
+      seo: { metaTitle: "The Quiet Luxury Issue | Orbmare Journal", description: "A digital issue by Orbmare on materials, craft, and objects worth keeping.", slug: "quiet-luxury-issue", keywords: ["Orbmare", "quiet luxury", "craft"] },
+      versions: [{ id: `version-${Date.now().toString(36)}`, label: "Initial draft", createdAt: nowIso() }],
+    };
+  }
+
+  function getJournalStudio() {
+    const content = bridge().state.siteContent || {};
+    const studio = content.journalStudio || {};
+    const issues = Array.isArray(studio.issues) && studio.issues.length ? studio.issues : [jsDefaultIssue()];
+    return { ...studio, issues };
+  }
+
+  function getActiveIssue() {
+    const studio = getJournalStudio();
+    if (!journalStudioState.activeIssueId) return null;
+    return studio.issues.find((issue) => issue.id === journalStudioState.activeIssueId) || null;
+  }
+
+  async function saveJournalStudio(studio, message = "Journal Studio 已保存。") {
+    await api("/site-content", { method: "PATCH", body: { patch: { journalStudio: studio } } });
+    toast(message);
+    await loadPlatformData();
+  }
+
+  async function mutateJournalStudio(mutator, message) {
+    const studio = getJournalStudio();
+    const next = JSON.parse(JSON.stringify(studio));
+    mutator(next);
+    next.updatedAt = nowIso();
+    await saveJournalStudio(next, message);
+  }
+
+  function workflowMark(value) {
+    if (value === "completed") return "●";
+    if (value === "in_progress") return "◐";
+    return "○";
+  }
+
+  function issueToJournalArticle(issue) {
+    const firstParagraph = issue.blocks?.find((block) => block.type === "paragraph")?.text || issue.description || "";
+    return {
+      id: issue.seo?.slug || issue.id,
+      category: issue.categories?.[0] || "lifestyle",
+      categoryZh: "生活方式",
+      categoryEn: "Lifestyle",
+      title: issue.title,
+      titleEn: issue.titleEn || issue.title,
+      excerpt: issue.description,
+      excerptEn: issue.description,
+      coverImage: issue.cover,
+      author: "Orbmare 编辑部",
+      authorEn: "Orbmare Editors",
+      publishedAt: issue.publishDate,
+      readingTime: Math.max(4, Math.ceil((issue.blocks || []).length * 1.2)),
+      issue: issue.id,
+      collection: issue.theme?.toLowerCase?.().replace(/\s+/g, "-") || "quiet-luxury",
+      requiresMembership: true,
+      relatedProductIds: (issue.blocks || []).flatMap((block) => block.productIds || []).slice(0, 6),
+      body: (issue.blocks || [])
+        .filter((block) => ["paragraph", "quote", "heading"].includes(block.type))
+        .map((block) => block.text || block.label)
+        .filter(Boolean)
+        .concat(firstParagraph ? [] : [issue.description]),
+      bodyEn: (issue.blocks || [])
+        .filter((block) => ["paragraph", "quote", "heading"].includes(block.type))
+        .map((block) => block.text || block.label)
+        .filter(Boolean),
+    };
+  }
+
+  function renderJournalStudio() {
+    const root = document.querySelector("[data-journal-studio]");
+    if (!root) return;
+    const studio = getJournalStudio();
+    const activeIssue = getActiveIssue();
+    renderJournalStudioDashboard(studio);
+    renderJournalStudioWorkbench(studio, activeIssue);
+  }
+
+  function renderJournalStudioDashboard(studio) {
+    const rail = document.querySelector("[data-js-status-rail]");
+    const grid = document.querySelector("[data-js-issue-grid]");
+    const stats = document.querySelector("[data-js-stats]");
+    if (!rail || !grid || !stats) return;
+    clear(rail);
+    JS_STATUSES.forEach((status) => {
+      const count = (studio.issues || []).filter((issue) => issue.status === status).length;
+      const button = el("button", { type: "button", className: "js-status", text: `${JS_STATUS_LABELS[status]} ${count}` });
+      rail.appendChild(button);
+    });
+    clear(grid);
+    (studio.issues || []).forEach((issue) => {
+      const card = el("button", { type: "button", className: "js-issue-card" });
+      card.dataset.jsOpenIssue = issue.id;
+      card.innerHTML = `
+        <img src="${issue.cover || "/assets/editorial/designer-atelier.jpg"}" alt="" />
+        <span>${issue.status || "draft"} · ${issue.language || "zh/en"}</span>
+        <strong>Issue ${issue.issueNumber || "—"}<br>${issue.title || "Untitled"}</strong>
+        <small>${issue.categories?.join(" · ") || "No category"} · ${(issue.blocks || []).length} blocks</small>
+      `;
+      grid.appendChild(card);
+    });
+    const issues = studio.issues || [];
+    stats.innerHTML = `
+      <p class="section-label">Quick Statistics</p>
+      <h3>Studio Health</h3>
+      <dl>
+        <div><dt>Issues</dt><dd>${issues.length}</dd></div>
+        <div><dt>Articles</dt><dd>${issues.length}</dd></div>
+        <div><dt>Blocks</dt><dd>${issues.reduce((sum, issue) => sum + (issue.blocks || []).length, 0)}</dd></div>
+        <div><dt>Products Linked</dt><dd>${issues.reduce((sum, issue) => sum + (issue.blocks || []).flatMap((block) => block.productIds || []).length, 0)}</dd></div>
+        <div><dt>Published</dt><dd>${issues.filter((issue) => issue.status === "published").length}</dd></div>
+      </dl>
+    `;
+  }
+
+  function renderJournalStudioWorkbench(studio, issue) {
+    const dashboard = document.querySelector("[data-js-dashboard]");
+    const workbench = document.querySelector("[data-js-workbench]");
+    if (!dashboard || !workbench) return;
+    const open = Boolean(journalStudioState.activeIssueId);
+    dashboard.hidden = open;
+    workbench.hidden = !open;
+    if (!open || !issue) return;
+    renderJournalNavigator(issue);
+    renderJournalFlow(issue);
+    renderJournalCanvas(issue);
+    renderJournalInspector(issue);
+  }
+
+  function renderJournalNavigator(issue) {
+    const nav = document.querySelector("[data-js-navigator]");
+    if (!nav) return;
+    nav.innerHTML = `
+      <h3>Issue ${issue.issueNumber}</h3>
+      <p>${issue.title}</p>
+      ${["Cover", "Research", "Outline", "Writing", "Images", "Canvas", "Products", "SEO", "Preview", "Publish", "Version History"].map((item) => `<button type="button">${item}</button>`).join("")}
+    `;
+  }
+
+  function renderJournalFlow(issue) {
+    const flow = document.querySelector("[data-js-flow]");
+    if (!flow) return;
+    flow.innerHTML = JS_STEPS.map((step) => `<button type="button" data-js-step="${step}">
+      <span>${workflowMark(issue.workflow?.[step])}</span>${JS_STEP_LABELS[step]}
+    </button>`).join("");
+  }
+
+  function blockHtml(block) {
+    const selected = block.id === journalStudioState.activeBlockId ? " is-selected" : "";
+    if (block.type === "hero") {
+      return `<section class="js-block js-block-hero${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">
+        <img src="${block.image || ""}" alt="" /><h1>${block.text || ""}</h1>
+      </section>`;
+    }
+    if (block.type === "image") {
+      return `<figure class="js-block js-block-image${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">
+        <img src="${block.image || ""}" alt="" /><figcaption>${block.caption || ""}</figcaption>
+      </figure>`;
+    }
+    if (block.type === "quote") {
+      return `<blockquote class="js-block js-block-quote${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">${block.text || ""}</blockquote>`;
+    }
+    if (block.type === "productGrid") {
+      return `<section class="js-block js-block-products${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">
+        <p>${block.label || "Featured Objects"}</p><h3>${block.text || ""}</h3><small>${(block.productIds || []).join(", ") || "No products linked yet."}</small>
+      </section>`;
+    }
+    if (block.type === "heading") {
+      return `<h2 class="js-block js-block-heading${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">${block.text || ""}</h2>`;
+    }
+    return `<p class="js-block js-block-paragraph${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">${block.text || ""}</p>`;
+  }
+
+  function renderJournalCanvas(issue) {
+    const canvas = document.querySelector("[data-js-canvas]");
+    if (!canvas) return;
+    canvas.style.transform = `scale(${journalStudioState.zoom / 100})`;
+    canvas.innerHTML = (issue.blocks || []).map(blockHtml).join("");
+  }
+
+  function renderJournalInspector(issue) {
+    const form = document.querySelector("[data-js-inspector]");
+    if (!form) return;
+    const block = (issue.blocks || []).find((item) => item.id === journalStudioState.activeBlockId) || (issue.blocks || [])[0];
+    if (!journalStudioState.activeBlockId && block) journalStudioState.activeBlockId = block.id;
+    if (!block) {
+      form.innerHTML = `<p class="panel-empty">选择一个 Block 后编辑属性。</p>`;
+      return;
+    }
+    form.innerHTML = `
+      <p class="section-label">Inspector</p>
+      <h3>${block.label || block.type}</h3>
+      <label>Block Type<input name="type" value="${block.type}" readonly /></label>
+      <label>Label<input name="label" value="${block.label || ""}" /></label>
+      <label>Text<textarea name="text" rows="5">${block.text || ""}</textarea></label>
+      <label>Image<input name="image" value="${block.image || ""}" /></label>
+      <label>Caption<input name="caption" value="${block.caption || ""}" /></label>
+      <label>Product IDs<input name="productIds" value="${(block.productIds || []).join(", ")}" /></label>
+      <label>Margin Top<input name="marginTop" type="number" value="${block.marginTop || 0}" /></label>
+      <div class="js-inspector-actions">
+        <button class="button button-secondary" type="button" data-js-duplicate-block>Duplicate</button>
+        <button class="button button-secondary" type="button" data-js-delete-block>Delete</button>
+      </div>
+    `;
+  }
+
   async function loadPlatformData() {
     const state = bridge().state;
     const tasks = [];
@@ -1298,10 +1578,153 @@
     renderMedia();
     renderTeam();
     renderSiteContent();
+    renderJournalStudio();
     renderTrash();
   }
 
   function bindPlatform() {
+    document.querySelector("[data-js-new-issue]")?.addEventListener("click", async () => {
+      await mutateJournalStudio((studio) => {
+        const issue = jsDefaultIssue();
+        studio.issues = [issue, ...(studio.issues || [])];
+        journalStudioState.activeIssueId = issue.id;
+        journalStudioState.activeBlockId = issue.blocks[0]?.id || "";
+      }, "已创建新的 Magazine Issue。");
+    });
+
+    document.querySelector("[data-js-save]")?.addEventListener("click", async () => {
+      await saveJournalStudio(getJournalStudio(), "Journal Studio 已手动保存。");
+    });
+
+    document.querySelector("[data-js-import]")?.addEventListener("click", () => {
+      toast("Import 入口已预留：后续可接 Notion、CSV、Google Docs 或品牌资料库。");
+    });
+
+    document.querySelector("[data-js-back]")?.addEventListener("click", () => {
+      journalStudioState.activeIssueId = "";
+      journalStudioState.activeBlockId = "";
+      renderJournalStudio();
+    });
+
+    document.querySelector("[data-journal-studio]")?.addEventListener("click", async (event) => {
+      const issueButton = event.target.closest("[data-js-open-issue]");
+      if (issueButton) {
+        const issue = getJournalStudio().issues.find((item) => item.id === issueButton.dataset.jsOpenIssue);
+        journalStudioState.activeIssueId = issueButton.dataset.jsOpenIssue;
+        journalStudioState.activeBlockId = issue?.blocks?.[0]?.id || "";
+        renderJournalStudio();
+        return;
+      }
+
+      const blockNode = event.target.closest("[data-js-block]");
+      if (blockNode) {
+        journalStudioState.activeBlockId = blockNode.dataset.jsBlock;
+        renderJournalStudio();
+        return;
+      }
+
+      const addBlock = event.target.closest("[data-js-add-block]");
+      if (addBlock) {
+        await mutateJournalStudio((studio) => {
+          const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+          if (!issue) return;
+          const block = jsDefaultBlock(addBlock.dataset.jsAddBlock);
+          issue.blocks = [...(issue.blocks || []), block];
+          issue.updatedAt = nowIso();
+          journalStudioState.activeBlockId = block.id;
+        }, "已添加 Canvas Block。");
+        return;
+      }
+
+      const step = event.target.closest("[data-js-step]");
+      if (step) {
+        await mutateJournalStudio((studio) => {
+          const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+          if (!issue) return;
+          const current = issue.workflow?.[step.dataset.jsStep] || "not_started";
+          const next = current === "completed" ? "not_started" : current === "in_progress" ? "completed" : "in_progress";
+          issue.workflow = { ...(issue.workflow || {}), [step.dataset.jsStep]: next };
+          issue.updatedAt = nowIso();
+        }, "流程状态已更新。");
+        return;
+      }
+
+      if (event.target.closest("[data-js-duplicate-block]")) {
+        await mutateJournalStudio((studio) => {
+          const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+          const block = issue?.blocks?.find((item) => item.id === journalStudioState.activeBlockId);
+          if (!issue || !block) return;
+          const copy = { ...JSON.parse(JSON.stringify(block)), id: `block-${Date.now().toString(36)}`, label: `${block.label || block.type} Copy` };
+          issue.blocks.push(copy);
+          journalStudioState.activeBlockId = copy.id;
+        }, "Block 已复制。");
+        return;
+      }
+
+      if (event.target.closest("[data-js-delete-block]")) {
+        await mutateJournalStudio((studio) => {
+          const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+          if (!issue) return;
+          issue.blocks = (issue.blocks || []).filter((block) => block.id !== journalStudioState.activeBlockId);
+          journalStudioState.activeBlockId = issue.blocks[0]?.id || "";
+        }, "Block 已删除。");
+        return;
+      }
+
+      if (event.target.closest("[data-js-preview]")) {
+        const issue = getActiveIssue();
+        toast(issue ? `Preview：${issue.title}` : "请选择 Issue。");
+        return;
+      }
+
+      if (event.target.closest("[data-js-publish]")) {
+        const issue = getActiveIssue();
+        if (!issue) return;
+        const article = issueToJournalArticle(issue);
+        const content = bridge().state.siteContent || {};
+        const existing = Array.isArray(content.journal?.items) ? content.journal.items : [];
+        const nextItems = [article, ...existing.filter((item) => item.id !== article.id)];
+        await api("/site-content", {
+          method: "PATCH",
+          body: {
+            patch: {
+              journal: { ...(content.journal || {}), items: nextItems },
+              journalStudio: {
+                ...getJournalStudio(),
+                issues: getJournalStudio().issues.map((item) =>
+                  item.id === issue.id ? { ...item, status: "published", updatedAt: nowIso() } : item
+                ),
+              },
+            },
+          },
+        });
+        toast("已发布到前台 Journal。");
+        await loadPlatformData();
+      }
+    });
+
+    document.querySelector("[data-js-zoom]")?.addEventListener("input", (event) => {
+      journalStudioState.zoom = Number(event.target.value || 92);
+      renderJournalStudio();
+    });
+
+    document.querySelector("[data-js-inspector]")?.addEventListener("input", async (event) => {
+      const field = event.target;
+      const name = field?.name;
+      if (!name) return;
+      const studio = getJournalStudio();
+      const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+      const block = issue?.blocks?.find((item) => item.id === journalStudioState.activeBlockId);
+      if (!block) return;
+      if (name === "productIds") block.productIds = String(field.value || "").split(",").map((part) => part.trim()).filter(Boolean);
+      else if (name === "marginTop") block.marginTop = Number(field.value || 0);
+      else block[name] = field.value;
+      issue.updatedAt = nowIso();
+      await api("/site-content", { method: "PATCH", body: { patch: { journalStudio: studio } } });
+      bridge().state.siteContent = { ...(bridge().state.siteContent || {}), journalStudio: studio };
+      renderJournalCanvas(issue);
+    });
+
     document.querySelectorAll("[data-new-entity]").forEach((button) => {
       button.addEventListener("click", () => openEntityDialog(button.dataset.newEntity));
     });
