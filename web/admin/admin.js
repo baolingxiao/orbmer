@@ -2,7 +2,7 @@ import "./admin-platform.js?v=34";
 import { createAdminUploader } from "./admin-upload.js";
 import { createAiOptimization } from "./ai/admin-ai.js";
 import { returnPolicyDisplay } from "/shared/js/commerce-display.js";
-import { productTypeFields, serializeDimensions } from "/shared/js/product-specs.js";
+import { APPAREL_SIZE_FIELDS, productTypeFields, serializeDimensions } from "/shared/js/product-specs.js";
 import { CONCIERGE_STATUSES, SERVICE_TYPES, TIER_META } from "/shared/js/membership-data.js";
 
 const state = {
@@ -1121,7 +1121,11 @@ function renderProductTypeFields(type, values = {}) {
   const root = document.querySelector("[data-product-type-fields]");
   if (!root) return;
   clear(root);
-  productTypeFields(type).forEach(([key, zh]) => {
+  if (type === "apparel") {
+    renderApparelSizeOptions(root, values.sizeOptions || []);
+  }
+  const skipped = new Set(type === "apparel" ? APPAREL_SIZE_FIELDS.map(([key]) => key) : []);
+  productTypeFields(type).filter(([key]) => !skipped.has(key)).forEach(([key, zh]) => {
     const wrap = element("div", { className: "field" });
     const label = element("label", { text: zh });
     label.htmlFor = `attr-${key}`;
@@ -1135,12 +1139,61 @@ function renderProductTypeFields(type, values = {}) {
   });
 }
 
+function renderApparelSizeOptions(root, sizeOptions = []) {
+  const section = element("div", { className: "field field-span-2 product-size-options" });
+  const head = element("div", { className: "product-size-options-head" });
+  head.append(
+    element("strong", { text: "多尺寸 / 尺码" }),
+    (() => {
+      const button = element("button", { className: "button button-secondary button-compact", type: "button", text: "+ 新增尺码" });
+      button.dataset.addSizeOption = "apparel";
+      return button;
+    })()
+  );
+  const list = element("div");
+  list.dataset.sizeOptionsList = "apparel";
+  section.append(head, list);
+  root.appendChild(section);
+  const options = Array.isArray(sizeOptions) && sizeOptions.length ? sizeOptions : [{}];
+  options.forEach((option) => appendApparelSizeOption(list, option));
+}
+
+function appendApparelSizeOption(list, values = {}) {
+  const index = list.querySelectorAll("[data-size-option]").length + 1;
+  const item = element("div", { className: "product-size-option" });
+  item.dataset.sizeOption = "apparel";
+  const title = element("div", { className: "product-size-option-title" });
+  title.append(
+    element("strong", { text: `尺码 ${index}` }),
+    (() => {
+      const button = element("button", { className: "text-button", type: "button", text: "移除" });
+      button.dataset.removeSizeOption = "apparel";
+      return button;
+    })()
+  );
+  const grid = element("div", { className: "form-grid" });
+  APPAREL_SIZE_FIELDS.forEach(([key, zh]) => {
+    const wrap = element("div", { className: "field" });
+    const label = element("label", { text: zh });
+    const input = element("input");
+    input.dataset.sizeField = key;
+    input.maxLength = 80;
+    input.value = values[key] || "";
+    wrap.append(label, input);
+    grid.appendChild(wrap);
+  });
+  item.append(title, grid);
+  list.appendChild(item);
+}
+
 function mergeVisibleProductAttributes() {
   const existing = JSON.parse(productForm.dataset.productAttributes || "{}");
   productForm.querySelectorAll("[data-product-type-fields] input").forEach((field) => {
     const key = field.name?.replace(/^attr_/, "");
     if (key && field.value.trim()) existing[key] = field.value.trim();
   });
+  const sizeOptions = readApparelSizeOptions();
+  if (sizeOptions.length) existing.sizeOptions = sizeOptions;
   productForm.dataset.productAttributes = JSON.stringify(existing);
   return existing;
 }
@@ -1151,7 +1204,23 @@ function readProductAttributes(type) {
     const field = productForm.elements.namedItem(`attr_${key}`);
     if (field?.value) attributes[key] = field.value.trim();
   });
+  if (type === "apparel") {
+    attributes.sizeOptions = readApparelSizeOptions();
+    for (const [key] of APPAREL_SIZE_FIELDS) delete attributes[key];
+  }
   return attributes;
+}
+
+function readApparelSizeOptions() {
+  return [...productForm.querySelectorAll("[data-size-option='apparel']")]
+    .map((item) => {
+      const option = {};
+      item.querySelectorAll("[data-size-field]").forEach((field) => {
+        if (field.value.trim()) option[field.dataset.sizeField] = field.value.trim();
+      });
+      return option;
+    })
+    .filter((option) => Object.keys(option).length > 0);
 }
 
 function syncDimensionSummary() {
@@ -1701,6 +1770,19 @@ document.addEventListener("click", async (event) => {
     } catch (error) {
       showToast(error.message, true);
     }
+  }
+  const addSize = event.target.closest("[data-add-size-option]");
+  if (addSize) {
+    const list = document.querySelector("[data-size-options-list='apparel']");
+    if (list) appendApparelSizeOption(list, {});
+    return;
+  }
+  const removeSize = event.target.closest("[data-remove-size-option]");
+  if (removeSize) {
+    const option = removeSize.closest("[data-size-option]");
+    const list = option?.parentElement;
+    if (option && list?.querySelectorAll("[data-size-option]").length > 1) option.remove();
+    else if (option) option.querySelectorAll("input").forEach((input) => { input.value = ""; });
   }
 });
 

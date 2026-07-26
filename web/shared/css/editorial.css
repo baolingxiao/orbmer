@@ -1710,16 +1710,16 @@ button {
 }
 
 .pdp-spec-summary {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 0 0 24px;
-  border-top: 1px solid var(--line);
 }
 
 .pdp-spec-summary div {
-  padding: 12px 14px 12px 0;
-  border-bottom: 1px solid var(--line);
+  max-width: 100%;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
 }
 
 .pdp-spec-summary dt {
@@ -1746,6 +1746,7 @@ button {
 
 @media (max-width: 640px) {
   .pdp-spec-summary {
+    display: grid;
     grid-template-columns: 1fr;
   }
 }

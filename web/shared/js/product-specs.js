@@ -117,6 +117,17 @@ export const BASE_DIMENSION_FIELDS = Object.freeze([
   ["weight", "重量", "Weight"],
 ]);
 
+export const APPAREL_SIZE_FIELDS = Object.freeze([
+  ["apparelSize", "尺码", "Size"],
+  ["recommendedHeight", "建议身高", "Recommended height"],
+  ["recommendedWeight", "建议体重", "Recommended weight"],
+  ["shoulder", "肩宽", "Shoulder"],
+  ["chest", "胸围", "Chest"],
+  ["garmentLength", "衣长", "Garment length"],
+  ["sleeve", "袖长", "Sleeve"],
+  ["waist", "腰围", "Waist"],
+]);
+
 export function productTypeLabel(type = "object", lang = "zh") {
   const template = PRODUCT_TYPE_TEMPLATES[type] || PRODUCT_TYPE_TEMPLATES.object;
   return lang === "en" ? template.labelEn : template.labelZh;
@@ -144,13 +155,28 @@ export function serializeDimensions(dimensions = {}, legacy = "") {
 }
 
 export function specsToRows({ productType = "object", dimensionsStructured = {}, productAttributes = {} } = {}, lang = "zh") {
-  const labels = new Map([...BASE_DIMENSION_FIELDS, ...productTypeFields(productType)].map(([key, zh, en]) => [key, lang === "en" ? en : zh]));
+  const labels = new Map([...BASE_DIMENSION_FIELDS, ...productTypeFields(productType), ...APPAREL_SIZE_FIELDS].map(([key, zh, en]) => [key, lang === "en" ? en : zh]));
   const rows = [];
   for (const [key, value] of Object.entries(dimensionsStructured || {})) {
     if (["unit", "weightUnit"].includes(key) || !value) continue;
     rows.push({ label: labels.get(key) || key, value: `${value}${key === "weight" && dimensionsStructured.weightUnit ? ` ${dimensionsStructured.weightUnit}` : key !== "weight" && dimensionsStructured.unit ? ` ${dimensionsStructured.unit}` : ""}` });
   }
+  const sizeOptions = Array.isArray(productAttributes?.sizeOptions) ? productAttributes.sizeOptions : [];
+  sizeOptions.forEach((option, index) => {
+    const sizeName = option.apparelSize || option.size || `${lang === "en" ? "Size" : "尺码"} ${index + 1}`;
+    const detail = APPAREL_SIZE_FIELDS
+      .filter(([key]) => key !== "apparelSize")
+      .map(([key]) => [labels.get(key), option[key]])
+      .filter(([, value]) => value)
+      .map(([label, value]) => `${label}: ${value}`)
+      .join(" · ");
+    rows.push({
+      label: `${lang === "en" ? "Size" : "尺码"} ${sizeName}`,
+      value: detail || sizeName,
+    });
+  });
   for (const [key, value] of Object.entries(productAttributes || {})) {
+    if (key === "sizeOptions") continue;
     if (!value) continue;
     rows.push({ label: labels.get(key) || key, value });
   }

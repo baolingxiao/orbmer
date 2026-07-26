@@ -97,10 +97,17 @@ function compactTextRecord(value, max = 160) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return {};
   return Object.fromEntries(
     Object.entries(value)
-      .map(([key, entry]) => [
-        String(key).replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 64),
-        String(entry ?? "").trim().slice(0, max),
-      ])
+      .map(([key, entry]) => {
+        const safeKey = String(key).replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 64);
+        if (Array.isArray(entry)) {
+          const rows = entry
+            .slice(0, 40)
+            .map((row) => compactTextRecord(row, max))
+            .filter((row) => Object.keys(row).length > 0);
+          return [safeKey, rows];
+        }
+        return [safeKey, String(entry ?? "").trim().slice(0, max)];
+      })
       .filter(([key, entry]) => key && entry)
   );
 }
