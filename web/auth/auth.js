@@ -79,10 +79,43 @@ async function loadOrders() {
   }
   root.innerHTML = data.orders
     .map(
-      (order) => `<article class="order"><strong>${order.id}</strong><div>${order.status}</div>
-      <div>${order.paymentStatus || ""} · ${(order.totals?.dueNowCents / 100).toFixed?.(2) || ""} USD</div></article>`
+      (order) => `<article class="order"><strong>${order.id}</strong><div>${order.fulfillmentStatus || order.status}</div>
+      <div>${order.paymentStatus || ""} · ${(order.totals?.dueNowCents / 100).toFixed?.(2) || ""} USD</div>
+      <button type="button" data-view-journey="${order.id}">查看 Order Journey</button></article>`
     )
     .join("");
+}
+
+async function loadOrderJourney(orderId) {
+  const data = await api(`/orders/${encodeURIComponent(orderId)}/journey`);
+  const shell = document.querySelector("[data-order-journey]");
+  const body = document.querySelector("[data-order-journey-body]");
+  if (!shell || !body) return;
+  const events = data.events || [];
+  const shipments = data.shipments || [];
+  body.innerHTML = `
+    <article class="journey-card">
+      <h3>${orderId}</h3>
+      ${events.length ? events.map((event) => `
+        <div class="journey-event">
+          <strong>${event.publicTitle || event.status}</strong>
+          <p>${event.publicDescription || ""}</p>
+          <small>${event.location || ""}${event.location ? " · " : ""}${new Date(event.createdAt).toLocaleString()}</small>
+        </div>`).join("") : "<p>订单旅程会在有新的履约进展后显示。</p>"}
+    </article>
+    ${shipments.map((shipment) => `
+      <article class="journey-card">
+        <h3>Shipment ${shipment.shipmentId}</h3>
+        <p>${shipment.sourceCountry || ""} · ${shipment.carrier || ""} ${shipment.trackingNumber || ""}</p>
+        ${(shipment.events || []).map((event) => `
+          <div class="journey-event">
+            <strong>${event.publicTitle || event.status}</strong>
+            <p>${event.publicDescription || ""}</p>
+            <small>${event.location || ""}${event.location ? " · " : ""}${new Date(event.createdAt).toLocaleString()}</small>
+          </div>`).join("")}
+      </article>`).join("")}
+  `;
+  shell.hidden = false;
 }
 
 document.querySelectorAll("[data-tab]").forEach((btn) => {
@@ -155,6 +188,12 @@ document.querySelectorAll("[data-logout]").forEach((btn) => {
 document.querySelector("[data-link-orders]")?.addEventListener("click", async () => {
   await api("/link-orders", { method: "POST", body: "{}" });
   await loadOrders();
+});
+
+document.querySelector("[data-orders]")?.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-view-journey]");
+  if (!button) return;
+  await loadOrderJourney(button.dataset.viewJourney);
 });
 
 async function boot() {

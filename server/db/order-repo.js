@@ -9,6 +9,12 @@ function mapOrder(row) {
     createdAt: row.created_at?.toISOString?.() || row.created_at,
     updatedAt: row.updated_at?.toISOString?.() || row.updated_at,
     status: row.status,
+    fulfillmentStatus: row.fulfillment_status || row.status,
+    estimatedDeliveryStart: row.estimated_delivery_start?.toISOString?.().slice(0, 10) || row.estimated_delivery_start || "",
+    estimatedDeliveryEnd: row.estimated_delivery_end?.toISOString?.().slice(0, 10) || row.estimated_delivery_end || "",
+    carrier: row.carrier || "",
+    trackingNumber: row.tracking_number || "",
+    trackingUrl: row.tracking_url || "",
     currency: row.currency,
     items: row.items || [],
     totals: row.totals,
@@ -41,6 +47,7 @@ export async function createPendingOrder({
     createdAt: now,
     updatedAt: now,
     status: "PAYMENT_PENDING",
+    fulfillmentStatus: "ORDER_CONFIRMED",
     statusHistory: [
       {
         status: "PAYMENT_PENDING",
@@ -107,17 +114,18 @@ export async function createPendingOrder({
   await withTransaction(async (client) => {
     await client.query(
       `INSERT INTO orders (
-         id, status, currency, buyer_user_id, customer, shipping, consent, totals,
+         id, status, fulfillment_status, currency, buyer_user_id, customer, shipping, consent, totals,
          payment, shipment, items, status_history, language, payment_intent_id,
          created_at, updated_at
        ) VALUES (
-         $1,$2,$3,$4,$5::jsonb,$6::jsonb,$7::jsonb,$8::jsonb,
-         $9::jsonb,$10::jsonb,$11::jsonb,$12::jsonb,$13,NULL,
-         $14::timestamptz,$15::timestamptz
+         $1,$2,$3,$4,$5,$6::jsonb,$7::jsonb,$8::jsonb,$9::jsonb,
+         $10::jsonb,$11::jsonb,$12::jsonb,$13::jsonb,$14,NULL,
+         $15::timestamptz,$16::timestamptz
        )`,
       [
         order.id,
         order.status,
+        order.fulfillmentStatus,
         order.currency,
         buyerUserId,
         JSON.stringify(order.customer),
@@ -202,6 +210,17 @@ export async function listOrders() {
   return rows.map(mapOrder);
 }
 
+export async function getBuyerOrder(orderId, userId, email) {
+  const { rows } = await query(
+    `SELECT * FROM orders
+     WHERE id = $1
+       AND (buyer_user_id = $2 OR lower(customer->>'email') = lower($3))
+     LIMIT 1`,
+    [orderId, userId || null, email || ""]
+  );
+  return mapOrder(rows[0]);
+}
+
 export async function updateOrderRecord(orderId, mutation) {
   const current = await getOrder(orderId);
   if (!current) return null;
@@ -210,21 +229,33 @@ export async function updateOrderRecord(orderId, mutation) {
   const { rows } = await query(
     `UPDATE orders SET
        status = $2,
-       customer = $3::jsonb,
-       shipping = $4::jsonb,
-       consent = $5::jsonb,
-       totals = $6::jsonb,
-       payment = $7::jsonb,
-       shipment = $8::jsonb,
-       items = $9::jsonb,
-       status_history = $10::jsonb,
-       payment_intent_id = $11,
-       updated_at = $12::timestamptz
+       fulfillment_status = $3,
+       estimated_delivery_start = NULLIF($4, '')::date,
+       estimated_delivery_end = NULLIF($5, '')::date,
+       carrier = $6,
+       tracking_number = $7,
+       tracking_url = $8,
+       customer = $9::jsonb,
+       shipping = $10::jsonb,
+       consent = $11::jsonb,
+       totals = $12::jsonb,
+       payment = $13::jsonb,
+       shipment = $14::jsonb,
+       items = $15::jsonb,
+       status_history = $16::jsonb,
+       payment_intent_id = $17,
+       updated_at = $18::timestamptz
      WHERE id = $1
      RETURNING *`,
     [
       orderId,
       current.status,
+      current.fulfillmentStatus || current.status,
+      current.estimatedDeliveryStart || "",
+      current.estimatedDeliveryEnd || "",
+      current.carrier || current.shipment?.carrier || "",
+      current.trackingNumber || current.shipment?.trackingNumber || "",
+      current.trackingUrl || current.shipment?.trackingUrl || "",
       JSON.stringify(current.customer),
       JSON.stringify(current.shipping),
       JSON.stringify(current.consent),
@@ -238,6 +269,144 @@ export async function updateOrderRecord(orderId, mutation) {
     ]
   );
   return mapOrder(rows[0]);
+}
+
+export async function listOrderEvents(orderId) {
+  const { rows } = await query(
+    `SELECT * FROM order_events WHERE order_id = $1 ORDER BY created_at DESC`,
+    [orderId]
+  );
+  return rows.map((row) => ({
+    id: row.id,
+    orderId: row.order_id,
+    shipmentId: row.shipment_id || null,
+    status: row.status,
+    publicTitle: row.public_title,
+    publicDescription: row.public_description,
+    internalNote: row.internal_note || "",
+    location: row.location || "",
+    operatorId: row.operator_id || "",
+    createdAt: row.created_at?.toISOString?.() || row.created_at,
+  }));
+}
+
+export async function appendOrderEvent(orderId, event) {
+  const { rows } = await query(
+    `INSERT INTO order_events (
+       order_id, shipment_id, status, public_title, public_description,
+       internal_note, location, operator_id, created_at
+     ) VALUES ($1, NULLIF($2, '')::uuid, $3, $4, $5, $6, $7, $8, COALESCE($9::timestamptz, now()))
+     RETURNING *`,
+    [
+      orderId,
+      event.shipmentUuid || "",
+      event.status,
+      event.publicTitle,
+      event.publicDescription,
+      event.internalNote || "",
+      event.location || "",
+      event.operatorId || "",
+      event.createdAt || null,
+    ]
+  );
+  return (await listOrderEvents(orderId)).find((entry) => entry.id === rows[0].id);
+}
+
+export async function listOrderShipments(orderId) {
+  const { rows } = await query(
+    `SELECT * FROM order_shipments WHERE order_id = $1 ORDER BY created_at ASC`,
+    [orderId]
+  );
+  return rows.map((row) => ({
+    id: row.id,
+    shipmentId: row.shipment_id,
+    orderId: row.order_id,
+    items: row.items || [],
+    sourceCountry: row.source_country || "",
+    carrier: row.carrier || "",
+    trackingNumber: row.tracking_number || "",
+    trackingUrl: row.tracking_url || "",
+    currentStatus: row.current_status,
+    estimatedDelivery: row.estimated_delivery?.toISOString?.().slice(0, 10) || row.estimated_delivery || "",
+    events: row.events || [],
+    createdAt: row.created_at?.toISOString?.() || row.created_at,
+    updatedAt: row.updated_at?.toISOString?.() || row.updated_at,
+  }));
+}
+
+export async function createShipment(orderId, input) {
+  const shipmentId = input.shipmentId || `SHP-${Date.now()}-${randomUUID().slice(0, 6).toUpperCase()}`;
+  const { rows } = await query(
+    `INSERT INTO order_shipments (
+       order_id, shipment_id, items, source_country, carrier, tracking_number,
+       tracking_url, current_status, estimated_delivery
+     ) VALUES ($1,$2,$3::jsonb,$4,$5,$6,$7,$8,NULLIF($9, '')::date)
+     RETURNING *`,
+    [
+      orderId,
+      shipmentId,
+      JSON.stringify(input.items || []),
+      input.sourceCountry || "",
+      input.carrier || "",
+      input.trackingNumber || "",
+      input.trackingUrl || "",
+      input.currentStatus || "ORDER_CONFIRMED",
+      input.estimatedDelivery || "",
+    ]
+  );
+  return (await listOrderShipments(orderId)).find((entry) => entry.id === rows[0].id);
+}
+
+export async function updateShipment(shipmentId, input) {
+  const { rows } = await query(
+    `UPDATE order_shipments
+     SET items = COALESCE($2::jsonb, items),
+         source_country = COALESCE($3, source_country),
+         carrier = COALESCE($4, carrier),
+         tracking_number = COALESCE($5, tracking_number),
+         tracking_url = COALESCE($6, tracking_url),
+         current_status = COALESCE($7, current_status),
+         estimated_delivery = COALESCE(NULLIF($8, '')::date, estimated_delivery),
+         events = COALESCE($9::jsonb, events),
+         updated_at = now()
+     WHERE shipment_id = $1 OR id::text = $1
+     RETURNING order_id`,
+    [
+      shipmentId,
+      input.items === undefined ? null : JSON.stringify(input.items || []),
+      input.sourceCountry ?? null,
+      input.carrier ?? null,
+      input.trackingNumber ?? null,
+      input.trackingUrl ?? null,
+      input.currentStatus ?? null,
+      input.estimatedDelivery ?? "",
+      input.events === undefined ? null : JSON.stringify(input.events || []),
+    ]
+  );
+  if (!rows[0]) return null;
+  const shipments = await listOrderShipments(rows[0].order_id);
+  return shipments.find((entry) => entry.shipmentId === shipmentId || entry.id === shipmentId) || null;
+}
+
+export async function recordEmailEvent({ orderId, status, templateId, messageId = "" }) {
+  const { rows } = await query(
+    `INSERT INTO order_email_events (order_id, status, template_id, message_id)
+     VALUES ($1,$2,$3,$4)
+     ON CONFLICT (order_id, status, template_id) DO NOTHING
+     RETURNING id`,
+    [orderId, status, templateId, messageId]
+  );
+  return rows.length > 0;
+}
+
+export async function hasEmailEvent({ orderId, status, templateId }) {
+  const { rows } = await query(
+    `SELECT 1 FROM order_email_events
+     WHERE order_id = $1 AND status = $2 AND template_id = $3
+     LIMIT 1`,
+    [orderId, status, templateId]
+  );
+  return rows.length > 0;
 }
 
 export async function processWebhookOnce(eventId, apply) {

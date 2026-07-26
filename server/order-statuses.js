@@ -1,4 +1,79 @@
-export const ORDER_STATUSES = Object.freeze([
+export const FULFILLMENT_STATUSES = Object.freeze([
+  {
+    id: "ORDER_CONFIRMED",
+    label: "Order confirmed",
+    publicTitle: "Order confirmed",
+    publicDescription: "Your order has been confirmed.",
+  },
+  {
+    id: "ORDER_ACCEPTED",
+    label: "Order accepted",
+    publicTitle: "Order accepted",
+    publicDescription: "Orbmare has accepted your order and begun processing it.",
+  },
+  {
+    id: "PURCHASED",
+    label: "Purchased",
+    publicTitle: "Piece secured",
+    publicDescription: "Your selected piece has been secured.",
+  },
+  {
+    id: "SELLER_CONFIRMED",
+    label: "Source confirmed",
+    publicTitle: "Source confirmed",
+    publicDescription: "The source has confirmed your order.",
+  },
+  {
+    id: "PREPARING_SHIPMENT",
+    label: "Preparing shipment",
+    publicTitle: "Preparing shipment",
+    publicDescription: "Your order is being carefully prepared for dispatch.",
+  },
+  {
+    id: "SHIPPED",
+    label: "Shipped",
+    publicTitle: "Dispatched",
+    publicDescription: "Your order has been dispatched.",
+  },
+  {
+    id: "IN_TRANSIT",
+    label: "In transit",
+    publicTitle: "In transit",
+    publicDescription: "Your order is currently in transit.",
+  },
+  {
+    id: "CUSTOMS_CLEARANCE",
+    label: "Customs clearance",
+    publicTitle: "Customs clearance",
+    publicDescription: "Your order is completing customs processing.",
+  },
+  {
+    id: "LOCAL_DELIVERY",
+    label: "Local delivery",
+    publicTitle: "Local delivery",
+    publicDescription: "Your order has been transferred to the local delivery network.",
+  },
+  {
+    id: "DELIVERED",
+    label: "Delivered",
+    publicTitle: "Delivered",
+    publicDescription: "Your order has been delivered.",
+  },
+  {
+    id: "DELAYED",
+    label: "Delayed",
+    publicTitle: "Delayed",
+    publicDescription: "Your order is taking longer than expected. We are following its progress closely.",
+  },
+  {
+    id: "CANCELLED",
+    label: "Cancelled",
+    publicTitle: "Cancelled",
+    publicDescription: "This order has been cancelled.",
+  },
+]);
+
+export const LEGACY_ORDER_STATUSES = Object.freeze([
   { id: "DRAFT", label: "Draft" },
   { id: "QUOTED", label: "Quoted" },
   { id: "PAYMENT_PENDING", label: "Payment pending" },
@@ -12,11 +87,7 @@ export const ORDER_STATUSES = Object.freeze([
   { id: "SHIPPING_ADJUSTMENT_REQUIRED", label: "Shipping adjustment required" },
   { id: "CUSTOMER_APPROVAL_PENDING", label: "Customer approval pending" },
   { id: "READY_TO_SHIP", label: "Ready to ship" },
-  { id: "SHIPPED", label: "Shipped" },
-  { id: "CUSTOMS_CLEARANCE", label: "Customs clearance" },
-  { id: "DELIVERED", label: "Delivered" },
   { id: "EXCEPTION", label: "Exception" },
-  { id: "CANCELLED", label: "Cancelled" },
   { id: "REFUND_REVIEW", label: "Refund review" },
   { id: "PARTIALLY_REFUNDED", label: "Partially refunded" },
   { id: "REFUNDED", label: "Refunded" },
@@ -36,6 +107,28 @@ export const ORDER_STATUSES = Object.freeze([
   { id: "cancelled", label: "Cancelled" },
 ]);
 
+export const ORDER_STATUSES = Object.freeze([
+  ...FULFILLMENT_STATUSES,
+  ...LEGACY_ORDER_STATUSES.filter(
+    (legacy) => !FULFILLMENT_STATUSES.some((status) => status.id === legacy.id)
+  ),
+]);
+
+const STATUS_BY_ID = new Map(ORDER_STATUSES.map((status) => [status.id, status]));
+
 export function isOrderStatus(value) {
-  return ORDER_STATUSES.some((status) => status.id === value);
+  return STATUS_BY_ID.has(value);
+}
+
+export function fulfillmentStatus(value) {
+  return FULFILLMENT_STATUSES.find((status) => status.id === value) || null;
+}
+
+export function defaultFulfillmentCopy(value) {
+  const status = fulfillmentStatus(value);
+  if (!status) return null;
+  return {
+    publicTitle: status.publicTitle,
+    publicDescription: status.publicDescription,
+  };
 }

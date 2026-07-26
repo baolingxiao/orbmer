@@ -14,6 +14,7 @@
     "admin:reset": "node scripts/reset-admin-credentials.mjs",
     "test:admin-security": "node scripts/test-admin-security.mjs",
     "test:copy": "node scripts/copy-lint.mjs",
+    "test:fulfillment": "node scripts/test-order-fulfillment.mjs",
     "db:migrate": "node scripts/db-migrate.mjs",
     "db:up": "docker compose up -d postgres",
     "db:migrate-editorial": "node scripts/migrate-editorial-content.mjs",

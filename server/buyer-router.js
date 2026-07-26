@@ -12,7 +12,7 @@ import {
   linkGoogleIdentity,
   listBuyerOrders,
 } from "./db/user-repo.js";
-import { publicOrder } from "./order-store.js";
+import { getBuyerOrderJourney, publicOrder } from "./order-store.js";
 import { appendAuditEvent } from "./audit-store.js";
 import { sameOriginOnly } from "./security.js";
 import {
@@ -420,6 +420,22 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
         ok: true,
         orders: rows.map((row) => publicOrder(mapOrder(row))),
       });
+    } catch (error) {
+      return res.status(500).json({ ok: false, error: error.message });
+    }
+  });
+
+  router.get("/api/orders/:id/journey", auth.requireSession, async (req, res) => {
+    try {
+      if (req.portalSession.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+      const journey = await getBuyerOrderJourney(req.params.id, {
+        userId: req.portalSession.userId,
+        email: req.portalSession.email,
+      });
+      if (!journey) return res.status(404).json({ ok: false, error: "Order not found." });
+      return res.json({ ok: true, ...journey });
     } catch (error) {
       return res.status(500).json({ ok: false, error: error.message });
     }

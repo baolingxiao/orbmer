@@ -61,6 +61,18 @@ export const CUSTOMER_EMAIL_TEMPLATES = Object.freeze({
         "Hello,\n\nThere is a new shipping update for your order. You can review the carrier, tracking number, and estimated delivery timing.\n\nIf tracking does not update immediately, the carrier may still be syncing the package record. We’ll keep you informed as new confirmed details become available.\n\nWarmly,\nOrbmare",
     },
   },
+  fulfillment_update: {
+    zh: {
+      subject: "Orbmare 订单状态更新",
+      body:
+        "你好，\n\n你的订单有新的履约进展。\n\n订单号：{{orderId}}\n新状态：{{statusTitle}}\n\n{{publicDescription}}\n\n预计送达时间：{{estimatedDelivery}}\n\n你可以回到账户页面查看完整 Order Journey。\n\nOrbmare 傲马",
+    },
+    en: {
+      subject: "Your Orbmare order journey has been updated",
+      body:
+        "Hello,\n\nThere is a new update in your order journey.\n\nOrder: {{orderId}}\nNew status: {{statusTitle}}\n\n{{publicDescription}}\n\nEstimated delivery: {{estimatedDelivery}}\n\nYou can view the full Order Journey from your account.\n\nWith care,\nOrbmare",
+    },
+  },
 });
 
 export const CUSTOMER_CHECKOUT_COPY = Object.freeze({

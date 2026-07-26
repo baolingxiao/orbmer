@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
 import { fileURLToPath } from "url";
-import { isOrderStatus } from "./order-statuses.js";
+import { defaultFulfillmentCopy, isOrderStatus } from "./order-statuses.js";
 import { isDatabaseEnabled, query } from "./db/index.js";
 import * as orderRepo from "./db/order-repo.js";
 
@@ -51,6 +51,37 @@ function asText(value, max = 200) {
   return String(value ?? "").trim().slice(0, max);
 }
 
+function normalizeShipment(shipment = {}, order = null) {
+  return {
+    shipmentId: shipment.shipmentId || shipment.id || `SHP-${randomUUID().slice(0, 10).toUpperCase()}`,
+    items: Array.isArray(shipment.items) ? shipment.items : order?.items || [],
+    sourceCountry: asText(shipment.sourceCountry || order?.items?.[0]?.policy?.originCountry || "", 80),
+    carrier: asText(shipment.carrier, 120),
+    trackingNumber: asText(shipment.trackingNumber, 160),
+    trackingUrl: asText(shipment.trackingUrl, 500),
+    currentStatus: asText(shipment.currentStatus || order?.fulfillmentStatus || order?.status || "ORDER_CONFIRMED", 80),
+    estimatedDelivery: asText(shipment.estimatedDelivery, 40),
+    events: Array.isArray(shipment.events) ? shipment.events : [],
+    createdAt: shipment.createdAt || new Date().toISOString(),
+    updatedAt: shipment.updatedAt || new Date().toISOString(),
+  };
+}
+
+function ensureOrderFulfillment(order) {
+  if (!order) return order;
+  order.fulfillmentStatus = order.fulfillmentStatus || order.status || "ORDER_CONFIRMED";
+  order.estimatedDeliveryStart = order.estimatedDeliveryStart || "";
+  order.estimatedDeliveryEnd = order.estimatedDeliveryEnd || order.shipment?.estimatedDelivery || "";
+  order.carrier = order.carrier || order.shipment?.carrier || "";
+  order.trackingNumber = order.trackingNumber || order.shipment?.trackingNumber || "";
+  order.trackingUrl = order.trackingUrl || order.shipment?.trackingUrl || "";
+  order.events = Array.isArray(order.events) ? order.events : [];
+  order.shipments = Array.isArray(order.shipments) && order.shipments.length
+    ? order.shipments.map((shipment) => normalizeShipment(shipment, order))
+    : [normalizeShipment(order.shipment || {}, order)];
+  return order;
+}
+
 export async function createPendingOrder({ items, totals, customer, shipping, consent, language }) {
   if (isDatabaseEnabled()) {
     try {
@@ -74,6 +105,7 @@ export async function createPendingOrder({ items, totals, customer, shipping, co
     createdAt: now,
     updatedAt: now,
     status: "PAYMENT_PENDING",
+    fulfillmentStatus: "ORDER_CONFIRMED",
     statusHistory: [{ status: "PAYMENT_PENDING", at: now, note: "Server created an order from a server-side checkout quote." }],
     currency: "USD",
     items,
@@ -128,6 +160,7 @@ export async function createPendingOrder({ items, totals, customer, shipping, co
       updatedAt: null,
     },
   };
+  ensureOrderFulfillment(order);
   data.orders.push(order);
   writeStore(data);
   return order;
@@ -150,7 +183,9 @@ export async function updateOrder(orderId, mutation) {
   const data = readStore();
   const order = data.orders.find((entry) => entry.id === orderId);
   if (!order) return null;
+  ensureOrderFulfillment(order);
   mutation(order);
+  ensureOrderFulfillment(order);
   order.updatedAt = new Date().toISOString();
   writeStore(data);
   return order;
@@ -158,18 +193,18 @@ export async function updateOrder(orderId, mutation) {
 
 export async function getOrder(orderId) {
   if (isDatabaseEnabled()) return orderRepo.getOrder(orderId);
-  return readStore().orders.find((entry) => entry.id === orderId) || null;
+  return ensureOrderFulfillment(readStore().orders.find((entry) => entry.id === orderId) || null);
 }
 
 export async function getOrderByPaymentIntent(paymentIntentId) {
   if (isDatabaseEnabled()) return orderRepo.getOrderByPaymentIntent(paymentIntentId);
-  return readStore().orders.find((entry) => entry.payment?.paymentIntentId === paymentIntentId) || null;
+  return ensureOrderFulfillment(readStore().orders.find((entry) => entry.payment?.paymentIntentId === paymentIntentId) || null);
 }
 
 export async function listAdminOrders() {
   if (isDatabaseEnabled()) {
     return (await orderRepo.listOrders()).map((order) => ({
-      ...order,
+      ...ensureOrderFulfillment(order),
       shipment: {
         carrier: "",
         trackingNumber: "",
@@ -184,7 +219,7 @@ export async function listAdminOrders() {
   }
   return readStore()
     .orders.map((order) => ({
-      ...order,
+      ...ensureOrderFulfillment(order),
       shipment: {
         carrier: "",
         trackingNumber: "",
@@ -236,6 +271,204 @@ export async function updateOrderOperations(orderId, input) {
   });
 }
 
+export async function getOrderWithFulfillment(orderId) {
+  const order = await getOrder(orderId);
+  if (!order) return null;
+  if (isDatabaseEnabled()) {
+    return {
+      ...ensureOrderFulfillment(order),
+      events: await orderRepo.listOrderEvents(orderId),
+      shipments: await orderRepo.listOrderShipments(orderId),
+    };
+  }
+  return ensureOrderFulfillment(order);
+}
+
+export async function getBuyerOrderJourney(orderId, { userId = "", email = "" } = {}) {
+  let order = null;
+  if (isDatabaseEnabled()) {
+    order = await orderRepo.getBuyerOrder(orderId, userId, email);
+  } else {
+    order = await getOrder(orderId);
+    if (order && String(order.customer?.email || "").toLowerCase() !== String(email || "").toLowerCase()) {
+      order = null;
+    }
+  }
+  if (!order) return null;
+  const full = await getOrderWithFulfillment(order.id);
+  return {
+    order: publicOrder(full),
+    events: (full.events || []).map(({ status, publicTitle, publicDescription, location, createdAt }) => ({
+      status,
+      publicTitle,
+      publicDescription,
+      location,
+      createdAt,
+    })),
+    shipments: (full.shipments || []).map((shipment) => ({
+      shipmentId: shipment.shipmentId,
+      items: shipment.items,
+      sourceCountry: shipment.sourceCountry,
+      carrier: shipment.carrier,
+      trackingNumber: shipment.trackingNumber,
+      trackingUrl: shipment.trackingUrl,
+      currentStatus: shipment.currentStatus,
+      estimatedDelivery: shipment.estimatedDelivery,
+      events: (shipment.events || []).map(({ status, publicTitle, publicDescription, location, createdAt }) => ({
+        status,
+        publicTitle,
+        publicDescription,
+        location,
+        createdAt,
+      })),
+    })),
+  };
+}
+
+export async function appendOrderEvent(orderId, input, { operatorId = "" } = {}) {
+  const status = asText(input.status, 80);
+  if (!isOrderStatus(status)) throw new Error("Unsupported order status.");
+  const fallback = defaultFulfillmentCopy(status);
+  if (!fallback) throw new Error("Unsupported fulfillment status.");
+  const event = {
+    id: randomUUID(),
+    orderId,
+    shipmentId: asText(input.shipmentId, 120),
+    status,
+    publicTitle: asText(input.publicTitle || fallback.publicTitle, 180),
+    publicDescription: asText(input.publicDescription || fallback.publicDescription, 1000),
+    internalNote: asText(input.internalNote, 1000),
+    location: asText(input.location, 160),
+    operatorId: asText(operatorId, 254),
+    createdAt: new Date().toISOString(),
+  };
+  if (isDatabaseEnabled()) {
+    const order = await updateOrder(orderId, (current) => {
+      current.status = status;
+      current.fulfillmentStatus = status;
+      current.estimatedDeliveryStart = asText(input.estimatedDeliveryStart ?? current.estimatedDeliveryStart, 40);
+      current.estimatedDeliveryEnd = asText(input.estimatedDeliveryEnd ?? input.estimatedDelivery ?? current.estimatedDeliveryEnd, 40);
+      current.carrier = asText(input.carrier ?? current.carrier, 120);
+      current.trackingNumber = asText(input.trackingNumber ?? current.trackingNumber, 160);
+      current.trackingUrl = asText(input.trackingUrl ?? current.trackingUrl, 500);
+      current.statusHistory = Array.isArray(current.statusHistory) ? current.statusHistory : [];
+      current.statusHistory.push({ status, at: event.createdAt, note: event.publicDescription });
+    });
+    if (!order) return null;
+    const shipments = await orderRepo.listOrderShipments(orderId);
+    const shipment = shipments.find((entry) => entry.shipmentId === event.shipmentId || entry.id === event.shipmentId);
+    const saved = await orderRepo.appendOrderEvent(orderId, { ...event, shipmentUuid: shipment?.id || "" });
+    if (shipment) {
+      await orderRepo.updateShipment(shipment.shipmentId, {
+        currentStatus: status,
+        carrier: input.carrier,
+        trackingNumber: input.trackingNumber,
+        trackingUrl: input.trackingUrl,
+        estimatedDelivery: input.estimatedDelivery,
+        events: [...(shipment.events || []), saved],
+      });
+    }
+    return saved;
+  }
+  const data = readStore();
+  const order = data.orders.find((entry) => entry.id === orderId);
+  if (!order) return null;
+  ensureOrderFulfillment(order);
+  order.status = status;
+  order.fulfillmentStatus = status;
+  order.estimatedDeliveryStart = asText(input.estimatedDeliveryStart ?? order.estimatedDeliveryStart, 40);
+  order.estimatedDeliveryEnd = asText(input.estimatedDeliveryEnd ?? input.estimatedDelivery ?? order.estimatedDeliveryEnd, 40);
+  order.carrier = asText(input.carrier ?? order.carrier, 120);
+  order.trackingNumber = asText(input.trackingNumber ?? order.trackingNumber, 160);
+  order.trackingUrl = asText(input.trackingUrl ?? order.trackingUrl, 500);
+  order.events.unshift(event);
+  order.statusHistory = Array.isArray(order.statusHistory) ? order.statusHistory : [];
+  order.statusHistory.push({ status, at: event.createdAt, note: event.publicDescription });
+  const shipment = order.shipments.find((entry) => entry.shipmentId === event.shipmentId);
+  if (shipment) {
+    shipment.currentStatus = status;
+    shipment.carrier = asText(input.carrier ?? shipment.carrier, 120);
+    shipment.trackingNumber = asText(input.trackingNumber ?? shipment.trackingNumber, 160);
+    shipment.trackingUrl = asText(input.trackingUrl ?? shipment.trackingUrl, 500);
+    shipment.estimatedDelivery = asText(input.estimatedDelivery ?? shipment.estimatedDelivery, 40);
+    shipment.events.unshift(event);
+    shipment.updatedAt = event.createdAt;
+  }
+  order.updatedAt = event.createdAt;
+  writeStore(data);
+  return event;
+}
+
+export async function listOrderEvents(orderId) {
+  if (isDatabaseEnabled()) return orderRepo.listOrderEvents(orderId);
+  const order = await getOrder(orderId);
+  return [...(order?.events || [])].sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+}
+
+export async function listOrderShipments(orderId) {
+  if (isDatabaseEnabled()) return orderRepo.listOrderShipments(orderId);
+  const order = await getOrder(orderId);
+  return order?.shipments || [];
+}
+
+export async function createOrderShipment(orderId, input) {
+  if (isDatabaseEnabled()) return orderRepo.createShipment(orderId, input);
+  const data = readStore();
+  const order = data.orders.find((entry) => entry.id === orderId);
+  if (!order) return null;
+  ensureOrderFulfillment(order);
+  const shipment = normalizeShipment(input, order);
+  order.shipments.push(shipment);
+  order.updatedAt = shipment.updatedAt;
+  writeStore(data);
+  return shipment;
+}
+
+export async function updateOrderShipment(shipmentId, input) {
+  if (isDatabaseEnabled()) return orderRepo.updateShipment(shipmentId, input);
+  const data = readStore();
+  for (const order of data.orders) {
+    ensureOrderFulfillment(order);
+    const shipment = order.shipments.find((entry) => entry.shipmentId === shipmentId || entry.id === shipmentId);
+    if (!shipment) continue;
+    Object.assign(shipment, {
+      items: input.items ?? shipment.items,
+      sourceCountry: asText(input.sourceCountry ?? shipment.sourceCountry, 80),
+      carrier: asText(input.carrier ?? shipment.carrier, 120),
+      trackingNumber: asText(input.trackingNumber ?? shipment.trackingNumber, 160),
+      trackingUrl: asText(input.trackingUrl ?? shipment.trackingUrl, 500),
+      currentStatus: asText(input.currentStatus ?? shipment.currentStatus, 80),
+      estimatedDelivery: asText(input.estimatedDelivery ?? shipment.estimatedDelivery, 40),
+      updatedAt: new Date().toISOString(),
+    });
+    writeStore(data);
+    return shipment;
+  }
+  return null;
+}
+
+export async function recordOrderEmailEvent({ orderId, status, templateId, messageId = "" }) {
+  if (isDatabaseEnabled()) return orderRepo.recordEmailEvent({ orderId, status, templateId, messageId });
+  const data = readStore();
+  data.emailEvents = Array.isArray(data.emailEvents) ? data.emailEvents : [];
+  const exists = data.emailEvents.some(
+    (entry) => entry.orderId === orderId && entry.status === status && entry.templateId === templateId
+  );
+  if (exists) return false;
+  data.emailEvents.push({ orderId, status, templateId, messageId, sentAt: new Date().toISOString() });
+  writeStore(data);
+  return true;
+}
+
+export async function hasOrderEmailEvent({ orderId, status, templateId }) {
+  if (isDatabaseEnabled()) return orderRepo.hasEmailEvent({ orderId, status, templateId });
+  const data = readStore();
+  data.emailEvents = Array.isArray(data.emailEvents) ? data.emailEvents : [];
+  return data.emailEvents.some(
+    (entry) => entry.orderId === orderId && entry.status === status && entry.templateId === templateId
+  );
+}
+
 export async function processWebhookOnce(eventId, handlerOrMeta) {
   if (isDatabaseEnabled()) {
     // Prefer structured payment event application.
@@ -265,6 +498,7 @@ export function publicOrder(order) {
     createdAt: order.createdAt,
     updatedAt: order.updatedAt,
     status: order.status,
+    fulfillmentStatus: order.fulfillmentStatus || order.status,
     currency: order.currency,
     items: order.items.map((item) => ({
       productId: item.productId,
@@ -286,6 +520,23 @@ export function publicOrder(order) {
           deliveredAt: order.shipment.deliveredAt,
         }
       : null,
+    shipments: (order.shipments || []).map((shipment) => ({
+      shipmentId: shipment.shipmentId,
+      items: shipment.items,
+      sourceCountry: shipment.sourceCountry,
+      carrier: shipment.carrier,
+      trackingNumber: shipment.trackingNumber,
+      trackingUrl: shipment.trackingUrl,
+      currentStatus: shipment.currentStatus,
+      estimatedDelivery: shipment.estimatedDelivery,
+      events: (shipment.events || []).map(({ status, publicTitle, publicDescription, location, createdAt }) => ({
+        status,
+        publicTitle,
+        publicDescription,
+        location,
+        createdAt,
+      })),
+    })),
     nextUpdate: "Availability and supplier purchasing status will be provided after payment review.",
   };
 }

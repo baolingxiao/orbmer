@@ -149,6 +149,39 @@ button[type="submit"], .actions button {
 .membership-state.is-member { color: var(--auth-ink); }
 h2 { margin: 0 0 18px; font-family: var(--font-display, Georgia, serif); font-size: 30px; font-weight: 500; }
 .order { padding: 16px 0; border-top: 1px solid var(--auth-line); font-size: 14px; }
+.order button {
+  margin-top: 10px;
+  border: 0;
+  border-bottom: 1px solid var(--auth-ink);
+  padding: 0 0 2px;
+  background: transparent;
+  color: var(--auth-ink);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.order-journey {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--auth-line);
+}
+.journey-card {
+  padding: 18px 0;
+  border-top: 1px solid var(--auth-line);
+}
+.journey-card h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+.journey-event {
+  padding: 12px 0;
+}
+.journey-event p {
+  margin: 5px 0;
+  color: var(--auth-muted);
+  line-height: 1.7;
+}
+.journey-event small { color: var(--auth-muted); }
 .admin-panel { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--auth-line); }
 .admin-panel p { max-width: 48ch; color: var(--auth-muted); font-size: 14px; line-height: 1.7; }
 

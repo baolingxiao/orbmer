@@ -88,6 +88,18 @@ const inventoryLabels = {
 };
 
 const orderStatusLabels = {
+  ORDER_CONFIRMED: "订单已确认",
+  ORDER_ACCEPTED: "订单已接受",
+  PURCHASED: "已完成采购",
+  SELLER_CONFIRMED: "来源已确认",
+  PREPARING_SHIPMENT: "准备发货",
+  SHIPPED: "已发货",
+  IN_TRANSIT: "运输中",
+  CUSTOMS_CLEARANCE: "清关中",
+  LOCAL_DELIVERY: "本地派送",
+  DELIVERED: "已送达",
+  DELAYED: "延迟",
+  CANCELLED: "已取消",
   PAYMENT_PENDING: "等待付款",
   PAID: "已付款",
   PROCUREMENT_REVIEW: "采购复核中",
@@ -133,6 +145,9 @@ const auditActionLabels = {
   inventory_updated: "调整库存",
   shipment_updated: "更新运输",
   order_email_sent: "发送订单邮件",
+  order_event_created: "更新订单履约",
+  order_shipment_created: "创建订单包裹",
+  order_shipment_updated: "更新订单包裹",
   trash_restored: "恢复删除",
   trash_purged: "清理回收站",
   brand_batch_deleted: "批量删除品牌",
@@ -799,9 +814,10 @@ function renderShipping() {
     .toLowerCase();
   const status = document.querySelector("[data-shipping-status-filter]").value;
   const orders = state.orders.filter((order) => {
-    const matchesStatus = status === "all" || order.status === status;
+    const displayStatus = order.fulfillmentStatus || order.status;
+    const matchesStatus = status === "all" || displayStatus === status || order.status === status;
     const haystack =
-      `${order.id} ${order.customer?.email || ""} ${order.customer?.name || ""} ${order.shipment?.trackingNumber || ""}`.toLowerCase();
+      `${order.id} ${order.customer?.email || ""} ${order.customer?.name || ""} ${order.trackingNumber || ""} ${order.shipment?.trackingNumber || ""}`.toLowerCase();
     return matchesStatus && (!query || haystack.includes(query));
   });
   clear(table);
@@ -824,20 +840,22 @@ function renderShipping() {
     );
     customer.appendChild(customerCopy);
     const statusCell = element("td");
+    const displayStatus = order.fulfillmentStatus || order.status;
     statusCell.appendChild(
       statusBadge(
-        orderStatusLabels[order.status] || order.status,
-        orderTone(order.status)
+        orderStatusLabels[displayStatus] || displayStatus,
+        orderTone(displayStatus)
       )
     );
-    const carrier = element("td", { text: order.shipment?.carrier || "未记录" });
+    const carrier = element("td", { text: order.carrier || order.shipment?.carrier || "未记录" });
     const tracking = element("td", {
-      text: order.shipment?.trackingNumber || "未记录",
+      text: order.trackingNumber || order.shipment?.trackingNumber || "未记录",
     });
     const updated = element("td", { text: formatDate(order.updatedAt, true) });
     const actions = element("td");
     actions.append(
       actionButton("更新", "editShipping", order.id),
+      actionButton("新增包裹", "createShipment", order.id),
       actionButton("发邮件", "emailOrder", order.id)
     );
     row.append(id, customer, statusCell, carrier, tracking, updated, actions);
@@ -1210,27 +1228,52 @@ function openShippingDialog(order) {
   showInlineError(document.querySelector("[data-shipping-error]"));
   populateOrderStatusSelects();
   setFormValue(shippingForm, "id", order.id);
-  setFormValue(shippingForm, "status", order.status);
-  setFormValue(shippingForm, "carrier", order.shipment?.carrier || "");
-  setFormValue(
-    shippingForm,
-    "trackingNumber",
-    order.shipment?.trackingNumber || ""
-  );
-  setFormValue(shippingForm, "trackingUrl", order.shipment?.trackingUrl || "");
-  setFormValue(
-    shippingForm,
-    "estimatedDelivery",
-    String(order.shipment?.estimatedDelivery || "").slice(0, 10)
-  );
-  setFormValue(
-    shippingForm,
-    "shippedAt",
-    String(order.shipment?.shippedAt || "").slice(0, 10)
-  );
-  shippingForm.elements.namedItem("notifyCustomer").checked = false;
+  const status = order.fulfillmentStatus || order.status || "ORDER_CONFIRMED";
+  const statusMeta = state.statuses.find((entry) => entry.id === status);
+  setFormValue(shippingForm, "status", status);
+  setFormValue(shippingForm, "publicTitle", statusMeta?.publicTitle || orderStatusLabels[status] || status);
+  setFormValue(shippingForm, "publicDescription", statusMeta?.publicDescription || "");
+  setFormValue(shippingForm, "location", "");
+  setFormValue(shippingForm, "carrier", order.carrier || order.shipment?.carrier || "");
+  setFormValue(shippingForm, "trackingNumber", order.trackingNumber || order.shipment?.trackingNumber || "");
+  setFormValue(shippingForm, "trackingUrl", order.trackingUrl || order.shipment?.trackingUrl || "");
+  setFormValue(shippingForm, "estimatedDelivery", String(order.estimatedDeliveryEnd || order.shipment?.estimatedDelivery || "").slice(0, 10));
+  setFormValue(shippingForm, "internalNote", "");
+  const shipmentSelect = shippingForm.elements.namedItem("shipmentId");
+  clear(shipmentSelect);
+  const allOrder = element("option", { text: "整单事件" });
+  allOrder.value = "";
+  shipmentSelect.appendChild(allOrder);
+  (order.shipments || []).forEach((shipment) => {
+    const option = element("option", {
+      text: `${shipment.shipmentId} · ${shipment.carrier || "未记录承运商"}`,
+    });
+    option.value = shipment.shipmentId;
+    shipmentSelect.appendChild(option);
+  });
   document.querySelector("[data-shipping-order-id]").textContent = order.id;
+  renderOrderJourneyPreview(order);
   shippingDialog.showModal();
+}
+
+function renderOrderJourneyPreview(order) {
+  const root = document.querySelector("[data-order-journey-preview]");
+  if (!root) return;
+  clear(root);
+  const events = order.events || [];
+  if (!events.length) {
+    root.appendChild(element("p", { className: "panel-empty", text: "暂无履约事件。" }));
+    return;
+  }
+  events.slice(0, 6).forEach((event) => {
+    const row = element("article", { className: "audit-row" });
+    row.append(
+      element("time", { text: formatDate(event.createdAt, true) }),
+      element("strong", { text: event.publicTitle || orderStatusLabels[event.status] || event.status }),
+      element("span", { text: event.publicDescription || "" })
+    );
+    root.appendChild(row);
+  });
 }
 
 async function loadEmailDraft(order, templateId = "sourcing_update") {
@@ -1360,7 +1403,31 @@ document.addEventListener("click", async (event) => {
     const order = state.orders.find(
       (entry) => entry.id === shippingButton.dataset.editShipping
     );
-    if (order) openShippingDialog(order);
+    if (order) {
+      try {
+        const data = await api(`/orders/${encodeURIComponent(order.id)}`);
+        openShippingDialog(data.order || order);
+      } catch (error) {
+        showToast(error.message, true);
+      }
+    }
+    return;
+  }
+  const createShipmentButton = event.target.closest("[data-create-shipment]");
+  if (createShipmentButton) {
+    const orderId = createShipmentButton.dataset.createShipment;
+    const carrier = prompt("承运商（可留空）") || "";
+    const trackingNumber = prompt("Tracking Number（可留空）") || "";
+    try {
+      await api(`/orders/${encodeURIComponent(orderId)}/shipments`, {
+        method: "POST",
+        body: { carrier, trackingNumber },
+      });
+      showToast("包裹已创建。");
+      await loadData({ quiet: true });
+    } catch (error) {
+      showToast(error.message, true);
+    }
     return;
   }
   const emailButton = event.target.closest("[data-email-order]");
@@ -1483,6 +1550,12 @@ productForm?.elements.namedItem("channel")?.addEventListener("change", (event) =
   });
 });
 
+shippingForm?.elements.namedItem("status")?.addEventListener("change", (event) => {
+  const status = state.statuses.find((entry) => entry.id === event.currentTarget.value);
+  setFormValue(shippingForm, "publicTitle", status?.publicTitle || orderStatusLabels[status?.id] || status?.label || "");
+  setFormValue(shippingForm, "publicDescription", status?.publicDescription || "");
+});
+
 inventoryForm?.elements.namedItem("mode")?.addEventListener("change", (event) => {
   syncStockFields(event.currentTarget, "data-quick-stock-only");
 });
@@ -1554,17 +1627,19 @@ shippingForm?.addEventListener("submit", async (event) => {
   submit.disabled = true;
   try {
     const id = formValue(shippingForm, "id");
-    const result = await api(`/orders/${encodeURIComponent(id)}/shipment`, {
-      method: "PUT",
+    const result = await api(`/orders/${encodeURIComponent(id)}/events`, {
+      method: "POST",
       body: {
         status: formValue(shippingForm, "status"),
+        shipmentId: formValue(shippingForm, "shipmentId"),
+        publicTitle: formValue(shippingForm, "publicTitle"),
+        publicDescription: formValue(shippingForm, "publicDescription"),
+        location: formValue(shippingForm, "location"),
+        internalNote: formValue(shippingForm, "internalNote"),
         carrier: formValue(shippingForm, "carrier"),
         trackingNumber: formValue(shippingForm, "trackingNumber"),
         trackingUrl: formValue(shippingForm, "trackingUrl"),
         estimatedDelivery: formValue(shippingForm, "estimatedDelivery"),
-        shippedAt: formValue(shippingForm, "shippedAt"),
-        note: formValue(shippingForm, "note"),
-        notifyCustomer: Boolean(shippingForm.elements.namedItem("notifyCustomer")?.checked),
       },
     });
     shippingDialog.close();
@@ -1572,8 +1647,10 @@ shippingForm?.addEventListener("submit", async (event) => {
     const adminCopy = state.email.adminCopy || {};
     showToast(
       result.emailError
-        ? `${adminCopy.shipmentSavedEmailFailed || "运输信息已更新，但邮件未发送："}${result.emailError}`
-        : adminCopy.shipmentSaved || "运输信息已更新。"
+        ? `${adminCopy.shipmentSavedEmailFailed || "履约状态已更新，但邮件未发送："}${result.emailError}`
+        : result.emailSkipped
+          ? "履约状态已更新。相同状态邮件已发送过，本次未重复发送。"
+          : "履约状态已更新，客户邮件已处理。"
     );
   } catch (error) {
     showInlineError(errorNode, error.message);

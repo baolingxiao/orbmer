@@ -8,8 +8,18 @@ import {
   updateManagedProduct,
   withMarginFields,
 } from "./product-store.js";
-import { getOrder, listAdminOrders, updateOrderOperations } from "./order-store.js";
-import { ORDER_STATUSES } from "./order-statuses.js";
+import {
+  appendOrderEvent,
+  createOrderShipment,
+  getOrder,
+  getOrderWithFulfillment,
+  hasOrderEmailEvent,
+  listAdminOrders,
+  recordOrderEmailEvent,
+  updateOrderOperations,
+  updateOrderShipment,
+} from "./order-store.js";
+import { defaultFulfillmentCopy, FULFILLMENT_STATUSES, ORDER_STATUSES } from "./order-statuses.js";
 import { appendAuditEvent, listAuditEvents } from "./audit-store.js";
 import { sameOriginOnly } from "./security.js";
 import {
@@ -565,6 +575,162 @@ export function createAdminRouter({
       return routeError(res, error, 500);
     }
   });
+
+  router.get("/api/orders/:id", requirePermission("order.read"), async (req, res) => {
+    try {
+      const order = await getOrderWithFulfillment(req.params.id);
+      if (!order) return routeError(res, new Error("Order not found."), 404);
+      return res.json({ ok: true, order, statuses: FULFILLMENT_STATUSES });
+    } catch (error) {
+      return routeError(res, error, 500);
+    }
+  });
+
+  router.post(
+    "/api/orders/:id/events",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("order.update"),
+    async (req, res) => {
+      try {
+        const order = await getOrder(req.params.id);
+        if (!order) return routeError(res, new Error("Order not found."), 404);
+        const defaults = defaultFulfillmentCopy(req.body?.status);
+        if (!defaults) return routeError(res, new Error("Unsupported fulfillment status."), 400);
+        const event = await appendOrderEvent(
+          order.id,
+          {
+            status: req.body?.status,
+            publicTitle: req.body?.publicTitle || defaults.publicTitle,
+            publicDescription: req.body?.publicDescription || defaults.publicDescription,
+            internalNote: req.body?.internalNote,
+            location: req.body?.location,
+            shipmentId: req.body?.shipmentId,
+            carrier: req.body?.carrier,
+            trackingNumber: req.body?.trackingNumber,
+            trackingUrl: req.body?.trackingUrl,
+            estimatedDelivery: req.body?.estimatedDelivery,
+            estimatedDeliveryStart: req.body?.estimatedDeliveryStart,
+            estimatedDeliveryEnd: req.body?.estimatedDeliveryEnd,
+          },
+          { operatorId: req.adminSession.email }
+        );
+        if (!event) return routeError(res, new Error("Order not found."), 404);
+        const updatedOrder = await getOrderWithFulfillment(order.id);
+        let emailResult = null;
+        let emailSkipped = false;
+        let emailError = "";
+        const alreadyEmailed = await hasOrderEmailEvent({
+          orderId: order.id,
+          status: event.status,
+          templateId: "fulfillment_update",
+        });
+        if (!alreadyEmailed && updatedOrder.customer?.email) {
+          try {
+            const estimatedDelivery =
+              req.body?.estimatedDelivery ||
+              updatedOrder.estimatedDeliveryEnd ||
+              updatedOrder.shipment?.estimatedDelivery ||
+              "We’ll update you as soon as the date is confirmed.";
+            const language = updatedOrder.language === "en" ? "en" : "zh";
+            const template = buildEmailDraft({
+              templateId: "fulfillment_update",
+              language,
+              order: updatedOrder,
+            });
+            const body = template.body
+              .replaceAll("{{orderId}}", updatedOrder.id)
+              .replaceAll("{{statusTitle}}", event.publicTitle)
+              .replaceAll("{{publicDescription}}", event.publicDescription)
+              .replaceAll("{{estimatedDelivery}}", estimatedDelivery);
+            emailResult = await sendEmail({
+              to: updatedOrder.customer.email,
+              subject: template.subject,
+              text: body,
+              orderId: updatedOrder.id,
+              templateId: "fulfillment_update",
+            });
+            await recordOrderEmailEvent({
+              orderId: order.id,
+              status: event.status,
+              templateId: "fulfillment_update",
+              messageId: emailResult.messageId,
+            });
+          } catch (error) {
+            emailError = error.message || "Email notification failed.";
+          }
+        } else {
+          emailSkipped = true;
+        }
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "order_event_created",
+          entityType: "order",
+          entityId: order.id,
+          details: {
+            status: event.status,
+            shipmentId: event.shipmentId || "",
+            emailSent: Boolean(emailResult),
+            emailSkipped,
+            emailError,
+          },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, order: updatedOrder, event, email: emailResult, emailSkipped, emailError });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
+
+  router.post(
+    "/api/orders/:id/shipments",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("order.update"),
+    async (req, res) => {
+      try {
+        const order = await getOrder(req.params.id);
+        if (!order) return routeError(res, new Error("Order not found."), 404);
+        const shipment = await createOrderShipment(order.id, req.body || {});
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "order_shipment_created",
+          entityType: "order",
+          entityId: order.id,
+          details: { shipmentId: shipment?.shipmentId || "" },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, shipment });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
+
+  router.patch(
+    "/api/shipments/:id",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("order.update"),
+    async (req, res) => {
+      try {
+        const shipment = await updateOrderShipment(req.params.id, req.body || {});
+        if (!shipment) return routeError(res, new Error("Shipment not found."), 404);
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "order_shipment_updated",
+          entityType: "shipment",
+          entityId: shipment.shipmentId || shipment.id,
+          details: { currentStatus: shipment.currentStatus },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, shipment });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
 
   router.get("/api/orders/:id/email-draft", requirePermission("order.read"), async (req, res) => {
     try {

@@ -1097,6 +1097,22 @@
           </div>
           <div class="form-grid">
             <div class="field">
+              <label for="shipmentId">关联包裹</label>
+              <select id="shipmentId" name="shipmentId"></select>
+            </div>
+            <div class="field">
+              <label for="eventLocation">地点</label>
+              <input id="eventLocation" name="location" maxlength="160" placeholder="例：Shanghai / Hong Kong / Los Angeles" />
+            </div>
+            <div class="field field-span-2">
+              <label for="publicTitle">客户可见标题</label>
+              <input id="publicTitle" name="publicTitle" maxlength="180" required />
+            </div>
+            <div class="field field-span-2">
+              <label for="publicDescription">客户可见说明</label>
+              <textarea id="publicDescription" name="publicDescription" maxlength="1000" rows="3" required></textarea>
+            </div>
+            <div class="field">
               <label for="shippingCarrier">承运商</label>
               <input id="shippingCarrier" name="carrier" maxlength="120" />
             </div>
@@ -1112,19 +1128,13 @@
               <label for="shippingEstimatedDelivery">预计送达</label>
               <input id="shippingEstimatedDelivery" name="estimatedDelivery" type="date" />
             </div>
-            <div class="field">
-              <label for="shippingShippedAt">发货日期</label>
-              <input id="shippingShippedAt" name="shippedAt" type="date" />
-            </div>
             <div class="field field-span-2">
-              <label for="shippingNote">状态备注</label>
-              <textarea id="shippingNote" name="note" maxlength="500" rows="3"></textarea>
-            </div>
-            <div class="field field-span-2">
-              <label><input name="notifyCustomer" type="checkbox" /> 保存后邮件通知客户</label>
-              <small>适合已有承运商、追踪号或预计送达时间时使用。</small>
+              <label for="internalNote">内部备注</label>
+              <textarea id="internalNote" name="internalNote" maxlength="1000" rows="3"></textarea>
+              <small>仅后台可见，不会展示给客户。</small>
             </div>
           </div>
+          <div class="data-panel compact-panel" data-order-journey-preview></div>
           <p class="form-error" data-shipping-error role="alert" hidden></p>
         </div>
         <footer class="dialog-actions">
