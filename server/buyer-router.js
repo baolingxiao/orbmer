@@ -1,10 +1,17 @@
 import path from "path";
 import fs from "fs";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 import multer from "multer";
 import { createPortalAuth } from "./portal-auth.js";
 import { isDatabaseEnabled, query } from "./db/index.js";
-import { createUser, listBuyerOrders } from "./db/user-repo.js";
+import {
+  createUser,
+  findBuyerByGoogleSubject,
+  findUserByEmail,
+  linkGoogleIdentity,
+  listBuyerOrders,
+} from "./db/user-repo.js";
 import { publicOrder } from "./order-store.js";
 import { appendAuditEvent } from "./audit-store.js";
 import { sameOriginOnly } from "./security.js";
@@ -67,10 +74,12 @@ function publicUser(session) {
     email: session.email,
     displayName: session.displayName,
     role: session.role,
+    membershipStatus: session.membershipStatus || "standard",
+    authProvider: session.authProvider || "email",
   };
 }
 
-export function createBuyerRouter({ express, secureCookies }) {
+export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }) {
   const router = express.Router();
   const auth = createPortalAuth({
     roles: ["admin", "buyer"],
@@ -80,6 +89,31 @@ export function createBuyerRouter({ express, secureCookies }) {
     secureCookies,
   });
   const upload = createUploader();
+  const googleClientId = String(process.env.GOOGLE_CLIENT_ID || "").trim();
+  const googleClientSecret = String(process.env.GOOGLE_CLIENT_SECRET || "").trim();
+  const normalizedBaseUrl = String(publicBaseUrl || "").trim().replace(/\/$/, "");
+  const googleRedirectUri = `${normalizedBaseUrl}/auth/api/google/callback`;
+  const googleConfigured = Boolean(googleClientId && googleClientSecret && normalizedBaseUrl);
+
+  function appendCookie(res, name, value, { maxAge = 600, sameSite = "Lax" } = {}) {
+    const flags = [
+      `${name}=${encodeURIComponent(value)}`,
+      "Path=/auth",
+      "HttpOnly",
+      `SameSite=${sameSite}`,
+      `Max-Age=${maxAge}`,
+    ];
+    if (secureCookies) flags.push("Secure");
+    res.append("Set-Cookie", flags.join("; "));
+  }
+
+  function clearGoogleState(res) {
+    appendCookie(res, "orbmare_google_oauth_state", "", { maxAge: 0 });
+  }
+
+  function redirectToAuth(res, result) {
+    return res.redirect(302, `/auth/?google=${encodeURIComponent(result)}`);
+  }
 
   function clearLegacyAuthCookie(res) {
     const flags = [
@@ -132,6 +166,104 @@ export function createBuyerRouter({ express, secureCookies }) {
       csrfToken: session.csrfToken,
       expiresAt: new Date(session.expiresAt).toISOString(),
     });
+  });
+
+  router.get("/api/google", (req, res) => {
+    if (!auth.configured() || !googleConfigured) {
+      return res.status(503).json({ ok: false, error: "Google sign-in is not configured." });
+    }
+    const state = crypto.randomBytes(32).toString("base64url");
+    appendCookie(res, "orbmare_google_oauth_state", state);
+    const authorizationUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    authorizationUrl.search = new URLSearchParams({
+      client_id: googleClientId,
+      redirect_uri: googleRedirectUri,
+      response_type: "code",
+      scope: "openid email profile",
+      state,
+      prompt: "select_account",
+    }).toString();
+    return res.redirect(302, authorizationUrl.toString());
+  });
+
+  router.get("/api/google/callback", async (req, res) => {
+    try {
+      const returnedState = String(req.query?.state || "");
+      const cookieState = String(req.headers.cookie || "")
+        .split(";")
+        .map((item) => item.trim())
+        .find((item) => item.startsWith("orbmare_google_oauth_state="))
+        ?.slice("orbmare_google_oauth_state=".length);
+      clearGoogleState(res);
+      if (!googleConfigured || !returnedState || !cookieState || !crypto.timingSafeEqual(
+        crypto.createHash("sha256").update(returnedState).digest(),
+        crypto.createHash("sha256").update(decodeURIComponent(cookieState)).digest()
+      )) {
+        return redirectToAuth(res, "state_error");
+      }
+      if (req.query?.error || !req.query?.code) return redirectToAuth(res, "cancelled");
+
+      const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          code: String(req.query.code),
+          client_id: googleClientId,
+          client_secret: googleClientSecret,
+          redirect_uri: googleRedirectUri,
+          grant_type: "authorization_code",
+        }),
+      });
+      const tokens = await tokenResponse.json().catch(() => ({}));
+      if (!tokenResponse.ok || !tokens.id_token) throw new Error("Google token exchange failed.");
+
+      const profileResponse = await fetch(
+        `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(tokens.id_token)}`
+      );
+      const profile = await profileResponse.json().catch(() => ({}));
+      if (
+        !profileResponse.ok ||
+        profile.aud !== googleClientId ||
+        !["accounts.google.com", "https://accounts.google.com"].includes(profile.iss) ||
+        profile.email_verified !== "true" ||
+        !profile.sub ||
+        !profile.email
+      ) {
+        throw new Error("Google identity verification failed.");
+      }
+
+      let user = await findBuyerByGoogleSubject(profile.sub);
+      if (!user) {
+        const matchingUser = await findUserByEmail(profile.email, "buyer");
+        user = matchingUser
+          ? await linkGoogleIdentity(matchingUser.id, { subject: profile.sub, displayName: profile.name })
+          : await createUser({
+              email: profile.email,
+              password: null,
+              role: "buyer",
+              displayName: profile.name || "",
+              authProvider: "google",
+              metadata: { googlePicture: String(profile.picture || "").slice(0, 500) },
+            });
+        if (!user.google_subject) {
+          user = await linkGoogleIdentity(user.id, { subject: profile.sub, displayName: profile.name });
+        }
+        await appendAuditEvent({
+          actor: user.email,
+          action: matchingUser ? "buyer_google_linked" : "buyer_google_registered",
+          entityType: "user",
+          entityId: user.id,
+          ip: req.ip || "",
+        });
+      }
+      const session = await auth.createSessionForUser(req, user);
+      auth.setSessionCookie(res, session);
+      clearLegacyAuthCookie(res);
+      return redirectToAuth(res, "success");
+    } catch (error) {
+      console.error("Google buyer sign-in failed:", error.message);
+      return redirectToAuth(res, "failed");
+    }
   });
 
   router.get("/api/content", (_req, res) => {

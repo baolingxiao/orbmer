@@ -148,6 +148,13 @@ export function createPortalAuth({
     }
 
     loginFailures.delete(failureKey(req, email));
+    return { ok: true, session: await createSessionForUser(req, user) };
+  }
+
+  async function createSessionForUser(req, user) {
+    if (!user?.id || !user.is_active || !allowedRoles.includes(user.role)) {
+      throw new Error("This account is not allowed to sign in here.");
+    }
     const id = crypto.randomBytes(32).toString("base64url");
     const now = Date.now();
     const session = {
@@ -156,6 +163,8 @@ export function createPortalAuth({
       email: user.email,
       displayName: user.display_name || "",
       role: user.role,
+      membershipStatus: user.membership_status || "standard",
+      authProvider: user.auth_provider || "email",
       csrfToken: crypto.randomBytes(32).toString("base64url"),
       createdAt: now,
       lastSeenAt: now,
@@ -173,7 +182,7 @@ export function createPortalAuth({
       expiresAt: session.expiresAt,
     });
 
-    return { ok: true, session };
+    return session;
   }
 
   function setSessionCookie(res, session) {
@@ -228,6 +237,7 @@ export function createPortalAuth({
 
   return {
     configured,
+    createSessionForUser,
     login,
     logout,
     sessionFromRequest,

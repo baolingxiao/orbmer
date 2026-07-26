@@ -17,6 +17,7 @@ const state = {
   crafts: [],
   media: [],
   team: [],
+  customers: [],
   roles: [],
   siteContent: null,
   activeSection: "overview",
@@ -39,6 +40,7 @@ const sectionMeta = {
   crafts: { kicker: "Catalog", title: "工艺" },
   inventory: { kicker: "Commerce", title: "库存" },
   shipping: { kicker: "Commerce", title: "订单" },
+  customers: { kicker: "Commerce", title: "客户与会员" },
   content: { kicker: "Content", title: "站点文案" },
   media: { kicker: "Content", title: "媒体库" },
   team: { kicker: "System", title: "团队权限" },
@@ -826,12 +828,38 @@ function renderAudit() {
   });
 }
 
+function renderCustomers() {
+  const table = document.querySelector("[data-customer-table]");
+  const empty = document.querySelector("[data-customer-empty]");
+  if (!table || !empty) return;
+  clear(table);
+  empty.hidden = state.customers.length > 0;
+  state.customers.forEach((customer) => {
+    const row = element("tr");
+    const membership = customer.membership_status === "member";
+    const action = element("button", { className: "table-action", type: "button", text: membership ? "撤销会员" : "开通会员" });
+    action.dataset.customerMembership = customer.id;
+    action.dataset.membershipStatus = membership ? "standard" : "member";
+    const status = element("td");
+    status.appendChild(statusBadge(membership ? "会员" : "普通账户", membership ? "is-success" : ""));
+    const actionCell = element("td");
+    if (can("customer.manage")) actionCell.appendChild(action);
+    row.append(
+      element("td", { text: customer.email }), element("td", { text: customer.display_name || "—" }),
+      element("td", { text: customer.auth_provider === "google" ? "Google" : "邮箱" }),
+      element("td", { text: formatDate(customer.created_at) }), element("td", { text: formatDate(customer.last_login_at, true) }), status, actionCell
+    );
+    table.appendChild(row);
+  });
+}
+
 function renderAll() {
   renderOverview();
   renderProducts();
   renderInventory();
   renderShipping();
   renderAudit();
+  renderCustomers();
   window.__orbmareAdminPlatform?.renderPlatform?.();
 }
 
@@ -865,6 +893,9 @@ async function loadData({ quiet = false } = {}) {
           state.auditEvents = data.events;
         })
       );
+    }
+    if (can("customer.read")) {
+      tasks.push(api("/customers").then((data) => { state.customers = data.customers || []; }));
     }
     await Promise.allSettled(tasks);
     if (window.__orbmareAdminPlatform?.loadPlatformData) {
@@ -1268,6 +1299,17 @@ document.addEventListener("click", async (event) => {
     } catch (error) {
       showToast(error.message, true);
     }
+  }
+  const membershipButton = event.target.closest("[data-customer-membership]");
+  if (membershipButton) {
+    const status = membershipButton.dataset.membershipStatus;
+    const label = status === "member" ? "开通" : "撤销";
+    if (!confirm(`确认${label}该客户的会员资格？`)) return;
+    try {
+      await api(`/customers/${encodeURIComponent(membershipButton.dataset.customerMembership)}/membership`, { method: "PUT", body: { status } });
+      showToast(status === "member" ? "会员已开通。" : "会员资格已撤销。");
+      await loadData({ quiet: true });
+    } catch (error) { showToast(error.message, true); }
   }
 });
 

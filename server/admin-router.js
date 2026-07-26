@@ -43,6 +43,7 @@ import {
 } from "./site-content-store.js";
 import { isDatabaseEnabled } from "./db/index.js";
 import * as rbacRepo from "./db/rbac-repo.js";
+import { listCustomers, setCustomerMembership } from "./db/customer-repo.js";
 import {
   requireAnyPermission,
   requirePermission,
@@ -991,6 +992,40 @@ export function createAdminRouter({
   });
 
   // ---- Team / RBAC
+  router.get("/api/customers", requirePermission("customer.read"), async (_req, res) => {
+    try {
+      if (!isDatabaseEnabled()) return res.json({ ok: true, customers: [] });
+      return res.json({ ok: true, customers: await listCustomers() });
+    } catch (error) {
+      return routeError(res, error, 500);
+    }
+  });
+
+  router.put(
+    "/api/customers/:id/membership",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("customer.manage"),
+    async (req, res) => {
+      try {
+        if (!isDatabaseEnabled()) return routeError(res, new Error("Database is required."), 503);
+        const customer = await setCustomerMembership(req.params.id, req.body?.status, req.adminSession.userId);
+        if (!customer) return routeError(res, new Error("Customer not found."), 404);
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: customer.membership_status === "member" ? "customer_membership_granted" : "customer_membership_revoked",
+          entityType: "customer",
+          entityId: customer.id,
+          details: { email: customer.email, membershipStatus: customer.membership_status },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, customer });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
+
   router.get("/api/team", requirePermission("team.read"), async (_req, res) => {
     try {
       if (!isDatabaseEnabled()) {

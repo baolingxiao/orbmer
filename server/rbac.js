@@ -12,6 +12,7 @@ const LEGACY_ALL_PERMISSIONS = [
   "order.update",
   "order.refund",
   "customer.read",
+  "customer.manage",
   "customer.export",
   "content.read",
   "content.update",

@@ -7,7 +7,8 @@ export async function findAdminUserByEmail(email) {
 export async function findUserByEmailAndRole(email, role) {
   const normalized = String(email || "").trim().toLowerCase();
   const { rows } = await query(
-    `SELECT id, email, email_normalized, password_hash, role, display_name, is_active
+    `SELECT id, email, email_normalized, password_hash, role, display_name, is_active,
+            membership_status, auth_provider
      FROM users
      WHERE email_normalized = $1 AND role = $2
      LIMIT 1`,
@@ -36,7 +37,7 @@ export async function getSession(id, { purpose = null } = {}) {
   if (!id) return null;
   const { rows } = await query(
     `SELECT s.id, s.user_id, s.csrf_token, s.purpose, s.ip, s.expires_at, s.last_seen_at,
-            u.email, u.role, u.is_active, u.display_name
+            u.email, u.role, u.is_active, u.display_name, u.membership_status, u.auth_provider
      FROM sessions s
      JOIN users u ON u.id = s.user_id
      WHERE s.id = $1`,
@@ -51,12 +52,15 @@ export async function getSession(id, { purpose = null } = {}) {
     return null;
   }
   await query(`UPDATE sessions SET last_seen_at = now() WHERE id = $1`, [id]);
+  await query(`UPDATE users SET last_login_at = now(), last_login_provider = auth_provider WHERE id = $1`, [row.user_id]);
   return {
     id: row.id,
     userId: row.user_id,
     email: row.email,
     displayName: row.display_name || "",
     role: row.role,
+    membershipStatus: row.membership_status || "standard",
+    authProvider: row.auth_provider || "email",
     csrfToken: row.csrf_token,
     purpose: row.purpose,
     expiresAt: new Date(row.expires_at).getTime(),

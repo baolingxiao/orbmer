@@ -87,6 +87,9 @@
             工艺
           </button>
           <p class="ops-nav-group">Commerce</p>
+          <button class="ops-nav-item" type="button" data-section-target="customers" data-requires-permission="customer.read">
+            客户与会员
+          </button>
           <button class="ops-nav-item" type="button" data-section-target="inventory" data-requires-permission="inventory.read">
             库存
           </button>
@@ -350,6 +353,22 @@
                 <h3>暂无需要显示的订单</h3>
                 <p>完成测试订单后，运输记录会出现在这里。</p>
               </div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="customers" aria-labelledby="customers-title" hidden>
+            <div class="section-heading">
+              <div>
+                <h2 id="customers-title">客户与会员</h2>
+                <p>查看已注册买家，并由运营人员手动开通或撤销傲马会员资格。会员 AI 权益将在下一阶段接入。</p>
+              </div>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead><tr><th>邮箱</th><th>昵称</th><th>注册方式</th><th>注册时间</th><th>最近登录</th><th>会员状态</th><th>操作</th></tr></thead>
+                <tbody data-customer-table></tbody>
+              </table>
+              <div class="empty-state" data-customer-empty hidden><h3>暂无注册客户</h3><p>邮箱或 Google 注册的买家会出现在这里。</p></div>
             </div>
           </section>
 

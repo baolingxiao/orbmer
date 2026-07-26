@@ -3,6 +3,21 @@ const guestView = document.querySelector("[data-guest-view]");
 const buyerView = document.querySelector("[data-buyer-view]");
 const adminView = document.querySelector("[data-admin-view]");
 
+function showGoogleResult() {
+  const result = new URLSearchParams(location.search).get("google");
+  if (!result || result === "success") return;
+  const message = document.querySelector("[data-google-message]");
+  if (!message) return;
+  const messages = {
+    cancelled: "已取消 Google 登录。",
+    state_error: "登录验证已过期，请重新尝试。",
+    failed: "Google 登录未完成，请稍后重试。",
+  };
+  message.textContent = messages[result] || "Google 登录未完成，请稍后重试。";
+  message.hidden = false;
+  history.replaceState({}, "", "/auth/");
+}
+
 async function api(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
   if (options.method && options.method !== "GET" && state.csrfToken) {
@@ -35,6 +50,11 @@ function showUser(session) {
   }
   buyerView.hidden = false;
   document.querySelector("[data-user-email]").textContent = session.user?.email || "";
+  const membership = document.querySelector("[data-membership-state]");
+  if (membership) {
+    membership.textContent = session.user?.membershipStatus === "member" ? "傲马会员" : "标准账户";
+    membership.classList.toggle("is-member", session.user?.membershipStatus === "member");
+  }
 }
 
 function showGuest() {
@@ -133,6 +153,7 @@ document.querySelector("[data-link-orders]")?.addEventListener("click", async ()
 });
 
 async function boot() {
+  showGoogleResult();
   try {
     const session = await api("/session");
     if (!session.configured) return;

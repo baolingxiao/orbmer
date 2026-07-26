@@ -23,6 +23,12 @@
           <button type="button" data-tab="register">注册</button>
         </div>
 
+        <a class="google-sign-in" href="/auth/api/google" data-google-sign-in>
+          <span aria-hidden="true">G</span> 使用 Google 继续
+        </a>
+        <div class="auth-divider" aria-hidden="true"><span>或使用邮箱</span></div>
+        <p class="error" data-google-message hidden></p>
+
         <form data-login-form>
           <label>邮箱<input name="email" type="email" required autocomplete="username" /></label>
           <label>密码<input name="password" type="password" minlength="14" required autocomplete="current-password" /></label>
@@ -42,6 +48,7 @@
       <section class="auth-card" data-buyer-view hidden>
         <h1>我的账户</h1>
         <p data-user-email></p>
+        <p class="membership-state" data-membership-state></p>
         <div class="actions">
           <button type="button" data-link-orders>关联历史订单</button>
           <button type="button" class="ghost" data-logout>退出</button>

@@ -6,7 +6,8 @@ export async function findUserByEmail(email, role = null) {
   if (!normalized) return null;
   if (role) {
     const { rows } = await query(
-      `SELECT id, email, email_normalized, password_hash, role, display_name, is_active, metadata
+      `SELECT id, email, email_normalized, password_hash, role, display_name, is_active, metadata,
+              auth_provider, membership_status, google_subject
        FROM users
        WHERE email_normalized = $1 AND role = $2
        LIMIT 1`,
@@ -15,7 +16,8 @@ export async function findUserByEmail(email, role = null) {
     return rows[0] || null;
   }
   const { rows } = await query(
-    `SELECT id, email, email_normalized, password_hash, role, display_name, is_active, metadata
+    `SELECT id, email, email_normalized, password_hash, role, display_name, is_active, metadata,
+            auth_provider, membership_status, google_subject
      FROM users
      WHERE email_normalized = $1
      LIMIT 1`,
@@ -30,6 +32,7 @@ export async function createUser({
   role,
   displayName = "",
   metadata = {},
+  authProvider = "email",
 }) {
   const normalized = String(email || "").trim().toLowerCase();
   if (!normalized || !normalized.includes("@")) {
@@ -41,11 +44,11 @@ export async function createUser({
   const existing = await findUserByEmail(normalized);
   if (existing) throw new Error("An account with this email already exists.");
 
-  const passwordHash = createPasswordHash(password);
+  const passwordHash = password ? createPasswordHash(password) : null;
   const { rows } = await query(
-    `INSERT INTO users (email, email_normalized, password_hash, role, display_name, is_active, metadata)
-     VALUES ($1, $2, $3, $4, $5, TRUE, $6::jsonb)
-     RETURNING id, email, email_normalized, role, display_name, is_active, metadata`,
+    `INSERT INTO users (email, email_normalized, password_hash, role, display_name, is_active, metadata, auth_provider)
+     VALUES ($1, $2, $3, $4, $5, TRUE, $6::jsonb, $7)
+     RETURNING id, email, email_normalized, role, display_name, is_active, metadata, auth_provider, membership_status`,
     [
       String(email).trim(),
       normalized,
@@ -53,8 +56,43 @@ export async function createUser({
       role,
       String(displayName || "").trim().slice(0, 120),
       JSON.stringify(metadata || {}),
+      authProvider === "google" ? "google" : "email",
     ]
   );
+  return rows[0];
+}
+
+export async function findBuyerByGoogleSubject(subject) {
+  const value = String(subject || "").trim();
+  if (!value) return null;
+  const { rows } = await query(
+    `SELECT id, email, email_normalized, password_hash, role, display_name, is_active, metadata,
+            auth_provider, membership_status, google_subject
+     FROM users
+     WHERE google_subject = $1 AND role = 'buyer'
+     LIMIT 1`,
+    [value]
+  );
+  return rows[0] || null;
+}
+
+export async function linkGoogleIdentity(userId, { subject, displayName = "" } = {}) {
+  const googleSubject = String(subject || "").trim();
+  if (!googleSubject) throw new Error("Google account identity is missing.");
+  const { rows } = await query(
+    `UPDATE users
+     SET google_subject = $2,
+         display_name = CASE
+           WHEN display_name = '' THEN $3
+           ELSE display_name
+         END,
+         updated_at = now()
+     WHERE id = $1 AND role = 'buyer'
+     RETURNING id, email, email_normalized, password_hash, role, display_name, is_active, metadata,
+               auth_provider, membership_status, google_subject`,
+    [userId, googleSubject, String(displayName || "").trim().slice(0, 120)]
+  );
+  if (!rows[0]) throw new Error("Buyer account not found.");
   return rows[0];
 }
 

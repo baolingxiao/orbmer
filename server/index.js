@@ -514,6 +514,7 @@ app.use("/seller", seller.router);
 const buyer = createBuyerRouter({
   express,
   secureCookies: NODE_ENV === "production",
+  publicBaseUrl: PUBLIC_BASE_URL,
 });
 app.use("/auth", buyer.router);
 
