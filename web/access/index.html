@@ -4,44 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>入口导航 | 傲马 Orbmare</title>
-    <link rel="stylesheet" href="/shared/css/platform.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=15" />
     <style>
       body {
         margin: 0;
         font-family: var(--font);
         color: var(--ink);
-        background: linear-gradient(180deg, #eef3fb, var(--bg));
+        background: var(--bg);
         min-height: 100dvh;
       }
       main {
-        width: min(720px, calc(100% - 32px));
-        margin: 48px auto;
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        padding: 28px 24px;
-        box-shadow: var(--shadow);
+        width: min(720px, calc(100% - 40px));
+        margin: clamp(64px, 10vw, 120px) auto;
+        padding: 0;
       }
-      h1 { margin: 0 0 8px; font-size: 28px; color: var(--blue); }
+      h1 { margin: 0 0 12px; font-family: var(--font-display); font-size: clamp(38px, 5vw, 54px); font-weight: 500; line-height: 1; }
       p { color: var(--muted); line-height: 1.6; }
       .links { display: grid; gap: 12px; margin-top: 20px; }
       a.card {
         display: block;
         text-decoration: none;
         color: var(--ink);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 14px 16px;
-        background: #fafbfd;
+        border-top: 1px solid var(--line);
+        padding: 18px 0;
+        background: transparent;
       }
-      a.card:hover { border-color: var(--blue); background: var(--blue-soft); }
-      a.card strong { display: block; color: var(--blue); margin-bottom: 4px; }
+      a.card:hover { border-color: var(--ink); }
+      a.card strong { display: block; color: var(--ink); margin-bottom: 4px; font-weight: 500; }
       code { font-size: 13px; word-break: break-all; }
     </style>
   </head>
   <body>
     <main>
-      <h1>傲马专属入口</h1>
+      <p class="meta">Orbmare</p><h1>访问入口</h1>
       <p>请使用域名访问，其它电脑与手机均可打开。本地 <code>127.0.0.1</code> 仅本机调试。</p>
       <div class="links">
         <a class="card" href="https://orbmare.com/seller/">

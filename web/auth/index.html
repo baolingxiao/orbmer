@@ -4,19 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>账户 | 傲马 Orbmare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=15" />
     <link rel="stylesheet" href="/auth/auth.css" />
   </head>
   <body>
     <header class="auth-top">
-      <a class="brand" href="/">傲马 <span>Orbmare</span></a>
-      <a href="/shop/">去购物</a>
+      <a class="brand" href="/"><strong>傲马</strong><span>Orbmare</span></a>
+      <a class="auth-return" href="/discover/">返回探索</a>
     </header>
 
     <main class="auth-shell">
       <section class="auth-card" data-guest-view>
-        <h1>买家账户</h1>
-        <p class="brand-slogan">我们不是卖商品，我们是在为全球用户精选世界最好的材料、工艺和设计。</p>
-        <p class="lede">注册后可查看与邮箱关联的订单。管理员登录后可在全站编辑模块与文案。</p>
+        <p class="brand-stamp">Orbmare</p>
+        <h1>你的账户</h1>
+        <p class="brand-slogan">保存订单、会员权益与下一次发现。</p>
+        <p class="lede">使用 Google 或邮箱继续。订单会自动归入同一邮箱账户。</p>
 
         <div class="tabs">
           <button type="button" class="is-active" data-tab="login">登录</button>
@@ -46,6 +51,7 @@
       </section>
 
       <section class="auth-card" data-buyer-view hidden>
+        <p class="brand-stamp">Orbmare</p>
         <h1>我的账户</h1>
         <p data-user-email></p>
         <p class="membership-state" data-membership-state></p>
@@ -58,6 +64,7 @@
       </section>
 
       <section class="auth-card" data-admin-view hidden>
+        <p class="brand-stamp">Orbmare</p>
         <h1>管理员</h1>
         <p data-admin-email></p>
         <div class="admin-panel">
