@@ -104,7 +104,7 @@
           </button>
           <p class="ops-nav-group">内容管理</p>
           <button class="ops-nav-item" type="button" data-section-target="journal-studio" data-requires-permission="content.read">
-            Storyblok 视觉编辑器
+            TinaCMS 杂志编辑器
           </button>
           <button class="ops-nav-item" type="button" data-section-target="content" data-requires-permission="content.read">
             站点文案
@@ -652,54 +652,67 @@
           </section>
 
           <section class="ops-section" data-section="journal-studio" hidden>
-            <div class="storyblok-editor" data-storyblok-editor>
-              <div class="storyblok-hero">
+            <div class="tina-editor" data-tina-editor>
+              <div class="tina-hero">
                 <div>
                   <p class="section-label">内容管理</p>
-                  <h2>Storyblok 视觉编辑器</h2>
-                  <p>后台杂志制作已交给 Storyblok。员工在 Storyblok 中编辑、预览和发布；Orbmare 后台只保留入口、配置状态和预览地址。</p>
+                  <h2>TinaCMS 杂志编辑器</h2>
+                  <p>后台杂志制作切换为 TinaCMS。它适合 Git-backed 内容管理，不需要付费 SaaS；员工在 Tina 中编辑文章、图片和页面内容，Orbmare 后台负责入口与配置检查。</p>
                 </div>
-                <div class="storyblok-actions">
-                  <a class="button button-primary" href="https://app.storyblok.com/" target="_blank" rel="noreferrer" data-storyblok-open>打开 Storyblok</a>
-                  <button class="button button-secondary" type="button" data-storyblok-refresh>刷新配置</button>
+                <div class="tina-actions">
+                  <a class="button button-primary" href="/tina/" target="_blank" rel="noreferrer" data-tina-open>打开 TinaCMS</a>
+                  <button class="button button-secondary" type="button" data-tina-refresh>刷新配置</button>
                 </div>
               </div>
 
-              <div class="storyblok-status" data-storyblok-status>正在读取 Storyblok 配置…</div>
+              <div class="tina-status" data-tina-status>正在读取 TinaCMS 配置…</div>
 
-              <div class="storyblok-panels">
-                <section class="storyblok-card">
+              <div class="tina-panels">
+                <section class="tina-card">
                   <p class="section-label">连接状态</p>
-                  <h3 data-storyblok-enabled>待检查</h3>
-                  <dl class="storyblok-config-list">
+                  <h3 data-tina-enabled>待检查</h3>
+                  <dl class="tina-config-list">
                     <div>
-                      <dt>Space ID</dt>
-                      <dd data-storyblok-space>—</dd>
+                      <dt>工作模式</dt>
+                      <dd data-tina-mode>—</dd>
                     </div>
                     <div>
-                      <dt>区域</dt>
-                      <dd data-storyblok-region>—</dd>
+                      <dt>Git 分支</dt>
+                      <dd data-tina-branch>—</dd>
+                    </div>
+                    <div>
+                      <dt>内容目录</dt>
+                      <dd data-tina-content-root>—</dd>
+                    </div>
+                    <div>
+                      <dt>媒体目录</dt>
+                      <dd data-tina-media-root>—</dd>
                     </div>
                     <div>
                       <dt>缺少配置</dt>
-                      <dd data-storyblok-missing>—</dd>
+                      <dd data-tina-missing>—</dd>
                     </div>
                   </dl>
                 </section>
 
-                <section class="storyblok-card">
+                <section class="tina-card">
                   <p class="section-label">编辑与预览</p>
                   <h3>生产入口</h3>
-                  <p>如果下方编辑器因为 Storyblok 安全策略无法嵌入，请直接点击「打开 Storyblok」。这是 SaaS 后台常见限制。</p>
-                  <div class="storyblok-link-row">
+                  <p>TinaCMS Studio 使用独立页面打开，避免压缩后台工作区。完成 Tina 构建接入后，这里会进入 /tina/ 编辑界面。</p>
+                  <div class="tina-link-row">
+                    <span>编辑器地址</span>
+                    <a href="/tina/" target="_blank" rel="noreferrer" data-tina-admin-url>/tina/</a>
+                  </div>
+                  <div class="tina-link-row">
                     <span>预览地址</span>
-                    <a href="/journal/" target="_blank" rel="noreferrer" data-storyblok-preview>/journal/</a>
+                    <a href="/journal/" target="_blank" rel="noreferrer" data-tina-preview>/journal/</a>
                   </div>
                 </section>
               </div>
 
-              <div class="storyblok-frame-shell">
-                <iframe title="Storyblok Visual Editor" data-storyblok-frame loading="lazy"></iframe>
+              <div class="tina-next-steps">
+                <p class="section-label">接入说明</p>
+                <p>当前后台已切换到 TinaCMS 管理入口。下一步如需真正编辑文件，需要在项目里加入 Tina schema 与 Studio 构建产物，并把文章内容迁移到 Tina 可管理的数据文件。</p>
               </div>
             </div>
           </section>

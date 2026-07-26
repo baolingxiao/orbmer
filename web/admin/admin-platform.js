@@ -99,8 +99,8 @@
     navigatorCollapsed: false,
     inspectorCollapsed: false,
   };
-  let storyblokConfigCache = null;
-  let storyblokConfigLoading = false;
+  let tinaConfigCache = null;
+  let tinaConfigLoading = false;
   const JS_CANVAS_GRID = 16;
   const JS_CANVAS_WIDTH = 1280;
   const JS_CANVAS_HEIGHT = 1700;
@@ -1199,73 +1199,78 @@
   }
 
   function renderJournalStudio() {
-    const root = document.querySelector("[data-storyblok-editor]");
+    const root = document.querySelector("[data-tina-editor]");
     if (!root) return;
-    renderStoryblokEditor(storyblokConfigCache);
-    if (!storyblokConfigCache && !storyblokConfigLoading) {
-      loadStoryblokEditorConfig();
+    renderTinaEditor(tinaConfigCache);
+    if (!tinaConfigCache && !tinaConfigLoading) {
+      loadTinaEditorConfig();
     }
   }
 
-  function renderStoryblokEditor(config) {
-    const root = document.querySelector("[data-storyblok-editor]");
+  function renderTinaEditor(config) {
+    const root = document.querySelector("[data-tina-editor]");
     if (!root) return;
-    const status = root.querySelector("[data-storyblok-status]");
-    const enabled = root.querySelector("[data-storyblok-enabled]");
-    const space = root.querySelector("[data-storyblok-space]");
-    const region = root.querySelector("[data-storyblok-region]");
-    const missing = root.querySelector("[data-storyblok-missing]");
-    const openLink = root.querySelector("[data-storyblok-open]");
-    const previewLink = root.querySelector("[data-storyblok-preview]");
-    const frame = root.querySelector("[data-storyblok-frame]");
+    const status = root.querySelector("[data-tina-status]");
+    const enabled = root.querySelector("[data-tina-enabled]");
+    const mode = root.querySelector("[data-tina-mode]");
+    const branch = root.querySelector("[data-tina-branch]");
+    const contentRoot = root.querySelector("[data-tina-content-root]");
+    const mediaRoot = root.querySelector("[data-tina-media-root]");
+    const missing = root.querySelector("[data-tina-missing]");
+    const openLink = root.querySelector("[data-tina-open]");
+    const previewLink = root.querySelector("[data-tina-preview]");
+    const adminLink = root.querySelector("[data-tina-admin-url]");
 
     if (!config) {
-      if (status) status.textContent = "正在读取 Storyblok 配置…";
+      if (status) status.textContent = "正在读取 TinaCMS 配置…";
       if (enabled) enabled.textContent = "待检查";
       return;
     }
 
     if (status) {
       status.textContent = config.enabled
-        ? "Storyblok 已连接。杂志制作请在 Storyblok 中完成，发布后按站点同步策略进入前台。"
-        : "Storyblok 尚未完成配置。请先补齐环境变量，再刷新本页。";
+        ? "TinaCMS 已连接。杂志制作请在 TinaCMS 中完成，发布后按站点同步策略进入前台。"
+        : "TinaCMS 尚未完成配置。请先补齐环境变量，再刷新本页。";
       status.classList.toggle("is-ready", Boolean(config.enabled));
       status.classList.toggle("is-warning", !config.enabled);
     }
     if (enabled) enabled.textContent = config.enabled ? "已连接" : "未完成配置";
-    if (space) space.textContent = config.spaceId || "未配置";
-    if (region) region.textContent = (config.region || "eu").toUpperCase();
+    if (mode) mode.textContent = config.mode || "本地自托管 / Git-backed";
+    if (branch) branch.textContent = config.branch || "main";
+    if (contentRoot) contentRoot.textContent = config.contentRoot || "web";
+    if (mediaRoot) mediaRoot.textContent = config.mediaRoot || "web/assets";
     if (missing) missing.textContent = config.missing?.length ? config.missing.join("、") : "无";
-    if (openLink && config.editorUrl) openLink.href = config.editorUrl;
+    if (openLink && config.adminUrl) openLink.href = config.adminUrl;
+    if (adminLink && config.adminUrl) {
+      adminLink.href = config.adminUrl;
+      adminLink.textContent = config.adminUrl;
+    }
     if (previewLink && config.previewUrl) {
       previewLink.href = config.previewUrl;
       previewLink.textContent = config.previewUrl;
     }
-    if (frame && config.editorUrl && frame.src !== config.editorUrl) {
-      frame.src = config.editorUrl;
-    }
   }
 
-  async function loadStoryblokEditorConfig({ force = false } = {}) {
-    if (storyblokConfigLoading) return;
-    if (storyblokConfigCache && !force) {
-      renderStoryblokEditor(storyblokConfigCache);
+  async function loadTinaEditorConfig({ force = false } = {}) {
+    if (tinaConfigLoading) return;
+    if (tinaConfigCache && !force) {
+      renderTinaEditor(tinaConfigCache);
       return;
     }
-    storyblokConfigLoading = true;
+    tinaConfigLoading = true;
     try {
-      const data = await api("/storyblok/config");
-      storyblokConfigCache = data.config || null;
-      renderStoryblokEditor(storyblokConfigCache);
+      const data = await api("/tina/config");
+      tinaConfigCache = data.config || null;
+      renderTinaEditor(tinaConfigCache);
     } catch (error) {
-      const status = document.querySelector("[data-storyblok-status]");
+      const status = document.querySelector("[data-tina-status]");
       if (status) {
-        status.textContent = error.message || "无法读取 Storyblok 配置。";
+        status.textContent = error.message || "无法读取 TinaCMS 配置。";
         status.classList.add("is-warning");
       }
-      toast(error.message || "无法读取 Storyblok 配置。", true);
+      toast(error.message || "无法读取 TinaCMS 配置。", true);
     } finally {
-      storyblokConfigLoading = false;
+      tinaConfigLoading = false;
     }
   }
 
@@ -1849,10 +1854,10 @@
   }
 
   function bindPlatform() {
-    document.querySelector("[data-storyblok-refresh]")?.addEventListener("click", async () => {
-      storyblokConfigCache = null;
-      await loadStoryblokEditorConfig({ force: true });
-      toast("Storyblok 配置已刷新。");
+    document.querySelector("[data-tina-refresh]")?.addEventListener("click", async () => {
+      tinaConfigCache = null;
+      await loadTinaEditorConfig({ force: true });
+      toast("TinaCMS 配置已刷新。");
     });
 
     document.querySelector("[data-js-new-issue]")?.addEventListener("click", async () => {

@@ -94,36 +94,32 @@ function adminHeaders(_req, res, next) {
   res.setHeader("Referrer-Policy", "no-referrer");
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://a.storyblok.com https://img2.storyblok.com; connect-src 'self'; font-src 'self'; frame-src https://app.storyblok.com https://*.storyblok.com; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+    "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
   );
   next();
 }
 
-function storyblokAdminConfig() {
-  const spaceId = String(process.env.STORYBLOK_SPACE_ID || "").trim();
-  const region = String(process.env.STORYBLOK_REGION || "eu").trim().toLowerCase();
-  const hasDeliveryToken = Boolean(
-    String(process.env.STORYBLOK_PUBLIC_TOKEN || process.env.STORYBLOK_PREVIEW_TOKEN || "").trim()
-  );
-  const editorUrl = String(
-    process.env.STORYBLOK_EDITOR_URL ||
-      (spaceId
-        ? `https://app.storyblok.com/#/me/spaces/${encodeURIComponent(spaceId)}/stories/0/0/index`
-        : "https://app.storyblok.com/")
-  ).trim();
+function tinaAdminConfig() {
+  const adminUrl = String(process.env.TINA_ADMIN_URL || "/tina/").trim();
+  const branch = String(process.env.TINA_BRANCH || process.env.GIT_BRANCH || "main").trim();
+  const contentRoot = String(process.env.TINA_CONTENT_ROOT || "web").trim();
+  const mediaRoot = String(process.env.TINA_MEDIA_ROOT || "web/assets").trim();
   const previewUrl = String(
-    process.env.STORYBLOK_PREVIEW_URL ||
+    process.env.TINA_PREVIEW_URL ||
       `${String(process.env.PUBLIC_BASE_URL || process.env.APP_BASE_URL || "http://127.0.0.1:4242").replace(/\/+$/, "")}/journal/`
   ).trim();
+  const clientId = String(process.env.TINA_PUBLIC_CLIENT_ID || "").trim();
+  const token = String(process.env.TINA_TOKEN || "").trim();
   const missing = [];
-  if (!spaceId) missing.push("STORYBLOK_SPACE_ID");
-  if (!hasDeliveryToken) missing.push("STORYBLOK_PUBLIC_TOKEN 或 STORYBLOK_PREVIEW_TOKEN");
+  if (!adminUrl) missing.push("TINA_ADMIN_URL");
   return {
     enabled: missing.length === 0,
-    spaceId,
-    region,
-    editorUrl,
+    adminUrl,
+    branch,
+    contentRoot,
+    mediaRoot,
     previewUrl,
+    mode: clientId && token ? "Tina Cloud / Git-backed" : "本地自托管 / Git-backed",
     missing,
   };
 }
@@ -1177,9 +1173,9 @@ export function createAdminRouter({
     }
   );
 
-  router.get("/api/storyblok/config", requirePermission("content.read"), (_req, res) => {
+  router.get("/api/tina/config", requirePermission("content.read"), (_req, res) => {
     try {
-      return res.json({ ok: true, config: storyblokAdminConfig() });
+      return res.json({ ok: true, config: tinaAdminConfig() });
     } catch (error) {
       return routeError(res, error, 500);
     }

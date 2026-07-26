@@ -713,13 +713,13 @@ tbody tr:hover {
   font-size: 13px;
 }
 
-/* Storyblok Visual Editor */
-.storyblok-editor {
+/* TinaCMS Editor */
+.tina-editor {
   display: grid;
   gap: 22px;
 }
 
-.storyblok-hero {
+.tina-hero {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -730,27 +730,27 @@ tbody tr:hover {
   background: #fff;
 }
 
-.storyblok-hero h2 {
+.tina-hero h2 {
   margin: 0 0 10px;
   font-size: 32px;
   letter-spacing: -0.02em;
 }
 
-.storyblok-hero p {
+.tina-hero p {
   max-width: 760px;
   margin: 0;
   color: var(--muted);
   line-height: 1.8;
 }
 
-.storyblok-actions {
+.tina-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.storyblok-status {
+.tina-status {
   padding: 16px 18px;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -759,50 +759,50 @@ tbody tr:hover {
   font-weight: 700;
 }
 
-.storyblok-status.is-ready {
+.tina-status.is-ready {
   border-color: rgba(26, 96, 64, 0.22);
   background: rgba(237, 247, 242, 0.9);
   color: #1a6040;
 }
 
-.storyblok-status.is-warning {
+.tina-status.is-warning {
   border-color: rgba(185, 91, 70, 0.28);
   background: rgba(255, 246, 242, 0.95);
   color: #9b3d2e;
 }
 
-.storyblok-panels {
+.tina-panels {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 18px;
 }
 
-.storyblok-card {
+.tina-card {
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: #fff;
 }
 
-.storyblok-card h3 {
+.tina-card h3 {
   margin: 0 0 14px;
   font-size: 24px;
 }
 
-.storyblok-card p {
+.tina-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.8;
 }
 
-.storyblok-config-list {
+.tina-config-list {
   display: grid;
   gap: 12px;
   margin: 0;
 }
 
-.storyblok-config-list div,
-.storyblok-link-row {
+.tina-config-list div,
+.tina-link-row {
   display: flex;
   justify-content: space-between;
   gap: 18px;
@@ -810,29 +810,29 @@ tbody tr:hover {
   border-top: 1px solid var(--line);
 }
 
-.storyblok-config-list dt,
-.storyblok-link-row span {
+.tina-config-list dt,
+.tina-link-row span {
   color: var(--muted);
   font-weight: 700;
 }
 
-.storyblok-config-list dd {
+.tina-config-list dd {
   margin: 0;
   text-align: right;
   word-break: break-word;
 }
 
-.storyblok-link-row {
+.tina-link-row {
   margin-top: 20px;
 }
 
-.storyblok-link-row a {
+.tina-link-row a {
   color: var(--ink);
   text-align: right;
   word-break: break-all;
 }
 
-.storyblok-frame-shell {
+.tina-frame-shell {
   min-height: 70vh;
   border: 1px solid var(--line);
   border-radius: 22px;
@@ -840,7 +840,7 @@ tbody tr:hover {
   background: #fff;
 }
 
-.storyblok-frame-shell iframe {
+.tina-frame-shell iframe {
   width: 100%;
   min-height: 70vh;
   border: 0;
@@ -848,16 +848,16 @@ tbody tr:hover {
 }
 
 @media (max-width: 960px) {
-  .storyblok-hero,
-  .storyblok-panels {
+  .tina-hero,
+  .tina-panels {
     grid-template-columns: 1fr;
   }
 
-  .storyblok-hero {
+  .tina-hero {
     display: grid;
   }
 
-  .storyblok-actions {
+  .tina-actions {
     justify-content: flex-start;
   }
 }
