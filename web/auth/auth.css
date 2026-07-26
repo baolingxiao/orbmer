@@ -117,7 +117,9 @@ h1 {
 
 form { display: grid; gap: 16px; }
 label { display: grid; gap: 7px; font-size: 13px; color: var(--auth-ink); }
-input {
+input,
+select,
+textarea {
   width: 100%;
   border: 0;
   border-bottom: 1px solid var(--auth-line);
@@ -128,7 +130,8 @@ input {
   font: inherit;
   outline: none;
 }
-input:focus { border-color: var(--auth-ink); }
+textarea { resize: vertical; line-height: 1.6; }
+input:focus, select:focus, textarea:focus { border-color: var(--auth-ink); }
 button[type="submit"], .actions button {
   width: fit-content;
   min-height: 46px;
@@ -184,6 +187,42 @@ h2 { margin: 0 0 18px; font-family: var(--font-display, Georgia, serif); font-si
 .journey-event small { color: var(--auth-muted); }
 .admin-panel { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--auth-line); }
 .admin-panel p { max-width: 48ch; color: var(--auth-muted); font-size: 14px; line-height: 1.7; }
+.account-membership,
+.account-concierge,
+.account-requests {
+  margin: 36px 0;
+  padding-top: 28px;
+  border-top: 1px solid var(--auth-line);
+}
+.membership-account-card h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 38px;
+  font-weight: 500;
+}
+.membership-account-card p,
+.membership-account-card li,
+.request-row p,
+.request-row span,
+.request-row small {
+  color: var(--auth-muted);
+  line-height: 1.65;
+}
+.membership-account-card ul {
+  margin: 8px 0 20px;
+  padding-left: 18px;
+}
+.membership-account-card h4 {
+  margin: 22px 0 8px;
+}
+.request-row {
+  padding: 16px 0;
+  border-top: 1px solid var(--auth-line);
+}
+.request-row strong,
+.request-row span {
+  display: block;
+}
 
 @media (max-width: 640px) {
   .auth-top { width: min(100% - 32px, 1320px); min-height: 64px; }

@@ -55,6 +55,13 @@ import { isDatabaseEnabled } from "./db/index.js";
 import * as rbacRepo from "./db/rbac-repo.js";
 import { listCustomers, setCustomerMembership } from "./db/customer-repo.js";
 import {
+  getEntitlements,
+  listConciergeRequests,
+  listMemberships,
+  setManualMembership,
+  updateConciergeRequest,
+} from "./db/membership-repo.js";
+import {
   requireAnyPermission,
   requirePermission,
   stripFinanceFields,
@@ -462,6 +469,91 @@ export function createAdminRouter({
           ok: true,
           product: stripFinanceFields(withMarginFields(product), req.adminSession),
         });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
+
+  router.get("/api/memberships", requireAnyPermission("membership.read", "customer.read"), async (req, res) => {
+    try {
+      if (!isDatabaseEnabled()) return res.json({ ok: true, memberships: [], entitlements: [] });
+      return res.json({
+        ok: true,
+        memberships: await listMemberships({
+          tier: String(req.query.tier || ""),
+          status: String(req.query.status || ""),
+          search: String(req.query.search || ""),
+        }),
+        entitlements: await getEntitlements(),
+      });
+    } catch (error) {
+      return routeError(res, error, 500);
+    }
+  });
+
+  router.put(
+    "/api/memberships/:id/tier",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requireAnyPermission("membership.manage", "customer.manage"),
+    async (req, res) => {
+      try {
+        if (!isDatabaseEnabled()) return routeError(res, new Error("Database is required."), 503);
+        const membership = await setManualMembership(req.params.id, req.body?.tier, req.adminSession.userId);
+        if (!membership) return routeError(res, new Error("Customer not found."), 404);
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "customer_membership_tier_updated",
+          entityType: "membership",
+          entityId: req.params.id,
+          details: { tier: membership.tier },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, membership });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
+
+  router.get("/api/concierge-requests", requirePermission("concierge.read"), async (req, res) => {
+    try {
+      if (!isDatabaseEnabled()) return res.json({ ok: true, requests: [] });
+      return res.json({
+        ok: true,
+        requests: await listConciergeRequests({
+          status: String(req.query.status || ""),
+          serviceType: String(req.query.serviceType || ""),
+        }),
+      });
+    } catch (error) {
+      return routeError(res, error, 500);
+    }
+  });
+
+  router.patch(
+    "/api/concierge-requests/:id",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("concierge.manage"),
+    async (req, res) => {
+      try {
+        if (!isDatabaseEnabled()) return routeError(res, new Error("Database is required."), 503);
+        const request = await updateConciergeRequest(req.params.id, {
+          status: req.body?.status,
+          internalNotes: req.body?.internalNotes,
+        });
+        if (!request) return routeError(res, new Error("Request not found."), 404);
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "concierge_request_updated",
+          entityType: "concierge_request",
+          entityId: request.id,
+          details: { status: request.status },
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, request });
       } catch (error) {
         return routeError(res, error);
       }

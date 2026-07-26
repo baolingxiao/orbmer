@@ -1,4 +1,12 @@
 import { getCustomerCommunicationCopy } from "/shared/js/customer-communications.js";
+import {
+  CONCIERGE_STATUSES,
+  MEMBERSHIP_COPY,
+  MEMBERSHIP_ENTITLEMENTS,
+  SERVICE_TYPES,
+  TIER_META,
+  tierIncludes,
+} from "/shared/js/membership-data.js";
 
 const lang = document.documentElement.lang?.startsWith("en") ? "en" : "zh";
 const customerCopy = getCustomerCommunicationCopy(lang);
@@ -57,8 +65,9 @@ function showUser(session) {
   document.querySelector("[data-user-email]").textContent = session.user?.email || "";
   const membership = document.querySelector("[data-membership-state]");
   if (membership) {
-    membership.textContent = session.user?.membershipStatus === "member" ? "傲马会员" : "标准账户";
-    membership.classList.toggle("is-member", session.user?.membershipStatus === "member");
+    const tier = session.user?.membershipStatus || "explorer";
+    membership.textContent = tier === "explorer" ? "Explorer" : TIER_META[tier]?.titleZh || tier;
+    membership.classList.toggle("is-member", tier !== "explorer");
   }
 }
 
@@ -84,6 +93,61 @@ async function loadOrders() {
       <button type="button" data-view-journey="${order.id}">查看 Order Journey</button></article>`
     )
     .join("");
+}
+
+function membershipTierLabel(tier) {
+  return TIER_META[tier]?.titleZh || "Explorer";
+}
+
+function requestStatusLabel(status) {
+  return CONCIERGE_STATUSES[status]?.zh || status;
+}
+
+function serviceTypeLabel(type) {
+  return SERVICE_TYPES[type]?.zh || type;
+}
+
+async function loadMembership() {
+  if (state.role !== "buyer") return;
+  const root = document.querySelector("[data-account-membership-body]");
+  const concierge = document.querySelector("[data-account-concierge]");
+  const requestRoot = document.querySelector("[data-concierge-requests]");
+  if (!root) return;
+  try {
+    const data = await api("/membership");
+    const membership = data.membership || { tier: "explorer", status: "inactive" };
+    const tier = membership.tier || "explorer";
+    const active = MEMBERSHIP_ENTITLEMENTS.filter((item) => tierIncludes(tier, item.tier) && item.availability === "active");
+    const prep = MEMBERSHIP_ENTITLEMENTS.filter((item) => tierIncludes(tier, item.tier) && item.availability === "preparation");
+    root.innerHTML = `
+      <article class="membership-account-card">
+        <p class="brand-stamp">Orbmare Membership</p>
+        <h3>${membershipTierLabel(tier)}</h3>
+        <p>${membership.billingInterval || "none"} · ${membership.status || "inactive"}${membership.currentPeriodEnd ? ` · 下次续费/到期 ${new Date(membership.currentPeriodEnd).toLocaleDateString()}` : ""}</p>
+        <div class="actions">
+          ${tier === "explorer" ? `<a href="/membership/" style="text-decoration:none"><button type="button">升级会员</button></a>` : ""}
+          ${tier === "journal" ? `<a href="/membership/" style="text-decoration:none"><button type="button">升级 Collector</button></a>` : ""}
+          ${tier !== "explorer" && membership.stripeCustomerId ? `<button type="button" data-manage-membership>管理订阅</button>` : ""}
+          ${tier === "collector" ? `<a href="/membership/" style="text-decoration:none"><button type="button" class="ghost">申请了解 Black</button></a>` : ""}
+        </div>
+        <h4>已开放权益</h4>
+        <ul>${active.map((item) => `<li>${item.titleZh}</li>`).join("") || "<li>公开浏览与正常下单</li>"}</ul>
+        <h4>正在筹备</h4>
+        <ul>${prep.map((item) => `<li>${item.titleZh}</li>`).join("") || "<li>暂无</li>"}</ul>
+      </article>`;
+    concierge.hidden = !["collector", "black"].includes(tier);
+    const requests = data.requests || [];
+    requestRoot.innerHTML = requests.length
+      ? requests.map((request) => `<article class="request-row">
+          <strong>${request.request_number}</strong>
+          <span>${serviceTypeLabel(request.service_type)} · ${requestStatusLabel(request.status)}</span>
+          <p>${request.description}</p>
+          <small>${new Date(request.created_at).toLocaleString()}</small>
+        </article>`).join("")
+      : "<p>还没有服务申请记录。</p>";
+  } catch (error) {
+    root.innerHTML = `<p class="error">${error.message}</p>`;
+  }
 }
 
 async function loadOrderJourney(orderId) {
@@ -144,6 +208,7 @@ document.querySelector("[data-login-form]")?.addEventListener("submit", async (e
       return;
     }
     await loadOrders();
+    await loadMembership();
   } catch (err) {
     error.hidden = false;
     error.textContent = err.message;
@@ -196,6 +261,45 @@ document.querySelector("[data-orders]")?.addEventListener("click", async (event)
   await loadOrderJourney(button.dataset.viewJourney);
 });
 
+document.querySelector("[data-account-membership]")?.addEventListener("click", async (event) => {
+  const manage = event.target.closest("[data-manage-membership]");
+  if (!manage) return;
+  try {
+    const data = await api("/membership/portal", { method: "POST", body: "{}" });
+    location.href = data.url;
+  } catch (error) {
+    alert(error.message || MEMBERSHIP_COPY.zh.paymentInProgress);
+  }
+});
+
+document.querySelector("[data-concierge-form]")?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const error = document.querySelector("[data-concierge-error]");
+  error.hidden = true;
+  const form = new FormData(event.target);
+  try {
+    const attachmentUrl = String(form.get("attachmentUrl") || "").trim();
+    await api("/concierge", {
+      method: "POST",
+      body: JSON.stringify({
+        serviceType: form.get("serviceType"),
+        description: form.get("description"),
+        budget: form.get("budget"),
+        desiredDate: form.get("desiredDate"),
+        productUrl: form.get("productUrl"),
+        attachments: attachmentUrl ? [{ url: attachmentUrl }] : [],
+        contactMethod: form.get("contactMethod"),
+        country: form.get("country"),
+      }),
+    });
+    event.target.reset();
+    await loadMembership();
+  } catch (err) {
+    error.hidden = false;
+    error.textContent = err.message;
+  }
+});
+
 async function boot() {
   try {
     const session = await api("/session");
@@ -209,6 +313,7 @@ async function boot() {
     if (session.authenticated) {
       showUser(session);
       await loadOrders();
+      await loadMembership();
     }
   } catch (err) {
     showGoogleResult();

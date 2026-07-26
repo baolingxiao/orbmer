@@ -57,8 +57,40 @@
         <p class="membership-state" data-membership-state></p>
         <div class="actions">
           <button type="button" data-link-orders>关联历史订单</button>
+          <a href="/membership/" style="text-decoration:none"><button type="button" class="ghost">查看会员</button></a>
           <button type="button" class="ghost" data-logout>退出</button>
         </div>
+        <section class="account-membership" data-account-membership>
+          <h2>Membership</h2>
+          <div data-account-membership-body></div>
+        </section>
+        <section class="account-concierge" data-account-concierge hidden>
+          <h2>真人服务申请</h2>
+          <form data-concierge-form>
+            <label>服务类型
+              <select name="serviceType">
+                <option value="styling">穿搭建议</option>
+                <option value="gift">礼物推荐</option>
+                <option value="sourcing">商品寻货</option>
+                <option value="purchasing">采购咨询</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+            <label>需求说明<textarea name="description" rows="4" required></textarea></label>
+            <label>预算<input name="budget" placeholder="例：USD 300–500" /></label>
+            <label>希望完成时间<input name="desiredDate" type="date" /></label>
+            <label>商品链接（可选）<input name="productUrl" type="url" /></label>
+            <label>图片链接（可选）<input name="attachmentUrl" type="url" /></label>
+            <label>联系方式<input name="contactMethod" placeholder="邮箱、电话或偏好的联系方法" /></label>
+            <label>国家或地区<input name="country" /></label>
+            <p class="error" data-concierge-error hidden></p>
+            <button type="submit">提交申请</button>
+          </form>
+        </section>
+        <section class="account-requests" data-account-requests>
+          <h2>服务申请记录</h2>
+          <div data-concierge-requests></div>
+        </section>
         <h2>我的订单</h2>
         <div data-orders></div>
         <section class="order-journey" data-order-journey hidden>

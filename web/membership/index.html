@@ -8,72 +8,245 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=5" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=18" />
   </head>
   <body>
     <div data-orb-header></div>
     <main>
-      <section class="page-hero shell-wide" data-module="membership">
-        <h1 data-i18n="membership.title" data-editable="membership.title">傲马会员</h1>
-        <p data-i18n="membership.lead" data-editable="membership.lead">不是仓储式俱乐部。而是给重视工艺、材料与设计的收藏者的安静圈子。</p>
+      <section class="page-hero shell-wide membership-hero">
+        <p class="section-kicker" data-membership-stamp>Orbmare</p>
+        <h1 data-membership-title>傲马会员</h1>
+        <p data-membership-lead>Orbmare 会员购买的不是折扣，而是来自真人编辑、买手与策展团队的时间、判断与服务。</p>
       </section>
+
       <section class="section shell-wide">
-        <div class="benefit-list reveal">
-          <article>
-            <div class="num">01</div>
-            <div>
-              <h3 data-i18n="membership.01" data-editable="membership.01">抢先体验</h3>
-              <p data-i18n="membership.01b" data-editable="membership.01b">在公开馆上线前，先看到新发现。</p>
-            </div>
-          </article>
-          <article>
-            <div class="num">02</div>
-            <div>
-              <h3 data-i18n="membership.02" data-editable="membership.02">专属系列</h3>
-              <p data-i18n="membership.02b" data-editable="membership.02b">为会员圈保留的工坊胶囊系列。</p>
-            </div>
-          </article>
-          <article>
-            <div class="num">03</div>
-            <div>
-              <h3 data-i18n="membership.03" data-editable="membership.03">更低国际运费</h3>
-              <p data-i18n="membership.03b" data-editable="membership.03b">跨境运送时的优惠费率。</p>
-            </div>
-          </article>
-          <article>
-            <div class="num">04</div>
-            <div>
-              <h3 data-i18n="membership.04" data-editable="membership.04">策展采购请求</h3>
-              <p data-i18n="membership.04b" data-editable="membership.04b">告诉我们你在寻找什么——我们替你寻访工坊与传承匠人。</p>
-            </div>
-          </article>
-          <article>
-            <div class="num">05</div>
-            <div>
-              <h3 data-i18n="membership.05" data-editable="membership.05">私人礼宾</h3>
-              <p data-i18n="membership.05b" data-editable="membership.05b">材料、尺寸与定制的人工指导。</p>
-            </div>
-          </article>
-          <article>
-            <div class="num">06</div>
-            <div>
-              <h3 data-i18n="membership.06" data-editable="membership.06">会员专属 Journal</h3>
-              <p data-i18n="membership.06b" data-editable="membership.06b">比公开杂志更深入的文章、工厂笔记与访谈。</p>
-            </div>
-          </article>
+        <div class="membership-status-card" data-membership-status></div>
+        <div class="featured-head">
+          <div class="section-head">
+            <h2 data-membership-plans>会员等级</h2>
+          </div>
+          <div class="membership-billing" aria-label="Billing interval">
+            <button type="button" class="is-active" data-billing="monthly">月付</button>
+            <button type="button" data-billing="yearly">年付</button>
+          </div>
         </div>
-        <p style="margin-top:48px">
-          <a class="btn" href="/auth/" data-i18n="membership.cta" data-editable="membership.cta">申请会员</a>
-        </p>
+        <div class="membership-tier-grid" data-tier-grid></div>
+      </section>
+
+      <section class="section shell-wide">
+        <div class="section-head">
+          <h2 data-membership-comparison>权益对比</h2>
+        </div>
+        <table class="membership-compare" data-compare-table></table>
+        <div class="membership-mobile-compare" data-mobile-compare></div>
+      </section>
+
+      <section class="section shell-wide">
+        <div class="section-head">
+          <h2 data-membership-faq>常见问题</h2>
+        </div>
+        <div class="membership-faq" data-membership-faq-list></div>
       </section>
     </main>
     <div data-orb-footer></div>
+
+    <dialog class="membership-dialog" data-prep-dialog>
+      <button type="button" class="dialog-close" data-prep-close aria-label="Close">×</button>
+      <div data-prep-body></div>
+    </dialog>
+
     <script type="module">
       import { mountChrome } from "/shared/js/chrome.js";
       import { applyI18n, getLang, onLangChange } from "/shared/js/editorial-i18n.js";
+      import {
+        MEMBERSHIP_COPY,
+        MEMBERSHIP_ENTITLEMENTS,
+        MEMBERSHIP_PRICES,
+        TIER_META,
+        MEMBERSHIP_TIERS,
+        tierIncludes,
+      } from "/shared/js/membership-data.js";
+      import { underConstructionBadge, underConstructionPanel } from "/shared/js/under-construction.js";
+
       mountChrome({ title: "Membership | Orbmare" });
-      applyI18n(getLang());
-      onLangChange(applyI18n);
+      let lang = getLang();
+      let billing = "monthly";
+      let session = null;
+      let csrfToken = "";
+
+      function money(value, interval) {
+        if (value === 0) return lang === "en" ? "Free" : "免费";
+        if (value === null) return lang === "en" ? "Invitation only" : "邀请制";
+        return `$${value}/${interval === "yearly" ? (lang === "en" ? "year" : "年") : (lang === "en" ? "mo" : "月")}`;
+      }
+
+      function tierTitle(tier) {
+        return lang === "en" ? TIER_META[tier].titleEn : TIER_META[tier].titleZh;
+      }
+
+      function entTitle(item) {
+        return lang === "en" ? item.titleEn : item.titleZh;
+      }
+
+      function activeForTier(item, tier) {
+        return tierIncludes(tier, item.tier) ? item.availability : "unavailable";
+      }
+
+      function statusMark(status) {
+        const copy = MEMBERSHIP_COPY[lang];
+        if (status === "active") return "✓";
+        if (status === "preparation") return underConstructionBadge(copy.preparation);
+        return "—";
+      }
+
+      async function authApi(path, options = {}) {
+        const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+        if (options.method && options.method !== "GET" && csrfToken) headers["x-csrf-token"] = csrfToken;
+        const response = await fetch(`/auth/api${path}`, { credentials: "same-origin", ...options, headers });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "Request failed.");
+        return data;
+      }
+
+      async function loadSession() {
+        try {
+          const data = await authApi("/session");
+          session = data.authenticated ? data : null;
+          csrfToken = data.csrfToken || "";
+        } catch {
+          session = null;
+        }
+      }
+
+      async function startCheckout(tier) {
+        try {
+          if (!session?.authenticated) {
+            location.href = "/auth/";
+            return;
+          }
+          const data = await authApi("/membership/checkout", {
+            method: "POST",
+            body: JSON.stringify({ tier, billingInterval: billing }),
+          });
+          location.href = data.url;
+        } catch (error) {
+          alert(error.message || MEMBERSHIP_COPY[lang].paymentInProgress);
+        }
+      }
+
+      async function openPortal() {
+        try {
+          const data = await authApi("/membership/portal", { method: "POST", body: "{}" });
+          location.href = data.url;
+        } catch (error) {
+          alert(error.message || MEMBERSHIP_COPY[lang].paymentInProgress);
+        }
+      }
+
+      function openPreparation(item) {
+        const copy = MEMBERSHIP_COPY[lang];
+        const dialog = document.querySelector("[data-prep-dialog]");
+        document.querySelector("[data-prep-body]").innerHTML = underConstructionPanel({
+          title: entTitle(item),
+          body: copy.preparingBody,
+        }) + `<p style="text-align:center"><button class="btn" type="button" data-notify-feature="${item.key}">${copy.notifyMe}</button></p>`;
+        dialog.showModal();
+      }
+
+      function render() {
+        applyI18n(lang);
+        const copy = MEMBERSHIP_COPY[lang];
+        document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+        document.querySelector("[data-membership-stamp]").textContent = copy.stamp;
+        document.querySelector("[data-membership-title]").textContent = copy.title;
+        document.querySelector("[data-membership-lead]").textContent = copy.lead;
+        document.querySelector("[data-membership-plans]").textContent = lang === "en" ? "Membership Levels" : "会员等级";
+        document.querySelector("[data-membership-comparison]").textContent = copy.comparison;
+        document.querySelector("[data-membership-faq]").textContent = copy.faq;
+        document.querySelectorAll("[data-billing]").forEach((button) => {
+          button.textContent = button.dataset.billing === "yearly" ? copy.billingYearly : copy.billingMonthly;
+          button.classList.toggle("is-active", button.dataset.billing === billing);
+        });
+
+        const currentTier = session?.user?.membershipStatus || "explorer";
+        document.querySelector("[data-membership-status]").innerHTML = `
+          <div><span class="meta">${copy.current}</span><strong>${tierTitle(currentTier)}</strong></div>
+          <a class="btn btn-ghost" href="/auth/">${session?.authenticated ? copy.accountCta : copy.signInToUpgrade}</a>`;
+
+        document.querySelector("[data-tier-grid]").innerHTML = MEMBERSHIP_TIERS.map((tier) => {
+          const meta = TIER_META[tier];
+          const isCollector = tier === "collector";
+          const price = money(MEMBERSHIP_PRICES[tier][billing], billing);
+          const visibleEntitlements = MEMBERSHIP_ENTITLEMENTS.filter((item) => item.tier === tier).slice(0, 6);
+          const button =
+            tier === "black"
+              ? `<a class="btn btn-ghost" href="/auth/">${copy.requestInfo}</a>`
+              : tier === "explorer"
+                ? `<a class="btn btn-ghost" href="/discover/">${lang === "en" ? "Start exploring" : "开始探索"}</a>`
+                : `<button class="btn" type="button" data-start-checkout="${tier}">${copy.upgrade}</button>`;
+          return `<article class="membership-tier-card${isCollector ? " is-featured" : ""}" data-badge="${copy.completeExperience}">
+            <div>
+              <h3>${tierTitle(tier)}</h3>
+              <p>${lang === "en" ? meta.bodyEn : meta.bodyZh}</p>
+            </div>
+            <div class="membership-price">${price}</div>
+            <ul>${visibleEntitlements.map((item) => `<li>${item.availability === "preparation" ? underConstructionBadge(copy.preparation) : "✓"} ${entTitle(item)}</li>`).join("")}</ul>
+            ${button}
+          </article>`;
+        }).join("");
+
+        document.querySelector("[data-compare-table]").innerHTML = `
+          <thead><tr><th>${lang === "en" ? "Benefit" : "权益"}</th>${MEMBERSHIP_TIERS.map((tier) => `<th>${tierTitle(tier)}</th>`).join("")}</tr></thead>
+          <tbody>${MEMBERSHIP_ENTITLEMENTS.map((item) => `<tr>
+            <td><button class="table-link" type="button" data-prep-feature="${item.availability === "preparation" ? item.key : ""}">${entTitle(item)}</button></td>
+            ${MEMBERSHIP_TIERS.map((tier) => `<td>${statusMark(activeForTier(item, tier))}</td>`).join("")}
+          </tr>`).join("")}</tbody>`;
+
+        document.querySelector("[data-mobile-compare]").innerHTML = MEMBERSHIP_TIERS.map((tier) => `<details>
+          <summary>${tierTitle(tier)}</summary>
+          <ul>${MEMBERSHIP_ENTITLEMENTS.filter((item) => tierIncludes(tier, item.tier)).map((item) => `<li>${item.availability === "preparation" ? underConstructionBadge(copy.preparation) : "✓"} ${entTitle(item)}</li>`).join("")}</ul>
+        </details>`).join("");
+
+        document.querySelector("[data-membership-faq-list]").innerHTML = [
+          [lang === "en" ? "Is this a discount program?" : "这是折扣会员吗？", lang === "en" ? "No. Membership is built around human editorial time, judgment and service." : "不是。会员围绕真人编辑、买手与策展团队的时间、判断和服务建立。"],
+          [lang === "en" ? "Can I manage billing myself?" : "我可以自己管理订阅吗？", lang === "en" ? "Yes. Paid members can open the Stripe Customer Portal from their account." : "可以。付费会员可以从账户页进入 Stripe 订阅管理入口。"],
+          [lang === "en" ? "Why are some benefits marked In Preparation?" : "为什么有些权益标记为筹备中？", lang === "en" ? "We only mark a benefit as available after the team can actually support it." : "只有团队已经能真实提供的服务，才会标记为已开放。"],
+        ].map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("");
+      }
+
+      document.addEventListener("click", async (event) => {
+        const billingButton = event.target.closest("[data-billing]");
+        if (billingButton) {
+          billing = billingButton.dataset.billing;
+          render();
+        }
+        const checkout = event.target.closest("[data-start-checkout]");
+        if (checkout) await startCheckout(checkout.dataset.startCheckout);
+        const prep = event.target.closest("[data-prep-feature]");
+        if (prep?.dataset.prepFeature) {
+          const item = MEMBERSHIP_ENTITLEMENTS.find((entry) => entry.key === prep.dataset.prepFeature);
+          if (item) openPreparation(item);
+        }
+        const notify = event.target.closest("[data-notify-feature]");
+        if (notify) {
+          try {
+            if (!session?.authenticated) location.href = "/auth/";
+            await authApi("/membership/notify", { method: "POST", body: JSON.stringify({ featureKey: notify.dataset.notifyFeature }) });
+            notify.textContent = MEMBERSHIP_COPY[lang].notified;
+            notify.disabled = true;
+          } catch (error) {
+            alert(error.message);
+          }
+        }
+      });
+
+      document.querySelector("[data-prep-close]")?.addEventListener("click", () => document.querySelector("[data-prep-dialog]")?.close());
+      onLangChange((next) => {
+        lang = next;
+        render();
+      });
+      await loadSession();
+      render();
     </script>
   </body>
 </html>

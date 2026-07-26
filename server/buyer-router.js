@@ -3,6 +3,7 @@ import fs from "fs";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
 import multer from "multer";
+import Stripe from "stripe";
 import { createPortalAuth } from "./portal-auth.js";
 import { isDatabaseEnabled, query } from "./db/index.js";
 import {
@@ -16,6 +17,13 @@ import { getBuyerOrderJourney, publicOrder } from "./order-store.js";
 import { appendAuditEvent } from "./audit-store.js";
 import { sameOriginOnly } from "./security.js";
 import {
+  createConciergeRequest,
+  createFeatureNotification,
+  getEntitlements,
+  getMembershipForUser,
+  listConciergeRequests,
+} from "./db/membership-repo.js";
+import {
   getSiteContent,
   patchSiteContent,
   addModuleCard,
@@ -26,6 +34,20 @@ const authWebRoot = path.join(__dirname, "..", "web", "auth");
 const uploadRoot = path.join(__dirname, "..", "web", "assets", "uploads", "site");
 
 const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+const MEMBERSHIP_PRICE_ENV = {
+  journal: {
+    monthly: "STRIPE_JOURNAL_MONTHLY_PRICE_ID",
+    yearly: "STRIPE_JOURNAL_YEARLY_PRICE_ID",
+  },
+  collector: {
+    monthly: "STRIPE_COLLECTOR_MONTHLY_PRICE_ID",
+    yearly: "STRIPE_COLLECTOR_YEARLY_PRICE_ID",
+  },
+};
+
+function looksLikeRealKey(value) {
+  return Boolean(value && !/x{4,}|your[_-]?|replace|changeme|example/i.test(value) && String(value).length >= 20);
+}
 
 function mapOrder(row) {
   return {
@@ -70,11 +92,12 @@ function createUploader() {
 }
 
 function publicUser(session) {
+  const legacy = session.membershipStatus === "member" ? "journal" : session.membershipStatus;
   return {
     email: session.email,
     displayName: session.displayName,
     role: session.role,
-    membershipStatus: session.membershipStatus || "standard",
+    membershipStatus: legacy || "explorer",
     authProvider: session.authProvider || "email",
   };
 }
@@ -94,6 +117,10 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
   const normalizedBaseUrl = String(publicBaseUrl || "").trim().replace(/\/$/, "");
   const googleRedirectUri = `${normalizedBaseUrl}/auth/api/google/callback`;
   const googleConfigured = Boolean(googleClientId && googleClientSecret && normalizedBaseUrl);
+  const stripeSecretKey = String(process.env.STRIPE_SECRET_KEY || "").trim();
+  const stripe = looksLikeRealKey(stripeSecretKey)
+    ? new Stripe(stripeSecretKey, { apiVersion: "2026-06-24.dahlia" })
+    : null;
 
   function appendCookie(res, name, value, { maxAge = 600, sameSite = "Lax" } = {}) {
     const flags = [
@@ -438,6 +465,141 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
       return res.json({ ok: true, ...journey });
     } catch (error) {
       return res.status(500).json({ ok: false, error: error.message });
+    }
+  });
+
+  router.get("/api/membership", auth.requireSession, async (req, res) => {
+    try {
+      if (req.portalSession.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+      if (!isDatabaseEnabled()) {
+        return res.json({
+          ok: true,
+          membership: {
+            tier: req.portalSession.membershipStatus === "member" ? "journal" : "explorer",
+            billingInterval: "none",
+            status: "inactive",
+          },
+          entitlements: [],
+          requests: [],
+          databaseEnabled: false,
+        });
+      }
+      const [membership, entitlements, requests] = await Promise.all([
+        getMembershipForUser(req.portalSession.userId),
+        getEntitlements(),
+        listConciergeRequests({ userId: req.portalSession.userId }),
+      ]);
+      return res.json({ ok: true, membership, entitlements, requests, databaseEnabled: true });
+    } catch (error) {
+      return res.status(500).json({ ok: false, error: error.message });
+    }
+  });
+
+  router.post("/api/membership/notify", sameOriginOnly, auth.requireSession, auth.requireCsrf, async (req, res) => {
+    try {
+      if (req.portalSession.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+      if (!isDatabaseEnabled()) return res.status(503).json({ ok: false, error: "Database is required." });
+      await createFeatureNotification(req.portalSession.userId, req.body?.featureKey);
+      return res.json({ ok: true });
+    } catch (error) {
+      return res.status(400).json({ ok: false, error: error.message });
+    }
+  });
+
+  router.post("/api/concierge", sameOriginOnly, auth.requireSession, auth.requireCsrf, async (req, res) => {
+    try {
+      if (req.portalSession.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+      if (!isDatabaseEnabled()) return res.status(503).json({ ok: false, error: "Database is required." });
+      const membership = await getMembershipForUser(req.portalSession.userId);
+      if (!["collector", "black"].includes(membership?.tier)) {
+        return res.status(403).json({
+          ok: false,
+          error: "Collector membership is required for human service requests.",
+          requiredTier: "collector",
+          currentTier: membership?.tier || "explorer",
+        });
+      }
+      const request = await createConciergeRequest(req.portalSession.userId, req.body || {});
+      await appendAuditEvent({
+        actor: req.portalSession.email,
+        action: "concierge_request_created",
+        entityType: "concierge_request",
+        entityId: request.id,
+        ip: req.ip || "",
+      });
+      return res.status(201).json({ ok: true, request });
+    } catch (error) {
+      return res.status(400).json({ ok: false, error: error.message });
+    }
+  });
+
+  router.post("/api/membership/checkout", sameOriginOnly, auth.requireSession, auth.requireCsrf, async (req, res) => {
+    try {
+      if (req.portalSession.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+      if (!isDatabaseEnabled()) return res.status(503).json({ ok: false, error: "Database is required." });
+      if (!stripe) return res.status(503).json({ ok: false, error: "Payment setup in progress." });
+      const tier = String(req.body?.tier || "").trim();
+      const interval = String(req.body?.billingInterval || "monthly").trim();
+      const envName = MEMBERSHIP_PRICE_ENV[tier]?.[interval];
+      const priceId = envName ? String(process.env[envName] || "").trim() : "";
+      if (!priceId) return res.status(503).json({ ok: false, error: "Payment setup in progress." });
+      const successUrl =
+        String(process.env.STRIPE_MEMBERSHIP_SUCCESS_URL || "").trim() ||
+        `${normalizedBaseUrl || `${req.protocol}://${req.get("host")}`}/auth/?membership=success`;
+      const cancelUrl =
+        String(process.env.STRIPE_MEMBERSHIP_CANCEL_URL || "").trim() ||
+        `${normalizedBaseUrl || `${req.protocol}://${req.get("host")}`}/membership/?membership=cancel`;
+      const session = await stripe.checkout.sessions.create({
+        mode: "subscription",
+        line_items: [{ price: priceId, quantity: 1 }],
+        customer_email: req.portalSession.email,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        metadata: {
+          userId: req.portalSession.userId,
+          tier,
+          billingInterval: interval,
+        },
+        subscription_data: {
+          metadata: {
+            userId: req.portalSession.userId,
+            tier,
+            billingInterval: interval,
+          },
+        },
+      });
+      return res.json({ ok: true, url: session.url });
+    } catch (error) {
+      return res.status(400).json({ ok: false, error: error.message });
+    }
+  });
+
+  router.post("/api/membership/portal", sameOriginOnly, auth.requireSession, auth.requireCsrf, async (req, res) => {
+    try {
+      if (req.portalSession.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+      if (!stripe) return res.status(503).json({ ok: false, error: "Payment setup in progress." });
+      const membership = await getMembershipForUser(req.portalSession.userId);
+      if (!membership?.stripeCustomerId) {
+        return res.status(400).json({ ok: false, error: "No Stripe subscription is linked to this account yet." });
+      }
+      const returnUrl = `${normalizedBaseUrl || `${req.protocol}://${req.get("host")}`}/auth/`;
+      const portal = await stripe.billingPortal.sessions.create({
+        customer: membership.stripeCustomerId,
+        return_url: returnUrl,
+      });
+      return res.json({ ok: true, url: portal.url });
+    } catch (error) {
+      return res.status(400).json({ ok: false, error: error.message });
     }
   });
 

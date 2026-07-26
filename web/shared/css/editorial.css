@@ -1750,6 +1750,281 @@ button {
   }
 }
 
+.under-construction-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.under-construction-svg {
+  color: currentColor;
+  overflow: visible;
+}
+
+.under-construction-svg .uc-hat {
+  animation: uc-hat 2.8s ease-in-out infinite;
+}
+
+.under-construction-svg .uc-light {
+  animation: uc-light 3.2s ease-in-out infinite;
+}
+
+.under-construction-svg.is-small .uc-hat,
+.under-construction-svg.is-small .uc-light {
+  animation-duration: 3.8s;
+}
+
+.under-construction-panel {
+  width: min(620px, calc(100% - 40px));
+  margin: 96px auto;
+  text-align: center;
+}
+
+.under-construction-panel h1 {
+  margin: 18px 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 500;
+}
+
+.under-construction-panel p {
+  margin: 0 auto 24px;
+  max-width: 42ch;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@keyframes uc-hat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes uc-light {
+  0%, 100% { opacity: .32; }
+  50% { opacity: .65; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .under-construction-svg .uc-hat,
+  .under-construction-svg .uc-light {
+    animation: none;
+  }
+}
+
+.membership-hero {
+  padding-top: clamp(64px, 9vw, 120px);
+}
+
+.membership-hero h1 {
+  max-width: 900px;
+}
+
+.membership-status-card,
+.membership-tier-card,
+.membership-compare,
+.membership-faq details {
+  border-top: 1px solid var(--line);
+}
+
+.membership-status-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  padding: 24px 0;
+  align-items: end;
+}
+
+.membership-status-card strong {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 500;
+}
+
+.membership-billing {
+  display: inline-flex;
+  border: 1px solid var(--line);
+}
+
+.membership-billing button {
+  border: 0;
+  border-right: 1px solid var(--line);
+  padding: 12px 18px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.membership-billing button:last-child {
+  border-right: 0;
+}
+
+.membership-billing button.is-active {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.membership-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.membership-tier-card {
+  position: relative;
+  padding: 24px 0 0;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.membership-tier-card.is-featured::before {
+  content: attr(data-badge);
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 4px;
+  padding: 5px 9px;
+  border: 1px solid var(--ink);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.membership-tier-card h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 500;
+}
+
+.membership-price {
+  font-family: var(--font-display);
+  font-size: 28px;
+}
+
+.membership-tier-card p,
+.membership-tier-card li,
+.membership-faq p {
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.membership-tier-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.membership-compare {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 28px;
+}
+
+.membership-compare th,
+.membership-compare td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.membership-compare th {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.membership-mobile-compare {
+  display: none;
+}
+
+.membership-faq {
+  display: grid;
+  gap: 0;
+}
+
+.membership-faq details {
+  padding: 18px 0;
+}
+
+.membership-faq summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.membership-dialog {
+  width: min(680px, calc(100% - 32px));
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 0;
+}
+
+.membership-dialog::backdrop {
+  background: rgb(20 20 20 / .32);
+}
+
+.dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.table-link {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+@media (max-width: 940px) {
+  .membership-tier-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .membership-compare {
+    display: none;
+  }
+
+  .membership-mobile-compare {
+    display: grid;
+    gap: 12px;
+    margin-top: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .membership-status-card,
+  .membership-tier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .membership-status-card .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 /* —— Footer —— */
 .orb-footer {
   margin-top: clamp(48px, 8vw, 96px);

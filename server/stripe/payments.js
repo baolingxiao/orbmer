@@ -16,6 +16,7 @@ import {
 } from "../order-store.js";
 import { isDatabaseEnabled } from "../db/index.js";
 import { buildEmailDraft, sendEmail } from "../email-service.js";
+import { upsertSubscription } from "../db/membership-repo.js";
 
 function looksLikeRealKey(value) {
   if (!value || /x{4,}|your[_-]?|replace|changeme|example|sk_test_xxx|pk_test_xxx/i.test(value)) {
@@ -311,6 +312,43 @@ export function stripeWebhookHandler({ stripe, webhookSecret }) {
     }
 
     const intent = event.data.object;
+    if (
+      isDatabaseEnabled() &&
+      ["checkout.session.completed", "customer.subscription.created", "customer.subscription.updated", "customer.subscription.deleted"].includes(event.type)
+    ) {
+      try {
+        let subscription = event.data.object;
+        let metadata = subscription.metadata || {};
+        if (event.type === "checkout.session.completed") {
+          const session = event.data.object;
+          if (session.mode !== "subscription" || !session.subscription) {
+            return res.json({ received: true, duplicate: false });
+          }
+          subscription = await stripe.subscriptions.retrieve(session.subscription);
+          metadata = { ...(subscription.metadata || {}), ...(session.metadata || {}) };
+        }
+        const userId = metadata.userId;
+        if (userId) {
+          const item = subscription.items?.data?.[0];
+          await upsertSubscription({
+            userId,
+            tier: metadata.tier || "journal",
+            billingInterval: metadata.billingInterval || (item?.price?.recurring?.interval === "year" ? "yearly" : "monthly"),
+            status: subscription.status || "inactive",
+            stripeCustomerId: String(subscription.customer || ""),
+            stripeSubscriptionId: subscription.id,
+            stripePriceId: item?.price?.id || "",
+            currentPeriodStart: subscription.current_period_start ? new Date(subscription.current_period_start * 1000).toISOString() : null,
+            currentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : null,
+            cancelAtPeriodEnd: Boolean(subscription.cancel_at_period_end),
+          });
+        }
+      } catch (error) {
+        console.warn("[stripe] membership webhook sync failed", error.message);
+      }
+      return res.json({ received: true, duplicate: false });
+    }
+
     const paymentIntentReference =
       event.type === "charge.refunded" ? intent.payment_intent : intent.id;
 

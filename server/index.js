@@ -22,6 +22,7 @@ import { getSiteContent } from "./site-content-store.js";
 import { purgeExpiredDeletions } from "./trash-store.js";
 import { toPublicBrandCard, toPublicBrandDetail } from "./brand-editorial.js";
 import { createCheckoutQuote, listCheckoutCountries } from "./checkout-service.js";
+import { seedMembershipEntitlements } from "./db/membership-repo.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.join(__dirname, "..");
@@ -598,6 +599,7 @@ async function start() {
   let demoSeller = null;
   if (isDatabaseEnabled()) {
     await ensureDatabaseReady();
+    await seedMembershipEntitlements();
     const seeded = await seedProductsIfEmpty();
     const purged = await purgeNonPrintCatalog();
     const imported = await importJsonOrdersIfEmpty();

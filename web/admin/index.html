@@ -90,6 +90,12 @@
           <button class="ops-nav-item" type="button" data-section-target="customers" data-requires-permission="customer.read">
             客户与会员
           </button>
+          <button class="ops-nav-item" type="button" data-section-target="memberships" data-requires-permission="membership.read,customer.read">
+            Memberships
+          </button>
+          <button class="ops-nav-item" type="button" data-section-target="concierge" data-requires-permission="concierge.read">
+            Concierge Requests
+          </button>
           <button class="ops-nav-item" type="button" data-section-target="inventory" data-requires-permission="inventory.read">
             库存
           </button>
@@ -186,6 +192,75 @@
                 </div>
                 <div data-overview-orders></div>
               </section>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="memberships" aria-labelledby="memberships-title" hidden>
+            <div class="section-heading">
+              <div>
+                <h2 id="memberships-title">Memberships</h2>
+                <p>查看客户会员等级、订阅周期和状态。这里是会员权限的后台事实来源，不依赖前端显示。</p>
+              </div>
+            </div>
+            <div class="filter-row">
+              <input data-membership-search placeholder="搜索邮箱" />
+              <select data-membership-tier>
+                <option value="">全部等级</option>
+                <option value="explorer">Explorer</option>
+                <option value="journal">Journal</option>
+                <option value="collector">Collector</option>
+                <option value="black">Black</option>
+              </select>
+              <select data-membership-subscription-status>
+                <option value="">全部状态</option>
+                <option value="active">active</option>
+                <option value="trialing">trialing</option>
+                <option value="inactive">inactive</option>
+                <option value="canceled">canceled</option>
+                <option value="past_due">past_due</option>
+              </select>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead><tr><th>邮箱</th><th>等级</th><th>周期</th><th>订阅状态</th><th>开始</th><th>到期</th><th>计划取消</th><th>操作</th></tr></thead>
+                <tbody data-membership-table></tbody>
+              </table>
+              <div class="empty-state" data-membership-empty hidden><h3>暂无会员</h3><p>注册客户会在这里出现。</p></div>
+            </div>
+          </section>
+
+          <section class="ops-section" data-section="concierge" aria-labelledby="concierge-title" hidden>
+            <div class="section-heading">
+              <div>
+                <h2 id="concierge-title">Concierge Requests</h2>
+                <p>查看 Collector 提交的真人服务申请。第一版只做人工状态管理和内部备注。</p>
+              </div>
+            </div>
+            <div class="filter-row">
+              <select data-concierge-status-filter>
+                <option value="">全部状态</option>
+                <option value="submitted">submitted</option>
+                <option value="reviewing">reviewing</option>
+                <option value="awaiting_customer">awaiting_customer</option>
+                <option value="sourcing">sourcing</option>
+                <option value="completed">completed</option>
+                <option value="declined">declined</option>
+              </select>
+              <select data-concierge-type-filter>
+                <option value="">全部服务类型</option>
+                <option value="styling">穿搭建议</option>
+                <option value="gift">礼物推荐</option>
+                <option value="sourcing">商品寻货</option>
+                <option value="purchasing">采购咨询</option>
+                <option value="other">其他</option>
+              </select>
+            </div>
+            <div class="table-frame">
+              <table>
+                <thead><tr><th>编号</th><th>客户</th><th>类型</th><th>状态</th><th>预算</th><th>国家</th><th>创建时间</th><th>操作</th></tr></thead>
+                <tbody data-concierge-table></tbody>
+              </table>
+              <div class="empty-state" data-concierge-empty hidden><h3>暂无服务申请</h3><p>Collector 会员提交后会出现在这里。</p></div>
             </div>
           </section>
 

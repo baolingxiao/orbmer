@@ -3,6 +3,7 @@ import { createAdminUploader } from "./admin-upload.js";
 import { createAiOptimization } from "./ai/admin-ai.js";
 import { returnPolicyDisplay } from "/shared/js/commerce-display.js";
 import { productTypeFields, serializeDimensions } from "/shared/js/product-specs.js";
+import { CONCIERGE_STATUSES, SERVICE_TYPES, TIER_META } from "/shared/js/membership-data.js";
 
 const state = {
   csrfToken: "",
@@ -21,6 +22,8 @@ const state = {
   media: [],
   team: [],
   customers: [],
+  memberships: [],
+  conciergeRequests: [],
   roles: [],
   siteContent: null,
   activeSection: "overview",
@@ -45,6 +48,8 @@ const sectionMeta = {
   inventory: { kicker: "Commerce", title: "库存" },
   shipping: { kicker: "Commerce", title: "订单" },
   customers: { kicker: "Commerce", title: "客户与会员" },
+  memberships: { kicker: "Commerce", title: "Memberships" },
+  concierge: { kicker: "Commerce", title: "Concierge Requests" },
   content: { kicker: "Content", title: "站点文案" },
   media: { kicker: "Content", title: "媒体库" },
   team: { kicker: "System", title: "团队权限" },
@@ -898,18 +903,105 @@ function renderCustomers() {
   empty.hidden = state.customers.length > 0;
   state.customers.forEach((customer) => {
     const row = element("tr");
-    const membership = customer.membership_status === "member";
-    const action = element("button", { className: "table-action", type: "button", text: membership ? "撤销会员" : "开通会员" });
+    const tier = customer.membership_status === "member" ? "journal" : customer.membership_status === "standard" ? "explorer" : customer.membership_status;
+    const membership = tier !== "explorer";
+    const action = element("button", { className: "table-action", type: "button", text: membership ? "改回 Explorer" : "开通 Journal" });
     action.dataset.customerMembership = customer.id;
-    action.dataset.membershipStatus = membership ? "standard" : "member";
+    action.dataset.membershipStatus = membership ? "explorer" : "journal";
     const status = element("td");
-    status.appendChild(statusBadge(membership ? "会员" : "普通账户", membership ? "is-success" : ""));
+    status.appendChild(statusBadge(tierLabel(tier), membership ? "is-success" : ""));
     const actionCell = element("td");
     if (can("customer.manage")) actionCell.appendChild(action);
     row.append(
       element("td", { text: customer.email }), element("td", { text: customer.display_name || "—" }),
       element("td", { text: customer.auth_provider === "google" ? "Google" : "邮箱" }),
       element("td", { text: formatDate(customer.created_at) }), element("td", { text: formatDate(customer.last_login_at, true) }), status, actionCell
+    );
+    table.appendChild(row);
+  });
+}
+
+function tierLabel(tier) {
+  return TIER_META[tier]?.titleZh || tier || "Explorer";
+}
+
+function serviceTypeLabel(type) {
+  return SERVICE_TYPES[type]?.zh || type || "—";
+}
+
+function conciergeStatusLabel(status) {
+  return CONCIERGE_STATUSES[status]?.zh || status || "—";
+}
+
+function renderMemberships() {
+  const table = document.querySelector("[data-membership-table]");
+  const empty = document.querySelector("[data-membership-empty]");
+  if (!table || !empty) return;
+  clear(table);
+  empty.hidden = state.memberships.length > 0;
+  state.memberships.forEach((membership) => {
+    const row = element("tr");
+    const actionCell = element("td");
+    if (can("membership.manage") || can("customer.manage")) {
+      const select = element("select");
+      select.dataset.membershipTierUpdate = membership.id;
+      ["explorer", "journal", "collector", "black"].forEach((tier) => {
+        const option = element("option", { text: tierLabel(tier) });
+        option.value = tier;
+        option.selected = membership.membership_status === tier;
+        select.appendChild(option);
+      });
+      actionCell.appendChild(select);
+    }
+    row.append(
+      element("td", { text: membership.email }),
+      element("td", { text: tierLabel(membership.membership_status) }),
+      element("td", { text: membership.billing_interval || "none" }),
+      element("td", { text: membership.status || "inactive" }),
+      element("td", { text: formatDate(membership.current_period_start) }),
+      element("td", { text: formatDate(membership.current_period_end) }),
+      element("td", { text: membership.cancel_at_period_end ? "是" : "否" }),
+      actionCell
+    );
+    table.appendChild(row);
+  });
+}
+
+function renderConciergeRequests() {
+  const table = document.querySelector("[data-concierge-table]");
+  const empty = document.querySelector("[data-concierge-empty]");
+  if (!table || !empty) return;
+  clear(table);
+  empty.hidden = state.conciergeRequests.length > 0;
+  state.conciergeRequests.forEach((request) => {
+    const row = element("tr");
+    const actionCell = element("td");
+    if (can("concierge.manage")) {
+      const select = element("select");
+      select.dataset.conciergeStatus = request.id;
+      Object.keys(CONCIERGE_STATUSES).forEach((status) => {
+        const option = element("option", { text: conciergeStatusLabel(status) });
+        option.value = status;
+        option.selected = request.status === status;
+        select.appendChild(option);
+      });
+      const note = element("textarea");
+      note.dataset.conciergeNote = request.id;
+      note.placeholder = "内部备注";
+      note.value = request.internal_notes || "";
+      const save = element("button", { className: "table-action", type: "button", text: "保存" });
+      save.dataset.conciergeSave = request.id;
+      actionCell.append(select, note, save);
+    }
+    row.append(
+      element("td", { text: request.request_number }),
+      element("td", { text: request.email }),
+      element("td", { text: serviceTypeLabel(request.service_type) }),
+      element("td", { text: conciergeStatusLabel(request.status) }),
+      element("td", { text: request.budget || "—" }),
+      element("td", { text: request.country || "—" }),
+      element("td", { text: formatDate(request.created_at, true) }),
+      actionCell
     );
     table.appendChild(row);
   });
@@ -922,6 +1014,8 @@ function renderAll() {
   renderShipping();
   renderAudit();
   renderCustomers();
+  renderMemberships();
+  renderConciergeRequests();
   window.__orbmareAdminPlatform?.renderPlatform?.();
 }
 
@@ -959,6 +1053,21 @@ async function loadData({ quiet = false } = {}) {
     }
     if (can("customer.read")) {
       tasks.push(api("/customers").then((data) => { state.customers = data.customers || []; }));
+    }
+    if (can("membership.read") || can("customer.read")) {
+      const params = new URLSearchParams({
+        search: document.querySelector("[data-membership-search]")?.value || "",
+        tier: document.querySelector("[data-membership-tier]")?.value || "",
+        status: document.querySelector("[data-membership-subscription-status]")?.value || "",
+      });
+      tasks.push(api(`/memberships?${params}`).then((data) => { state.memberships = data.memberships || []; }));
+    }
+    if (can("concierge.read")) {
+      const params = new URLSearchParams({
+        status: document.querySelector("[data-concierge-status-filter]")?.value || "",
+        serviceType: document.querySelector("[data-concierge-type-filter]")?.value || "",
+      });
+      tasks.push(api(`/concierge-requests?${params}`).then((data) => { state.conciergeRequests = data.requests || []; }));
     }
     await Promise.allSettled(tasks);
     if (window.__orbmareAdminPlatform?.loadPlatformData) {
@@ -1463,6 +1572,17 @@ document
   .querySelector("[data-shipping-status-filter]")
   ?.addEventListener("change", renderShipping);
 
+[
+  "[data-membership-search]",
+  "[data-membership-tier]",
+  "[data-membership-subscription-status]",
+  "[data-concierge-status-filter]",
+  "[data-concierge-type-filter]",
+].forEach((selector) => {
+  document.querySelector(selector)?.addEventListener("input", () => loadData({ quiet: true }));
+  document.querySelector(selector)?.addEventListener("change", () => loadData({ quiet: true }));
+});
+
 document.querySelector("[data-new-product]")?.addEventListener("click", () => {
   openProductDialog();
 });
@@ -1557,13 +1677,45 @@ document.addEventListener("click", async (event) => {
   const membershipButton = event.target.closest("[data-customer-membership]");
   if (membershipButton) {
     const status = membershipButton.dataset.membershipStatus;
-    const label = status === "member" ? "开通" : "撤销";
+    const label = status === "journal" ? "开通 Journal" : "改回 Explorer";
     if (!confirm(`确认${label}该客户的会员资格？`)) return;
     try {
       await api(`/customers/${encodeURIComponent(membershipButton.dataset.customerMembership)}/membership`, { method: "PUT", body: { status } });
-      showToast(status === "member" ? "会员已开通。" : "会员资格已撤销。");
+      showToast("会员资格已更新。");
       await loadData({ quiet: true });
     } catch (error) { showToast(error.message, true); }
+  }
+  const conciergeSave = event.target.closest("[data-concierge-save]");
+  if (conciergeSave) {
+    const id = conciergeSave.dataset.conciergeSave;
+    try {
+      await api(`/concierge-requests/${encodeURIComponent(id)}`, {
+        method: "PATCH",
+        body: {
+          status: document.querySelector(`[data-concierge-status="${CSS.escape(id)}"]`)?.value,
+          internalNotes: document.querySelector(`[data-concierge-note="${CSS.escape(id)}"]`)?.value,
+        },
+      });
+      showToast("服务申请已更新。");
+      await loadData({ quiet: true });
+    } catch (error) {
+      showToast(error.message, true);
+    }
+  }
+});
+
+document.querySelector("[data-membership-table]")?.addEventListener("change", async (event) => {
+  const select = event.target.closest("[data-membership-tier-update]");
+  if (!select) return;
+  try {
+    await api(`/memberships/${encodeURIComponent(select.dataset.membershipTierUpdate)}/tier`, {
+      method: "PUT",
+      body: { tier: select.value },
+    });
+    showToast("会员等级已更新。");
+    await loadData({ quiet: true });
+  } catch (error) {
+    showToast(error.message, true);
   }
 });
 
