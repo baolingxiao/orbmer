@@ -805,7 +805,8 @@ export async function updateManagedInventory(id, input) {
 }
 
 export async function getProductForCheckout(id) {
-  return getManagedProduct(id);
+  const product = await getManagedProduct(id);
+  return product && isEditorialChannel(product) ? product : null;
 }
 
 export async function renderPublicCatalogModule() {

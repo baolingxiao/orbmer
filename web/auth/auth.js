@@ -3,11 +3,16 @@ const guestView = document.querySelector("[data-guest-view]");
 const buyerView = document.querySelector("[data-buyer-view]");
 const adminView = document.querySelector("[data-admin-view]");
 
-function showGoogleResult() {
+function showGoogleResult(googleAvailable = null) {
   const result = new URLSearchParams(location.search).get("google");
-  if (!result || result === "success") return;
+  if (!result) return;
   const message = document.querySelector("[data-google-message]");
   if (!message) return;
+  if (result === "success" || (result === "unavailable" && googleAvailable === true)) {
+    message.hidden = true;
+    history.replaceState({}, "", "/auth/");
+    return;
+  }
   const messages = {
     cancelled: "已取消 Google 登录。",
     state_error: "登录验证已过期，请重新尝试。",
@@ -154,10 +159,10 @@ document.querySelector("[data-link-orders]")?.addEventListener("click", async ()
 });
 
 async function boot() {
-  showGoogleResult();
   try {
     const session = await api("/session");
     if (!session.configured) return;
+    showGoogleResult(session.googleSignInAvailable);
     const googleLink = document.querySelector("[data-google-sign-in]");
     if (googleLink && session.googleSignInAvailable === false) {
       googleLink.hidden = true;
@@ -168,6 +173,7 @@ async function boot() {
       await loadOrders();
     }
   } catch (err) {
+    showGoogleResult();
     console.error(err);
   }
 }

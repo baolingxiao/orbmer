@@ -30,6 +30,7 @@ const {
   STRIPE_SECRET_KEY = "",
   STRIPE_PUBLISHABLE_KEY = "",
   STRIPE_WEBHOOK_SECRET = "",
+  CHECKOUT_ENABLED = "false",
   PUBLIC_BASE_URL = "",
   PORT = "4242",
   NODE_ENV = "development",
@@ -44,6 +45,25 @@ const app = express();
 app.disable("x-powered-by");
 // Trust reverse proxy (nginx TLS) so req.protocol / cookies work on orbmare.com
 app.set("trust proxy", 1);
+
+app.use((req, res, next) => {
+  if (NODE_ENV !== "production") return next();
+  let canonicalHost = "";
+  try {
+    canonicalHost = new URL(PUBLIC_BASE_URL).hostname.toLowerCase();
+  } catch {
+    return next();
+  }
+  const requestHost = String(req.headers.host || "").split(":")[0].toLowerCase();
+  if (
+    canonicalHost &&
+    !canonicalHost.startsWith("www.") &&
+    requestHost === `www.${canonicalHost}`
+  ) {
+    return res.redirect(308, `https://${canonicalHost}${req.originalUrl}`);
+  }
+  return next();
+});
 
 function resolveAdminBasePath(value) {
   const candidate = String(value || "").trim() || (NODE_ENV === "production" ? "" : "/ops-preview");
@@ -83,6 +103,7 @@ const {
   publishableKey: STRIPE_PUBLISHABLE_KEY,
   webhookSecret: STRIPE_WEBHOOK_SECRET,
   nodeEnvironment: NODE_ENV,
+  checkoutEnabled: CHECKOUT_ENABLED,
 });
 
 // Stripe webhook needs raw body — before JSON parser
@@ -525,7 +546,7 @@ app.use("/admin", (_req, res) => res.status(404).send("Not found"));
 // intentionally not a consumer-facing Orbmare route or checkout destination.
 app.use("/shop", (_req, res) => res.redirect(302, "/discover/"));
 app.get("/product/shop.html", (_req, res) => res.redirect(302, "/discover/"));
-app.get(["/checkout", "/checkout/", "/checkout.html"], (_req, res) => res.redirect(302, "/membership/"));
+app.get("/checkout.html", (_req, res) => res.redirect(302, "/checkout/"));
 
 // Frontend modules
 app.use(express.static(webRoot));

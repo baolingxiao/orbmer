@@ -60,6 +60,32 @@ body {
   font-weight: 600;
 }
 
+.checkout-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.checkout-lang {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 76px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.checkout-lang span {
+  padding: 0.55rem 0.65rem;
+}
+
+.checkout-lang span:first-child {
+  border-right: 1px solid var(--line);
+}
+
 .checkout-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);

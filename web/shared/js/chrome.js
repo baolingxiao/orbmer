@@ -98,7 +98,7 @@ function renderBagDrawer() {
   }
 
   if (actions) {
-    actions.innerHTML = `<a class="btn" href="/membership/">${t("cart.inquire", lang)}</a>
+    actions.innerHTML = `<a class="btn" href="/checkout/">${t("cart.checkout", lang)}</a>
       <a class="btn btn-ghost" href="/discover/" data-close-bag>${t("cart.continue", lang)}</a>`;
   }
 

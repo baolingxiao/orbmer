@@ -124,3 +124,11 @@ jobs:
             "\$PM2_BIN" status printnova
           fi
           REMOTE
+
+      - name: Public authentication smoke check
+        run: |
+          set -euo pipefail
+          SESSION_JSON="$(curl -fsS https://orbmare.com/auth/api/session)"
+          if ! printf '%s' "$SESSION_JSON" | grep -q '"googleSignInAvailable":true'; then
+            echo "::warning::Production Google sign-in is not configured. Check GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and PUBLIC_BASE_URL in the server .env, then restart PM2 with --update-env."
+          fi

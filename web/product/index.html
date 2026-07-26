@@ -125,7 +125,6 @@
                 <p class="price">${escapeHtml(p.priceLabel)}</p>
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   <button class="btn" type="button" data-add-bag data-i18n="pdp.add">${t("pdp.add", lang)}</button>
-                  <a class="btn btn-ghost" href="/membership/" data-i18n="pdp.inquire">${t("pdp.inquire", lang)}</a>
                 </div>
                 <p style="margin-top:14px;font-size:13px;color:var(--muted)" data-i18n="cart.note.curated">${t("cart.note.curated", lang)}</p>
               </div>
@@ -208,8 +207,8 @@
             name: loc(p, "name", getLang()),
             price: p.price,
             image: p.image,
-            variantLabel: "Curated",
-            variantId: "curated",
+            variantLabel: "Standard",
+            variantId: "standard",
             qty: 1,
             maxQty: 3,
           });

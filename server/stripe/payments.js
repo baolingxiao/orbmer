@@ -51,7 +51,8 @@ export async function resolveTrustedItems(requestedItems) {
     const variants = product.variants?.length
       ? product.variants
       : [{ id: "standard", label: "Standard", price: product.price }];
-    const variant = variants.find((entry) => entry.id === requested.variantId) || variants[0];
+    const variant = variants.find((entry) => entry.id === requested.variantId);
+    if (!variant) throw new Error(`Invalid option for ${product.id}`);
     const unitAmountCents = Math.round(Number(variant.price) * 100);
     if (!Number.isInteger(unitAmountCents) || unitAmountCents < 50) {
       throw new Error(`Invalid server price for ${product.id}`);
@@ -61,6 +62,9 @@ export async function resolveTrustedItems(requestedItems) {
       productId: product.id,
       variantId: variant.id,
       variantLabel: variant.label,
+      nameEn: product.en?.name || product.zh?.name || product.id,
+      nameZh: product.zh?.name || product.en?.name || product.id,
+      image: product.image || "",
       name: product.en?.name || product.zh?.name || product.id,
       qty,
       unitAmountCents,
@@ -74,6 +78,9 @@ export async function resolveTrustedItems(requestedItems) {
         cancellationDeadline: product.cancellationDeadline,
         finalSale: product.finalSale,
         dutiesTreatment: product.dutiesTreatment,
+        sourceType: product.sourceType,
+        processingTime: product.processingTime,
+        internationalShippingTime: product.internationalShippingTime,
       },
     });
   }
@@ -136,14 +143,22 @@ export function createStripeRouter({
   publishableKey,
   webhookSecret,
   nodeEnvironment = "development",
+  checkoutEnabled = "false",
 }) {
   const router = express.Router();
   const configured = looksLikeRealKey(secretKey) && looksLikeRealKey(publishableKey);
   const isLive = String(secretKey || "").startsWith("sk_live_");
   const isProduction = nodeEnvironment === "production";
-  // Production remains blocked until the JSON draft store is replaced by the
-  // durable database and secure operations controls in the migration plan.
-  const paymentsEnabled = configured && !isProduction;
+  const publishableIsLive = String(publishableKey || "").startsWith("pk_live_");
+  const webhookConfigured = looksLikeRealKey(webhookSecret);
+  const operatorEnabled = String(checkoutEnabled || "").toLowerCase() === "true";
+  const keyModeMatches = isLive === publishableIsLive && (isProduction ? isLive : !isLive);
+  const paymentsEnabled =
+    configured &&
+    operatorEnabled &&
+    webhookConfigured &&
+    isDatabaseEnabled() &&
+    keyModeMatches;
   const stripe = configured ? new Stripe(secretKey, { apiVersion: "2026-06-24.dahlia" }) : null;
 
   router.get("/config", (_req, res) => {
@@ -157,10 +172,24 @@ export function createStripeRouter({
       policyVersions: POLICY_VERSIONS,
       disabledReason: paymentsEnabled
         ? null
-        : isProduction
-          ? "Production checkout is blocked until the approved database and operations controls are implemented."
-          : "Checkout is unavailable until Stripe test configuration is complete.",
+        : "Secure payment is not enabled for this environment. Order review remains available.",
     });
+  });
+
+  router.post("/preview", async (req, res) => {
+    try {
+      const trustedItems = await resolveTrustedItems(req.body?.items);
+      return res.json({
+        ok: true,
+        items: trustedItems,
+        totals: calculateTotals(trustedItems),
+      });
+    } catch (error) {
+      return res.status(400).json({
+        ok: false,
+        error: error.message || "Order review failed.",
+      });
+    }
   });
 
   router.post("/create-payment-intent", async (req, res) => {
