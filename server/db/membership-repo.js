@@ -172,7 +172,7 @@ export async function setManualMembership(userId, tier, operatorId = null) {
     `UPDATE users
      SET membership_status = $2,
          membership_granted_at = CASE WHEN $2 <> 'explorer' THEN now() ELSE NULL END,
-         membership_granted_by = CASE WHEN $2 <> 'explorer' THEN $3 ELSE NULL END,
+         membership_granted_by = CASE WHEN $2 <> 'explorer' THEN $3::uuid ELSE NULL END,
          updated_at = now()
      WHERE id = $1 AND role = 'buyer'`,
     [userId, normalizedTier, operatorId]
