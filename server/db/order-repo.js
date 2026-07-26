@@ -40,12 +40,12 @@ export async function createPendingOrder({
     id: `OM-${Date.now()}-${randomUUID().slice(0, 6).toUpperCase()}`,
     createdAt: now,
     updatedAt: now,
-    status: "request_received",
+    status: "PAYMENT_PENDING",
     statusHistory: [
       {
-        status: "request_received",
+        status: "PAYMENT_PENDING",
         at: now,
-        note: "Server received the sourcing request and consent record.",
+        note: "Server created an order from a server-side checkout quote.",
       },
     ],
     currency: "USD",
@@ -61,6 +61,12 @@ export async function createPendingOrder({
       id: `consent_${randomUUID()}`,
       acceptedAt: now,
       policyVersions: consent.policyVersions,
+      policyVersion: consent.policyVersion,
+      policyLocale: consent.policyLocale || language,
+      policySnapshot: consent.policySnapshot || null,
+      orderTermsSnapshot: consent.orderTermsSnapshot || null,
+      dutiesAcknowledged: Boolean(consent.dutiesAcknowledged),
+      finalSaleAcknowledged: Boolean(consent.finalSaleAcknowledged),
       itemPolicies: items.map((item) => ({
         productId: item.productId,
         variantId: item.variantId,
@@ -249,13 +255,13 @@ export async function applyPaymentEvent({ eventType, paymentIntentId }) {
 
   const now = new Date().toISOString();
   if (eventType === "payment_intent.succeeded") {
-    order.status = "payment_authorized_or_paid";
+    order.status = "PAID";
     order.payment.status = "succeeded";
     order.statusHistory = Array.isArray(order.statusHistory) ? order.statusHistory : [];
     order.statusHistory.push({
       status: order.status,
       at: now,
-      note: "Stripe confirmed payment; supplier availability is not yet confirmed.",
+      note: "Stripe confirmed payment; order is ready for procurement review.",
     });
     await updateOrderRecord(order.id, (entry) => {
       Object.assign(entry, order);
@@ -273,10 +279,10 @@ export async function applyPaymentEvent({ eventType, paymentIntentId }) {
   }
 
   if (eventType === "payment_intent.canceled") {
-    order.status = "cancelled";
+    order.status = "CANCELLED";
     order.payment.status = "cancelled";
     await updateOrderRecord(order.id, (entry) => {
-      entry.status = "cancelled";
+      entry.status = "CANCELLED";
       entry.payment.status = "cancelled";
     });
     await releaseReservedStock(order.id);
@@ -284,10 +290,10 @@ export async function applyPaymentEvent({ eventType, paymentIntentId }) {
   }
 
   if (eventType === "charge.refunded") {
-    order.status = "refunded";
+    order.status = "REFUNDED";
     order.payment.status = "refunded";
     await updateOrderRecord(order.id, (entry) => {
-      entry.status = "refunded";
+      entry.status = "REFUNDED";
       entry.payment.status = "refunded";
     });
     return { matched: true, orderId: order.id, action: "refunded" };

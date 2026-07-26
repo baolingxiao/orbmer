@@ -1,6 +1,12 @@
 import Stripe from "stripe";
 import { PRODUCT_POLICY_VERSION } from "../../web/shared/js/catalog.js";
-import { getProductForCheckout } from "../product-store.js";
+import { POLICY_VERSIONS, resolveTrustedItems } from "../checkout-products.js";
+import {
+  buildConsentSnapshot,
+  createCheckoutQuote,
+  getStoredQuote,
+  listCheckoutCountries,
+} from "../checkout-service.js";
 import {
   attachPaymentIntent,
   createPendingOrder,
@@ -9,16 +15,6 @@ import {
   publicOrder,
 } from "../order-store.js";
 import { isDatabaseEnabled } from "../db/index.js";
-
-export const POLICY_VERSIONS = Object.freeze({
-  terms: "terms-2026-07-23",
-  purchasingService: "purchasing-service-2026-07-23",
-  privacy: "privacy-2026-07-23",
-  shipping: "shipping-2026-07-23",
-  returns: "returns-2026-07-23",
-  customs: "customs-2026-07-23",
-  productPolicy: PRODUCT_POLICY_VERSION,
-});
 
 function looksLikeRealKey(value) {
   if (!value || /x{4,}|your[_-]?|replace|changeme|example|sk_test_xxx|pk_test_xxx/i.test(value)) {
@@ -29,62 +25,6 @@ function looksLikeRealKey(value) {
 
 function asText(value, max = 200) {
   return String(value || "").trim().slice(0, max);
-}
-
-export async function resolveTrustedItems(requestedItems) {
-  if (!Array.isArray(requestedItems) || requestedItems.length === 0 || requestedItems.length > 30) {
-    throw new Error("Cart must contain between 1 and 30 items.");
-  }
-
-  const resolved = [];
-  for (const requested of requestedItems) {
-    const product = await getProductForCheckout(requested.productId);
-    if (!product) throw new Error(`Unavailable product: ${asText(requested.productId, 60)}`);
-    if (!product.isPurchasable) throw new Error(`Product is not available: ${product.id}`);
-
-    const qty = Number(requested.qty);
-    const maximum = Math.max(1, Math.min(1000, Number(product.maxQty || 20)));
-    if (!Number.isInteger(qty) || qty < 1 || qty > maximum) {
-      throw new Error(`Invalid quantity for ${product.id}`);
-    }
-
-    const variants = product.variants?.length
-      ? product.variants
-      : [{ id: "standard", label: "Standard", price: product.price }];
-    const variant = variants.find((entry) => entry.id === requested.variantId);
-    if (!variant) throw new Error(`Invalid option for ${product.id}`);
-    const unitAmountCents = Math.round(Number(variant.price) * 100);
-    if (!Number.isInteger(unitAmountCents) || unitAmountCents < 50) {
-      throw new Error(`Invalid server price for ${product.id}`);
-    }
-
-    resolved.push({
-      productId: product.id,
-      variantId: variant.id,
-      variantLabel: variant.label,
-      nameEn: product.en?.name || product.zh?.name || product.id,
-      nameZh: product.zh?.name || product.en?.name || product.id,
-      image: product.image || "",
-      name: product.en?.name || product.zh?.name || product.id,
-      qty,
-      unitAmountCents,
-      lineAmountCents: unitAmountCents * qty,
-      policy: {
-        policyVersion: product.policyVersion,
-        fulfillmentLabels: product.fulfillmentLabels,
-        sourceCountry: product.sourceCountry,
-        returnWindowDays: product.returnWindowDays,
-        returnEligible: product.returnEligible,
-        cancellationDeadline: product.cancellationDeadline,
-        finalSale: product.finalSale,
-        dutiesTreatment: product.dutiesTreatment,
-        sourceType: product.sourceType,
-        processingTime: product.processingTime,
-        internationalShippingTime: product.internationalShippingTime,
-      },
-    });
-  }
-  return resolved;
 }
 
 export function calculateTotals(items) {
@@ -106,32 +46,39 @@ export function calculateTotals(items) {
 function validateCheckoutInput(body) {
   const shipping = body.shipping || {};
   const customer = body.customer || {};
-  if (shipping.country !== "US") throw new Error("Initial launch supports United States delivery addresses only.");
-  for (const key of ["name", "line1", "city", "region", "postal"]) {
-    if (!asText(shipping[key])) throw new Error(`Missing shipping field: ${key}`);
+  const country = asText(shipping.country, 2).toUpperCase();
+  if (!country) throw new Error("Missing shipping country.");
+  for (const key of ["fullName", "addressLine1", "city", "postalCode"]) {
+    if (!asText(shipping[key] ?? shipping[key.replace("addressLine", "line")])) {
+      throw new Error(`Missing shipping field: ${key}`);
+    }
   }
   if (!asText(customer.email) || !asText(customer.email).includes("@")) {
     throw new Error("A valid customer email is required.");
   }
-  if (body.consent?.accepted !== true) throw new Error("Required policy consent was not provided.");
-  if (body.consent?.sourcingAccepted !== true) {
-    throw new Error("Order-specific sourcing acknowledgement was not provided.");
-  }
+  if (body.consent?.accepted !== true) throw new Error("Required order acknowledgement was not provided.");
 
   return {
     customer: {
       email: asText(customer.email, 254),
-      name: asText(shipping.name, 120),
-      phone: asText(customer.phone, 40),
+      name: asText(shipping.fullName ?? shipping.name, 120),
+      phone: asText(customer.phone ?? shipping.phone, 40),
     },
     shipping: {
-      name: asText(shipping.name, 120),
-      line1: asText(shipping.line1, 160),
-      line2: asText(shipping.line2, 160),
+      name: asText(shipping.fullName ?? shipping.name, 120),
+      fullName: asText(shipping.fullName ?? shipping.name, 120),
+      company: asText(shipping.company, 120),
+      line1: asText(shipping.addressLine1 ?? shipping.line1, 160),
+      line2: asText(shipping.addressLine2 ?? shipping.line2, 160),
+      addressLine1: asText(shipping.addressLine1 ?? shipping.line1, 160),
+      addressLine2: asText(shipping.addressLine2 ?? shipping.line2, 160),
       city: asText(shipping.city, 100),
-      region: asText(shipping.region, 40),
-      postal: asText(shipping.postal, 20),
-      country: "US",
+      region: asText(shipping.stateProvinceRegion ?? shipping.region, 100),
+      stateProvinceRegion: asText(shipping.stateProvinceRegion ?? shipping.region, 100),
+      postal: asText(shipping.postalCode ?? shipping.postal, 32),
+      postalCode: asText(shipping.postalCode ?? shipping.postal, 32),
+      phone: asText(shipping.phone ?? customer.phone, 40),
+      country,
     },
     language: body.language === "zh" ? "zh" : "en",
   };
@@ -168,6 +115,7 @@ export function createStripeRouter({
       publishableKey: paymentsEnabled ? publishableKey : null,
       environment: isLive ? "live" : configured ? "test" : "unconfigured",
       currency: "USD",
+      countries: listCheckoutCountries(),
       demoMode: false,
       policyVersions: POLICY_VERSIONS,
       disabledReason: paymentsEnabled
@@ -179,10 +127,17 @@ export function createStripeRouter({
   router.post("/preview", async (req, res) => {
     try {
       const trustedItems = await resolveTrustedItems(req.body?.items);
+      const quote = await createCheckoutQuote({
+        items: req.body?.items,
+        destinationAddress: req.body?.destinationAddress || { country: "US" },
+        locale: req.body?.locale || req.body?.language,
+        stripeTaxConfigured: false,
+      });
       return res.json({
         ok: true,
         items: trustedItems,
         totals: calculateTotals(trustedItems),
+        quote: quote.ok ? quote : null,
       });
     } catch (error) {
       return res.status(400).json({
@@ -201,16 +156,54 @@ export function createStripeRouter({
         });
       }
 
-      const trustedItems = await resolveTrustedItems(req.body?.items);
       const input = validateCheckoutInput(req.body || {});
-      const totals = calculateTotals(trustedItems);
+      const quote = getStoredQuote(req.body?.quoteId);
+      if (!quote) throw new Error("Quote expired. Review the order again before paying.");
+      const requote = await createCheckoutQuote({
+        items: req.body?.items,
+        destinationAddress: input.shipping,
+        selectedShippingMethod: quote.selectedShippingMethod,
+        locale: input.language,
+        currency: quote.currency,
+        stripeTaxConfigured: Boolean(stripe),
+      });
+      if (!requote.ok) throw new Error(requote.error || "Quote could not be refreshed.");
+      if (requote.amountDueNow !== quote.amountDueNow) {
+        return res.status(409).json({
+          ok: false,
+          code: "PRICE_CHANGED",
+          error: "The order total changed. Review the updated quote before paying.",
+          quote: requote,
+        });
+      }
+      const trustedItems = requote.lineItems;
+      const totals = {
+        merchandiseCents: requote.subtotal,
+        serviceFeeCents: requote.serviceFee,
+        shippingCents: requote.shipping,
+        taxCents: requote.tax,
+        dutyCents: requote.duty,
+        importTaxCents: requote.importTax,
+        customsFeeCents: requote.customsFee,
+        dueNowCents: requote.amountDueNow,
+        amountPotentiallyDueOnDelivery: requote.amountPotentiallyDueOnDelivery,
+        quoteId: requote.quoteId,
+        quoteExpiresAt: requote.quoteExpiresAt,
+        importCharges: requote.landedCost.disclaimer,
+        serviceFeeDisclosure: "Orbmare sourcing compensation is included in listed item prices.",
+      };
+      const consentSnapshot = buildConsentSnapshot({
+        quote: requote,
+        locale: input.language,
+        accepted: req.body?.consent?.accepted,
+      });
       const order = await createPendingOrder({
         items: trustedItems,
         totals,
         customer: input.customer,
         shipping: input.shipping,
         language: input.language,
-        consent: { policyVersions: POLICY_VERSIONS },
+        consent: consentSnapshot,
       });
 
       let intent;
@@ -218,15 +211,17 @@ export function createStripeRouter({
         intent = await stripe.paymentIntents.create(
           {
             amount: totals.dueNowCents,
-            currency: "usd",
+            currency: String(requote.currency || "USD").toLowerCase(),
             automatic_payment_methods: { enabled: true },
             receipt_email: input.customer.email,
             description: `Orbmare sourcing order ${order.id}`,
             metadata: {
               orderId: order.id,
+              quoteId: requote.quoteId,
               itemIds: trustedItems.map((item) => item.productId).join(",").slice(0, 450),
               quantities: trustedItems.map((item) => String(item.qty)).join(",").slice(0, 450),
               policyVersion: PRODUCT_POLICY_VERSION,
+              orderTermsVersion: consentSnapshot.policyVersion,
               consentRecordId: order.consent.id,
             },
             shipping: {
@@ -238,7 +233,7 @@ export function createStripeRouter({
                 city: input.shipping.city,
                 state: input.shipping.region,
                 postal_code: input.shipping.postal,
-                country: "US",
+                country: input.shipping.country,
               },
             },
           },
@@ -317,20 +312,20 @@ export function stripeWebhookHandler({ stripe, webhookSecret }) {
             );
             if (!order) return;
             if (event.type === "payment_intent.succeeded") {
-              order.status = "payment_authorized_or_paid";
+              order.status = "PAID";
               order.payment.status = "succeeded";
               order.statusHistory.push({
                 status: order.status,
                 at: new Date().toISOString(),
-                note: "Stripe confirmed payment; supplier availability is not yet confirmed.",
+                note: "Stripe confirmed payment; order is ready for procurement review.",
               });
             } else if (event.type === "payment_intent.payment_failed") {
               order.payment.status = "failed";
             } else if (event.type === "payment_intent.canceled") {
-              order.status = "cancelled";
+              order.status = "CANCELLED";
               order.payment.status = "cancelled";
             } else if (event.type === "charge.refunded") {
-              order.status = "refunded";
+              order.status = "REFUNDED";
               order.payment.status = "refunded";
             }
             order.updatedAt = new Date().toISOString();

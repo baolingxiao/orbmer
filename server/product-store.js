@@ -191,6 +191,44 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function checkoutDefaults(product, channel, collection) {
+  const existing = product?.checkout || {};
+  const origin =
+    existing.originCountry ||
+    product?.sourceCountry ||
+    product?.shipping?.originCountry ||
+    (collection === "japan" ? "Japan" : collection === "italy" ? "Italy" : "China");
+  const inventoryMode = product?.inventory?.mode || "source_after_order";
+  const madeToOrder = existing.madeToOrder ?? inventoryMode !== "stocked";
+  const returnPolicyType =
+    existing.returnPolicyType ||
+    (existing.customizedProduct ? "CUSTOMIZED" : madeToOrder ? "MADE_TO_ORDER" : "STANDARD");
+  return {
+    originCountry: asText(existing.originCountry ?? origin, 80, "Origin country"),
+    supplierProcessingDaysMin: asInteger(existing.supplierProcessingDaysMin ?? 3, "Supplier processing days min", { min: 0, max: 365 }),
+    supplierProcessingDaysMax: asInteger(existing.supplierProcessingDaysMax ?? 10, "Supplier processing days max", { min: 0, max: 365 }),
+    procurementDaysMin: asInteger(existing.procurementDaysMin ?? 2, "Procurement days min", { min: 0, max: 365 }),
+    procurementDaysMax: asInteger(existing.procurementDaysMax ?? 5, "Procurement days max", { min: 0, max: 365 }),
+    madeToOrder: Boolean(madeToOrder),
+    customizedProduct: Boolean(existing.customizedProduct ?? false),
+    finalSale: Boolean(existing.finalSale ?? returnPolicyType !== "STANDARD"),
+    returnPolicyType,
+    hsCode: asText(existing.hsCode ?? "6214.10", 32, "HS code"),
+    stripeTaxCode: asText(existing.stripeTaxCode ?? "txcd_99999999", 80, "Stripe tax code"),
+    weightGrams: asInteger(existing.weightGrams ?? (channel === "editorial" ? 250 : 500), "Weight grams", { min: 1, max: 100000 }),
+    lengthCm: asInteger(existing.lengthCm ?? 24, "Length cm", { min: 1, max: 10000 }),
+    widthCm: asInteger(existing.widthCm ?? 18, "Width cm", { min: 1, max: 10000 }),
+    heightCm: asInteger(existing.heightCm ?? 3, "Height cm", { min: 1, max: 10000 }),
+    declaredValueCents: asInteger(existing.declaredValueCents ?? Math.round(Number(product?.price || 0) * 100), "Declared value cents", { min: 0, max: 100000000 }),
+    inventoryStatus: asText(existing.inventoryStatus ?? (inventoryMode === "stocked" ? "STOCKED" : "SOURCE_AFTER_ORDER"), 40, "Inventory status"),
+    shippingRestrictions: Array.isArray(existing.shippingRestrictions) ? existing.shippingRestrictions.map((entry) => asText(entry, 40, "Shipping restriction")).filter(Boolean) : [],
+    dangerousGoods: Boolean(existing.dangerousGoods ?? false),
+    materialComposition: asText(existing.materialComposition ?? product?.material ?? "", 240, "Material composition"),
+    supplierId: asText(existing.supplierId ?? "", 80, "Supplier ID"),
+    fulfillmentProfileId: asText(existing.fulfillmentProfileId ?? product?.shipping?.profile ?? "cross_border_standard", 80, "Fulfillment profile ID"),
+  };
+}
+
 function seedRecord(product, now) {
   const inventoryMode = product.inventory?.mode || "source_after_order";
   const channel = productChannel({ ...product, channel: product.channel || "shop" });
@@ -219,6 +257,7 @@ function seedRecord(product, now) {
         product.internationalShippingTime ||
         "Details pending verification",
     },
+    checkout: checkoutDefaults(product, channel, product.collection),
     revision: Number(product.revision || 1),
     createdAt: product.createdAt || now,
     updatedAt: product.updatedAt || now,
@@ -551,6 +590,7 @@ function normalizeProductInput(input, existing = null) {
       processingTime,
       internationalShippingTime,
     },
+    checkout: checkoutDefaults({ ...existing, ...input, price, inventory: { mode: inventoryMode }, shipping: { profile: shippingInput.profile ?? previousShipping.profile ?? "cross_border_standard" } }, channel, collection),
     sourceCountry: originCountry,
     processingTime,
     internationalShippingTime,

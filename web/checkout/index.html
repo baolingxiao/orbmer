@@ -7,49 +7,101 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/shared/css/editorial.css?v=15">
-  <link rel="stylesheet" href="/checkout/checkout.css?v=slogan1">
+  <link rel="stylesheet" href="/checkout/checkout.css?v=international1">
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 <header class="checkout-top">
   <a class="platform-brand" href="/"><span class="platform-brand-text"><strong data-checkout-brand-primary>傲马</strong><em data-checkout-brand-secondary>Orbmare</em></span></a>
   <div class="checkout-top-actions">
-    <div class="trust-strip"><span data-ck="trustDelivery">US delivery only</span><span data-ck="trustStripe">Card data handled by Stripe</span><span>USD</span></div>
+    <div class="trust-strip"><span data-ck="trustDelivery">International delivery quoted by country</span><span data-ck="trustStripe">Card data handled by Stripe</span><span>USD</span></div>
     <button class="checkout-lang" type="button" data-checkout-lang aria-label="Switch language"><span>中</span><span>EN</span></button>
   </div>
 </header>
 <main class="checkout-layout">
   <section class="checkout-main">
-    <p class="checkout-kicker" data-ck="kicker">Order-specific sourcing</p>
-    <p class="brand-slogan" data-ck="slogan">We curate the world’s finest materials, craftsmanship, and design.</p>
+    <p class="checkout-kicker" data-ck="kicker">傲马</p>
+    <p class="brand-slogan" data-ck="slogan">Discover the world's finest objects.</p>
     <h1 data-ck="title">Review and pay</h1>
-    <p class="lede" data-ck="lede">Payment starts the sourcing review. Supplier availability is not confirmed until Orbmare sends an explicit acceptance or purchasing update.</p>
+    <p class="lede" data-ck="lede">Your order enters procurement review after payment. Before paying, you can review estimated costs and delivery timing.</p>
+    <p class="quote-status" id="quoteStatus" role="status" data-ck="countriesLoading">Loading available countries.</p>
+
     <form id="checkoutForm" class="checkout-form" novalidate>
-      <fieldset><legend data-ck="contact">Contact</legend>
+      <fieldset>
+        <legend data-ck="checkoutIntro">Checkout notes</legend>
+        <p class="section-note" data-ck="lede">Your order enters procurement review after payment. We arrange sourcing and transport based on item origin, supplier readiness, and destination. Before paying, you can review estimated costs and delivery timing.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend data-ck="contact">Contact</legend>
         <label><span data-ck="email">Email</span><input name="email" type="email" required autocomplete="email"></label>
-        <label><span><span data-ck="phone">Phone</span> <span class="optional" data-ck="optional">(optional)</span></span><input name="phone" type="tel" autocomplete="tel"></label>
+        <label><span><span data-ck="phone">Phone</span> <span class="optional" data-ck="optional">optional</span></span><input name="phone" type="tel" autocomplete="tel"></label>
       </fieldset>
-      <fieldset><legend data-ck="delivery">United States delivery address</legend>
-        <div class="grid-2"><label><span data-ck="name">Full name</span><input name="name" type="text" required autocomplete="name"></label><label><span data-ck="country">Country</span><select name="country" required><option value="US" data-ck="unitedStates">United States</option></select></label></div>
-        <label><span data-ck="address1">Address line 1</span><input name="line1" type="text" required autocomplete="address-line1"></label>
-        <label><span><span data-ck="address2">Address line 2</span> <span class="optional" data-ck="optional">(optional)</span></span><input name="line2" type="text" autocomplete="address-line2"></label>
-        <div class="grid-3"><label><span data-ck="city">City</span><input name="city" type="text" required autocomplete="address-level2"></label><label><span data-ck="state">State</span><input name="region" type="text" required autocomplete="address-level1"></label><label><span data-ck="zip">ZIP code</span><input name="postal" type="text" required autocomplete="postal-code"></label></div>
+
+      <fieldset>
+        <legend data-ck="delivery">Delivery address</legend>
+        <div class="grid-2">
+          <label><span data-ck="country">Country / region</span><select name="country" required autocomplete="country"></select></label>
+          <label><span data-ck="fullName">Full name</span><input name="fullName" type="text" required autocomplete="name"></label>
+        </div>
+        <label><span><span data-ck="company">Company</span> <span class="optional" data-ck="optional">optional</span></span><input name="company" type="text" autocomplete="organization"></label>
+        <label><span data-ck="address1">Address line 1</span><input name="addressLine1" type="text" required autocomplete="address-line1"></label>
+        <label><span><span data-ck="address2">Address line 2</span> <span class="optional" data-ck="optional">optional</span></span><input name="addressLine2" type="text" autocomplete="address-line2"></label>
+        <div class="grid-3">
+          <label><span data-ck="city">City</span><input name="city" type="text" required autocomplete="address-level2"></label>
+          <label><span data-region-label data-ck="region">State / province / region</span><input name="stateProvinceRegion" type="text" autocomplete="address-level1"></label>
+          <label><span data-postal-label data-ck="postal">Postal code</span><input name="postalCode" type="text" required autocomplete="postal-code"></label>
+        </div>
       </fieldset>
-      <fieldset><legend data-ck="termsTitle">Order-specific terms</legend>
+
+      <fieldset>
+        <legend data-ck="deliveryMethod">Delivery method</legend>
+        <div id="shippingMethods" class="shipping-methods"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-ck="estimateTitle">Estimated fulfillment</legend>
+        <dl id="fulfillmentStages" class="fulfillment-stages"></dl>
+      </fieldset>
+
+      <fieldset>
+        <legend data-ck="termsTitle">Order-specific terms</legend>
         <div id="checkoutPolicies" class="checkout-policies"></div>
-        <label class="consent-row"><input id="policyConsent" name="policyConsent" type="checkbox" required><span data-ck-html="policyConsent">I have reviewed and agree to the <a href="/legal/terms.html" target="_blank">Terms of Service</a>, <a href="/legal/purchasing-service.html" target="_blank">Purchasing Service Agreement</a>, <a href="/legal/privacy.html" target="_blank">Privacy Policy</a>, and the item-specific shipping, cancellation, return, and final-sale terms shown for this order.</span></label>
-        <label class="consent-row"><input id="sourcingConsent" name="sourcingConsent" type="checkbox" required><span data-ck="sourcingConsent">I understand that Orbmare will source these items specifically for my order and that cancellation may no longer be available once purchasing begins.</span></label>
       </fieldset>
-      <fieldset class="pay-fieldset"><legend data-ck="securePayment">Secure payment</legend><p class="pay-note" id="stripeStatus" data-ck="checkingPayment">Checking payment availability...</p><div id="payment-element"></div></fieldset>
+
+      <fieldset>
+        <legend data-ck="acknowledgementTitle">Policy acknowledgement</legend>
+        <label class="consent-row"><input id="orderAcknowledgement" name="orderAcknowledgement" type="checkbox" required><span data-ck="acknowledgePrefix">I confirm:</span></label>
+      </fieldset>
+
+      <fieldset class="pay-fieldset">
+        <legend data-ck="paymentTitle">Stripe secure payment</legend>
+        <p class="pay-note" id="stripeStatus" data-ck="checkingPayment">Checking payment availability.</p>
+        <div id="payment-element"></div>
+      </fieldset>
+
       <button class="pay-btn" id="payBtn" type="submit" disabled data-ck="continuePayment">Continue to secure payment</button>
       <p class="form-error" id="formError" role="alert" hidden></p>
     </form>
   </section>
+
   <aside class="checkout-summary" aria-label="Order summary">
-    <h2 data-ck="summary">Order summary</h2><div id="summaryItems" class="summary-items"></div>
-    <dl class="totals"><div><dt data-ck="merchandise">Merchandise</dt><dd id="summarySubtotal">$0.00</dd></div><div><dt data-ck="serviceFee">Orbmare service fee</dt><dd id="summaryService" data-ck="serviceIncluded">Included in item prices</dd></div><div><dt data-ck="shipping">Shipping</dt><dd id="summaryShipping" data-ck="pendingVerification">Pending server verification</dd></div><div><dt data-ck="taxes">Taxes collected now</dt><dd id="summaryTax">$0.00</dd></div><div><dt data-ck="importCharges">Import charges</dt><dd id="summaryDuties" data-ck="importSeparate">May be charged separately</dd></div><div class="total-row"><dt data-ck="total">Total due now</dt><dd id="summaryTotal">$0.00</dd></div></dl>
-    <p class="summary-disclosure" data-ck="serverVerification">The server verifies product prices and calculates the final amount before Stripe loads. No simulated payment is available.</p>
-    <nav class="checkout-links"><a href="/legal/shipping.html" data-ck="shipping">Shipping</a><a href="/legal/returns.html" data-ck="returnsLink">Returns</a><a href="/legal/customs.html" data-ck="customs">Customs</a><a href="/legal/contact.html" data-ck="contactLink">Contact</a></nav>
+    <h2 data-ck="orderSummary">Order summary</h2>
+    <div id="summaryItems" class="summary-items"></div>
+    <dl class="totals">
+      <div><dt data-ck="merchandise">Merchandise</dt><dd id="summarySubtotal">$0.00</dd></div>
+      <div><dt data-ck="serviceFee">Procurement and service fee</dt><dd id="summaryService" data-ck="serviceIncluded">Included in item prices</dd></div>
+      <div><dt data-ck="shipping">Shipping</dt><dd id="summaryShipping">$0.00</dd></div>
+      <div><dt data-ck="tax">Sales tax / VAT / GST</dt><dd id="summaryTax">$0.00</dd></div>
+      <div><dt data-ck="duty">Estimated import duty</dt><dd id="summaryDuty">$0.00</dd></div>
+      <div><dt data-ck="customsFee">Customs or handling fee</dt><dd id="summaryCustoms">$0.00</dd></div>
+      <div><dt data-ck="discount">Discount</dt><dd id="summaryDiscount">$0.00</dd></div>
+      <div class="total-row"><dt data-ck="dueNow">Total due now</dt><dd id="summaryTotal">$0.00</dd></div>
+      <div><dt data-ck="deliveryDate">Estimated delivery</dt><dd id="summaryDelivery">—</dd></div>
+      <div><dt data-ck="costStatus">Tax and import-cost status</dt><dd id="summaryStatus">—</dd></div>
+      <div><dt data-ck="dueOnDelivery">Estimated due on delivery</dt><dd id="summaryDeliveryDue">$0.00</dd></div>
+    </dl>
+    <nav class="checkout-links"><a href="/legal/shipping.html" data-ck="linkShipping">Shipping</a><a href="/legal/returns.html" data-ck="links.returns">Returns</a><a href="/legal/customs.html" data-ck="links.customs">Customs</a><a href="/legal/contact.html" data-ck="links.contact">Contact</a></nav>
     <a class="back-shop" href="/discover/" data-ck="backDiscover">Back to Discover</a>
   </aside>
 </main>

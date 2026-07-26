@@ -21,6 +21,7 @@ import { getPublishedContent, listContent } from "./content-store.js";
 import { getSiteContent } from "./site-content-store.js";
 import { purgeExpiredDeletions } from "./trash-store.js";
 import { toPublicBrandCard, toPublicBrandDetail } from "./brand-editorial.js";
+import { createCheckoutQuote, listCheckoutCountries } from "./checkout-service.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.join(__dirname, "..");
@@ -115,6 +116,33 @@ app.post(
 
 app.use(express.json({ limit: "256kb" }));
 app.use("/api/stripe", apiCors, stripeRouter);
+
+app.get("/api/checkout/countries", apiCors, (_req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  res.json({ ok: true, countries: listCheckoutCountries() });
+});
+
+app.post("/api/checkout/quote", apiCors, async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  try {
+    const quote = await createCheckoutQuote({
+      items: req.body?.items,
+      destinationAddress: req.body?.destinationAddress,
+      selectedShippingMethod: req.body?.selectedShippingMethod,
+      locale: req.body?.locale,
+      currency: req.body?.currency,
+      stripeTaxConfigured: false,
+    });
+    if (!quote.ok) return res.status(400).json(quote);
+    return res.json(quote);
+  } catch (error) {
+    return res.status(400).json({
+      ok: false,
+      code: "QUOTE_FAILED",
+      error: error.message || "Checkout quote could not be created.",
+    });
+  }
+});
 
 let adminHostRouter = null;
 const adminHost = String(ADMIN_HOST || "")

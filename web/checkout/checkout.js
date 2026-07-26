@@ -9,176 +9,184 @@ const formError = document.querySelector("#formError");
 const stripeStatus = document.querySelector("#stripeStatus");
 const paymentRoot = document.querySelector("#payment-element");
 const policyRoot = document.querySelector("#checkoutPolicies");
-
-const staticCopy = {
-  zh: {
-    trustDelivery: "仅配送美国",
-    trustStripe: "银行卡信息由 Stripe 安全处理",
-    kicker: "按订单采购",
-    slogan: "我们甄选世界最好的材料、工艺与设计。",
-    title: "核对并支付",
-    lede: "付款后傲马将开始确认供货；在收到明确的采购更新前，供应商库存仍未最终确认。",
-    contact: "联系方式",
-    email: "邮箱",
-    phone: "电话",
-    optional: "（选填）",
-    delivery: "美国配送地址",
-    name: "姓名",
-    country: "国家",
-    unitedStates: "美国",
-    address1: "地址第一行",
-    address2: "地址第二行",
-    city: "城市",
-    state: "州",
-    zip: "邮编",
-    termsTitle: "本订单条款",
-    policyConsent:
-      '我已阅读并同意<a href="/legal/terms.html" target="_blank">服务条款</a>、<a href="/legal/purchasing-service.html" target="_blank">采购服务协议</a>、<a href="/legal/privacy.html" target="_blank">隐私政策</a>，以及本订单所示的配送、取消、退货与最终销售条款。',
-    sourcingConsent: "我理解傲马会为本订单采购这些作品；采购开始后，订单可能无法取消。",
-    securePayment: "安全支付",
-    checkingPayment: "正在检查支付可用性…",
-    continuePayment: "继续安全支付",
-    summary: "订单摘要",
-    merchandise: "商品",
-    serviceFee: "傲马服务费",
-    serviceIncluded: "已包含在商品价格中",
-    shipping: "配送",
-    pendingVerification: "等待服务器确认",
-    taxes: "当前收取税费",
-    importCharges: "进口费用",
-    importSeparate: "可能在交付时另行收取",
-    total: "当前应付总额",
-    serverVerification: "Stripe 载入前，服务器会重新核验商品与最终金额。本站不提供模拟支付。",
-    returnsLink: "退货",
-    customs: "关税",
-    contactLink: "联系",
-    backDiscover: "返回发现",
-  },
-  en: {
-    trustDelivery: "US delivery only",
-    trustStripe: "Card data handled by Stripe",
-    kicker: "Order-specific sourcing",
-    slogan: "We curate the world’s finest materials, craftsmanship, and design.",
-    title: "Review and pay",
-    lede:
-      "Payment starts sourcing review. Supplier availability is not final until Orbmare sends a purchasing update.",
-    contact: "Contact",
-    email: "Email",
-    phone: "Phone",
-    optional: "(optional)",
-    delivery: "United States delivery address",
-    name: "Full name",
-    country: "Country",
-    unitedStates: "United States",
-    address1: "Address line 1",
-    address2: "Address line 2",
-    city: "City",
-    state: "State",
-    zip: "ZIP code",
-    termsTitle: "Order-specific terms",
-    policyConsent:
-      'I have reviewed and agree to the <a href="/legal/terms.html" target="_blank">Terms of Service</a>, <a href="/legal/purchasing-service.html" target="_blank">Purchasing Service Agreement</a>, <a href="/legal/privacy.html" target="_blank">Privacy Policy</a>, and the item-specific terms shown for this order.',
-    sourcingConsent:
-      "I understand Orbmare will source these pieces for my order and cancellation may end once purchasing begins.",
-    securePayment: "Secure payment",
-    checkingPayment: "Checking payment availability…",
-    continuePayment: "Continue to secure payment",
-    summary: "Order summary",
-    merchandise: "Merchandise",
-    serviceFee: "Orbmare service fee",
-    serviceIncluded: "Included in item prices",
-    shipping: "Shipping",
-    pendingVerification: "Pending server verification",
-    taxes: "Taxes collected now",
-    importCharges: "Import charges",
-    importSeparate: "May be charged separately",
-    total: "Total due now",
-    serverVerification:
-      "The server verifies products and the final amount before Stripe loads. No simulated payment is available.",
-    returnsLink: "Returns",
-    customs: "Customs",
-    contactLink: "Contact",
-    backDiscover: "Back to Discover",
-  },
-}[lang];
+const summaryItems = document.querySelector("#summaryItems");
+const quoteStatus = document.querySelector("#quoteStatus");
+const stageRoot = document.querySelector("#fulfillmentStages");
+const shippingMethods = document.querySelector("#shippingMethods");
 
 const copy = {
   zh: {
-    unavailable: "安全支付尚未在当前环境启用。你仍可核对订单信息。",
-    loading: "正在载入安全支付…",
+    trustDelivery: "国际配送按国家报价",
+    trustStripe: "银行卡信息由 Stripe 安全处理",
+    kicker: "Orbmare",
+    slogan: "探索世界最好的作品。",
+    title: "核对并支付",
+    lede: "您的订单将在付款后进入采购确认流程。我们会根据商品来源、供应商备货情况和配送目的地安排采购与运输。付款前，您可以查看预计费用与送达时间。",
+    checkoutIntro: "结账说明",
+    contact: "联系方式",
+    email: "邮箱",
+    phone: "电话",
+    optional: "选填",
+    delivery: "配送地址",
+    fullName: "姓名",
+    company: "公司",
+    country: "国家/地区",
+    address1: "地址第一行",
+    address2: "地址第二行",
+    city: "城市",
+    region: "州/省/地区",
+    postal: "邮编",
+    deliveryMethod: "配送方式",
+    estimateTitle: "预计履约时间",
+    termsTitle: "本订单特殊条款",
+    acknowledgementTitle: "政策确认",
+    paymentTitle: "Stripe 安全支付",
+    checkingPayment: "正在检查支付可用性。",
+    continuePayment: "继续安全支付",
+    orderSummary: "订单摘要",
+    merchandise: "商品小计",
+    serviceFee: "采购与服务费",
+    serviceIncluded: "已包含在商品价格中",
+    shipping: "配送费用",
+    linkShipping: "配送",
+    tax: "销售税、增值税或商品服务税",
+    duty: "预计进口关税",
+    customsFee: "清关或处理费",
+    discount: "优惠",
+    dueNow: "当前应付总额",
+    deliveryDate: "预计送达日期",
+    costStatus: "税费和进口费用状态",
+    dueOnDelivery: "预计到货时支付",
+    countriesLoading: "正在载入可配送国家。",
+    quoteLoading: "正在计算订单报价。",
+    quoteReady: "报价已更新。",
+    unsupported: "当前国家暂未开放配送。",
+    incomplete: "填写完整地址后将更新税费与配送。",
+    invalidPostal: "邮编格式需要按所选国家填写。",
+    unavailable: "Stripe 安全支付暂不可用。请稍后再试或联系傲马。",
+    devUnavailable: "当前环境未启用 Stripe 付款。订单不会被模拟创建。",
     ready: "安全支付已准备好。",
     payNow: "立即支付",
-    processing: "正在处理…",
-    required: "请完整填写联系人与美国配送地址。",
-    consent: "请确认两项订单条款。",
+    processing: "正在处理",
+    required: "请完整填写联系人与配送地址。",
+    consent: "请先确认订单政策。",
     reviewFailed: "无法核对当前订单。",
     paymentFailed: "支付无法继续。",
     standard: "标准",
     qty: "数量",
-    returnsYes: "支持退货",
-    returnsNo: "不支持退货",
-    returnsPending: "退货规则待确认",
-    finalYes: "最终销售",
-    finalNo: "非最终销售",
-    finalPending: "最终销售状态待确认",
     source: "来源",
-    processingLabel: "备货",
-    transit: "国际运输",
-    cancellation: "取消",
-    returns: "退货",
-    sale: "销售状态",
-    duties: "进口费用",
-    confirmAtCheckout: "结账时确认",
-    importMessage: "结账时不收取；可能在交付时另行征收。",
+    orderType: "订单类型",
+    madeToOrder: "按需采购",
+    limited: "限量调货",
+    custom: "定制制作",
+    stocked: "现货商品",
+    finalSale: "最终销售",
+    returnPolicy: "退货规则",
+    included: "已包含",
+    estimated: "预计金额",
+    payOnDelivery: "到货时支付",
+    notApplicable: "不适用",
+    waitingAddress: "等待完整地址",
+    procurement: "采购确认",
+    supplier: "供应商备货",
+    shippingCustoms: "国际运输及清关",
+    buffer: "履约缓冲",
+    days: "个工作日",
+    acknowledgePrefix: "我确认：",
+    backDiscover: "返回发现",
+    links: { shipping: "配送", returns: "退货", customs: "税费", contact: "联系" },
   },
   en: {
-    unavailable: "Secure payment is not enabled for this environment. You can still review the order.",
-    loading: "Loading secure payment…",
+    trustDelivery: "International delivery quoted by country",
+    trustStripe: "Card data handled by Stripe",
+    kicker: "傲马",
+    slogan: "Discover the world's finest objects.",
+    title: "Review and pay",
+    lede: "Your order enters procurement review after payment. We arrange sourcing and transport based on item origin, supplier readiness, and destination. Before paying, you can review estimated costs and delivery timing.",
+    checkoutIntro: "Checkout notes",
+    contact: "Contact",
+    email: "Email",
+    phone: "Phone",
+    optional: "optional",
+    delivery: "Delivery address",
+    fullName: "Full name",
+    company: "Company",
+    country: "Country / region",
+    address1: "Address line 1",
+    address2: "Address line 2",
+    city: "City",
+    region: "State / province / region",
+    postal: "Postal code",
+    deliveryMethod: "Delivery method",
+    estimateTitle: "Estimated fulfillment",
+    termsTitle: "Order-specific terms",
+    acknowledgementTitle: "Policy acknowledgement",
+    paymentTitle: "Stripe secure payment",
+    checkingPayment: "Checking payment availability.",
+    continuePayment: "Continue to secure payment",
+    orderSummary: "Order summary",
+    merchandise: "Merchandise",
+    serviceFee: "Procurement and service fee",
+    serviceIncluded: "Included in item prices",
+    shipping: "Shipping",
+    linkShipping: "Shipping",
+    tax: "Sales tax / VAT / GST",
+    duty: "Estimated import duty",
+    customsFee: "Customs or handling fee",
+    discount: "Discount",
+    dueNow: "Total due now",
+    deliveryDate: "Estimated delivery",
+    costStatus: "Tax and import-cost status",
+    dueOnDelivery: "Estimated due on delivery",
+    countriesLoading: "Loading available countries.",
+    quoteLoading: "Calculating order quote.",
+    quoteReady: "Quote updated.",
+    unsupported: "This destination is not currently available.",
+    incomplete: "Taxes and shipping update after the full address is entered.",
+    invalidPostal: "Postal code does not match the selected country.",
+    unavailable: "Stripe secure payment is unavailable. Please try later or contact Orbmare.",
+    devUnavailable: "Stripe payment is not enabled in this environment. No simulated order will be created.",
     ready: "Secure payment is ready.",
     payNow: "Pay now",
-    processing: "Processing…",
-    required: "Complete all required contact and United States delivery fields.",
-    consent: "Both order acknowledgements are required.",
+    processing: "Processing",
+    required: "Complete the contact and delivery address.",
+    consent: "Confirm the order policy first.",
     reviewFailed: "Unable to review this order.",
     paymentFailed: "Payment could not continue.",
     standard: "Standard",
     qty: "Qty",
-    returnsYes: "Return eligible",
-    returnsNo: "Not return eligible",
-    returnsPending: "Return eligibility pending",
-    finalYes: "Final sale",
-    finalNo: "Not final sale",
-    finalPending: "Final-sale status pending",
-    source: "Source",
-    processingLabel: "Processing",
-    transit: "International transit",
-    cancellation: "Cancellation",
-    returns: "Returns",
-    sale: "Sale status",
-    duties: "Import charges",
-    confirmAtCheckout: "Confirm at checkout",
-    importMessage: "Not collected at checkout; charges may be assessed separately on delivery.",
+    source: "Origin",
+    orderType: "Order type",
+    madeToOrder: "On-demand sourcing",
+    limited: "Limited allocation",
+    custom: "Custom production",
+    stocked: "In stock",
+    finalSale: "Final sale",
+    returnPolicy: "Return policy",
+    included: "Included",
+    estimated: "Estimated",
+    payOnDelivery: "Pay on delivery",
+    notApplicable: "Not applicable",
+    waitingAddress: "Waiting for full address",
+    procurement: "Procurement confirmation",
+    supplier: "Supplier processing",
+    shippingCustoms: "International shipping and customs",
+    buffer: "Fulfillment buffer",
+    days: "business days",
+    acknowledgePrefix: "I confirm:",
+    backDiscover: "Back to Discover",
+    links: { shipping: "Shipping", returns: "Returns", customs: "Customs", contact: "Contact" },
   },
 }[lang];
 
 document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
 document.title = lang === "zh" ? "结账 | 傲马 Orbmare" : "Checkout | Orbmare 傲马";
 document.querySelectorAll("[data-ck]").forEach((node) => {
-  const value = staticCopy[node.dataset.ck];
+  const value = node.dataset.ck.split(".").reduce((current, key) => current?.[key], copy);
   if (value) node.textContent = value;
 });
-document.querySelectorAll("[data-ck-html]").forEach((node) => {
-  const value = staticCopy[node.dataset.ckHtml];
-  if (value) node.innerHTML = value;
-});
-document.querySelector(".checkout-summary")?.setAttribute(
-  "aria-label",
-  lang === "zh" ? "订单摘要" : "Order summary"
-);
-document.querySelector("[data-checkout-brand-primary]").textContent =
-  lang === "zh" ? "傲马" : "Orbmare";
-document.querySelector("[data-checkout-brand-secondary]").textContent =
-  lang === "zh" ? "Orbmare" : "傲马";
+document.querySelector("[data-checkout-brand-primary]").textContent = lang === "zh" ? "傲马" : "Orbmare";
+document.querySelector("[data-checkout-brand-secondary]").textContent = lang === "zh" ? "Orbmare" : "傲马";
 document.querySelector("[data-checkout-lang]")?.addEventListener("click", () => {
   localStorage.setItem(LANG_KEY, lang === "zh" ? "en" : "zh");
   location.reload();
@@ -193,16 +201,28 @@ const requestedItems = cartLines.map((line) => ({
   qty: Math.max(1, Math.min(20, Number(line.qty) || 1)),
 }));
 
-let items = [];
+let countries = [];
+let currentQuote = null;
+let stripeConfig = null;
 let stripe;
 let elements;
 let securePaymentReady = false;
+let quoteTimer = null;
 
-const money = (cents) =>
+const money = (amount, currency = "USD") =>
   new Intl.NumberFormat(lang === "zh" ? "zh-CN" : "en-US", {
     style: "currency",
-    currency: "USD",
-  }).format(Number(cents || 0) / 100);
+    currency,
+  }).format(Number(amount || 0) / 100);
+
+const regionNames = new Intl.DisplayNames([lang === "zh" ? "zh-CN" : "en"], { type: "region" });
+
+function countryName(value) {
+  const map = { China: "CN", Japan: "JP", Italy: "IT", "United States": "US" };
+  const code = map[value] || value;
+  if (/^[A-Z]{2}$/.test(String(code))) return regionNames.of(code) || code;
+  return value || "";
+}
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -217,44 +237,54 @@ function showError(message) {
   formError.textContent = message || "";
 }
 
+function setStatus(message, mode = "") {
+  quoteStatus.textContent = message || "";
+  quoteStatus.dataset.mode = mode;
+}
+
+function readAddress() {
+  const data = new FormData(form);
+  return {
+    country: String(data.get("country") || "US").trim().toUpperCase(),
+    fullName: String(data.get("fullName") || "").trim(),
+    company: String(data.get("company") || "").trim(),
+    addressLine1: String(data.get("addressLine1") || "").trim(),
+    addressLine2: String(data.get("addressLine2") || "").trim(),
+    city: String(data.get("city") || "").trim(),
+    stateProvinceRegion: String(data.get("stateProvinceRegion") || "").trim(),
+    postalCode: String(data.get("postalCode") || "").trim(),
+    phone: String(data.get("phone") || "").trim(),
+  };
+}
+
 function readInput() {
   const data = new FormData(form);
+  const address = readAddress();
   return {
     customer: {
       email: String(data.get("email") || "").trim(),
-      phone: String(data.get("phone") || "").trim(),
+      phone: address.phone,
     },
-    shipping: {
-      name: String(data.get("name") || "").trim(),
-      country: "US",
-      line1: String(data.get("line1") || "").trim(),
-      line2: String(data.get("line2") || "").trim(),
-      city: String(data.get("city") || "").trim(),
-      region: String(data.get("region") || "").trim(),
-      postal: String(data.get("postal") || "").trim(),
-    },
+    shipping: address,
   };
+}
+
+function selectedCountry() {
+  const address = readAddress();
+  return countries.find((entry) => entry.countryCode === address.country);
 }
 
 function validateInput() {
   const input = readInput();
-  if (
-    !input.customer.email ||
-    !input.customer.email.includes("@") ||
-    !input.shipping.name ||
-    !input.shipping.line1 ||
-    !input.shipping.city ||
-    !input.shipping.region ||
-    !input.shipping.postal
-  ) {
-    throw new Error(copy.required);
+  const rule = selectedCountry();
+  const required = rule?.addressRequirements?.required || [];
+  if (!input.customer.email || !input.customer.email.includes("@")) throw new Error(copy.required);
+  for (const field of required) {
+    if (!input.shipping[field]) throw new Error(copy.required);
   }
-  if (
-    !document.querySelector("#policyConsent").checked ||
-    !document.querySelector("#sourcingConsent").checked
-  ) {
-    throw new Error(copy.consent);
-  }
+  if (!document.querySelector("#orderAcknowledgement").checked) throw new Error(copy.consent);
+  if (!currentQuote?.quoteId) throw new Error(copy.reviewFailed);
+  if (currentQuote.addressValidation?.postalValid === false) throw new Error(copy.invalidPostal);
   return input;
 }
 
@@ -266,7 +296,9 @@ async function postJson(path, body) {
   });
   const result = await response.json().catch(() => ({}));
   if (!response.ok || !result.ok) {
-    throw new Error(result.error || copy.reviewFailed);
+    const error = new Error(result.error || copy.reviewFailed);
+    error.payload = result;
+    throw error;
   }
   return result;
 }
@@ -277,27 +309,187 @@ async function loadConfig() {
   return response.json();
 }
 
-async function initializePayment() {
-  const config = await loadConfig();
-  if (!config.paymentsEnabled || !config.publishableKey) {
-    stripeStatus.textContent = copy.unavailable;
-    paymentRoot.innerHTML = `<div class="checkout-disabled">${escapeHtml(copy.unavailable)}</div>`;
-    payBtn.disabled = true;
-    return;
+function renderCountries() {
+  const select = form.elements.country;
+  select.innerHTML = countries
+    .map((entry) => {
+      const label = new Intl.DisplayNames([lang === "zh" ? "zh-CN" : "en"], { type: "region" }).of(entry.countryCode);
+      return `<option value="${entry.countryCode}" ${entry.enabled ? "" : "disabled"}>${escapeHtml(label || entry.countryCode)}</option>`;
+    })
+    .join("");
+}
+
+function updateAddressLabels() {
+  const rule = selectedCountry();
+  const region = rule?.addressRequirements?.regionLabel?.[lang] || copy.region;
+  const postal = rule?.addressRequirements?.postalLabel?.[lang] || copy.postal;
+  document.querySelector("[data-region-label]").textContent = region;
+  document.querySelector("[data-postal-label]").textContent = postal;
+}
+
+function renderLineItems(items = [], currency = "USD") {
+  summaryItems.innerHTML = items
+    .map((item) => {
+      const name = lang === "zh" ? item.nameZh : item.nameEn;
+      const meta = item.policy || {};
+      const orderType = meta.customizedProduct
+        ? copy.custom
+        : meta.inventoryStatus === "STOCKED"
+          ? copy.stocked
+          : meta.madeToOrder
+            ? copy.madeToOrder
+            : copy.limited;
+      return `<div class="summary-row">
+        <img src="${escapeHtml(item.image)}" alt="">
+        <div>
+          <strong>${escapeHtml(name)}</strong>
+          <span>${escapeHtml(item.variantLabel === "Standard" ? copy.standard : item.variantLabel || copy.standard)} · ${copy.qty} ${item.qty}</span>
+          <small>${escapeHtml(copy.source)}: ${escapeHtml(countryName(meta.originCountry || meta.sourceCountry || ""))} · ${escapeHtml(orderType)}</small>
+        </div>
+        <em>${money(item.lineAmountCents, currency)}</em>
+      </div>`;
+    })
+    .join("");
+}
+
+function statusText(status) {
+  if (status === "INCLUDED") return copy.included;
+  if (status === "ESTIMATED") return copy.estimated;
+  if (status === "PAY_ON_DELIVERY") return copy.payOnDelivery;
+  if (status === "NOT_APPLICABLE") return copy.notApplicable;
+  if (status === "PENDING_ADDRESS" || status === "PENDING_PROVIDER") return copy.waitingAddress;
+  return status || copy.estimated;
+}
+
+function renderTotals(quote) {
+  const currency = quote.currency || "USD";
+  document.querySelector("#summarySubtotal").textContent = money(quote.subtotal, currency);
+  document.querySelector("#summaryService").textContent = quote.serviceFee ? money(quote.serviceFee, currency) : copy.serviceIncluded;
+  document.querySelector("#summaryShipping").textContent = money(quote.shipping, currency);
+  document.querySelector("#summaryTax").textContent = quote.taxQuote?.status === "PENDING_ADDRESS" ? copy.waitingAddress : money(quote.tax, currency);
+  document.querySelector("#summaryDuty").textContent = money(quote.duty, currency);
+  document.querySelector("#summaryCustoms").textContent = money(quote.customsFee + quote.importTax, currency);
+  document.querySelector("#summaryDiscount").textContent = quote.discount ? `-${money(quote.discount, currency)}` : money(0, currency);
+  document.querySelector("#summaryTotal").textContent = money(quote.amountDueNow, currency);
+  document.querySelector("#summaryDelivery").textContent = `${quote.fulfillmentEstimate.estimatedStartDate} – ${quote.fulfillmentEstimate.estimatedEndDate}`;
+  document.querySelector("#summaryStatus").textContent = `${statusText(quote.taxQuote?.status)} · ${statusText(quote.landedCost?.status)}`;
+  document.querySelector("#summaryDeliveryDue").textContent = money(quote.amountPotentiallyDueOnDelivery, currency);
+}
+
+function renderShipping(quote) {
+  const shipping = quote.shippingQuote;
+  shippingMethods.innerHTML = `<label class="method-row">
+    <input type="radio" name="shippingMethod" value="${escapeHtml(shipping.serviceCode)}" checked>
+    <span><strong>${escapeHtml(shipping.serviceName)}</strong><small>${shipping.estimatedTransitDaysMin}-${shipping.estimatedTransitDaysMax} ${copy.days} · ${escapeHtml(shipping.source)}</small></span>
+    <em>${money(shipping.shippingFee, quote.currency)}</em>
+  </label>`;
+}
+
+function renderStages(quote) {
+  const labels = {
+    procurement: copy.procurement,
+    supplier_processing: copy.supplier,
+    shipping_customs: copy.shippingCustoms,
+    buffer: copy.buffer,
+  };
+  stageRoot.innerHTML = quote.fulfillmentEstimate.stageBreakdown
+    .map((stage) => `<div><dt>${escapeHtml(labels[stage.id] || stage.id)}</dt><dd>${stage.daysMin}-${stage.daysMax} ${copy.days}</dd></div>`)
+    .join("");
+}
+
+function renderPolicies(quote) {
+  const policies = quote.policies || {};
+  policyRoot.innerHTML = `<article class="policy-block">
+    <h3>${escapeHtml(copy.termsTitle)}</h3>
+    <p>${escapeHtml(policies.policyText || "")}</p>
+    <dl>
+      <div><dt>Incoterm</dt><dd>${escapeHtml(quote.countryRule.incoterm)}</dd></div>
+      <div><dt>${escapeHtml(copy.returnPolicy)}</dt><dd>${escapeHtml((policies.returnPolicyTypes || []).join(", "))}</dd></div>
+      <div><dt>${escapeHtml(copy.costStatus)}</dt><dd>${escapeHtml(statusText(quote.landedCost?.status))}</dd></div>
+    </dl>
+  </article>
+  <article class="policy-confirm">
+    <h3>${escapeHtml(copy.acknowledgePrefix)}</h3>
+    <ul>${(policies.acknowledgement || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+  </article>`;
+}
+
+function renderQuote(quote) {
+  currentQuote = quote;
+  renderLineItems(quote.lineItems, quote.currency);
+  renderTotals(quote);
+  renderShipping(quote);
+  renderStages(quote);
+  renderPolicies(quote);
+  if (quote.addressValidation?.postalValid === false) {
+    setStatus(copy.invalidPostal, "warn");
+  } else if (quote.addressValidation?.complete === false) {
+    setStatus(copy.incomplete, "warn");
+  } else {
+    setStatus(copy.quoteReady, "ok");
   }
-  if (!window.Stripe) throw new Error(copy.unavailable);
-  stripe = window.Stripe(config.publishableKey);
-  stripeStatus.textContent = copy.ready;
-  payBtn.disabled = false;
+  securePaymentReady = false;
+  elements = null;
+  paymentRoot.innerHTML = "";
+  payBtn.textContent = copy.continuePayment;
+  payBtn.disabled = !stripeConfig?.paymentsEnabled;
+}
+
+async function refreshQuote() {
+  setStatus(copy.quoteLoading);
+  try {
+    const quote = await postJson("/api/checkout/quote", {
+      items: requestedItems,
+      destinationAddress: readAddress(),
+      selectedShippingMethod: form.elements.shippingMethod?.value || "",
+      locale: lang,
+      currency: "USD",
+    });
+    renderQuote(quote);
+  } catch (error) {
+    currentQuote = null;
+    const code = error.payload?.code;
+    if (code === "UNSUPPORTED_COUNTRY" || code === "SHIPPING_UNAVAILABLE") {
+      setStatus(copy.unsupported, "error");
+    } else {
+      setStatus(error.message || copy.reviewFailed, "error");
+    }
+    payBtn.disabled = true;
+  }
+}
+
+function scheduleQuote() {
+  clearTimeout(quoteTimer);
+  quoteTimer = setTimeout(refreshQuote, 320);
+}
+
+async function initializePayment() {
+  stripeConfig = await loadConfig();
+  countries = stripeConfig.countries || [];
+  renderCountries();
+  updateAddressLabels();
+  if (!stripeConfig.paymentsEnabled || !stripeConfig.publishableKey) {
+    stripeStatus.textContent = stripeConfig.environment === "unconfigured" ? copy.unavailable : copy.devUnavailable;
+    paymentRoot.innerHTML = `<div class="checkout-disabled">${escapeHtml(stripeStatus.textContent)}</div>`;
+    payBtn.disabled = true;
+  } else if (window.Stripe) {
+    stripe = window.Stripe(stripeConfig.publishableKey);
+    stripeStatus.textContent = copy.ready;
+  } else {
+    stripeStatus.textContent = copy.unavailable;
+    payBtn.disabled = true;
+  }
+  await refreshQuote();
 }
 
 async function createSecurePayment(input) {
   const result = await postJson("/api/stripe/create-payment-intent", {
+    quoteId: currentQuote.quoteId,
     items: requestedItems,
     customer: input.customer,
     shipping: input.shipping,
     language: lang,
-    consent: { accepted: true, sourcingAccepted: true },
+    consent: { accepted: true },
   });
 
   elements = stripe.elements({
@@ -308,7 +500,7 @@ async function createSecurePayment(input) {
         colorPrimary: "#141414",
         colorBackground: "#ffffff",
         colorText: "#141414",
-        colorTextSecondary: "#6e6e6e",
+        colorTextSecondary: "#707070",
         colorDanger: "#8b3329",
         borderRadius: "0px",
       },
@@ -316,87 +508,16 @@ async function createSecurePayment(input) {
   });
   elements.create("payment").mount(paymentRoot);
   securePaymentReady = true;
-  renderTotals(result.totals);
   stripeStatus.textContent = copy.ready;
-  payBtn.textContent = `${copy.payNow} ${money(result.totals.dueNowCents)}`;
+  payBtn.textContent = `${copy.payNow} ${money(result.totals.dueNowCents, currentQuote.currency)}`;
 }
 
-function renderTotals(totals) {
-  document.querySelector("#summarySubtotal").textContent = money(totals.merchandiseCents);
-  document.querySelector("#summaryShipping").textContent = money(totals.shippingCents);
-  document.querySelector("#summaryTax").textContent = money(totals.taxCents);
-  document.querySelector("#summaryTotal").textContent = money(totals.dueNowCents);
-  document.querySelector("#summaryDuties").textContent =
-    lang === "zh" ? copy.importMessage : totals.importCharges;
-}
-
-function policyValue(value, fallback = "—") {
-  const text = String(value || "").trim();
-  if (!text) return escapeHtml(fallback);
-  if (lang !== "zh" || /[\u3400-\u9fff]/u.test(text)) return escapeHtml(text);
-  const known = {
-    China: "中国",
-    Japan: "日本",
-    Italy: "意大利",
-    "Third-party supplier": "第三方供应商",
-    "Concierge confirmation within 2–5 business days": "2–5 个工作日内确认供货",
-    "Arranged after availability confirmation": "供货确认后安排",
-    "Before supplier purchasing begins": "供应商采购开始前",
-    "Estimated import charges, if any, may be collected separately at delivery":
-      "如产生进口费用，可能在交付时另行收取",
-  };
-  return escapeHtml(known[text] || copy.confirmAtCheckout);
-}
-
-function renderPreview(result) {
-  items = result.items;
-  document.querySelector("#summaryItems").innerHTML = items
-    .map((item) => {
-      const name = lang === "zh" ? item.nameZh : item.nameEn;
-      return `<div class="summary-row">
-        <img src="${escapeHtml(item.image)}" alt="">
-        <div>
-          <strong>${escapeHtml(name)}</strong>
-          <span>${escapeHtml(item.variantLabel === "Standard" ? copy.standard : item.variantLabel || copy.standard)} · ${copy.qty} ${item.qty}</span>
-        </div>
-        <em>${money(item.lineAmountCents)}</em>
-      </div>`;
-    })
-    .join("");
-
-  policyRoot.innerHTML = items
-    .map((item) => {
-      const policy = item.policy || {};
-      const name = lang === "zh" ? item.nameZh : item.nameEn;
-      const returnText =
-        policy.returnEligible === true
-          ? copy.returnsYes
-          : policy.returnEligible === false
-            ? copy.returnsNo
-            : copy.returnsPending;
-      const finalSaleText =
-        policy.finalSale === true
-          ? copy.finalYes
-          : policy.finalSale === false
-            ? copy.finalNo
-            : copy.finalPending;
-      return `<article>
-        <strong>${escapeHtml(name)}</strong>
-        <dl>
-          <div><dt>${copy.source}</dt><dd>${policyValue(policy.sourceCountry, "—")} · ${policyValue(policy.sourceType, "—")}</dd></div>
-          <div><dt>${copy.processingLabel}</dt><dd>${policyValue(policy.processingTime, "—")}</dd></div>
-          <div><dt>${copy.transit}</dt><dd>${policyValue(policy.internationalShippingTime, "—")}</dd></div>
-          <div><dt>${copy.cancellation}</dt><dd>${policyValue(policy.cancellationDeadline, "—")}</dd></div>
-          <div><dt>${copy.returns}</dt><dd>${escapeHtml(returnText)}</dd></div>
-          <div><dt>${copy.sale}</dt><dd>${escapeHtml(finalSaleText)}</dd></div>
-          <div><dt>${copy.duties}</dt><dd>${policyValue(policy.dutiesTreatment, "—")}</dd></div>
-        </dl>
-      </article>`;
-    })
-    .join("");
-
-  renderTotals(result.totals);
-}
+form.addEventListener("input", (event) => {
+  if (event.target.matches("input, select")) {
+    if (event.target.name === "country") updateAddressLabels();
+    scheduleQuote();
+  }
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -404,8 +525,9 @@ form.addEventListener("submit", async (event) => {
   payBtn.disabled = true;
   try {
     const input = validateInput();
+    if (!stripeConfig?.paymentsEnabled || !stripe) throw new Error(stripeStatus.textContent || copy.unavailable);
     if (!securePaymentReady) {
-      payBtn.textContent = copy.loading;
+      payBtn.textContent = copy.checkingPayment;
       await createSecurePayment(input);
       payBtn.disabled = false;
       paymentRoot.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -426,22 +548,15 @@ form.addEventListener("submit", async (event) => {
       window.location.href = `/checkout/success.html?payment_intent=${encodeURIComponent(paymentIntent.id)}`;
     }
   } catch (error) {
+    if (error.payload?.code === "PRICE_CHANGED" && error.payload.quote) renderQuote(error.payload.quote);
     showError(error.message || copy.paymentFailed);
     payBtn.disabled = false;
-    payBtn.textContent = securePaymentReady ? copy.payNow : copy.loading;
+    payBtn.textContent = securePaymentReady && currentQuote ? `${copy.payNow} ${money(currentQuote.amountDueNow, currentQuote.currency)}` : copy.continuePayment;
   }
 });
 
-async function bootCheckout() {
-  try {
-    const preview = await postJson("/api/stripe/preview", { items: requestedItems });
-    renderPreview(preview);
-    await initializePayment();
-  } catch (error) {
-    showError(error.message || copy.reviewFailed);
-    stripeStatus.textContent = copy.reviewFailed;
-    payBtn.disabled = true;
-  }
-}
-
-bootCheckout();
+initializePayment().catch((error) => {
+  showError(error.message || copy.reviewFailed);
+  setStatus(copy.reviewFailed, "error");
+  payBtn.disabled = true;
+});
