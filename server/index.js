@@ -578,6 +578,10 @@ app.get("/product/shop.html", (_req, res) => res.redirect(302, "/discover/"));
 app.get("/checkout.html", (_req, res) => res.redirect(302, "/checkout/"));
 
 // Frontend modules
+app.get(["/tina", "/tina/"], (_req, res) => {
+  res.sendFile(path.join(webRoot, "tina", "index.html"));
+});
+
 app.use(express.static(webRoot));
 
 // Platform homepage is / (web/index.html via static).
