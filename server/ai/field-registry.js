@@ -660,6 +660,25 @@ export const ENTITY_FIELD_REGISTRY = {
       relatedFields: ["journalLead"],
     }),
   ],
+
+  journal_studio: [
+    field({
+      field: "text",
+      label: "Magazine Block Text",
+      language: "auto",
+      contentType: "magazine_article",
+      maxLength: 2500,
+      relatedFields: ["label", "caption", "issueTitle", "issueDescription"],
+    }),
+    field({
+      field: "caption",
+      label: "Magazine Image Caption",
+      language: "auto",
+      contentType: "magazine_article",
+      maxLength: 500,
+      relatedFields: ["label", "text", "issueTitle", "issueDescription"],
+    }),
+  ],
 };
 
 export const ENTITY_TYPES = new Set(Object.keys(ENTITY_FIELD_REGISTRY));

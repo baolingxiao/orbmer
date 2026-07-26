@@ -92,8 +92,14 @@
   const journalStudioState = {
     activeIssueId: "",
     activeBlockId: "",
+    selectedBlockIds: new Set(),
     zoom: 92,
+    panX: 0,
+    panY: 0,
   };
+  const JS_CANVAS_GRID = 16;
+  const JS_CANVAS_WIDTH = 1280;
+  const JS_CANVAS_HEIGHT = 1700;
 
   const JS_STATUSES = ["draft", "researching", "writing", "layout", "review", "scheduled", "published", "archived"];
   const JS_STATUS_LABELS = {
@@ -1044,7 +1050,43 @@
       image: { type: "image", label: "Image", image: "/assets/editorial/country-japan.jpg", caption: "Editorial image caption.", width: "wide" },
       productGrid: { type: "productGrid", label: "Featured Objects", text: "Inspired by this story.", productIds: [], width: "wide" },
     };
-    return { id, locked: false, collapsed: false, marginTop: 28, ...defaults[type] || defaults.paragraph };
+    return {
+      id,
+      locked: false,
+      collapsed: false,
+      groupId: "",
+      marginTop: 28,
+      x: 160,
+      y: 120,
+      w: type === "quote" ? 620 : 760,
+      h: type === "image" || type === "hero" ? 520 : 170,
+      ...defaults[type] || defaults.paragraph,
+    };
+  }
+
+  function snapCanvasValue(value) {
+    return Math.max(0, Math.round(Number(value || 0) / JS_CANVAS_GRID) * JS_CANVAS_GRID);
+  }
+
+  function normalizeCanvasBlocks(issue) {
+    let y = 80;
+    (issue.blocks || []).forEach((block) => {
+      const type = block.type || "paragraph";
+      if (!Number.isFinite(Number(block.x))) block.x = type === "quote" ? 220 : 160;
+      if (!Number.isFinite(Number(block.y))) {
+        block.y = y;
+        y += type === "hero" || type === "image" ? 560 : type === "quote" ? 260 : 210;
+      } else {
+        y = Math.max(y, Number(block.y) + Number(block.h || 180) + 48);
+      }
+      if (!Number.isFinite(Number(block.w))) block.w = type === "quote" ? 620 : 760;
+      if (!Number.isFinite(Number(block.h))) block.h = type === "hero" || type === "image" ? 520 : 170;
+      block.x = Math.min(snapCanvasValue(block.x), JS_CANVAS_WIDTH - 180);
+      block.y = Math.min(snapCanvasValue(block.y), JS_CANVAS_HEIGHT - 120);
+      block.w = Math.max(240, Math.min(Number(block.w), JS_CANVAS_WIDTH - block.x - 32));
+      block.h = Math.max(80, Math.min(Number(block.h), JS_CANVAS_HEIGHT - block.y - 32));
+      if (block.groupId == null) block.groupId = "";
+    });
   }
 
   function jsDefaultIssue() {
@@ -1101,6 +1143,17 @@
     mutator(next);
     next.updatedAt = nowIso();
     await saveJournalStudio(next, message);
+  }
+
+  async function persistJournalStudioDraft(studio) {
+    await api("/site-content", { method: "PATCH", body: { patch: { journalStudio: studio } } });
+    bridge().state.siteContent = { ...(bridge().state.siteContent || {}), journalStudio: studio };
+  }
+
+  function activeCanvasBlocks(studio) {
+    const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+    normalizeCanvasBlocks(issue || {});
+    return issue?.blocks || [];
   }
 
   function workflowMark(value) {
@@ -1199,6 +1252,7 @@
     renderJournalFlow(issue);
     renderJournalCanvas(issue);
     renderJournalInspector(issue);
+    bindJournalCanvasInteractions();
   }
 
   function renderJournalNavigator(issue) {
@@ -1220,36 +1274,50 @@
   }
 
   function blockHtml(block) {
-    const selected = block.id === journalStudioState.activeBlockId ? " is-selected" : "";
+    const selectedIds = journalStudioState.selectedBlockIds || new Set();
+    const selected = block.id === journalStudioState.activeBlockId || selectedIds.has(block.id) ? " is-selected" : "";
+    const grouped = block.groupId ? " is-grouped" : "";
+    const groupBadge = block.groupId ? `<span class="js-block-group">Group</span>` : "";
     if (block.type === "hero") {
-      return `<section class="js-block js-block-hero${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">
-        <img src="${block.image || ""}" alt="" /><h1>${block.text || ""}</h1>
+      return `<section class="js-block js-block-hero${selected}${grouped}" data-js-block="${block.id}">
+        ${groupBadge}<span class="js-block-drag">Move</span><img src="${block.image || ""}" alt="" /><h1>${block.text || ""}</h1>
       </section>`;
     }
     if (block.type === "image") {
-      return `<figure class="js-block js-block-image${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">
-        <img src="${block.image || ""}" alt="" /><figcaption>${block.caption || ""}</figcaption>
+      return `<figure class="js-block js-block-image${selected}${grouped}" data-js-block="${block.id}">
+        ${groupBadge}<span class="js-block-drag">Move</span><img src="${block.image || ""}" alt="" /><figcaption>${block.caption || ""}</figcaption>
       </figure>`;
     }
     if (block.type === "quote") {
-      return `<blockquote class="js-block js-block-quote${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">${block.text || ""}</blockquote>`;
+      return `<blockquote class="js-block js-block-quote${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">Move</span>${block.text || ""}</blockquote>`;
     }
     if (block.type === "productGrid") {
-      return `<section class="js-block js-block-products${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">
-        <p>${block.label || "Featured Objects"}</p><h3>${block.text || ""}</h3><small>${(block.productIds || []).join(", ") || "No products linked yet."}</small>
+      return `<section class="js-block js-block-products${selected}${grouped}" data-js-block="${block.id}">
+        ${groupBadge}<span class="js-block-drag">Move</span><p>${block.label || "Featured Objects"}</p><h3>${block.text || ""}</h3><small>${(block.productIds || []).join(", ") || "No products linked yet."}</small>
       </section>`;
     }
     if (block.type === "heading") {
-      return `<h2 class="js-block js-block-heading${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">${block.text || ""}</h2>`;
+      return `<h2 class="js-block js-block-heading${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">Move</span>${block.text || ""}</h2>`;
     }
-    return `<p class="js-block js-block-paragraph${selected}" data-js-block="${block.id}" style="margin-top:${block.marginTop || 0}px">${block.text || ""}</p>`;
+    return `<p class="js-block js-block-paragraph${selected}${grouped}" data-js-block="${block.id}">${groupBadge}<span class="js-block-drag">Move</span>${block.text || ""}</p>`;
   }
 
   function renderJournalCanvas(issue) {
     const canvas = document.querySelector("[data-js-canvas]");
     if (!canvas) return;
-    canvas.style.transform = `scale(${journalStudioState.zoom / 100})`;
+    normalizeCanvasBlocks(issue);
+    canvas.style.width = `${JS_CANVAS_WIDTH}px`;
+    canvas.style.minHeight = `${JS_CANVAS_HEIGHT}px`;
+    canvas.style.transform = `translate(${journalStudioState.panX}px, ${journalStudioState.panY}px) scale(${journalStudioState.zoom / 100})`;
     canvas.innerHTML = (issue.blocks || []).map(blockHtml).join("");
+    (issue.blocks || []).forEach((block) => {
+      const node = canvas.querySelector(`[data-js-block="${block.id}"]`);
+      if (!node) return;
+      node.style.left = `${block.x || 0}px`;
+      node.style.top = `${block.y || 0}px`;
+      node.style.width = `${block.w || 760}px`;
+      node.style.minHeight = `${block.h || 120}px`;
+    });
   }
 
   function renderJournalInspector(issue) {
@@ -1270,7 +1338,12 @@
       <label>Image<input name="image" value="${block.image || ""}" /></label>
       <label>Caption<input name="caption" value="${block.caption || ""}" /></label>
       <label>Product IDs<input name="productIds" value="${(block.productIds || []).join(", ")}" /></label>
-      <label>Margin Top<input name="marginTop" type="number" value="${block.marginTop || 0}" /></label>
+      <div class="form-grid">
+        <label>X<input name="x" type="number" value="${block.x || 0}" /></label>
+        <label>Y<input name="y" type="number" value="${block.y || 0}" /></label>
+        <label>Width<input name="w" type="number" value="${block.w || 760}" /></label>
+        <label>Height<input name="h" type="number" value="${block.h || 160}" /></label>
+      </div>
       <div class="js-inspector-actions">
         <button class="button button-secondary" type="button" data-js-duplicate-block>Duplicate</button>
         <button class="button button-secondary" type="button" data-js-delete-block>Delete</button>
@@ -1582,6 +1655,133 @@
     renderTrash();
   }
 
+  function selectJournalBlock(blockId, additive = false) {
+    if (!blockId) return;
+    if (!additive) journalStudioState.selectedBlockIds.clear();
+    if (journalStudioState.selectedBlockIds.has(blockId) && additive) {
+      journalStudioState.selectedBlockIds.delete(blockId);
+    } else {
+      journalStudioState.selectedBlockIds.add(blockId);
+    }
+    journalStudioState.activeBlockId = blockId;
+  }
+
+  function bindJournalCanvasInteractions() {
+    const viewport = document.querySelector(".js-canvas-viewport");
+    const canvas = document.querySelector("[data-js-canvas]");
+    if (!viewport || !canvas || viewport.dataset.jsCanvasBound) return;
+    viewport.dataset.jsCanvasBound = "true";
+
+    let dragState = null;
+    let panState = null;
+
+    viewport.addEventListener("pointerdown", (event) => {
+      const blockNode = event.target.closest("[data-js-block]");
+      const canvasNode = event.target.closest("[data-js-canvas]");
+      if (blockNode) {
+        const studio = getJournalStudio();
+        const blocks = activeCanvasBlocks(studio);
+        const blockId = blockNode.dataset.jsBlock;
+        const block = blocks.find((item) => item.id === blockId);
+        if (!block || block.locked) return;
+
+        selectJournalBlock(blockId, event.shiftKey || event.metaKey);
+        const selected = journalStudioState.selectedBlockIds.size
+          ? Array.from(journalStudioState.selectedBlockIds)
+          : [blockId];
+        const groupIds = new Set(selected.map((id) => blocks.find((item) => item.id === id)?.groupId).filter(Boolean));
+        const movableIds = new Set([
+          ...selected,
+          ...blocks.filter((item) => groupIds.has(item.groupId)).map((item) => item.id),
+        ]);
+        const startBlocks = blocks
+          .filter((item) => movableIds.has(item.id))
+          .map((item) => ({ id: item.id, x: Number(item.x || 0), y: Number(item.y || 0) }));
+        dragState = {
+          studio,
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          startBlocks,
+          moved: false,
+        };
+        blockNode.setPointerCapture(event.pointerId);
+        renderJournalStudio();
+        event.preventDefault();
+        return;
+      }
+
+      if (canvasNode || event.target === viewport) {
+        panState = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          startPanX: journalStudioState.panX,
+          startPanY: journalStudioState.panY,
+        };
+        viewport.setPointerCapture(event.pointerId);
+        viewport.classList.add("is-panning");
+      }
+    });
+
+    viewport.addEventListener("pointermove", (event) => {
+      if (dragState) {
+        const scale = journalStudioState.zoom / 100;
+        const dx = (event.clientX - dragState.startX) / scale;
+        const dy = (event.clientY - dragState.startY) / scale;
+        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) dragState.moved = true;
+        const blocks = activeCanvasBlocks(dragState.studio);
+        dragState.startBlocks.forEach((start) => {
+          const block = blocks.find((item) => item.id === start.id);
+          if (!block) return;
+          block.x = Math.min(snapCanvasValue(start.x + dx), JS_CANVAS_WIDTH - Number(block.w || 240) - 24);
+          block.y = Math.min(snapCanvasValue(start.y + dy), JS_CANVAS_HEIGHT - Number(block.h || 80) - 24);
+        });
+        const issue = dragState.studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+        if (issue) renderJournalCanvas(issue);
+        event.preventDefault();
+        return;
+      }
+
+      if (panState) {
+        journalStudioState.panX = panState.startPanX + event.clientX - panState.startX;
+        journalStudioState.panY = panState.startPanY + event.clientY - panState.startY;
+        const issue = getActiveIssue();
+        if (issue) renderJournalCanvas(issue);
+        event.preventDefault();
+      }
+    });
+
+    viewport.addEventListener("pointerup", async (event) => {
+      if (dragState) {
+        const studio = dragState.studio;
+        const shouldSave = dragState.moved;
+        dragState = null;
+        if (shouldSave) {
+          const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
+          if (issue) issue.updatedAt = nowIso();
+          try {
+            await persistJournalStudioDraft(studio);
+            toast("Canvas position saved.");
+          } catch (error) {
+            toast(error.message || "Canvas 保存失败。", true);
+          }
+        }
+        return;
+      }
+      if (panState) {
+        panState = null;
+        viewport.classList.remove("is-panning");
+      }
+    });
+
+    viewport.addEventListener("pointercancel", () => {
+      dragState = null;
+      panState = null;
+      viewport.classList.remove("is-panning");
+    });
+  }
+
   function bindPlatform() {
     document.querySelector("[data-js-new-issue]")?.addEventListener("click", async () => {
       await mutateJournalStudio((studio) => {
@@ -1589,6 +1789,7 @@
         studio.issues = [issue, ...(studio.issues || [])];
         journalStudioState.activeIssueId = issue.id;
         journalStudioState.activeBlockId = issue.blocks[0]?.id || "";
+        journalStudioState.selectedBlockIds = new Set(journalStudioState.activeBlockId ? [journalStudioState.activeBlockId] : []);
       }, "已创建新的 Magazine Issue。");
     });
 
@@ -1603,6 +1804,7 @@
     document.querySelector("[data-js-back]")?.addEventListener("click", () => {
       journalStudioState.activeIssueId = "";
       journalStudioState.activeBlockId = "";
+      journalStudioState.selectedBlockIds.clear();
       renderJournalStudio();
     });
 
@@ -1612,13 +1814,14 @@
         const issue = getJournalStudio().issues.find((item) => item.id === issueButton.dataset.jsOpenIssue);
         journalStudioState.activeIssueId = issueButton.dataset.jsOpenIssue;
         journalStudioState.activeBlockId = issue?.blocks?.[0]?.id || "";
+        journalStudioState.selectedBlockIds = new Set(journalStudioState.activeBlockId ? [journalStudioState.activeBlockId] : []);
         renderJournalStudio();
         return;
       }
 
       const blockNode = event.target.closest("[data-js-block]");
       if (blockNode) {
-        journalStudioState.activeBlockId = blockNode.dataset.jsBlock;
+        selectJournalBlock(blockNode.dataset.jsBlock, event.shiftKey || event.metaKey);
         renderJournalStudio();
         return;
       }
@@ -1629,9 +1832,14 @@
           const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
           if (!issue) return;
           const block = jsDefaultBlock(addBlock.dataset.jsAddBlock);
+          normalizeCanvasBlocks(issue);
+          const last = (issue.blocks || [])[issue.blocks.length - 1];
+          block.x = last ? Math.min(Number(last.x || 160) + 48, JS_CANVAS_WIDTH - Number(block.w || 760) - 32) : 160;
+          block.y = last ? Math.min(Number(last.y || 120) + 80, JS_CANVAS_HEIGHT - Number(block.h || 170) - 32) : 120;
           issue.blocks = [...(issue.blocks || []), block];
           issue.updatedAt = nowIso();
           journalStudioState.activeBlockId = block.id;
+          journalStudioState.selectedBlockIds = new Set([block.id]);
         }, "已添加 Canvas Block。");
         return;
       }
@@ -1649,14 +1857,114 @@
         return;
       }
 
+      if (event.target.closest("[data-js-group-blocks]")) {
+        const selected = Array.from(journalStudioState.selectedBlockIds || []);
+        if (selected.length < 2) {
+          toast("至少选择两个 Block 才能分组。", true);
+          return;
+        }
+        await mutateJournalStudio((studio) => {
+          const blocks = activeCanvasBlocks(studio);
+          const groupId = `group-${Date.now().toString(36)}`;
+          blocks.forEach((block) => {
+            if (selected.includes(block.id)) block.groupId = groupId;
+          });
+        }, "Block 已分组。");
+        return;
+      }
+
+      if (event.target.closest("[data-js-ungroup-blocks]")) {
+        const selected = Array.from(journalStudioState.selectedBlockIds || []);
+        await mutateJournalStudio((studio) => {
+          const blocks = activeCanvasBlocks(studio);
+          const groupIds = new Set(selected.map((id) => blocks.find((block) => block.id === id)?.groupId).filter(Boolean));
+          blocks.forEach((block) => {
+            if (selected.includes(block.id) || groupIds.has(block.groupId)) block.groupId = "";
+          });
+        }, "Block 已取消分组。");
+        return;
+      }
+
+      if (event.target.closest("[data-js-reset-view]")) {
+        journalStudioState.panX = 0;
+        journalStudioState.panY = 0;
+        journalStudioState.zoom = 92;
+        const zoom = document.querySelector("[data-js-zoom]");
+        if (zoom) zoom.value = "92";
+        renderJournalStudio();
+        return;
+      }
+
+      const aiRewrite = event.target.closest("[data-js-ai-rewrite], [data-js-ai-shorten]");
+      if (aiRewrite) {
+        const issue = getActiveIssue();
+        const block = issue?.blocks?.find((item) => item.id === journalStudioState.activeBlockId);
+        if (!issue || !block) {
+          toast("先选择一个可编辑的 Block。", true);
+          return;
+        }
+        const field = block.type === "image" ? "caption" : "text";
+        const currentValue = String(block[field] || "").trim();
+        if (!currentValue) {
+          toast("当前 Block 没有可优化的文字。", true);
+          return;
+        }
+        try {
+          toast("AI 正在生成草稿建议。");
+          const data = await api("/ai/optimize", {
+            method: "POST",
+            body: {
+              entityType: "journal_studio",
+              entityId: issue.id,
+              mode: "single_field",
+              field,
+              currentValue,
+              objective: "fashion_magazine",
+              tone: "restrained",
+              length: aiRewrite.dataset.jsAiShorten != null ? "shorter" : "similar",
+              modelTier: "standard",
+              sourceLanguage: "auto",
+              targetLanguage: "auto",
+              context: {
+                issueTitle: issue.title,
+                issueDescription: issue.description,
+                blockType: block.type,
+                label: block.label,
+              },
+              customInstruction: "Keep the Orbmare editorial tone: restrained, precise, warm like an old friend, and do not invent facts.",
+            },
+          });
+          const optimized = data?.result?.optimized;
+          if (!optimized) {
+            toast("AI 没有返回可用文本。", true);
+            return;
+          }
+          const studio = getJournalStudio();
+          const blocks = activeCanvasBlocks(studio);
+          const target = blocks.find((item) => item.id === block.id);
+          if (target) {
+            target[field] = optimized;
+            const targetIssue = studio.issues.find((item) => item.id === issue.id);
+            if (targetIssue) targetIssue.updatedAt = nowIso();
+            await persistJournalStudioDraft(studio);
+            renderJournalStudio();
+            toast("AI 草稿已写入选中 Block。");
+          }
+        } catch (error) {
+          toast(error.message || "AI 请求失败。", true);
+        }
+        return;
+      }
+
       if (event.target.closest("[data-js-duplicate-block]")) {
         await mutateJournalStudio((studio) => {
           const issue = studio.issues.find((item) => item.id === journalStudioState.activeIssueId);
           const block = issue?.blocks?.find((item) => item.id === journalStudioState.activeBlockId);
           if (!issue || !block) return;
-          const copy = { ...JSON.parse(JSON.stringify(block)), id: `block-${Date.now().toString(36)}`, label: `${block.label || block.type} Copy` };
+          const copy = { ...JSON.parse(JSON.stringify(block)), id: `block-${Date.now().toString(36)}`, label: `${block.label || block.type} Copy`, groupId: "", x: Number(block.x || 0) + 40, y: Number(block.y || 0) + 40 };
           issue.blocks.push(copy);
           journalStudioState.activeBlockId = copy.id;
+          journalStudioState.selectedBlockIds = new Set([copy.id]);
         }, "Block 已复制。");
         return;
       }
@@ -1717,7 +2025,10 @@
       const block = issue?.blocks?.find((item) => item.id === journalStudioState.activeBlockId);
       if (!block) return;
       if (name === "productIds") block.productIds = String(field.value || "").split(",").map((part) => part.trim()).filter(Boolean);
-      else if (name === "marginTop") block.marginTop = Number(field.value || 0);
+      else if (["x", "y", "w", "h"].includes(name)) {
+        const value = Number(field.value || 0);
+        block[name] = name === "x" || name === "y" ? snapCanvasValue(value) : Math.max(80, value);
+      }
       else block[name] = field.value;
       issue.updatedAt = nowIso();
       await api("/site-content", { method: "PATCH", body: { patch: { journalStudio: studio } } });

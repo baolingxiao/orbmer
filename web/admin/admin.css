@@ -966,23 +966,34 @@ tbody tr:hover {
   min-width: 0;
   overflow: auto;
   padding: 42px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.js-canvas-viewport.is-panning {
+  cursor: grabbing;
 }
 
 .js-canvas {
-  width: min(780px, 100%);
+  position: relative;
+  width: 1280px;
   min-height: 980px;
   margin: 0 auto;
-  padding: 64px;
-  transform-origin: top center;
+  transform-origin: top left;
   border: 1px solid #e4e8ef;
   background: #fff;
   box-shadow: 0 24px 70px rgb(20 32 51 / 0.12);
 }
 
 .js-block {
-  position: relative;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 18px;
   outline: 1px solid transparent;
-  cursor: pointer;
+  cursor: grab;
+  background: #fff;
+  overflow: hidden;
+  user-select: none;
 }
 
 .js-block:hover,
@@ -990,9 +1001,44 @@ tbody tr:hover {
   outline-color: var(--blue);
 }
 
+.js-block.is-selected {
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.12);
+}
+
+.js-block.is-grouped {
+  outline-style: dashed;
+}
+
+.js-block-drag,
+.js-block-group {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 7px;
+  border: 1px solid var(--line);
+  background: rgb(255 255 255 / 0.9);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.js-block-drag {
+  right: 8px;
+}
+
+.js-block-group {
+  left: 8px;
+}
+
 .js-block-hero {
   display: grid;
   gap: 28px;
+  align-content: start;
 }
 
 .js-block-hero img,
@@ -1025,7 +1071,6 @@ tbody tr:hover {
 }
 
 .js-block-quote {
-  margin-left: 0;
   padding-left: 22px;
   border-left: 1px solid var(--ink);
   font-family: Georgia, "Times New Roman", serif;
@@ -1042,6 +1087,13 @@ tbody tr:hover {
 .js-block-products {
   padding: 24px;
   border: 1px solid var(--line);
+}
+
+.js-ai-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .js-block-products p {

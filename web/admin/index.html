@@ -686,6 +686,9 @@
                     <button type="button" data-js-add-block="image">Image</button>
                     <button type="button" data-js-add-block="quote">Pull Quote</button>
                     <button type="button" data-js-add-block="productGrid">Product Grid</button>
+                    <button type="button" data-js-group-blocks>Group</button>
+                    <button type="button" data-js-ungroup-blocks>Ungroup</button>
+                    <button type="button" data-js-reset-view>Reset View</button>
                     <label>Zoom <input type="range" min="70" max="120" value="92" data-js-zoom /></label>
                   </div>
                   <div class="js-canvas-viewport">
@@ -697,7 +700,11 @@
                   <div class="js-ai-panel">
                     <p class="section-label">AI Editorial Assistant</p>
                     <h3>人工审核前置</h3>
-                    <p>Research、Fact Check、Rewrite、SEO、Layout Suggestion 等入口已预留。所有 AI 输出都应先进入草稿，不覆盖正文。</p>
+                    <p>AI 会基于当前选中的 Block 生成建议；结果会先写回草稿，员工仍需手动保存与发布。</p>
+                    <div class="js-ai-actions">
+                      <button class="button button-secondary" type="button" data-js-ai-rewrite>Rewrite Selected</button>
+                      <button class="button button-secondary" type="button" data-js-ai-shorten>Shorten</button>
+                    </div>
                   </div>
                   <form data-js-inspector></form>
                   <div class="js-publish-panel">
