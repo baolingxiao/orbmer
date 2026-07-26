@@ -157,11 +157,19 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
       return res.status(503).json({ ok: false, configured: false });
     }
     const session = await auth.sessionFromRequest(req);
-    if (!session) return res.json({ ok: true, configured: true, authenticated: false });
+    if (!session) {
+      return res.json({
+        ok: true,
+        configured: true,
+        authenticated: false,
+        googleSignInAvailable: googleConfigured,
+      });
+    }
     return res.json({
       ok: true,
       configured: true,
       authenticated: true,
+      googleSignInAvailable: googleConfigured,
       user: publicUser(session),
       csrfToken: session.csrfToken,
       expiresAt: new Date(session.expiresAt).toISOString(),
@@ -170,7 +178,7 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
 
   router.get("/api/google", (req, res) => {
     if (!auth.configured() || !googleConfigured) {
-      return res.status(503).json({ ok: false, error: "Google sign-in is not configured." });
+      return redirectToAuth(res, "unavailable");
     }
     const state = crypto.randomBytes(32).toString("base64url");
     appendCookie(res, "orbmare_google_oauth_state", state);

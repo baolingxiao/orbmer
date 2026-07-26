@@ -12,6 +12,7 @@ function showGoogleResult() {
     cancelled: "已取消 Google 登录。",
     state_error: "登录验证已过期，请重新尝试。",
     failed: "Google 登录未完成，请稍后重试。",
+    unavailable: "Google 登录暂不可用，请使用邮箱继续。",
   };
   message.textContent = messages[result] || "Google 登录未完成，请稍后重试。";
   message.hidden = false;
@@ -157,6 +158,11 @@ async function boot() {
   try {
     const session = await api("/session");
     if (!session.configured) return;
+    const googleLink = document.querySelector("[data-google-sign-in]");
+    if (googleLink && session.googleSignInAvailable === false) {
+      googleLink.hidden = true;
+      document.querySelector(".auth-divider")?.setAttribute("hidden", "");
+    }
     if (session.authenticated) {
       showUser(session);
       await loadOrders();

@@ -1,7 +1,7 @@
 /** Shared Orbmare editorial chrome: header + footer + lang + bag */
 
 import { cartCount, getCartLines, setCartLineQty } from "/shared/js/store.js";
-import { applyI18n, getLang, t, isCuratedProductId, brandPrimary, brandSecondary } from "/shared/js/editorial-i18n.js";
+import { applyI18n, getLang, t, brandPrimary, brandSecondary } from "/shared/js/editorial-i18n.js";
 import { mountAdminEdit } from "/shared/js/admin-edit.js";
 
 function ensureAdminEditStyles() {
@@ -67,13 +67,11 @@ function renderBagDrawer() {
     body.innerHTML = `<p class="orb-bag-empty">${t("cart.empty", lang)}</p>`;
     if (note) note.hidden = true;
     if (actions) {
-      actions.innerHTML = `<a class="btn btn-ghost" href="/discover/" data-close-bag>${t("cart.continue", lang)}</a>
-        <a class="btn" href="/shop/">${t("cart.shop", lang)}</a>`;
+      actions.innerHTML = `<a class="btn" href="/discover/" data-close-bag>${t("cart.continue", lang)}</a>`;
     }
     return;
   }
 
-  const hasCurated = lines.some((l) => isCuratedProductId(l.productId));
   const subtotal = lines.reduce((s, l) => s + Number(l.price || 0) * Number(l.qty || 0), 0);
 
   body.innerHTML = lines
@@ -95,18 +93,13 @@ function renderBagDrawer() {
     .join("") + `<p class="orb-bag-subtotal"><span>${t("cart.subtotal", lang)}</span><strong>${money(subtotal)}</strong></p>`;
 
   if (note) {
-    note.hidden = !hasCurated;
+    note.hidden = false;
     note.textContent = t("cart.note.curated", lang);
   }
 
   if (actions) {
-    if (hasCurated) {
-      actions.innerHTML = `<a class="btn" href="/membership/">${t("cart.inquire", lang)}</a>
-        <a class="btn btn-ghost" href="/shop/?cart=1#cart">${t("cart.shop", lang)}</a>`;
-    } else {
-      actions.innerHTML = `<a class="btn" href="/checkout/">${t("cart.checkout", lang)}</a>
-        <a class="btn btn-ghost" href="/shop/?cart=1#cart">${t("cart.shop", lang)}</a>`;
-    }
+    actions.innerHTML = `<a class="btn" href="/membership/">${t("cart.inquire", lang)}</a>
+      <a class="btn btn-ghost" href="/discover/" data-close-bag>${t("cart.continue", lang)}</a>`;
   }
 
   body.querySelectorAll("[data-qty-delta]").forEach((btn) => {
@@ -160,7 +153,6 @@ export async function mountChrome({ title } = {}) {
               <span data-lang-option="zh" class="${lang === "zh" ? "is-active" : ""}">中</span>
               <span data-lang-option="en" class="${lang === "en" ? "is-active" : ""}">EN</span>
             </button>
-            <a href="/shop/" data-i18n="nav.shop">${t("nav.shop", lang)}</a>
             <a href="/auth/" data-i18n="nav.account">${t("nav.account", lang)}</a>
             <button class="orb-bag-btn" type="button" data-bag-toggle aria-expanded="false" aria-controls="orbBag">
               <span data-i18n="nav.cart">${t("nav.cart", lang)}</span>
@@ -204,7 +196,6 @@ export async function mountChrome({ title } = {}) {
             <a href="/countries/" data-i18n="nav.countries">${t("nav.countries", lang)}</a>
             <a href="/materials/" data-i18n="nav.materials">${t("nav.materials", lang)}</a>
             <a href="/craftsmanship/" data-i18n="nav.craft">${t("nav.craft", lang)}</a>
-            <a href="/shop/" data-i18n="nav.shop">${t("nav.shop", lang)}</a>
           </div>
           <div>
             <h4 data-i18n="footer.stories">${t("footer.stories", lang)}</h4>

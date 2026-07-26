@@ -111,7 +111,14 @@ async function createSecurePayment(input) {
     clientSecret: result.clientSecret,
     appearance: {
       theme: "stripe",
-      variables: { colorPrimary: "#1a4db3", borderRadius: "8px" },
+      variables: {
+        colorPrimary: "#141414",
+        colorBackground: "#ffffff",
+        colorText: "#141414",
+        colorTextSecondary: "#6e6e6e",
+        colorDanger: "#8b3329",
+        borderRadius: "0px",
+      },
     },
   });
   elements.create("payment").mount(paymentRoot);

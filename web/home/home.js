@@ -116,8 +116,8 @@ function initSearchHint() {
     const q = new FormData(form).get("q");
     const query = typeof q === "string" ? q.trim() : "";
     if (!query) return;
-    // Route product search into China 3D print shop for now
-    window.location.href = `/shop/?q=${encodeURIComponent(query)}#shop`;
+    // This legacy entry point now returns visitors to Orbmare discovery.
+    window.location.href = `/discover/?q=${encodeURIComponent(query)}`;
   });
 }
 

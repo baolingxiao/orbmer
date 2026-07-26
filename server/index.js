@@ -521,11 +521,16 @@ app.use("/auth", buyer.router);
 // Intentionally return no discovery information at conventional admin paths.
 app.use("/admin", (_req, res) => res.status(404).send("Not found"));
 
+// The former 3D-print storefront is retained only as archived source code. It is
+// intentionally not a consumer-facing Orbmare route or checkout destination.
+app.use("/shop", (_req, res) => res.redirect(302, "/discover/"));
+app.get("/product/shop.html", (_req, res) => res.redirect(302, "/discover/"));
+app.get(["/checkout", "/checkout/", "/checkout.html"], (_req, res) => res.redirect(302, "/membership/"));
+
 // Frontend modules
 app.use(express.static(webRoot));
 
-// Platform homepage is / (web/index.html via static). Orbmare 3D shop lives at /shop/.
-app.get("/checkout.html", (_req, res) => res.redirect(302, "/checkout/"));
+// Platform homepage is / (web/index.html via static).
 app.get("/product.html", (req, res) => {
   const q = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
   res.redirect(302, `/product/${q}`);
