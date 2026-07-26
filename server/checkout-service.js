@@ -10,37 +10,41 @@ import {
 } from "./checkout-config.js";
 import { resolveTrustedItems, POLICY_VERSIONS } from "./checkout-products.js";
 import { getShippingOptions, selectShippingOption } from "./shipping/index.js";
+import {
+  CUSTOMER_CHECKOUT_COPY,
+  CUSTOMER_COMMUNICATION_VERSION,
+} from "../web/shared/js/customer-communications.js";
 
 const QUOTE_TTL_MS = 15 * 60 * 1000;
 const BUFFER_DAYS = 2;
 const quotes = new Map();
 
-const SOURCING_CONFIRMATION_VERSION = "sourcing-shipping-confirmation-2026-07-26";
+const SOURCING_CONFIRMATION_VERSION = CUSTOMER_COMMUNICATION_VERSION;
 const SOURCING_CONFIRMATION = Object.freeze({
   zh: {
-    title: "采购与配送确认",
+    title: CUSTOMER_CHECKOUT_COPY.zh.sourcingTitle,
     body: [
-      "Orbmare 傲马有话想说：很多作品不是从一个大仓库里直接发出。付款后，我们会先和供应商确认库存、包装尺寸，以及最合适的空运或海运方式。",
-      "结账页显示的配送费用，是根据收货地址、商品重量、尺寸和所选运输方式生成的预估报价。多数情况下它可以直接使用；如果承运商最终报价有明显变化，我们会先通过邮件联系客户确认。",
-      "采购确认、物流选择、发货和追踪号会通过邮件更新。",
+      CUSTOMER_CHECKOUT_COPY.zh.sourcingLead,
+      CUSTOMER_CHECKOUT_COPY.zh.sourcingQuote,
+      CUSTOMER_CHECKOUT_COPY.zh.sourcingUpdate,
     ],
     differencePolicy: {
-      smallDifference: "小额差异由 Orbmare 优先内部处理。",
-      materialIncrease: "明显增加时，客户可选择补付差额、更换运输方式，或取消订单退款。",
-      unavailableItem: "供应商确认无货时，Orbmare 会提供退款、替换推荐，或先联系客户确认。",
+      smallDifference: CUSTOMER_CHECKOUT_COPY.zh.smallDifference,
+      materialIncrease: CUSTOMER_CHECKOUT_COPY.zh.materialDifference,
+      unavailableItem: CUSTOMER_CHECKOUT_COPY.zh.unavailableItem,
     },
   },
   en: {
-    title: "Sourcing and shipping confirmation",
+    title: CUSTOMER_CHECKOUT_COPY.en.sourcingTitle,
     body: [
-      "Many Orbmare objects do not leave from one large warehouse. After payment, we confirm supplier availability, package details, and the best air or sea shipping route.",
-      "The shipping fee shown at checkout is an estimated quote based on destination, item weight, dimensions, and selected transport method. In most cases it is enough to proceed; if the final carrier quote changes materially, Orbmare will email the customer before continuing.",
-      "Supplier confirmation, shipping choice, dispatch, and tracking updates will be sent by email.",
+      CUSTOMER_CHECKOUT_COPY.en.sourcingLead,
+      CUSTOMER_CHECKOUT_COPY.en.sourcingQuote,
+      CUSTOMER_CHECKOUT_COPY.en.sourcingUpdate,
     ],
     differencePolicy: {
-      smallDifference: "Small differences are handled internally by Orbmare where possible.",
-      materialIncrease: "For material increases, the customer may pay the difference, change shipping method, or cancel for a refund.",
-      unavailableItem: "If the supplier confirms the item is unavailable, Orbmare will offer a refund, replacement suggestion, or contact the customer before deciding.",
+      smallDifference: CUSTOMER_CHECKOUT_COPY.en.smallDifference,
+      materialIncrease: CUSTOMER_CHECKOUT_COPY.en.materialDifference,
+      unavailableItem: CUSTOMER_CHECKOUT_COPY.en.unavailableItem,
     },
   },
 });

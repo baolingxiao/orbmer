@@ -10,7 +10,7 @@ const state = {
   products: [],
   orders: [],
   statuses: [],
-  email: { config: { configured: false }, templates: [] },
+  email: { config: { configured: false }, templates: [], adminCopy: {} },
   auditEvents: [],
   brands: [],
   materials: [],
@@ -1224,13 +1224,15 @@ async function loadEmailDraft(order, templateId = "sourcing_update") {
   state.email = {
     config: data.config || state.email.config,
     templates: data.templates || state.email.templates,
+    adminCopy: data.adminCopy || state.email.adminCopy || {},
   };
   return data;
 }
 
 function emailConfigText(config = state.email.config || {}) {
-  if (config.configured) return "邮件服务已连接。发送前请确认主题和正文。";
-  return "邮件服务尚未配置完成，当前不能发送。请检查 EMAIL_PROVIDER、RESEND_API_KEY 和 EMAIL_FROM。";
+  const adminCopy = state.email.adminCopy || {};
+  if (config.configured) return adminCopy.configured || "邮件服务已连接。发送前请确认主题和正文。";
+  return adminCopy.unconfigured || "邮件服务尚未配置完成，当前不能发送。请检查 EMAIL_PROVIDER、RESEND_API_KEY 和 EMAIL_FROM。";
 }
 
 async function openEmailDialog(order) {
@@ -1239,7 +1241,7 @@ async function openEmailDialog(order) {
   setFormValue(emailForm, "id", order.id);
   document.querySelector("[data-email-order-id]").textContent = `发送订单邮件 · ${order.id}`;
   const note = document.querySelector("[data-email-config-note]");
-  note.textContent = "正在读取邮件模板。";
+  note.textContent = state.email.adminCopy?.loadingDraft || "正在读取邮件模板。";
   emailDialog.showModal();
   try {
     const data = await loadEmailDraft(order, formValue(emailForm, "templateId") || "sourcing_update");
@@ -1551,7 +1553,12 @@ shippingForm?.addEventListener("submit", async (event) => {
     });
     shippingDialog.close();
     await loadData({ quiet: true });
-    showToast(result.emailError ? `运输信息已更新，但邮件未发送：${result.emailError}` : "运输信息已更新。");
+    const adminCopy = state.email.adminCopy || {};
+    showToast(
+      result.emailError
+        ? `${adminCopy.shipmentSavedEmailFailed || "运输信息已更新，但邮件未发送："}${result.emailError}`
+        : adminCopy.shipmentSaved || "运输信息已更新。"
+    );
   } catch (error) {
     showInlineError(errorNode, error.message);
   } finally {
@@ -1564,7 +1571,7 @@ emailForm?.querySelector("[data-email-template]")?.addEventListener("change", as
   const order = state.orders.find((entry) => entry.id === id);
   if (!order) return;
   const note = document.querySelector("[data-email-config-note]");
-  note.textContent = "正在更新邮件模板。";
+  note.textContent = state.email.adminCopy?.updatingTemplate || "正在更新邮件模板。";
   note.dataset.mode = "";
   try {
     const data = await loadEmailDraft(order, formValue(emailForm, "templateId"));
@@ -1597,7 +1604,7 @@ emailForm?.addEventListener("submit", async (event) => {
     });
     emailDialog.close();
     await loadData({ quiet: true });
-    showToast("邮件已发送，并已记录到操作日志。");
+    showToast(state.email.adminCopy?.sent || "邮件已发送，并已记录到操作日志。");
   } catch (error) {
     showInlineError(errorNode, error.message);
   } finally {

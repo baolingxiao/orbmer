@@ -1,5 +1,6 @@
 import { getLang, LANG_KEY } from "/shared/js/editorial-i18n.js";
 import * as Store from "/shared/js/store.js";
+import { getCustomerCommunicationCopy } from "/shared/js/customer-communications.js";
 
 const API_BASE = window.location.port === "5180" ? "http://127.0.0.1:4242" : "";
 const lang = getLang();
@@ -14,6 +15,7 @@ const quoteStatus = document.querySelector("#quoteStatus");
 const stageRoot = document.querySelector("#fulfillmentStages");
 const shippingMethods = document.querySelector("#shippingMethods");
 const sourcingNotice = document.querySelector("#sourcingNotice");
+const customerCopy = getCustomerCommunicationCopy(lang);
 
 const copy = {
   zh: {
@@ -43,13 +45,7 @@ const copy = {
     economySea: "经济海运",
     realtimeQuote: "实时或账号报价",
     estimatedQuote: "估算报价",
-    sourcingTitle: "采购与配送确认",
-    sourcingLead: "Orbmare 傲马有话想说：很多作品不是从一个大仓库里直接发出。你付款后，我们会先和供应商确认库存、包装尺寸，以及最合适的空运或海运方式。",
-    sourcingQuote: "现在看到的运费，是根据你的地址、商品重量、尺寸和所选运输方式生成的预估报价。多数情况下它可以直接使用；如果承运商最终报价有明显变化，我们会先发邮件告诉你，不会在没有确认的情况下继续增加费用。",
-    sourcingUpdate: "后续的采购确认、物流选择、发货和追踪号，都会通过邮件更新给你。",
-    smallDifference: "小额差异：我们会尽量内部处理。",
-    materialDifference: "明显差额：你可以选择补付差额、更换运输方式，或取消订单退款。",
-    unavailableItem: "如果供应商确认无货：我们会提供退款、替换推荐，或先联系你再决定。",
+    ...customerCopy.checkout,
     estimateTitle: "预计履约时间",
     termsTitle: "本订单特殊条款",
     acknowledgementTitle: "政策确认",
@@ -84,8 +80,8 @@ const copy = {
     required: "请完整填写联系人与配送地址。",
     consent: "请先确认订单政策。",
     sourcingConsent: "请先确认采购与配送说明。",
-    reviewFailed: "无法核对当前订单。",
-    paymentFailed: "支付无法继续。",
+    reviewFailed: "当前订单还没有完成核对，请稍后再试。",
+    paymentFailed: "支付暂时没有完成，请检查信息后再试。",
     standard: "标准",
     qty: "数量",
     source: "来源",
@@ -94,7 +90,7 @@ const copy = {
     limited: "限量调货",
     custom: "定制制作",
     stocked: "现货商品",
-    finalSale: "最终销售",
+    finalSale: "特殊售后条款",
     returnPolicy: "退货规则",
     included: "已包含",
     estimated: "预计金额",
@@ -107,7 +103,6 @@ const copy = {
     buffer: "履约缓冲",
     days: "个工作日",
     acknowledgePrefix: "我确认：",
-    sourcingAcknowledge: "我理解 Orbmare 会在付款后确认供货、包装和最终运输方式；如果出现明显运费差额，傲马会先通过邮件联系我再继续处理。",
     backDiscover: "返回发现",
     links: { shipping: "配送", returns: "退货", customs: "税费", contact: "联系" },
   },
@@ -138,13 +133,7 @@ const copy = {
     economySea: "Economy sea freight",
     realtimeQuote: "Live or account rate",
     estimatedQuote: "Estimated rate",
-    sourcingTitle: "Sourcing and shipping confirmation",
-    sourcingLead: "A quick note before you pay: many Orbmare objects do not leave from one big warehouse. After payment, we first confirm availability, package details, and the best air or sea shipping route with the supplier.",
-    sourcingQuote: "The shipping fee shown now is an estimate based on your address, item weight, dimensions, and selected transport method. In most cases it is enough to proceed. If the final carrier quote changes materially, we will email you first and will not add extra cost without confirmation.",
-    sourcingUpdate: "Supplier confirmation, shipping choice, dispatch, and tracking updates will be sent by email.",
-    smallDifference: "Small difference: we will try to handle it internally.",
-    materialDifference: "Material difference: you may pay the difference, change the shipping method, or cancel for a refund.",
-    unavailableItem: "If the supplier confirms the item is unavailable, we will offer a refund, a replacement suggestion, or contact you before deciding.",
+    ...customerCopy.checkout,
     estimateTitle: "Estimated fulfillment",
     termsTitle: "Order-specific terms",
     acknowledgementTitle: "Policy acknowledgement",
@@ -189,7 +178,7 @@ const copy = {
     limited: "Limited allocation",
     custom: "Custom production",
     stocked: "In stock",
-    finalSale: "Final sale",
+    finalSale: "Order-specific sale terms",
     returnPolicy: "Return policy",
     included: "Included",
     estimated: "Estimated",
@@ -202,7 +191,6 @@ const copy = {
     buffer: "Fulfillment buffer",
     days: "business days",
     acknowledgePrefix: "I confirm:",
-    sourcingAcknowledge: "I understand Orbmare will confirm availability, package details, and final shipping after payment. If a material shipping difference appears, Orbmare will email me before continuing.",
     backDiscover: "Back to Discover",
     links: { shipping: "Shipping", returns: "Returns", customs: "Customs", contact: "Contact" },
   },

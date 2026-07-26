@@ -57,6 +57,7 @@ import {
   listEmailTemplates,
   sendEmail,
 } from "./email-service.js";
+import { getAdminCommunicationCopy } from "./admin-communications.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const adminWebRoot = path.join(__dirname, "..", "web", "admin");
@@ -548,6 +549,7 @@ export function createAdminRouter({
         email: {
           config: getEmailConfig(),
           templates: listEmailTemplates(),
+          adminCopy: getAdminCommunicationCopy().emailWorkflows,
         },
       });
     } catch (error) {
@@ -568,6 +570,7 @@ export function createAdminRouter({
         ok: true,
         config: getEmailConfig(),
         templates: listEmailTemplates(),
+        adminCopy: getAdminCommunicationCopy().emailWorkflows,
         draft,
         to: order.customer?.email || "",
         customerName: order.customer?.name || "",

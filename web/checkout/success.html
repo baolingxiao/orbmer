@@ -1,28 +1,30 @@
 <!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Payment status | Orbmare</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/shared/css/editorial.css?v=15"><link rel="stylesheet" href="/checkout/checkout.css"></head><body>
 <main class="checkout-layout success-layout"><section class="checkout-form success-card">
-<p class="checkout-kicker">Sourcing request status</p><h1 id="title">Verifying payment</h1><p class="lede" id="message">Please wait while Orbmare verifies the payment with Stripe.</p>
+<p class="checkout-kicker">Sourcing request status</p><h1 id="title">Verifying payment</h1><p class="lede" id="message">We’re checking the payment status.</p>
 <dl class="success-details" id="details" hidden><div><dt>Order request</dt><dd id="orderId"></dd></div><div><dt>Payment status</dt><dd id="paymentStatus"></dd></div><div><dt>Order status</dt><dd id="orderStatus"></dd></div><div><dt>Next update</dt><dd id="nextUpdate"></dd></div></dl>
-<p class="policy-notice">A successful payment does not mean the third-party supplier has confirmed availability. Orbmare will next review availability and send an acceptance, purchasing, cancellation, or refund update.</p>
-<p>Support: [SUPPORT_EMAIL]</p><nav class="checkout-links"><a href="/legal/purchasing-service.html">Purchasing Service Agreement</a><a href="/legal/returns.html">Returns and Refunds</a><a href="/legal/contact.html">Contact</a></nav><a class="back-shop" href="/discover/">Return to Discover</a>
+<p class="policy-notice">A successful payment means Orbmare has received your order request. Supplier availability and final sourcing details are confirmed next.</p>
+<p>Support: <a href="/legal/contact.html">Contact Orbmare</a></p><nav class="checkout-links"><a href="/legal/purchasing-service.html">Purchasing Service Agreement</a><a href="/legal/returns.html">Returns and Refunds</a><a href="/legal/contact.html">Contact</a></nav><a class="back-shop" href="/discover/">Return to Discover</a>
 </section></main>
-<script>
+<script type="module">
+import { getCustomerCommunicationCopy } from "/shared/js/customer-communications.js";
 (async function () {
+  const customerCopy = getCustomerCommunicationCopy(document.documentElement.lang.startsWith("zh") ? "zh" : "en").status;
   const id = new URLSearchParams(location.search).get("payment_intent");
   const title = document.getElementById("title"), message = document.getElementById("message");
-  if (!id || id.startsWith("demo_")) { title.textContent = "No valid payment reference"; message.textContent = "Return to checkout and try again. No simulated order was created."; return; }
+  if (!id || id.startsWith("demo_")) { title.textContent = "Payment reference needed"; message.textContent = customerCopy.paymentReferenceMissing; return; }
   try {
     const base = location.port === "5180" ? "http://127.0.0.1:4242" : "";
     const response = await fetch(base + "/api/stripe/payment-status?payment_intent=" + encodeURIComponent(id));
     const result = await response.json();
-    if (!response.ok || !result.ok) throw new Error(result.error || "Verification failed.");
+    if (!response.ok || !result.ok) throw new Error(result.error || customerCopy.paymentVerificationDelayed);
     title.textContent = result.status === "succeeded" ? "Payment received" : "Payment update";
-    message.textContent = result.status === "succeeded" ? "Your payment was received. Availability checking is the next step; the order is not yet supplier-confirmed." : "Stripe reports: " + result.status + ".";
+    message.textContent = result.status === "succeeded" ? customerCopy.paymentReceived : customerCopy.paymentUpdate;
     document.getElementById("orderId").textContent = result.order.id;
     document.getElementById("paymentStatus").textContent = result.status;
     document.getElementById("orderStatus").textContent = result.order.status;
     document.getElementById("nextUpdate").textContent = result.order.nextUpdate;
     document.getElementById("details").hidden = false;
     try { localStorage.setItem("orbmare-cart-v2", "[]"); sessionStorage.removeItem("orbmare-checkout-draft"); } catch {}
-  } catch (error) { title.textContent = "Payment verification delayed"; message.textContent = error.message + " Contact [SUPPORT_EMAIL] with the Stripe payment reference if the status does not update."; }
+  } catch (error) { title.textContent = "Payment verification delayed"; message.textContent = error.message || customerCopy.paymentVerificationDelayed; }
 })();
 </script></body></html>

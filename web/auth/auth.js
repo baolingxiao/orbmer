@@ -1,3 +1,7 @@
+import { getCustomerCommunicationCopy } from "/shared/js/customer-communications.js";
+
+const lang = document.documentElement.lang?.startsWith("en") ? "en" : "zh";
+const customerCopy = getCustomerCommunicationCopy(lang);
 const state = { csrfToken: "", role: "" };
 const guestView = document.querySelector("[data-guest-view]");
 const buyerView = document.querySelector("[data-buyer-view]");
@@ -13,13 +17,8 @@ function showGoogleResult(googleAvailable = null) {
     history.replaceState({}, "", "/auth/");
     return;
   }
-  const messages = {
-    cancelled: "已取消 Google 登录。",
-    state_error: "登录验证已过期，请重新尝试。",
-    failed: "Google 登录未完成，请稍后重试。",
-    unavailable: "Google 登录暂不可用，请使用邮箱继续。",
-  };
-  message.textContent = messages[result] || "Google 登录未完成，请稍后重试。";
+  const messages = customerCopy.auth.google;
+  message.textContent = messages[result] || messages.fallback;
   message.hidden = false;
   history.replaceState({}, "", "/auth/");
 }
@@ -35,7 +34,7 @@ async function api(path, options = {}) {
     headers,
   });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || "Request failed");
+  if (!response.ok) throw new Error(data.error || customerCopy.auth.requestFailed);
   return data;
 }
 
@@ -75,7 +74,7 @@ async function loadOrders() {
   const data = await api("/orders");
   const root = document.querySelector("[data-orders]");
   if (!data.orders?.length) {
-    root.innerHTML = "<p>暂无订单。可用同一邮箱下单后再点「关联历史订单」。</p>";
+    root.innerHTML = `<p>${customerCopy.auth.noOrders}</p>`;
     return;
   }
   root.innerHTML = data.orders
@@ -134,7 +133,7 @@ document.querySelector("[data-register-form]")?.addEventListener("submit", async
     });
     error.hidden = false;
     error.classList.add("success");
-    error.textContent = "注册成功，请切换到登录";
+    error.textContent = customerCopy.auth.registerSuccess;
   } catch (err) {
     error.hidden = false;
     error.classList.remove("success");
