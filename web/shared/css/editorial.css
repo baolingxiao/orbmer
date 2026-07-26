@@ -4078,6 +4078,126 @@ button {
   text-transform: uppercase;
 }
 
+.journal-article {
+  max-width: 920px;
+  margin: 0 auto clamp(80px, 10vw, 140px);
+}
+
+.journal-back {
+  display: inline-flex;
+  margin: 0 0 clamp(40px, 6vw, 72px);
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.22);
+}
+
+.journal-article-head {
+  max-width: 760px;
+  margin: 0 0 clamp(36px, 5vw, 64px);
+}
+
+.journal-article-head h1,
+.journal-lock h1 {
+  margin: 0 0 24px;
+  font-family: var(--font-display);
+  font-size: clamp(3.1rem, 7vw, 6.8rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.journal-article-head p,
+.journal-lock p {
+  margin: 0 0 18px;
+  max-width: 680px;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.75;
+}
+
+.journal-article-head span,
+.journal-lock-meta {
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.journal-article-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  margin: 0 0 clamp(42px, 6vw, 76px);
+  background: #eee;
+}
+
+.journal-article-body {
+  max-width: 720px;
+}
+
+.journal-article-body p {
+  margin: 0 0 26px;
+  color: var(--ink);
+  font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+  line-height: 1.9;
+}
+
+.journal-loading,
+.journal-lock {
+  min-height: min(680px, 70vh);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.journal-lock-icon {
+  width: 86px;
+  height: 86px;
+  margin: 0 0 30px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+.journal-lock-icon svg {
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.journal-lock h2 {
+  margin: -10px 0 18px;
+  max-width: 720px;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.journal-lock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.journal-lock-actions .btn {
+  width: auto;
+  min-width: 180px;
+  text-align: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .picks-marquee-track {
     flex-wrap: wrap;

@@ -8,46 +8,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=5" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=6" />
   </head>
   <body>
     <div data-orb-header></div>
-    <main>
-      <section class="page-hero shell-wide" data-module="journal">
+    <main data-journal-page>
+      <section class="page-hero shell-wide" data-module="journal" data-journal-hero>
         <h1 data-i18n="journal.title" data-editable="journal.title">Journal</h1>
         <p data-i18n="journal.lead" data-editable="journal.lead">一本关于制作的奢华杂志——工艺、材料、国家、设计师，以及非凡物件背后的安静工作。</p>
       </section>
       <section class="section-tight shell-wide">
         <div class="journal-list reveal" data-journal-list></div>
+        <article class="journal-article" data-journal-article hidden></article>
       </section>
     </main>
     <div data-orb-footer></div>
     <script type="module">
       import { mountChrome } from "/shared/js/chrome.js";
       import { applyI18n, getLang, onLangChange, t } from "/shared/js/editorial-i18n.js";
+      import { JOURNAL_ARTICLES, JOURNAL_WEEKLY_LIMIT, getJournalArticle } from "/shared/js/journal-data.js";
 
-      const FALLBACK_ITEMS = [
-        { cat: "工艺", catEn: "Craft", title: "锻造之内：日本刃物为何仍是标准", titleEn: "Inside forging: why Japanese blades remain the standard", href: "/craftsmanship/?id=forged" },
-        { cat: "材料", catEn: "Material", title: "Baby Cashmere——可感知的稀有", titleEn: "Baby Cashmere — rarity you can feel", href: "/materials/?id=baby-cashmere" },
-        { cat: "国家", catEn: "Country", title: "佛罗伦萨皮革与植鞣的耐心", titleEn: "Florentine leather and the patience of vegetable tanning", href: "/countries/italy/" },
-        { cat: "访谈", catEn: "Interview", title: "林薇谈瓷器、克制与景德镇的光", titleEn: "Lin Wei on porcelain, restraint, and Jingdezhen light", href: "/brand/?id=designer-lin-wei" },
-        { cat: "指南", catEn: "Guide", title: "如何辨识植鞣革的品质", titleEn: "How to recognise quality in vegetable-tanned leather", href: "/materials/?id=vegetable-tanned-leather" },
-        { cat: "走访", catEn: "Visit", title: "中国精品：为何傲马的中国不是“中国制造”", titleEn: "China curated: why Orbmare's China is not 'Made in China'", href: "/countries/china/" },
-      ];
-
-      async function loadJournal() {
-        try {
-          const res = await fetch(`/api/site-content?t=${Date.now()}`, {
-            cache: "no-store",
-            headers: { Accept: "application/json" },
-          });
-          if (!res.ok) return null;
-          const data = await res.json();
-          return data?.ok ? data.content?.journal : null;
-        } catch {
-          return null;
-        }
-      }
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get("id") || "";
+      let currentPayload = null;
+      let currentError = null;
 
       function escapeHtml(value) {
         return String(value ?? "")
@@ -57,42 +41,179 @@
           .replace(/"/g, "&quot;");
       }
 
-      const journal = await loadJournal();
-      mountChrome({ title: "Journal | Orbmare" });
-
-      function render(lang = getLang()) {
-        applyI18n(lang);
-        if (journal?.title || journal?.titleEn) {
-          const titleEl = document.querySelector("[data-editable='journal.title']");
-          const leadEl = document.querySelector("[data-editable='journal.lead']");
-          if (titleEl) {
-            titleEl.textContent =
-              lang === "en" ? journal.titleEn || journal.title : journal.title || journal.titleEn;
-          }
-          if (leadEl) {
-            leadEl.textContent =
-              lang === "en" ? journal.leadEn || journal.lead : journal.lead || journal.leadEn;
-          }
+      async function authApi(path, options = {}) {
+        const res = await fetch(`/auth/api${path}`, {
+          credentials: "include",
+          cache: "no-store",
+          headers: { Accept: "application/json", ...(options.headers || {}) },
+          ...options,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const error = new Error(data.error || `Request failed: ${res.status}`);
+          error.status = res.status;
+          error.data = data;
+          throw error;
         }
-        const items = Array.isArray(journal?.items) && journal.items.length ? journal.items : FALLBACK_ITEMS;
-        const root = document.querySelector("[data-journal-list]");
-        if (!root) return;
-        root.innerHTML = items
-          .map((item) => {
-            const cat = lang === "en" ? item.catEn || item.cat : item.cat || item.catEn;
-            const title = lang === "en" ? item.titleEn || item.title : item.title || item.titleEn;
-            const href = item.href || "/journal/";
-            return `<a class="journal-item" href="${escapeHtml(href)}">
-              <time>${escapeHtml(cat || "")}</time>
-              <h3>${escapeHtml(title || "")}</h3>
-              <span>${escapeHtml(t("journal.read", lang))}</span>
-            </a>`;
-          })
-          .join("");
+        return data;
       }
 
+      function articleText(article, field, lang = getLang()) {
+        if (!article) return "";
+        const suffix = lang === "en" ? "En" : "Zh";
+        return article[`${field}${suffix}`] || article[`${field}Zh`] || article[`${field}En`] || "";
+      }
+
+      function renderList(lang = getLang()) {
+        const list = document.querySelector("[data-journal-list]");
+        const articleRoot = document.querySelector("[data-journal-article]");
+        if (!list) return;
+        list.hidden = false;
+        if (articleRoot) articleRoot.hidden = true;
+        list.innerHTML = JOURNAL_ARTICLES.map((item) => {
+          const cat = articleText(item, "category", lang);
+          const title = articleText(item, "title", lang);
+          const excerpt = articleText(item, "excerpt", lang);
+          return `<a class="journal-item" href="/journal/?id=${encodeURIComponent(item.id)}">
+            <time>${escapeHtml(cat)}</time>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(excerpt)}</p>
+            <span>${escapeHtml(t("journal.read", lang))}</span>
+          </a>`;
+        }).join("");
+      }
+
+      function renderLock({ code, access, article }, lang = getLang()) {
+        const isEn = lang === "en";
+        const isLimit = code === "JOURNAL_WEEKLY_LIMIT";
+        const title = isLimit
+          ? isEn
+            ? "You have used this week’s Journal reads"
+            : "本周 Journal 阅读次数已用完"
+          : isEn
+            ? "This Journal story is for members"
+            : "这篇 Journal 需要会员阅读";
+        const body = isLimit
+          ? isEn
+            ? `Journal members can read ${JOURNAL_WEEKLY_LIMIT} stories every 7 days. Collector members have unlimited Journal access.`
+            : `Journal 会员每 7 天可以阅读 ${JOURNAL_WEEKLY_LIMIT} 篇。Collector 会员可以无限量阅读 Journal。`
+          : isEn
+            ? `Sign in with an active Journal membership to read this story. Collector members can read without limits.`
+            : `登录并开通 Journal 会员后可以阅读。Collector 会员不受每周篇数限制。`;
+        const reset = access?.resetAt
+          ? new Date(access.resetAt).toLocaleString(isEn ? "en-US" : "zh-CN", { dateStyle: "medium", timeStyle: "short" })
+          : "";
+        const articleTitle = article ? articleText(article, "title", lang) : "";
+        return `<div class="journal-lock">
+          <div class="journal-lock-icon" aria-hidden="true">
+            <svg viewBox="0 0 72 72" role="img">
+              <path d="M22 31v-8c0-8 6-14 14-14s14 6 14 14v8" />
+              <rect x="17" y="31" width="38" height="30" rx="3" />
+              <path d="M36 43v8" />
+            </svg>
+          </div>
+          <p class="section-kicker">Orbmare Journal</p>
+          <h1>${escapeHtml(title)}</h1>
+          ${articleTitle ? `<h2>${escapeHtml(articleTitle)}</h2>` : ""}
+          <p>${escapeHtml(body)}</p>
+          ${isLimit && reset ? `<p class="journal-lock-meta">${escapeHtml(isEn ? `Next reads start around ${reset}.` : `下一次额度大约在 ${reset} 恢复。`)}</p>` : ""}
+          <div class="journal-lock-actions">
+            <a class="btn" href="/membership/">${escapeHtml(isEn ? "View membership" : "查看会员")}</a>
+            <a class="btn ghost" href="/journal/">${escapeHtml(isEn ? "Back to Journal" : "返回 Journal")}</a>
+          </div>
+        </div>`;
+      }
+
+      function renderArticle(lang = getLang()) {
+        const root = document.querySelector("[data-journal-article]");
+        const list = document.querySelector("[data-journal-list]");
+        const hero = document.querySelector("[data-journal-hero]");
+        if (!root) return;
+        if (list) list.hidden = true;
+        if (hero) hero.hidden = true;
+        root.hidden = false;
+
+        const localArticle = getJournalArticle(articleId);
+        if (!articleId || !localArticle) {
+          root.innerHTML = renderLock({
+            code: "NOT_FOUND",
+            article: null,
+            access: null,
+          }, lang);
+          return;
+        }
+
+        if (currentError) {
+          root.innerHTML = renderLock({
+            code: currentError.code,
+            article: localArticle,
+            access: currentError.access,
+          }, lang);
+          return;
+        }
+
+        if (!currentPayload?.article) {
+          root.innerHTML = `<div class="journal-loading">${escapeHtml(lang === "en" ? "Checking your Journal access…" : "正在确认你的 Journal 阅读权限…")}</div>`;
+          return;
+        }
+
+        const article = currentPayload.article;
+        const access = currentPayload.access || {};
+        const body = Array.isArray(article.body) ? article.body : [];
+        const counter = access.unlimited
+          ? lang === "en"
+            ? "Collector access · unlimited Journal reading"
+            : "Collector 权限 · Journal 不限量阅读"
+          : lang === "en"
+            ? `Journal access · ${access.used || 0}/${access.limit || JOURNAL_WEEKLY_LIMIT} reads used this week`
+            : `Journal 权限 · 本周已读 ${access.used || 0}/${access.limit || JOURNAL_WEEKLY_LIMIT} 篇`;
+
+        root.innerHTML = `<a class="journal-back" href="/journal/">${escapeHtml(lang === "en" ? "Back to Journal" : "返回 Journal")}</a>
+          <header class="journal-article-head">
+            <p class="section-kicker">${escapeHtml(article.category || "")}</p>
+            <h1>${escapeHtml(article.title || "")}</h1>
+            <p>${escapeHtml(article.excerpt || "")}</p>
+            <span>${escapeHtml(counter)}</span>
+          </header>
+          <img class="journal-article-image" src="${escapeHtml(article.image || "")}" alt="" loading="lazy" />
+          <div class="journal-article-body">
+            ${body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+          </div>`;
+      }
+
+      async function loadArticleAccess() {
+        if (!articleId) return;
+        try {
+          currentPayload = await authApi(`/journal/${encodeURIComponent(articleId)}?lang=${getLang()}`);
+          currentError = null;
+        } catch (error) {
+          currentPayload = null;
+          currentError = {
+            code: error.status === 401 ? "MEMBERSHIP_REQUIRED" : error.data?.code || "MEMBERSHIP_REQUIRED",
+            access: error.data?.access || null,
+          };
+        }
+      }
+
+      mountChrome({ title: "Journal | Orbmare" });
+
+      async function render(lang = getLang()) {
+        applyI18n(lang);
+        if (!articleId) {
+          renderList(lang);
+          return;
+        }
+        renderArticle(lang);
+      }
+
+      if (articleId) await loadArticleAccess();
       render(getLang());
-      onLangChange(render);
+      onLangChange(async (lang) => {
+        if (articleId && currentPayload?.article) {
+          await loadArticleAccess();
+        }
+        render(lang);
+      });
     </script>
   </body>
 </html>

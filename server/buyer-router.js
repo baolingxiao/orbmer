@@ -6,6 +6,9 @@ import multer from "multer";
 import Stripe from "stripe";
 import { createPortalAuth } from "./portal-auth.js";
 import { isDatabaseEnabled, query } from "./db/index.js";
+import { JOURNAL_WEEKLY_LIMIT, getJournalArticle } from "../web/shared/js/journal-data.js";
+import { tierRank } from "../web/shared/js/membership-data.js";
+import { recordJournalRead } from "./db/journal-repo.js";
 import {
   createUser,
   findBuyerByGoogleSubject,
@@ -44,6 +47,18 @@ const MEMBERSHIP_PRICE_ENV = {
     yearly: "STRIPE_COLLECTOR_YEARLY_PRICE_ID",
   },
 };
+
+function publicJournalArticle(article, lang = "zh") {
+  const useEn = lang === "en";
+  return {
+    id: article.id,
+    title: useEn ? article.titleEn : article.titleZh,
+    category: useEn ? article.categoryEn : article.categoryZh,
+    image: article.image,
+    excerpt: useEn ? article.excerptEn : article.excerptZh,
+    body: useEn ? article.bodyEn : article.bodyZh,
+  };
+}
 
 function looksLikeRealKey(value) {
   return Boolean(value && !/x{4,}|your[_-]?|replace|changeme|example/i.test(value) && String(value).length >= 20);
@@ -463,6 +478,70 @@ export function createBuyerRouter({ express, secureCookies, publicBaseUrl = "" }
       });
       if (!journey) return res.status(404).json({ ok: false, error: "Order not found." });
       return res.json({ ok: true, ...journey });
+    } catch (error) {
+      return res.status(500).json({ ok: false, error: error.message });
+    }
+  });
+
+  router.get("/api/journal/:id", auth.requireSession, async (req, res) => {
+    try {
+      if (req.portalSession.role !== "buyer") {
+        return res.status(403).json({ ok: false, error: "Buyer access required." });
+      }
+      const article = getJournalArticle(req.params.id);
+      if (!article) return res.status(404).json({ ok: false, error: "Journal article not found." });
+
+      const lang = String(req.query?.lang || "zh").trim() === "en" ? "en" : "zh";
+      if (!isDatabaseEnabled()) {
+        return res.status(503).json({ ok: false, error: "Database is required for Journal access." });
+      }
+
+      const membership = await getMembershipForUser(req.portalSession.userId);
+      const tier = membership?.tier || req.portalSession.membershipStatus || "explorer";
+
+      if (["collector", "black"].includes(tier)) {
+        return res.json({
+          ok: true,
+          article: publicJournalArticle(article, lang),
+          access: { tier, unlimited: true, used: null, limit: null, resetAt: null },
+        });
+      }
+
+      if (tierRank(tier) < tierRank("journal")) {
+        return res.status(403).json({
+          ok: false,
+          code: "MEMBERSHIP_REQUIRED",
+          error: "Journal membership is required.",
+          currentTier: tier,
+          requiredTier: "journal",
+          access: { tier, unlimited: false, used: 0, limit: JOURNAL_WEEKLY_LIMIT, resetAt: null },
+        });
+      }
+
+      const access = await recordJournalRead(req.portalSession.userId, article.id);
+      if (!access.allowed) {
+        return res.status(403).json({
+          ok: false,
+          code: "JOURNAL_WEEKLY_LIMIT",
+          error: "Weekly Journal reading limit reached.",
+          currentTier: tier,
+          requiredTier: "collector",
+          access: { tier, unlimited: false, used: access.used, limit: access.limit, resetAt: access.resetAt },
+        });
+      }
+
+      return res.json({
+        ok: true,
+        article: publicJournalArticle(article, lang),
+        access: {
+          tier,
+          unlimited: false,
+          used: access.used,
+          limit: access.limit,
+          resetAt: access.resetAt,
+          alreadyReadInWindow: access.alreadyReadInWindow,
+        },
+      });
     } catch (error) {
       return res.status(500).json({ ok: false, error: error.message });
     }

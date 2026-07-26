@@ -11,10 +11,10 @@ export const COLLECTIONS = [
 ];
 
 export const JOURNAL_FEATURES = [
-  { zh: "苎麻的历史", en: "The History of Ramie", kindZh: "材料", kindEn: "Material", href: "/materials/?id=ramie", image: "/assets/editorial/material-cashmere.jpg" },
-  { zh: "为什么日本黄铜愈用愈美", en: "Why Japanese Copper Ages Beautifully", kindZh: "工艺", kindEn: "Craft", href: "/countries/japan/", image: "/assets/editorial/country-japan.jpg" },
-  { zh: "安静奢华的美", en: "The Beauty of Quiet Luxury", kindZh: "观点", kindEn: "Perspective", href: "/journal/", image: "/assets/editorial/designer-atelier.jpg" },
-  { zh: "意大利皮革释义", en: "Italian Leather Explained", kindZh: "材料", kindEn: "Material", href: "/countries/italy/", image: "/assets/editorial/country-italy.jpg" },
+  { zh: "苎麻的历史", en: "The History of Ramie", kindZh: "材料", kindEn: "Material", href: "/journal/?id=history-of-ramie", image: "/assets/editorial/material-cashmere.jpg" },
+  { zh: "为什么日本黄铜愈用愈美", en: "Why Japanese Copper Ages Beautifully", kindZh: "工艺", kindEn: "Craft", href: "/journal/?id=japanese-copper-aging", image: "/assets/editorial/country-japan.jpg" },
+  { zh: "安静奢华的美", en: "The Beauty of Quiet Luxury", kindZh: "观点", kindEn: "Perspective", href: "/journal/?id=quiet-luxury-beauty", image: "/assets/editorial/designer-atelier.jpg" },
+  { zh: "意大利皮革释义", en: "Italian Leather Explained", kindZh: "材料", kindEn: "Material", href: "/journal/?id=italian-leather-explained", image: "/assets/editorial/country-italy.jpg" },
 ];
 
 /** Each route intentionally maps to an available catalog signal, never open search. */
