@@ -31,6 +31,11 @@ export const COUNTRY_FULFILLMENT_RULES = Object.freeze({
       { maxGrams: 4000, fee: 2800 },
       { maxGrams: 8000, fee: 4600 },
     ],
+    shippingLanes: {
+      expressAir: { feeMultiplier: 3.1, daysMin: 3, daysMax: 6 },
+      standardAir: { feeMultiplier: 1, daysMin: 6, daysMax: 12 },
+      economySea: { feeMultiplier: 0.65, daysMin: 28, daysMax: 42 },
+    },
     landedCost: {
       dutyRateBps: 0,
       importTaxRateBps: 0,
@@ -65,6 +70,11 @@ export const COUNTRY_FULFILLMENT_RULES = Object.freeze({
       { maxGrams: 4000, fee: 4200 },
       { maxGrams: 8000, fee: 6800 },
     ],
+    shippingLanes: {
+      expressAir: { feeMultiplier: 2.9, daysMin: 4, daysMax: 7 },
+      standardAir: { feeMultiplier: 1, daysMin: 8, daysMax: 16 },
+      economySea: { feeMultiplier: 0.62, daysMin: 30, daysMax: 48 },
+    },
     landedCost: {
       dutyRateBps: 600,
       importTaxRateBps: 0,
@@ -99,6 +109,11 @@ export const COUNTRY_FULFILLMENT_RULES = Object.freeze({
       { maxGrams: 4000, fee: 5600 },
       { maxGrams: 8000, fee: 8400 },
     ],
+    shippingLanes: {
+      expressAir: { feeMultiplier: 2.8, daysMin: 4, daysMax: 8 },
+      standardAir: { feeMultiplier: 1, daysMin: 9, daysMax: 18 },
+      economySea: { feeMultiplier: 0.58, daysMin: 32, daysMax: 52 },
+    },
     landedCost: {
       dutyRateBps: 800,
       importTaxRateBps: 0,
@@ -133,6 +148,11 @@ export const COUNTRY_FULFILLMENT_RULES = Object.freeze({
       { maxGrams: 4000, fee: 6600 },
       { maxGrams: 8000, fee: 9800 },
     ],
+    shippingLanes: {
+      expressAir: { feeMultiplier: 2.85, daysMin: 5, daysMax: 9 },
+      standardAir: { feeMultiplier: 1, daysMin: 10, daysMax: 20 },
+      economySea: { feeMultiplier: 0.6, daysMin: 35, daysMax: 58 },
+    },
     landedCost: {
       dutyRateBps: 500,
       importTaxRateBps: 0,

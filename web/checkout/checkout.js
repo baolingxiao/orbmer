@@ -37,6 +37,11 @@ const copy = {
     region: "州/省/地区",
     postal: "邮编",
     deliveryMethod: "配送方式",
+    expressAir: "空运快递",
+    standardAir: "标准空运",
+    economySea: "经济海运",
+    realtimeQuote: "实时或账号报价",
+    estimatedQuote: "估算报价",
     estimateTitle: "预计履约时间",
     termsTitle: "本订单特殊条款",
     acknowledgementTitle: "政策确认",
@@ -118,6 +123,11 @@ const copy = {
     region: "State / province / region",
     postal: "Postal code",
     deliveryMethod: "Delivery method",
+    expressAir: "Express air",
+    standardAir: "Standard air",
+    economySea: "Economy sea freight",
+    realtimeQuote: "Live or account rate",
+    estimatedQuote: "Estimated rate",
     estimateTitle: "Estimated fulfillment",
     termsTitle: "Order-specific terms",
     acknowledgementTitle: "Policy acknowledgement",
@@ -377,12 +387,29 @@ function renderTotals(quote) {
 }
 
 function renderShipping(quote) {
-  const shipping = quote.shippingQuote;
-  shippingMethods.innerHTML = `<label class="method-row">
-    <input type="radio" name="shippingMethod" value="${escapeHtml(shipping.serviceCode)}" checked>
-    <span><strong>${escapeHtml(shipping.serviceName)}</strong><small>${shipping.estimatedTransitDaysMin}-${shipping.estimatedTransitDaysMax} ${copy.days} · ${escapeHtml(shipping.source)}</small></span>
-    <em>${money(shipping.shippingFee, quote.currency)}</em>
-  </label>`;
+  const options = quote.shippingOptions?.length ? quote.shippingOptions : [quote.shippingQuote];
+  const modeLabels = {
+    EXPRESS_AIR: copy.expressAir,
+    STANDARD_AIR: copy.standardAir,
+    ECONOMY_SEA: copy.economySea,
+  };
+  shippingMethods.innerHTML = options
+    .map((shipping) => {
+      const checked = shipping.serviceCode === quote.selectedShippingMethod ? "checked" : "";
+      const name = lang === "zh" ? shipping.serviceNameZh || shipping.serviceName : shipping.serviceName;
+      const mode = modeLabels[shipping.shippingMode] || shipping.shippingMode;
+      const source = shipping.isEstimate ? copy.estimatedQuote : copy.realtimeQuote;
+      return `<label class="method-row">
+        <input type="radio" name="shippingMethod" value="${escapeHtml(shipping.serviceCode)}" ${checked}>
+        <span>
+          <strong>${escapeHtml(name)}</strong>
+          <small>${escapeHtml(mode)} · ${shipping.estimatedTransitDaysMin}-${shipping.estimatedTransitDaysMax} ${copy.days}</small>
+          <small>${escapeHtml(shipping.carrier)} · ${escapeHtml(source)}</small>
+        </span>
+        <em>${money(shipping.shippingFee, quote.currency)}</em>
+      </label>`;
+    })
+    .join("");
 }
 
 function renderStages(quote) {
@@ -517,6 +544,10 @@ form.addEventListener("input", (event) => {
     if (event.target.name === "country") updateAddressLabels();
     scheduleQuote();
   }
+});
+
+form.addEventListener("change", (event) => {
+  if (event.target.name === "shippingMethod") scheduleQuote();
 });
 
 form.addEventListener("submit", async (event) => {

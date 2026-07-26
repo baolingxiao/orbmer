@@ -207,14 +207,14 @@ select:focus {
   grid-template-columns: 22px 1fr auto;
   align-items: center;
   gap: 14px;
-  padding: 16px 0;
+  padding: 18px 0;
   border-top: 1px solid var(--line);
   color: var(--ink);
 }
 
 .method-row input { width: 18px; height: 18px; }
 .method-row strong { display: block; font-size: 14px; }
-.method-row small { display: block; margin-top: 4px; color: var(--muted); }
+.method-row small { display: block; margin-top: 4px; color: var(--muted); line-height: 1.45; }
 .method-row em { font-style: normal; font-weight: 600; }
 
 .fulfillment-stages {

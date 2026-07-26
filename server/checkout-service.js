@@ -9,6 +9,7 @@ import {
   TAX_RULE_VERSION,
 } from "./checkout-config.js";
 import { resolveTrustedItems, POLICY_VERSIONS } from "./checkout-products.js";
+import { getShippingOptions, selectShippingOption } from "./shipping/index.js";
 
 const QUOTE_TTL_MS = 15 * 60 * 1000;
 const BUFFER_DAYS = 2;
@@ -104,28 +105,6 @@ function validateAddress(address, rule) {
     postalValid,
     regionLabel: requirements.regionLabel,
     postalLabel: requirements.postalLabel,
-  };
-}
-
-function quoteShipping(items, address, rule) {
-  const totalWeight = items.reduce((sum, item) => {
-    const meta = productCheckoutMeta(item);
-    return sum + meta.weightGrams * item.qty;
-  }, 0);
-  const tier = (rule.weightTiers || []).find((entry) => totalWeight <= entry.maxGrams);
-  const shippingFee = cents(tier?.fee ?? rule.fallbackShippingFee);
-  return {
-    serviceCode: `${rule.countryCode}_${rule.shippingMode}`,
-    serviceName: rule.countryCode === "US" ? "International standard" : "Cross-border standard",
-    shippingFee,
-    currency: rule.currency,
-    estimatedTransitDaysMin: rule.fallbackShippingDaysMin,
-    estimatedTransitDaysMax: rule.fallbackShippingDaysMax,
-    carrier: "Orbmare logistics desk",
-    quoteExpiresAt: new Date(Date.now() + QUOTE_TTL_MS).toISOString(),
-    remoteAreaSurcharge: 0,
-    source: tier ? "WEIGHT_BASED" : "FALLBACK_ESTIMATE",
-    isEstimate: true,
   };
 }
 
@@ -320,7 +299,22 @@ export async function createCheckoutQuote({
 
   const subtotal = trusted.reduce((sum, item) => sum + item.lineAmountCents, 0);
   const serviceFee = 0;
-  const shippingQuote = quoteShipping(trusted, address, rule);
+  const shippingQuoteExpiresAt = new Date(Date.now() + QUOTE_TTL_MS).toISOString();
+  const shippingOptions = await getShippingOptions({
+    items: trusted,
+    address,
+    rule,
+    quoteExpiresAt: shippingQuoteExpiresAt,
+  });
+  const shippingQuote = selectShippingOption(shippingOptions, selectedShippingMethod);
+  if (!shippingQuote) {
+    return {
+      ok: false,
+      code: "SHIPPING_UNAVAILABLE",
+      error: "No shipping method is currently available for this order.",
+      destinationCountry: address.country,
+    };
+  }
   const taxQuote = quoteTax({ address, rule, stripeTaxConfigured });
   const landedCost = quoteLandedCost(trusted, rule);
   const fulfillment = fulfillmentEstimate(trusted, shippingQuote, rule);
@@ -337,13 +331,14 @@ export async function createCheckoutQuote({
   if (!addressValidation.postalValid) warnings.push({ code: "INVALID_POSTAL_CODE" });
   if (taxQuote.status === "PENDING_PROVIDER") warnings.push({ code: "TAX_PENDING" });
   if (landedCost.status === "PAY_ON_DELIVERY") warnings.push({ code: "DUTY_PAY_ON_DELIVERY" });
-  if (shippingQuote.isEstimate) warnings.push({ code: "DUTY_ESTIMATED" });
+  if (shippingQuote.isEstimate) warnings.push({ code: "SHIPPING_ESTIMATED" });
+  for (const warning of shippingQuote.warnings || []) warnings.push({ code: warning });
 
   const quote = {
     ok: true,
     quoteId,
     quoteExpiresAt,
-    selectedShippingMethod: selectedShippingMethod || shippingQuote.serviceCode,
+    selectedShippingMethod: shippingQuote.serviceCode,
     lineItems: trusted,
     subtotal,
     serviceFee,
@@ -366,6 +361,7 @@ export async function createCheckoutQuote({
       addressRequirements: rule.addressRequirements,
     },
     addressValidation,
+    shippingOptions,
     shippingQuote,
     taxQuote,
     landedCost,
