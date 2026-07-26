@@ -1,6 +1,7 @@
 import "./admin-platform.js?v=34";
 import { createAdminUploader } from "./admin-upload.js";
 import { createAiOptimization } from "./ai/admin-ai.js";
+import { returnPolicyDisplay } from "/shared/js/commerce-display.js";
 
 const state = {
   csrfToken: "",
@@ -23,6 +24,7 @@ const state = {
   siteContent: null,
   activeSection: "overview",
   selectedProducts: new Set(),
+  shownFulfillmentWarnings: new Set(),
 };
 
 const loginView = document.querySelector("[data-login-view]");
@@ -364,6 +366,12 @@ function renderOverviewList(container, rows, emptyText) {
 function renderOverview() {
   const overview = state.overview;
   if (!overview) return;
+  (overview.fulfillmentWarnings || []).forEach((warning) => {
+    const key = `${warning.countryCode}:${warning.code}`;
+    if (state.shownFulfillmentWarnings.has(key)) return;
+    state.shownFulfillmentWarnings.add(key);
+    showToast(`履约规则提醒：${warning.countryCode} ${warning.message}`, true);
+  });
   document.querySelector("[data-metric-published]").textContent =
     overview.products.published;
   document.querySelector("[data-metric-product-detail]").textContent =
@@ -407,7 +415,10 @@ function productCell(product) {
   const copy = element("div", { className: "table-product-copy" });
   copy.append(
     element("strong", { text: product.zh?.name || product.en?.name || product.id }),
-    element("span", { text: product.id })
+    element("span", { text: product.id }),
+    element("span", {
+      text: returnPolicyDisplay(product.checkout?.returnPolicyType, "zh").summary,
+    })
   );
   wrapper.append(image, copy);
   return wrapper;
@@ -1066,6 +1077,7 @@ function openProductDialog(product = null) {
       product?.internationalShippingTime ||
       (channel === "editorial" ? "Arranged after availability confirmation" : "")
   );
+  setFormValue(productForm, "returnPolicyType", product?.checkout?.returnPolicyType || "MADE_TO_ORDER");
   document.querySelector("[data-product-dialog-title]").textContent = editing
     ? "编辑商品"
     : "新建商品";
@@ -1168,6 +1180,10 @@ function productPayload() {
         productForm,
         "internationalShippingTime"
       ),
+    },
+    checkout: {
+      ...(existing?.checkout || {}),
+      returnPolicyType: formValue(productForm, "returnPolicyType") || "MADE_TO_ORDER",
     },
   };
 }

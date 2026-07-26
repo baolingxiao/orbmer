@@ -58,6 +58,8 @@ import {
   sendEmail,
 } from "./email-service.js";
 import { getAdminCommunicationCopy } from "./admin-communications.js";
+import { COUNTRY_FULFILLMENT_RULES } from "./checkout-config.js";
+import { validateFulfillmentRule } from "../web/shared/js/commerce-display.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const adminWebRoot = path.join(__dirname, "..", "web", "admin");
@@ -104,6 +106,12 @@ async function overview() {
   );
   const materials = await listContent("material");
   const brands = await listContent("brand");
+  const fulfillmentWarnings = Object.values(COUNTRY_FULFILLMENT_RULES).flatMap((rule) =>
+    validateFulfillmentRule(rule).map((warning) => ({
+      ...warning,
+      countryCode: rule.countryCode,
+    }))
+  );
   return {
     products: {
       total: products.length,
@@ -137,6 +145,7 @@ async function overview() {
     recentOrders: orders.slice(0, 5),
     stockAlerts: stockAlerts.slice(0, 10),
     pendingReview: pendingReview.slice(0, 10),
+    fulfillmentWarnings,
   };
 }
 

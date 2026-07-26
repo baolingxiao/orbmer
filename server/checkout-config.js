@@ -166,7 +166,7 @@ export const COUNTRY_FULFILLMENT_RULES = Object.freeze({
     currency: "USD",
     shippingMode: "FALLBACK_ESTIMATE",
     incoterm: "DAP",
-    taxCalculationMode: "NOT_APPLICABLE",
+    taxCalculationMode: "STRIPE_TAX",
     dutyCalculationMode: "MANUAL_ESTIMATE",
     estimatedCustomsDaysMin: 4,
     estimatedCustomsDaysMax: 12,

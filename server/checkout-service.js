@@ -427,14 +427,31 @@ export function getStoredQuote(quoteId) {
   return quote;
 }
 
-export function buildConsentSnapshot({ quote, locale, accepted, sourcingAccepted }) {
+export function buildConsentSnapshot({
+  quote,
+  locale,
+  accepted,
+  sourcingAccepted,
+  legalAccepted,
+  acceptedAt,
+  communicationVersion,
+  policyLinks,
+  ip,
+  userAgent,
+}) {
   if (!quote?.policies) throw new Error("Quote policies are required.");
   if (accepted !== true) throw new Error("Required order acknowledgement was not provided.");
   if (sourcingAccepted !== true) throw new Error("Required sourcing and shipping acknowledgement was not provided.");
+  if (legalAccepted !== true) throw new Error("Required terms acknowledgement was not provided.");
   return {
     policyVersions: POLICY_VERSIONS,
     policyVersion: quote.policies.policyVersion,
     policyLocale: localeFrom(locale),
+    acceptedAt: acceptedAt || new Date().toISOString(),
+    communicationVersion: communicationVersion || null,
+    policyLinks: Array.isArray(policyLinks) ? policyLinks.filter(Boolean).slice(0, 12) : [],
+    ip: ip || "",
+    userAgent: userAgent || "",
     policySnapshot: quote.policies,
     orderTermsSnapshot: {
       lineItems: quote.lineItems.map((item) => ({
@@ -463,5 +480,6 @@ export function buildConsentSnapshot({ quote, locale, accepted, sourcingAccepted
     dutiesAcknowledged: quote.policies.dutiesAcknowledgementRequired,
     finalSaleAcknowledged: quote.policies.finalSaleAcknowledgementRequired,
     sourcingAcknowledged: true,
+    legalAcknowledged: true,
   };
 }

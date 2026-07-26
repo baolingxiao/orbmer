@@ -306,6 +306,18 @@ select:focus {
 
 .policy-block dt { color: var(--muted); }
 .policy-block dd { font-weight: 600; }
+.policy-block dd span {
+  display: inline-block;
+  margin-top: 4px;
+  color: #555;
+  font-weight: 400;
+  line-height: 1.75;
+}
+.policy-block dd hr {
+  margin: 12px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
 
 .policy-confirm ul {
   margin: 0;
@@ -328,6 +340,19 @@ select:focus {
   width: 18px;
   height: 18px;
   margin-top: 1px;
+}
+
+.consent-row a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pay-acknowledgement {
+  margin: 12px 0 0 32px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
 }
 
 .pay-note,

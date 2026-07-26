@@ -946,6 +946,16 @@
                 <input id="internationalShippingTime" name="internationalShippingTime" maxlength="160" required placeholder="例：发货后 7–18 天送达美国" />
               </div>
               <div class="field field-span-2">
+                <label for="returnPolicyType">退货规则 · 前台自然语言展示</label>
+                <select id="returnPolicyType" name="returnPolicyType">
+                  <option value="MADE_TO_ORDER">按订单采购（Made to Order）</option>
+                  <option value="STANDARD">标准退货</option>
+                  <option value="CUSTOMIZED">定制商品</option>
+                  <option value="FINAL_SALE">特殊售后条款</option>
+                </select>
+                <small>前台不会展示枚举值，只展示客户可理解的说明。</small>
+              </div>
+              <div class="field field-span-2">
                 <label for="productImageSource">图片来源说明</label>
                 <input id="productImageSource" name="imageSource" maxlength="200" placeholder="例：供应商实拍 / Orbmare 本地素材" />
               </div>

@@ -1,6 +1,11 @@
 import { getLang, LANG_KEY } from "/shared/js/editorial-i18n.js";
 import * as Store from "/shared/js/store.js";
 import { getCustomerCommunicationCopy } from "/shared/js/customer-communications.js";
+import {
+  incotermDisplay,
+  returnPolicyListDisplay,
+  taxStatusDisplay,
+} from "/shared/js/commerce-display.js";
 
 const API_BASE = window.location.port === "5180" ? "http://127.0.0.1:4242" : "";
 const lang = getLang();
@@ -65,6 +70,8 @@ const copy = {
     dueNow: "当前应付总额",
     deliveryDate: "预计送达日期",
     costStatus: "税费和进口费用状态",
+    importCosts: "税费和进口费用",
+    shippingTerms: "查看详细配送条款",
     dueOnDelivery: "预计到货时支付",
     countriesLoading: "正在载入可配送国家。",
     quoteLoading: "正在计算订单报价。",
@@ -153,6 +160,8 @@ const copy = {
     dueNow: "Total due now",
     deliveryDate: "Estimated delivery",
     costStatus: "Tax and import-cost status",
+    importCosts: "Taxes and import costs",
+    shippingTerms: "View detailed shipping terms",
     dueOnDelivery: "Estimated due on delivery",
     countriesLoading: "Loading available countries.",
     quoteLoading: "Calculating order quote.",
@@ -202,6 +211,13 @@ document.querySelectorAll("[data-ck]").forEach((node) => {
   const value = node.dataset.ck.split(".").reduce((current, key) => current?.[key], copy);
   if (value) node.textContent = value;
 });
+const legalAcknowledge = document.querySelector("[data-ck='legalAcknowledge']");
+if (legalAcknowledge) {
+  legalAcknowledge.innerHTML =
+    lang === "zh"
+      ? `我已阅读并同意 Orbmare 的<a href="/legal/purchasing-service.html" target="_blank" rel="noopener">《采购服务条款》</a><a href="/legal/customs.html" target="_blank" rel="noopener">《配送与进口费用说明》</a><a href="/legal/returns.html" target="_blank" rel="noopener">《退货与退款政策》</a>和<a href="/legal/privacy.html" target="_blank" rel="noopener">《隐私政策》</a>。`
+      : `I have read and agree to Orbmare’s <a href="/legal/purchasing-service.html" target="_blank" rel="noopener">Purchasing Service Terms</a>, <a href="/legal/customs.html" target="_blank" rel="noopener">Shipping and Import Cost Policy</a>, <a href="/legal/returns.html" target="_blank" rel="noopener">Returns and Refunds Policy</a>, and <a href="/legal/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.`;
+}
 document.querySelector("[data-checkout-brand-primary]").textContent = lang === "zh" ? "傲马" : "Orbmare";
 document.querySelector("[data-checkout-brand-secondary]").textContent = lang === "zh" ? "Orbmare" : "傲马";
 document.querySelector("[data-checkout-lang]")?.addEventListener("click", () => {
@@ -371,12 +387,9 @@ function renderLineItems(items = [], currency = "USD") {
 }
 
 function statusText(status) {
-  if (status === "INCLUDED") return copy.included;
-  if (status === "ESTIMATED") return copy.estimated;
-  if (status === "PAY_ON_DELIVERY") return copy.payOnDelivery;
-  if (status === "NOT_APPLICABLE") return copy.notApplicable;
-  if (status === "PENDING_ADDRESS" || status === "PENDING_PROVIDER") return copy.waitingAddress;
-  return status || copy.estimated;
+  return taxStatusDisplay(status, lang, {
+    incoterm: currentQuote?.countryRule?.incoterm,
+  }).label;
 }
 
 function renderTotals(quote) {
@@ -390,7 +403,9 @@ function renderTotals(quote) {
   document.querySelector("#summaryDiscount").textContent = quote.discount ? `-${money(quote.discount, currency)}` : money(0, currency);
   document.querySelector("#summaryTotal").textContent = money(quote.amountDueNow, currency);
   document.querySelector("#summaryDelivery").textContent = `${quote.fulfillmentEstimate.estimatedStartDate} – ${quote.fulfillmentEstimate.estimatedEndDate}`;
-  document.querySelector("#summaryStatus").textContent = `${statusText(quote.taxQuote?.status)} · ${statusText(quote.landedCost?.status)}`;
+  document.querySelector("#summaryStatus").textContent = taxStatusDisplay(quote.landedCost?.status, lang, {
+    incoterm: quote.countryRule?.incoterm,
+  }).label;
   document.querySelector("#summaryDeliveryDue").textContent = money(quote.amountPotentiallyDueOnDelivery, currency);
 }
 
@@ -448,13 +463,20 @@ function renderStages(quote) {
 
 function renderPolicies(quote) {
   const policies = quote.policies || {};
+  const importStatus = taxStatusDisplay(quote.landedCost?.status, lang, {
+    incoterm: quote.countryRule?.incoterm,
+  });
+  const incoterm = incotermDisplay(quote.countryRule?.incoterm, lang);
+  const returnPolicies = returnPolicyListDisplay(policies.returnPolicyTypes, lang);
   policyRoot.innerHTML = `<article class="policy-block">
     <h3>${escapeHtml(copy.termsTitle)}</h3>
     <p>${escapeHtml(policies.policyText || "")}</p>
     <dl>
-      <div><dt>Incoterm</dt><dd>${escapeHtml(quote.countryRule.incoterm)}</dd></div>
-      <div><dt>${escapeHtml(copy.returnPolicy)}</dt><dd>${escapeHtml((policies.returnPolicyTypes || []).join(", "))}</dd></div>
-      <div><dt>${escapeHtml(copy.costStatus)}</dt><dd>${escapeHtml(statusText(quote.landedCost?.status))}</dd></div>
+      <div><dt>${escapeHtml(copy.returnPolicy)}</dt><dd>${returnPolicies
+        .map((policy) => `<strong>${escapeHtml(policy.title)}</strong><br><span>${escapeHtml(policy.description)}</span>`)
+        .join("<hr>")}</dd></div>
+      <div><dt>${escapeHtml(copy.importCosts)}</dt><dd><strong>${escapeHtml(importStatus.label)}</strong><br><span>${escapeHtml(importStatus.description)}</span></dd></div>
+      <div><dt>${escapeHtml(copy.shippingTerms)}</dt><dd><strong>${escapeHtml(incoterm.customerTitle)}</strong><br><span>${escapeHtml(incoterm.description)} ${escapeHtml(incoterm.detailTitle)}</span></dd></div>
     </dl>
   </article>
   <article class="policy-confirm">
@@ -539,7 +561,19 @@ async function createSecurePayment(input) {
     customer: input.customer,
     shipping: input.shipping,
     language: lang,
-    consent: { accepted: true, sourcingAccepted: true },
+    consent: {
+      accepted: true,
+      sourcingAccepted: true,
+      legalAccepted: true,
+      acceptedAt: new Date().toISOString(),
+      communicationVersion: customerCopy.version,
+      policyLinks: [
+        "/legal/purchasing-service.html",
+        "/legal/customs.html",
+        "/legal/returns.html",
+        "/legal/privacy.html",
+      ],
+    },
   });
 
   elements = stripe.elements({

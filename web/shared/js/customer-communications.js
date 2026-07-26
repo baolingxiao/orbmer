@@ -76,6 +76,10 @@ export const CUSTOMER_CHECKOUT_COPY = Object.freeze({
     unavailableItem: "如果供应商确认无货：我们会提供退款、替换推荐，或先联系你再决定。",
     sourcingAcknowledge:
       "我理解 Orbmare 会在付款后确认供货、包装和最终运输方式；如果出现明显运费差额，傲马会先通过邮件联系我再继续处理。",
+    legalAcknowledge:
+      "我已阅读并同意 Orbmare 的《采购服务条款》《配送与进口费用说明》《退货与退款政策》和《隐私政策》。",
+    payAcknowledge:
+      "点击支付即表示你确认本订单信息无误，并同意上述条款。",
   },
   en: {
     sourcingTitle: "Sourcing and shipping confirmation",
@@ -89,6 +93,10 @@ export const CUSTOMER_CHECKOUT_COPY = Object.freeze({
     unavailableItem: "If the supplier confirms the item is unavailable, we’ll offer a refund, a replacement suggestion, or contact you before deciding.",
     sourcingAcknowledge:
       "I understand Orbmare will confirm availability, package details, and final shipping after payment. If a material shipping difference appears, Orbmare will email me before continuing.",
+    legalAcknowledge:
+      "I have read and agree to Orbmare’s Purchasing Service Terms, Shipping and Import Cost Policy, Returns and Refunds Policy, and Privacy Policy.",
+    payAcknowledge:
+      "By paying, you confirm that the order information is correct and that you agree to the terms above.",
   },
 });
 

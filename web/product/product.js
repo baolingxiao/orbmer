@@ -1,5 +1,6 @@
 import { loadCatalog, getProductFromList } from "/shared/js/load-catalog.js";
 import * as Store from "/shared/js/store.js";
+import { returnPolicyDisplay } from "/shared/js/commerce-display.js";
 
 const params = new URLSearchParams(location.search);
 const id = params.get("id");
@@ -42,14 +43,20 @@ function renderProduct(product) {
     value === null || value === undefined || value === ""
       ? "Details pending verification"
       : value;
-  const returnText =
-    product.returnEligible === true
-      ? `Return eligible${product.returnWindowDays ? ` within ${product.returnWindowDays} days` : ""}`
-      : product.returnEligible === false
-        ? "Not return eligible"
-        : "Details pending verification";
+  const returnPolicy = returnPolicyDisplay(product.checkout?.returnPolicyType, lang);
+  const returnText = `${returnPolicy.title} — ${returnPolicy.description}`;
   const finalSaleText =
-    product.finalSale === true ? "Yes" : product.finalSale === false ? "No" : "Details pending verification";
+    product.finalSale === true
+      ? lang === "zh"
+        ? "适用订单专属售后条款"
+        : "Order-specific after-sales terms apply"
+      : product.finalSale === false
+        ? lang === "zh"
+          ? "按标准售后政策处理"
+          : "Handled under the standard after-sales policy"
+        : lang === "zh"
+          ? "下单前会继续确认"
+          : "To be confirmed before order handling";
   const sourcingFacts = document.querySelector("#sourcingFacts");
   [
     ["Source country", detail(product.sourceCountry)],
@@ -60,7 +67,10 @@ function renderProduct(product) {
     ["International transit", detail(product.internationalShippingTime)],
     ["Return eligibility", returnText],
     ["Cancellation deadline", detail(product.cancellationDeadline)],
-    ["Import charges", detail(product.dutiesTreatment)],
+    [
+      lang === "zh" ? "税费和进口费用" : "Import charges",
+      detail(product.dutiesTreatment),
+    ],
     ["Safety warning", detail(product.safetyWarning)],
     ["Final sale", finalSaleText],
     ["Image source", detail(product.imageSource)],

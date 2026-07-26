@@ -58,6 +58,7 @@ function validateCheckoutInput(body) {
     throw new Error("A valid customer email is required.");
   }
   if (body.consent?.accepted !== true) throw new Error("Required order acknowledgement was not provided.");
+  if (body.consent?.legalAccepted !== true) throw new Error("Required terms acknowledgement was not provided.");
   if (body.consent?.sourcingAccepted !== true) {
     throw new Error("Required sourcing and shipping acknowledgement was not provided.");
   }
@@ -201,6 +202,12 @@ export function createStripeRouter({
         locale: input.language,
         accepted: req.body?.consent?.accepted,
         sourcingAccepted: req.body?.consent?.sourcingAccepted,
+        legalAccepted: req.body?.consent?.legalAccepted,
+        acceptedAt: req.body?.consent?.acceptedAt,
+        communicationVersion: req.body?.consent?.communicationVersion,
+        policyLinks: req.body?.consent?.policyLinks,
+        ip: req.ip || req.socket?.remoteAddress || "",
+        userAgent: req.get("user-agent") || "",
       });
       const order = await createPendingOrder({
         items: trustedItems,
