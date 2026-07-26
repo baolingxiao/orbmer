@@ -203,6 +203,34 @@ select:focus {
   gap: 12px;
 }
 
+.sourcing-notice {
+  display: grid;
+  gap: 12px;
+}
+
+.sourcing-card {
+  padding: 22px 0 4px;
+  border-top: 1px solid var(--line);
+}
+
+.sourcing-card p {
+  max-width: 680px;
+  margin: 0 0 14px;
+  color: #444;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.sourcing-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 .method-row {
   grid-template-columns: 22px 1fr auto;
   align-items: center;

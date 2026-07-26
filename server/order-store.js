@@ -94,6 +94,7 @@ export async function createPendingOrder({ items, totals, customer, shipping, co
       orderTermsSnapshot: consent.orderTermsSnapshot || null,
       dutiesAcknowledged: Boolean(consent.dutiesAcknowledged),
       finalSaleAcknowledged: Boolean(consent.finalSaleAcknowledged),
+      sourcingAcknowledged: Boolean(consent.sourcingAcknowledged),
       itemPolicies: items.map((item) => ({
         productId: item.productId,
         variantId: item.variantId,

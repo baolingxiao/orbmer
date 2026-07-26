@@ -85,6 +85,25 @@ const inventoryLabels = {
 };
 
 const orderStatusLabels = {
+  PAYMENT_PENDING: "等待付款",
+  PAID: "已付款",
+  PROCUREMENT_REVIEW: "采购复核中",
+  PROCUREMENT_STARTED: "已开始采购",
+  SUPPLIER_CONFIRMED: "供应商已确认",
+  SUPPLIER_UNAVAILABLE: "供应商无货",
+  SUPPLIER_PROCESSING: "供应商处理中",
+  SHIPPING_QUOTE_REVIEW: "物流报价复核中",
+  SHIPPING_ADJUSTMENT_REQUIRED: "需要处理运费差额",
+  CUSTOMER_APPROVAL_PENDING: "等待客户确认",
+  READY_TO_SHIP: "待发货",
+  SHIPPED: "已发货",
+  CUSTOMS_CLEARANCE: "清关中",
+  DELIVERED: "已送达",
+  EXCEPTION: "异常",
+  CANCELLED: "已取消",
+  REFUND_REVIEW: "退款复核",
+  PARTIALLY_REFUNDED: "部分退款",
+  REFUNDED: "已退款",
   request_received: "已收到订单",
   availability_checking: "正在确认供货",
   awaiting_customer_confirmation: "等待客户确认",
@@ -289,9 +308,17 @@ function inventoryTone(product) {
 }
 
 function orderTone(status) {
-  if (status === "delivered") return "is-success";
-  if (["cancelled", "refunded"].includes(status)) return "";
-  if (["return_requested", "refund_pending_from_supplier"].includes(status)) {
+  if (["DELIVERED", "delivered"].includes(status)) return "is-success";
+  if (["CANCELLED", "REFUNDED", "cancelled", "refunded"].includes(status)) return "";
+  if (
+    [
+      "EXCEPTION",
+      "SUPPLIER_UNAVAILABLE",
+      "SHIPPING_ADJUSTMENT_REQUIRED",
+      "return_requested",
+      "refund_pending_from_supplier",
+    ].includes(status)
+  ) {
     return "is-danger";
   }
   return "is-warning";

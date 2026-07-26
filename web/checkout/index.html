@@ -60,6 +60,11 @@
       </fieldset>
 
       <fieldset>
+        <legend data-ck="sourcingTitle">Sourcing and shipping confirmation</legend>
+        <div id="sourcingNotice" class="sourcing-notice"></div>
+      </fieldset>
+
+      <fieldset>
         <legend data-ck="estimateTitle">Estimated fulfillment</legend>
         <dl id="fulfillmentStages" class="fulfillment-stages"></dl>
       </fieldset>
@@ -71,6 +76,7 @@
 
       <fieldset>
         <legend data-ck="acknowledgementTitle">Policy acknowledgement</legend>
+        <label class="consent-row"><input id="sourcingAcknowledgement" name="sourcingAcknowledgement" type="checkbox" required><span data-ck="sourcingAcknowledge">I understand Orbmare will confirm sourcing, package details, and shipping after payment. If a material shipping difference appears, Orbmare will email me before continuing.</span></label>
         <label class="consent-row"><input id="orderAcknowledgement" name="orderAcknowledgement" type="checkbox" required><span data-ck="acknowledgePrefix">I confirm:</span></label>
       </fieldset>
 

@@ -15,6 +15,36 @@ const QUOTE_TTL_MS = 15 * 60 * 1000;
 const BUFFER_DAYS = 2;
 const quotes = new Map();
 
+const SOURCING_CONFIRMATION_VERSION = "sourcing-shipping-confirmation-2026-07-26";
+const SOURCING_CONFIRMATION = Object.freeze({
+  zh: {
+    title: "采购与配送确认",
+    body: [
+      "Orbmare 的很多作品不是从一个大仓库里直接发出。付款后，我们会先和供应商确认库存、包装尺寸，以及最合适的空运或海运方式。",
+      "结账页显示的配送费用，是根据收货地址、商品重量、尺寸和所选运输方式生成的预估报价。多数情况下它可以直接使用；如果承运商最终报价有明显变化，我们会先通过邮件联系客户确认。",
+      "采购确认、物流选择、发货和追踪号会通过邮件更新。",
+    ],
+    differencePolicy: {
+      smallDifference: "小额差异由 Orbmare 优先内部处理。",
+      materialIncrease: "明显增加时，客户可选择补付差额、更换运输方式，或取消订单退款。",
+      unavailableItem: "供应商确认无货时，Orbmare 会提供退款、替换推荐，或先联系客户确认。",
+    },
+  },
+  en: {
+    title: "Sourcing and shipping confirmation",
+    body: [
+      "Many Orbmare objects do not leave from one large warehouse. After payment, we confirm supplier availability, package details, and the best air or sea shipping route.",
+      "The shipping fee shown at checkout is an estimated quote based on destination, item weight, dimensions, and selected transport method. In most cases it is enough to proceed; if the final carrier quote changes materially, Orbmare will email the customer before continuing.",
+      "Supplier confirmation, shipping choice, dispatch, and tracking updates will be sent by email.",
+    ],
+    differencePolicy: {
+      smallDifference: "Small differences are handled internally by Orbmare where possible.",
+      materialIncrease: "For material increases, the customer may pay the difference, change shipping method, or cancel for a refund.",
+      unavailableItem: "If the supplier confirms the item is unavailable, Orbmare will offer a refund, replacement suggestion, or contact the customer before deciding.",
+    },
+  },
+});
+
 function asText(value, max = 200) {
   return String(value ?? "").trim().slice(0, max);
 }
@@ -207,6 +237,8 @@ function policyForItems(items, locale, rule, landedCost) {
     incoterm: rule.incoterm,
     acknowledgement: terms.acknowledgement,
     policyText: terms.policy,
+    sourcingConfirmationVersion: SOURCING_CONFIRMATION_VERSION,
+    sourcingConfirmation: SOURCING_CONFIRMATION[locale] || SOURCING_CONFIRMATION.en,
     links: [
       { id: "shipping", href: "/legal/shipping.html" },
       { id: "returns", href: "/legal/returns.html" },
@@ -391,9 +423,10 @@ export function getStoredQuote(quoteId) {
   return quote;
 }
 
-export function buildConsentSnapshot({ quote, locale, accepted }) {
+export function buildConsentSnapshot({ quote, locale, accepted, sourcingAccepted }) {
   if (!quote?.policies) throw new Error("Quote policies are required.");
   if (accepted !== true) throw new Error("Required order acknowledgement was not provided.");
+  if (sourcingAccepted !== true) throw new Error("Required sourcing and shipping acknowledgement was not provided.");
   return {
     policyVersions: POLICY_VERSIONS,
     policyVersion: quote.policies.policyVersion,
@@ -418,8 +451,13 @@ export function buildConsentSnapshot({ quote, locale, accepted }) {
       amountPotentiallyDueOnDelivery: quote.amountPotentiallyDueOnDelivery,
       quoteId: quote.quoteId,
       quoteExpiresAt: quote.quoteExpiresAt,
+      selectedShippingMethod: quote.selectedShippingMethod,
+      selectedShippingQuote: quote.shippingQuote,
+      sourcingConfirmationVersion: quote.policies.sourcingConfirmationVersion,
+      sourcingConfirmation: quote.policies.sourcingConfirmation,
     },
     dutiesAcknowledged: quote.policies.dutiesAcknowledgementRequired,
     finalSaleAcknowledged: quote.policies.finalSaleAcknowledgementRequired,
+    sourcingAcknowledged: true,
   };
 }

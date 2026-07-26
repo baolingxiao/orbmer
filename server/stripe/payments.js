@@ -57,6 +57,9 @@ function validateCheckoutInput(body) {
     throw new Error("A valid customer email is required.");
   }
   if (body.consent?.accepted !== true) throw new Error("Required order acknowledgement was not provided.");
+  if (body.consent?.sourcingAccepted !== true) {
+    throw new Error("Required sourcing and shipping acknowledgement was not provided.");
+  }
 
   return {
     customer: {
@@ -196,6 +199,7 @@ export function createStripeRouter({
         quote: requote,
         locale: input.language,
         accepted: req.body?.consent?.accepted,
+        sourcingAccepted: req.body?.consent?.sourcingAccepted,
       });
       const order = await createPendingOrder({
         items: trustedItems,
