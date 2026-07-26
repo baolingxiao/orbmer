@@ -1,6 +1,6 @@
 /** Orbmare curated catalog helpers (bilingual) — live from /api/editorial-catalog */
 
-import { getLang, loc } from "/shared/js/editorial-i18n.js";
+import { getLang, loc, curatedBadge } from "/shared/js/editorial-i18n.js";
 
 export function escapeHtml(value) {
   return String(value ?? "")
@@ -73,6 +73,7 @@ export function quietCardHtml(p, lang = getLang()) {
       <img src="${p.image}" alt="" width="640" height="800" loading="lazy" />
     </div>
     <div>
+      <p class="dn-curated">${escapeHtml(curatedBadge(lang))}</p>
       <h3>${escapeHtml(name)}</h3>
       <p>${escapeHtml(country)} · ${escapeHtml(material)}</p>
       <div class="price">${escapeHtml(p.priceLabel)}</div>

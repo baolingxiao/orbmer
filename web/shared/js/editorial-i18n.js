@@ -8,8 +8,8 @@ const DICT = {
     "nav.countries": "国家馆",
     "nav.materials": "材料馆",
     "nav.craft": "工艺",
-    "nav.designers": "Orbmare精选",
-    "nav.journal": "Journal",
+    "nav.designers": "精选",
+    "nav.journal": "阅读",
     "nav.about": "关于",
     "nav.membership": "会员",
     "nav.account": "账户",
@@ -17,19 +17,23 @@ const DICT = {
     "nav.shop": "3D打印馆",
     "brand.primary": "傲马",
     "brand.secondary": "Orbmare",
+    "brand.curated": "傲马精选",
     "brand.curatesNote": "为什么是傲马的选择",
-    "hero.title": "发现世界顶尖工艺。",
+    "hero.title": "探索世界最好的作品",
     "hero.body": "每一件作品都来自独立设计师、匠人与顶级工坊的精心甄选。",
     "hero.cta": "探索精选",
     "home.countries": "国家馆",
     "home.countries.body": "从产地开始。每个国家都有独特的材料、工坊与匠心语言。",
+    "home.countries.japan.tag": "工艺",
+    "home.countries.italy.tag": "奢华设计",
+    "home.countries.china.tag": "原创设计",
     "home.stories": "先读故事，再看商品。",
     "home.stories.body": "傲马不是无所不卖的目录，而是值得被看见的工艺图书馆。",
     "home.materials": "材料即知识。",
     "home.materials.body": "Baby Cashmere、植鞣革、日本丹宁、海岛棉——材料馆是傲马的招牌。",
     "home.collections": "精选系列",
     "home.collections.body": "策展路径，而非折扣筛选。",
-    "home.featured": "精品推荐",
+    "home.featured": "精选",
     "home.featured.body": "汇聚全站精选——品牌、工作室、设计师与产品，一处安静探索。",
     "home.print": "中国区 · 3D打印专区",
     "home.print.body": "金属结构件、可动玩具与照片手办——可直接加入购物袋并结账。",
@@ -81,16 +85,22 @@ const DICT = {
     "footer.explore": "探索",
     "footer.stories": "故事",
     "footer.visit": "国家",
+    "footer.contact": "联系",
     "footer.tag": "工艺精选图书馆",
     "label.material": "材料",
     "label.craft": "工艺",
     "discover.kicker": "发现",
-    "discover.heroTitle": "Discover the World's Finest Objects",
+    "discover.heroTitle": "探索世界最好的作品",
+    "discover.heroBody": "从世界各地，选择值得长期拥有的作品。",
     "discover.heroLine1": "不要寻找。",
     "discover.heroLine2": "去探索。",
     "discover.heroLine3": "每一件作品都是一个国家、材料与工艺的缩影。",
-    "discover.searchLabel": "AI 搜索",
-    "discover.searchPlaceholder": "Search products, brands, materials, countries, crafts...",
+    "discover.searchLabel": "搜索",
+    "discover.searchPlaceholder": "搜索作品、品牌、国家、材料、工艺、合集、设计师或文章",
+    "discover.searchAction": "探索",
+    "discover.guided.kicker": "策展起点",
+    "discover.guided.title": "从一个方向开始",
+    "discover.guided.body": "我们已替你缩小范围。选择一个当下更接近你的方向。",
     "discover.tab.all": "All",
     "discover.tab.latest": "Latest",
     "discover.tab.editors": "Editor's Picks",
@@ -103,9 +113,9 @@ const DICT = {
     "discover.facet.price": "Price",
     "discover.facet.clear": "清除",
     "discover.collections.kicker": "精选",
-    "discover.collections.title": "Featured Collections",
-    "discover.ai.kicker": "AI Discovery",
-    "discover.ai.title": "Find My Collection",
+    "discover.collections.title": "精选系列",
+    "discover.ai.kicker": "AI 精选",
+    "discover.ai.title": "寻找我的精选",
     "discover.ai.body": "预算、国家、材料、风格与用途——为你生成一份专属精选。",
     "discover.ai.cta": "开始",
     "discover.ai.close": "关闭",
@@ -115,12 +125,24 @@ const DICT = {
     "discover.ai.mood": "风格",
     "discover.ai.use": "用途",
     "discover.ai.run": "生成我的精选",
+    "discover.ai.promptLabel": "告诉我们你在寻找什么",
+    "discover.ai.promptPlaceholder": "例如：一件适合日常使用的日本黄铜作品，预算 300 美元以内",
     "discover.ai.result": "已为「{title}」组成 {n} 件作品。向下继续浏览。",
     "discover.objects.kicker": "物件",
-    "discover.objects.title": "Curated Objects",
+    "discover.objects.title": "精选物件",
     "discover.count": "{n} 件作品",
     "discover.empty": "没有符合条件的作品。换一组筛选，继续探索。",
     "discover.save": "收藏",
+    "discover.editors.kicker": "编辑精选",
+    "discover.editors.title": "本周精选",
+    "discover.browse.title": "浏览精选合集",
+    "discover.rail.previous": "上一组合集",
+    "discover.rail.next": "下一组合集",
+    "discover.journal.title": "阅读",
+    "discover.journal.all": "阅读全部",
+    "discover.membership.title": "成为傲马会员",
+    "discover.membership.body": "为重视工艺、材料与设计的收藏者，保留更靠近作品的入口。",
+    "discover.membership.cta": "了解会员",
     "discover.shop.note": "需要完整 3D 打印目录？",
     "discover.shop.link": "进入 3D 打印馆",
     "discover.title": "发现",
@@ -220,7 +242,7 @@ const DICT = {
     "craft.title": "工艺",
     "craft.body": "制作即知识。每一种工艺都承载历史、地理与机器难以替代的标准。",
     "craft.products": "相关作品",
-    "designers.title": "Orbmare 精选",
+    "designers.title": "精选",
     "designers.body": "品牌、工作室与设计师——来自运营精选的主体，以及他们背后的作品。",
     "designers.featured": "特别推荐",
     "designers.featuredBody": "运营特别关注的品牌、设计师与作品。",
@@ -272,7 +294,7 @@ const DICT = {
     "nav.countries": "Countries",
     "nav.materials": "Materials",
     "nav.craft": "Craftsmanship",
-    "nav.designers": "Orbmare Picks",
+    "nav.designers": "Picks",
     "nav.journal": "Journal",
     "nav.about": "About",
     "nav.membership": "Membership",
@@ -281,19 +303,23 @@ const DICT = {
     "nav.shop": "3D Print Shop",
     "brand.primary": "Orbmare",
     "brand.secondary": "傲马",
+    "brand.curated": "Orbmare Curated",
     "brand.curatesNote": "Why it's a Orbmare Curates",
-    "hero.title": "Discover the World's Finest Craftsmanship.",
-    "hero.body": "Every product is carefully curated from independent designers, master craftsmen, and premium workshops around the world.",
+    "hero.title": "Discover the World's Finest Objects",
+    "hero.body": "Every piece is carefully curated from independent designers, master craftsmen, and premium workshops around the world.",
     "hero.cta": "Explore Collections",
     "home.countries": "Countries",
     "home.countries.body": "Begin with place. Each country holds a distinct language of making — materials, workshops, and quiet mastery.",
-    "home.stories": "Stories before shelves.",
+    "home.countries.japan.tag": "Craftsmanship",
+    "home.countries.italy.tag": "Luxury Design",
+    "home.countries.china.tag": "Original Design",
+    "home.stories": "Story before product.",
     "home.stories.body": "Orbmare is not a catalog of everything. It is a library of what deserves attention.",
-    "home.materials": "Materials as knowledge.",
+    "home.materials": "Material as knowledge.",
     "home.materials.body": "Baby Cashmere. Vegetable-tanned leather. Japanese denim. Sea Island cotton.",
     "home.collections": "Collections",
     "home.collections.body": "Curated paths through craftsmanship — not filters, not flash sales.",
-    "home.featured": "Editor's Recommendations",
+    "home.featured": "Featured Collections",
     "home.featured.body": "Every curated corner in one place — brands, studios, designers, and objects.",
     "home.print": "China · 3D Print Atelier",
     "home.print.body": "Metal parts, kinetic toys, and portrait figures — add to bag and checkout with Stripe.",
@@ -345,16 +371,22 @@ const DICT = {
     "footer.explore": "Explore",
     "footer.stories": "Stories",
     "footer.visit": "Visit",
+    "footer.contact": "Contact",
     "footer.tag": "A curated library of craftsmanship",
     "label.material": "Material",
     "label.craft": "Craft",
     "discover.kicker": "Discover",
     "discover.heroTitle": "Discover the World's Finest Objects",
+    "discover.heroBody": "From around the world, objects chosen to live with for a long time.",
     "discover.heroLine1": "Do not search.",
     "discover.heroLine2": "Explore.",
     "discover.heroLine3": "Each object is a distillation of country, material, and craft.",
     "discover.searchLabel": "AI Search",
-    "discover.searchPlaceholder": "Search products, brands, materials, countries, crafts...",
+    "discover.searchPlaceholder": "Search products, brands, countries, materials, crafts, collections, designers, or journal",
+    "discover.searchAction": "Explore",
+    "discover.guided.kicker": "A curated starting point",
+    "discover.guided.title": "Begin with a direction",
+    "discover.guided.body": "We have narrowed the field. Choose the direction that feels closest to you today.",
     "discover.tab.all": "All",
     "discover.tab.latest": "Latest",
     "discover.tab.editors": "Editor's Picks",
@@ -379,12 +411,24 @@ const DICT = {
     "discover.ai.mood": "Style",
     "discover.ai.use": "Use",
     "discover.ai.run": "Compose my collection",
+    "discover.ai.promptLabel": "Tell us what you are looking for",
+    "discover.ai.promptPlaceholder": "For example: a Japanese brass object for daily use, under $300",
     "discover.ai.result": "A collection for “{title}” — {n} objects. Continue below.",
     "discover.objects.kicker": "Objects",
     "discover.objects.title": "Curated Objects",
     "discover.count": "{n} objects",
     "discover.empty": "Nothing matches yet. Change a filter and keep exploring.",
     "discover.save": "Save",
+    "discover.editors.kicker": "Editor's Picks",
+    "discover.editors.title": "This Week's Selections",
+    "discover.browse.title": "Browse Collections",
+    "discover.rail.previous": "Previous collections",
+    "discover.rail.next": "Next collections",
+    "discover.journal.title": "Journal",
+    "discover.journal.all": "Read all",
+    "discover.membership.title": "Enter the Orbmare Circle",
+    "discover.membership.body": "A closer way into objects for collectors who care about craft, material, and design.",
+    "discover.membership.cta": "Discover membership",
     "discover.shop.note": "Looking for the full 3D print catalog?",
     "discover.shop.link": "Open the 3D print shop",
     "discover.title": "Discover",
@@ -484,7 +528,7 @@ const DICT = {
     "craft.title": "Craftsmanship",
     "craft.body": "Making is knowledge. Each craft carries history, geography, and a standard of care that machines alone cannot imitate.",
     "craft.products": "Products",
-    "designers.title": "Orbmare Picks",
+    "designers.title": "Picks",
     "designers.body": "Brands, studios, and designers — curated entities and the objects behind them.",
     "designers.featured": "Featured",
     "designers.featuredBody": "Brands, designers, and pieces we are paying special attention to.",
@@ -608,12 +652,63 @@ export const COUNTRY_COPY = {
   },
 };
 
+/** Brand names are cultural signatures — never treat as translations of each other. */
+export const BRAND_ZH = "傲马";
+export const BRAND_EN = "Orbmare";
+
 export function getLang() {
   return localStorage.getItem(LANG_KEY) === "en" ? "en" : "zh";
 }
 
+export function otherLang(lang = getLang()) {
+  return lang === "en" ? "zh" : "en";
+}
+
 export function t(key, lang = getLang()) {
   return DICT[lang]?.[key] || DICT.en[key] || key;
+}
+
+export function brandPrimary(lang = getLang()) {
+  return lang === "zh" ? BRAND_ZH : BRAND_EN;
+}
+
+export function brandSecondary(lang = getLang()) {
+  return lang === "zh" ? BRAND_EN : BRAND_ZH;
+}
+
+/** Opposite-script brand seal for hero / accent use only. */
+export function brandStamp(lang = getLang()) {
+  return brandSecondary(lang);
+}
+
+export function curatedBadge(lang = getLang()) {
+  return t("brand.curated", lang);
+}
+
+export function dualLabel(zh, en, lang = getLang()) {
+  const primary = lang === "zh" ? zh : en;
+  const secondary = lang === "zh" ? en : zh;
+  return { primary: primary || secondary || "", secondary: secondary || "" };
+}
+
+export function dualPairHtml(zh, en, lang = getLang(), className = "dn-pair") {
+  const { primary, secondary } = dualLabel(zh, en, lang);
+  const echo = secondary
+    ? `<span class="dn-echo" data-dual-echo>${escapePlain(secondary)}</span>`
+    : "";
+  return `<span class="${className}" data-dual-pair data-dual-zh="${escapeAttr(zh)}" data-dual-en="${escapeAttr(en)}"><span class="dn-primary" data-dual-primary>${escapePlain(primary)}</span>${echo}</span>`;
+}
+
+function escapePlain(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function escapeAttr(value) {
+  return escapePlain(value).replace(/'/g, "&#39;");
 }
 
 /** Pick bilingual field from catalog objects */
@@ -626,9 +721,77 @@ export function loc(obj, field, lang = getLang()) {
   return obj[field] ?? "";
 }
 
+function applyBrandLockups(lang) {
+  const primary = brandPrimary(lang);
+  const secondary = brandSecondary(lang);
+  const stamp = brandStamp(lang);
+  const label = `${primary} ${secondary}`;
+  document.querySelectorAll("[data-brand-primary]").forEach((node) => {
+    node.textContent = primary;
+  });
+  document.querySelectorAll("[data-brand-secondary]").forEach((node) => {
+    node.textContent = secondary;
+  });
+  document.querySelectorAll("[data-brand-stamp]").forEach((node) => {
+    node.textContent = stamp;
+  });
+  document.querySelectorAll("[data-brand-curated]").forEach((node) => {
+    node.textContent = curatedBadge(lang);
+  });
+  document.querySelectorAll("a.orb-brand").forEach((node) => {
+    node.setAttribute("aria-label", label);
+  });
+}
+
+function applyEchoTitles(lang) {
+  const alt = otherLang(lang);
+  document.querySelectorAll("[data-i18n-echo]").forEach((node) => {
+    const key = node.getAttribute("data-i18n-echo");
+    const value = t(key, alt);
+    if (value) node.textContent = value;
+  });
+}
+
+function applyDualPairs(lang) {
+  document.querySelectorAll("[data-dual-pair]").forEach((node) => {
+    const zh = node.getAttribute("data-dual-zh") || "";
+    const en = node.getAttribute("data-dual-en") || "";
+    const { primary, secondary } = dualLabel(zh, en, lang);
+    let primaryEl = node.querySelector("[data-dual-primary]");
+    let echoEl = node.querySelector("[data-dual-echo]");
+    if (!primaryEl) {
+      node.replaceChildren();
+      primaryEl = document.createElement("span");
+      primaryEl.className = "dn-primary";
+      primaryEl.setAttribute("data-dual-primary", "");
+      echoEl = document.createElement("span");
+      echoEl.className = "dn-echo";
+      echoEl.setAttribute("data-dual-echo", "");
+      node.append(primaryEl, echoEl);
+    } else if (!echoEl && secondary) {
+      echoEl = document.createElement("span");
+      echoEl.className = "dn-echo";
+      echoEl.setAttribute("data-dual-echo", "");
+      node.appendChild(echoEl);
+    }
+    primaryEl.textContent = primary;
+    if (echoEl) {
+      echoEl.textContent = secondary;
+      echoEl.hidden = !secondary;
+    }
+  });
+}
+
+export function applyDualNarrative(lang = getLang()) {
+  applyBrandLockups(lang);
+  applyEchoTitles(lang);
+  applyDualPairs(lang);
+}
+
 export function applyI18n(lang = getLang()) {
   const resolved = lang === "en" ? "en" : "zh";
   document.documentElement.lang = resolved === "en" ? "en" : "zh-CN";
+  document.documentElement.setAttribute("data-lang", resolved);
   localStorage.setItem(LANG_KEY, resolved);
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     const key = node.getAttribute("data-i18n");
@@ -647,6 +810,7 @@ export function applyI18n(lang = getLang()) {
       document.title = value.includes("|") ? value : `${value} | Orbmare`;
     }
   });
+  applyDualNarrative(resolved);
   window.dispatchEvent(new CustomEvent("orbmare:i18n", { detail: { lang: resolved } }));
   return resolved;
 }

@@ -23,8 +23,8 @@ export const DEFAULT_SITE_CONTENT = {
   version: 1,
   updatedAt: null,
   home: {
-    heroTitle: "发现世界顶尖工艺。",
-    heroTitleEn: "Discover the world's finest craftsmanship.",
+    heroTitle: "探索世界最好的作品",
+    heroTitleEn: "Discover the World's Finest Objects",
     heroBody: "每一件作品都来自独立设计师、匠人与顶级工坊的精心甄选。",
     heroBodyEn: "Every piece is curated from independent designers, artisans, and ateliers.",
     heroCta: "探索精选",
@@ -34,8 +34,8 @@ export const DEFAULT_SITE_CONTENT = {
     countriesTitleEn: "Countries",
     countriesBody: "从产地开始。每个国家都有独特的材料、工坊与匠心语言。",
     countriesBodyEn: "Begin with origin. Each country speaks through materials and making.",
-    featuredTitle: "精品推荐",
-    featuredTitleEn: "Featured",
+    featuredTitle: "精选",
+    featuredTitleEn: "Featured Collections",
     featuredBody: "汇聚全站精选——品牌、工作室、设计师与产品，一处安静探索。",
     featuredBodyEn:
       "Every curated corner in one place — brands, studios, designers, and objects.",

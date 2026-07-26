@@ -1,7 +1,7 @@
 /** Shared Orbmare editorial chrome: header + footer + lang + bag */
 
 import { cartCount, getCartLines, setCartLineQty } from "/shared/js/store.js";
-import { applyI18n, getLang, t, isCuratedProductId } from "/shared/js/editorial-i18n.js";
+import { applyI18n, getLang, t, isCuratedProductId, brandPrimary, brandSecondary } from "/shared/js/editorial-i18n.js";
 import { mountAdminEdit } from "/shared/js/admin-edit.js";
 
 function ensureAdminEditStyles() {
@@ -150,9 +150,9 @@ export async function mountChrome({ title } = {}) {
     headerHost.innerHTML = `
       <header class="orb-header" data-header>
         <div class="orb-header-inner">
-          <a class="orb-brand" href="/">
-            <strong data-i18n="brand.primary">${t("brand.primary", lang)}</strong>
-            <em data-i18n="brand.secondary">${t("brand.secondary", lang)}</em>
+          <a class="orb-brand" href="/" aria-label="${brandPrimary(lang)} ${brandSecondary(lang)}">
+            <strong data-brand-primary>${brandPrimary(lang)}</strong>
+            <em data-brand-secondary>${brandSecondary(lang)}</em>
           </a>
           <nav class="orb-nav" data-nav aria-label="Primary">${navHtml(lang)}</nav>
           <div class="orb-header-actions">
@@ -192,9 +192,9 @@ export async function mountChrome({ title } = {}) {
       <footer class="orb-footer">
         <div class="orb-footer-grid">
           <div class="orb-footer-brand">
-            <a class="orb-brand" href="/">
-              <strong data-i18n="brand.primary">${t("brand.primary", lang)}</strong>
-              <em data-i18n="brand.secondary">${t("brand.secondary", lang)}</em>
+            <a class="orb-brand" href="/" aria-label="${brandPrimary(lang)} ${brandSecondary(lang)}">
+              <strong data-brand-primary>${brandPrimary(lang)}</strong>
+              <em data-brand-secondary>${brandSecondary(lang)}</em>
             </a>
             <p data-i18n="footer.mission">${t("footer.mission", lang)}</p>
           </div>
@@ -215,14 +215,29 @@ export async function mountChrome({ title } = {}) {
           </div>
           <div>
             <h4 data-i18n="footer.visit">${t("footer.visit", lang)}</h4>
-            <a href="/countries/japan/">Japan · 日本</a>
-            <a href="/countries/italy/">Italy · 意大利</a>
-            <a href="/countries/china/">China · 中国</a>
-            <a href="/legal/contact.html">Contact</a>
+            <a class="dn-pair" href="/countries/japan/" data-dual-pair data-dual-zh="日本" data-dual-en="Japan">
+              <span class="dn-primary" data-dual-primary></span>
+              <span class="dn-echo" data-dual-echo></span>
+            </a>
+            <a class="dn-pair" href="/countries/italy/" data-dual-pair data-dual-zh="意大利" data-dual-en="Italy">
+              <span class="dn-primary" data-dual-primary></span>
+              <span class="dn-echo" data-dual-echo></span>
+            </a>
+            <a class="dn-pair" href="/countries/china/" data-dual-pair data-dual-zh="中国" data-dual-en="China">
+              <span class="dn-primary" data-dual-primary></span>
+              <span class="dn-echo" data-dual-echo></span>
+            </a>
+            <a href="/legal/contact.html" data-i18n="footer.contact">${t("footer.contact", lang)}</a>
           </div>
         </div>
         <div class="orb-footer-base">
-          <span>© ${new Date().getFullYear()} Orbmare · 傲马</span>
+          <div class="orb-footer-mark">
+            <span class="orb-footer-year">© ${new Date().getFullYear()}</span>
+            <a class="orb-brand" href="/" aria-label="${brandPrimary(lang)} ${brandSecondary(lang)}">
+              <strong data-brand-primary>${brandPrimary(lang)}</strong>
+              <em data-brand-secondary>${brandSecondary(lang)}</em>
+            </a>
+          </div>
           <span data-i18n="footer.tag">${t("footer.tag", lang)}</span>
         </div>
       </footer>`;

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=14" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=15" />
   </head>
   <body>
     <div data-orb-header></div>
@@ -17,7 +17,8 @@
       <section class="hero-cinematic" aria-label="Hero" data-module="home-hero">
         <img src="/assets/editorial/hero-craft.jpg" alt="" width="1920" height="1080" fetchpriority="high" data-editable-img="home.heroImage" />
         <div class="hero-copy">
-          <h1 data-i18n="hero.title" data-editable="home.heroTitle">发现世界顶尖工艺。</h1>
+          <h1 data-i18n="hero.title" data-editable="home.heroTitle">探索世界最好的作品</h1>
+          <p class="dn-stamp" data-brand-stamp aria-hidden="true">Orbmare</p>
           <p data-i18n="hero.body" data-editable="home.heroBody">每一件作品都来自独立设计师、匠人与顶级工坊的精心甄选。</p>
           <a class="btn" href="/discover/" data-i18n="hero.cta" data-editable="home.heroCta">探索精选</a>
         </div>
@@ -26,7 +27,8 @@
       <section class="section" data-module="home-featured">
         <div class="shell-wide">
           <div class="section-head reveal">
-            <h2 data-i18n="home.featured" data-editable="home.featuredTitle">精品推荐</h2>
+            <h2 data-i18n="home.featured" data-editable="home.featuredTitle">精选</h2>
+            <p class="dn-echo" data-i18n-echo="home.featured">Featured Collections</p>
             <p data-i18n="home.featured.body" data-editable="home.featuredBody">汇聚全站精选——品牌、工作室、设计师与产品，一处安静探索。</p>
           </div>
         </div>
@@ -60,28 +62,38 @@
         <div class="shell-wide">
           <div class="section-head reveal">
             <h2 data-i18n="home.countries" data-editable="home.countriesTitle">国家馆</h2>
+            <p class="dn-echo" data-i18n-echo="home.countries">Countries</p>
             <p data-i18n="home.countries.body" data-editable="home.countriesBody">从产地开始。每个国家都有独特的材料、工坊与匠心语言。</p>
           </div>
           <div class="country-rail reveal">
             <a class="country-tile" href="/countries/japan/">
               <img src="/assets/editorial/country-japan.jpg" alt="" width="900" height="1200" loading="lazy" />
               <div class="country-tile-copy">
-                <span>Craftsmanship</span>
-                <strong>Japan · 日本</strong>
+                <span data-i18n="home.countries.japan.tag">工艺</span>
+                <strong class="dn-pair" data-dual-pair data-dual-zh="日本" data-dual-en="Japan">
+                  <span class="dn-primary" data-dual-primary>日本</span>
+                  <span class="dn-echo" data-dual-echo>Japan</span>
+                </strong>
               </div>
             </a>
             <a class="country-tile" href="/countries/italy/">
               <img src="/assets/editorial/country-italy.jpg" alt="" width="900" height="1200" loading="lazy" />
               <div class="country-tile-copy">
-                <span>Luxury Design</span>
-                <strong>Italy · 意大利</strong>
+                <span data-i18n="home.countries.italy.tag">奢华设计</span>
+                <strong class="dn-pair" data-dual-pair data-dual-zh="意大利" data-dual-en="Italy">
+                  <span class="dn-primary" data-dual-primary>意大利</span>
+                  <span class="dn-echo" data-dual-echo>Italy</span>
+                </strong>
               </div>
             </a>
             <a class="country-tile" href="/countries/china/">
               <img src="/assets/editorial/country-china.jpg" alt="" width="900" height="1200" loading="lazy" />
               <div class="country-tile-copy">
-                <span>Original Design</span>
-                <strong>China · 中国</strong>
+                <span data-i18n="home.countries.china.tag">原创设计</span>
+                <strong class="dn-pair" data-dual-pair data-dual-zh="中国" data-dual-en="China">
+                  <span class="dn-primary" data-dual-primary>中国</span>
+                  <span class="dn-echo" data-dual-echo>China</span>
+                </strong>
               </div>
             </a>
           </div>
@@ -140,6 +152,7 @@
         <div class="shell-wide">
           <div class="section-head reveal">
             <h2 data-i18n="home.collections" data-editable="home.collectionsTitle">精选系列</h2>
+            <p class="dn-echo" data-i18n-echo="home.collections">Collections</p>
             <p data-i18n="home.collections.body" data-editable="home.collectionsBody">策展路径，而非折扣筛选。</p>
           </div>
           <div class="quiet-grid reveal" data-home-collections></div>

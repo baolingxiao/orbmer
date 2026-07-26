@@ -3,215 +3,110 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Discover Orbmare — explore curated objects from the world's finest craftsmanship, materials, and design."
-    />
+    <meta name="description" content="Discover Orbmare — a curated library of craftsmanship, materials, and design." />
     <title>Discover | Orbmare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=14" />
-    <link rel="stylesheet" href="./discover.css?v=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=15" />
+    <link rel="stylesheet" href="./discover.css?v=3" />
   </head>
   <body class="discover-page">
     <div data-orb-header></div>
-
     <main>
       <section class="dx-hero shell-wide" aria-labelledby="dx-hero-title">
         <p class="dx-kicker" data-i18n="discover.kicker">Discover</p>
-        <h1 id="dx-hero-title" data-i18n="discover.heroTitle">Discover the World's Finest Objects</h1>
-        <div class="dx-hero-lead">
-          <p data-i18n="discover.heroLine1">不要寻找。</p>
-          <p data-i18n="discover.heroLine2">去探索。</p>
-          <p data-i18n="discover.heroLine3">每一件作品都是一个国家、材料与工艺的缩影。</p>
-        </div>
-      </section>
-
-      <section class="dx-search shell-wide" aria-label="Search">
-        <form class="dx-search-form" role="search" data-dx-search-form>
-          <label class="visually-hidden" for="dxSearch" data-i18n="discover.searchLabel">AI Search</label>
-          <div class="dx-search-field">
-            <span class="dx-search-mark" aria-hidden="true">AI</span>
-            <input
-              id="dxSearch"
-              type="search"
-              name="q"
-              autocomplete="off"
-              data-dx-search
-              data-i18n="discover.searchPlaceholder"
-              placeholder="Search products, brands, materials, countries, crafts..."
-            />
+        <h1 id="dx-hero-title" data-i18n="discover.heroTitle">探索世界最好的作品</h1>
+        <p class="dn-stamp" data-brand-stamp aria-hidden="true">Orbmare</p>
+        <p class="dx-hero-copy" data-i18n="discover.heroBody">从世界各地，选择值得长期拥有的作品。</p>
+        <section class="dx-guided" aria-labelledby="dx-guided-title">
+          <div class="dx-guided-intro">
+            <p class="dx-kicker" data-i18n="discover.guided.kicker">策展起点</p>
+            <h2 id="dx-guided-title" data-i18n="discover.guided.title">从一个方向开始</h2>
+            <p data-i18n="discover.guided.body">我们已替你缩小范围。选择一个当下更接近你的方向。</p>
           </div>
-        </form>
-        <div class="dx-suggest" data-dx-suggest aria-label="Suggested searches">
-          <button type="button" data-dx-suggest-chip="Japan">Japan</button>
-          <button type="button" data-dx-suggest-chip="Leather">Leather</button>
-          <button type="button" data-dx-suggest-chip="Desk">Desk</button>
-          <button type="button" data-dx-suggest-chip="Coffee">Coffee</button>
-          <button type="button" data-dx-suggest-chip="Titanium">Titanium</button>
-          <button type="button" data-dx-suggest-chip="Minimal">Minimal</button>
-          <button type="button" data-dx-suggest-chip="Gift">Gift</button>
-          <button type="button" data-dx-suggest-chip="Black">Black</button>
-        </div>
-      </section>
-
-      <section class="dx-controls shell-wide" aria-label="Browse controls">
-        <div class="dx-tabs" role="tablist" aria-label="Browse mode" data-dx-tabs>
-          <button class="dx-tab is-active" type="button" role="tab" aria-selected="true" data-dx-tab="all" data-i18n="discover.tab.all">All</button>
-          <button class="dx-tab" type="button" role="tab" aria-selected="false" data-dx-tab="latest" data-i18n="discover.tab.latest">Latest</button>
-          <button class="dx-tab" type="button" role="tab" aria-selected="false" data-dx-tab="editors" data-i18n="discover.tab.editors">Editor's Picks</button>
-          <button class="dx-tab" type="button" role="tab" aria-selected="false" data-dx-tab="trending" data-i18n="discover.tab.trending">Trending</button>
-        </div>
-
-        <div class="dx-facets" data-dx-facets>
-          <button type="button" class="dx-facet" data-dx-facet="collection" aria-expanded="false">
-            <span data-i18n="discover.facet.collection">Collection</span>
-          </button>
-          <button type="button" class="dx-facet" data-dx-facet="country" aria-expanded="false">
-            <span data-i18n="discover.facet.country">Country</span>
-          </button>
-          <button type="button" class="dx-facet" data-dx-facet="material" aria-expanded="false">
-            <span data-i18n="discover.facet.material">Material</span>
-          </button>
-          <button type="button" class="dx-facet" data-dx-facet="craft" aria-expanded="false">
-            <span data-i18n="discover.facet.craft">Craft</span>
-          </button>
-          <button type="button" class="dx-facet" data-dx-facet="mood" aria-expanded="false">
-            <span data-i18n="discover.facet.mood">Mood</span>
-          </button>
-          <button type="button" class="dx-facet" data-dx-facet="price" aria-expanded="false">
-            <span data-i18n="discover.facet.price">Price</span>
-          </button>
-        </div>
-
-        <div class="dx-facet-panel" data-dx-facet-panel hidden>
-          <div class="dx-facet-panel-head">
-            <p data-dx-facet-title></p>
-            <button type="button" class="dx-text-btn" data-dx-facet-clear data-i18n="discover.facet.clear">Clear</button>
-          </div>
-          <div class="dx-facet-options" data-dx-facet-options></div>
-        </div>
-
-        <div class="dx-active" data-dx-active hidden></div>
-      </section>
-
-      <section class="dx-collections shell-wide" aria-labelledby="dx-collections-title">
-        <div class="dx-section-head">
-          <div>
-            <p class="dx-kicker" data-i18n="discover.collections.kicker">Featured</p>
-            <h2 id="dx-collections-title" data-i18n="discover.collections.title">Featured Collections</h2>
-          </div>
-          <div class="dx-rail-nav" data-dx-collections-nav>
-            <button type="button" data-dx-collections-prev aria-label="Previous">←</button>
-            <button type="button" data-dx-collections-next aria-label="Next">→</button>
-          </div>
-        </div>
-        <div class="dx-collection-rail" data-dx-collections-rail>
-          <div class="dx-collection-track" data-dx-collections></div>
-        </div>
-        <div class="dx-magazine" data-dx-collection-magazine></div>
+          <div class="dx-guided-options" data-dx-guided-options></div>
+        </section>
       </section>
 
       <section class="dx-ai shell-wide" aria-labelledby="dx-ai-title">
-        <div class="dx-ai-card">
-          <div>
-            <p class="dx-kicker" data-i18n="discover.ai.kicker">AI Discovery</p>
-            <h2 id="dx-ai-title" data-i18n="discover.ai.title">Find My Collection</h2>
-            <p data-i18n="discover.ai.body">预算、国家、材料、风格与用途——为你生成一份专属精选。</p>
-          </div>
-          <button type="button" class="dx-btn" data-dx-ai-open data-i18n="discover.ai.cta">Begin</button>
+        <div>
+          <p class="dx-kicker" data-i18n="discover.ai.kicker">AI Discovery</p>
+          <h2 id="dx-ai-title" data-i18n="discover.ai.title">Find My Collection</h2>
+          <p data-i18n="discover.ai.body">根据预算、国家、材料、风格、用途，为你生成专属精选。</p>
         </div>
+        <button type="button" class="dx-text-link" data-dx-ai-open data-i18n="discover.ai.cta">开始</button>
+      </section>
+
+      <section class="dx-editors shell-wide" aria-labelledby="dx-editors-title">
+        <div class="dx-section-head">
+          <div>
+            <p class="dx-kicker" data-i18n="discover.editors.kicker">Editor's Picks</p>
+            <h2 id="dx-editors-title" data-i18n="discover.editors.title">本周精选</h2>
+            <p class="dn-echo" data-i18n-echo="discover.editors.title">Editor's Picks</p>
+          </div>
+        </div>
+        <div class="dx-editor-grid" data-dx-editors></div>
+      </section>
+
+      <section class="dx-browse shell-wide" aria-labelledby="dx-browse-title">
+        <div class="dx-section-head">
+          <div>
+            <h2 id="dx-browse-title" data-i18n="discover.browse.title">浏览精选合集</h2>
+            <p class="dn-echo" data-i18n-echo="discover.browse.title">Browse Collections</p>
+          </div>
+          <div class="dx-rail-nav" data-i18n-aria-label="discover.browse.title">
+            <button type="button" data-dx-rail-prev data-i18n-aria-label="discover.rail.previous" aria-label="Previous">←</button>
+            <button type="button" data-dx-rail-next data-i18n-aria-label="discover.rail.next" aria-label="Next">→</button>
+          </div>
+        </div>
+        <div class="dx-collection-rail" data-dx-rail></div>
       </section>
 
       <section class="dx-objects shell-wide" aria-labelledby="dx-objects-title">
         <div class="dx-section-head">
           <div>
             <p class="dx-kicker" data-i18n="discover.objects.kicker">Objects</p>
-            <h2 id="dx-objects-title" data-i18n="discover.objects.title">Curated Objects</h2>
+            <h2 id="dx-objects-title" data-i18n="discover.objects.title">精选物件</h2>
+            <p class="dn-echo" data-i18n-echo="discover.objects.title">Curated Objects</p>
           </div>
           <p class="dx-count" data-dx-count></p>
         </div>
-        <div class="dx-grid" data-dx-grid aria-live="polite"></div>
-        <p class="dx-empty" data-dx-empty hidden data-i18n="discover.empty">没有符合条件的作品。换一组筛选，继续探索。</p>
-        <div class="dx-magazine dx-magazine-foot" data-dx-objects-magazine></div>
+        <div class="dx-object-grid" data-dx-grid aria-live="polite"></div>
+        <p class="dx-empty" data-dx-empty hidden data-i18n="discover.empty">暂时没有匹配的作品。</p>
       </section>
 
-      <section class="dx-footnote shell-wide">
-        <p>
-          <span data-i18n="discover.shop.note">需要完整 3D 打印目录？</span>
-          <a class="text-link" href="/shop/" data-i18n="discover.shop.link">进入 3D 打印馆</a>
-        </p>
+      <section class="dx-journal shell-wide" aria-labelledby="dx-journal-title">
+        <div class="dx-section-head">
+          <div>
+            <h2 id="dx-journal-title" data-i18n="discover.journal.title">阅读</h2>
+            <p class="dn-echo" data-i18n-echo="discover.journal.title">Journal</p>
+          </div>
+          <a class="dx-text-link" href="/journal/" data-i18n="discover.journal.all">阅读全部</a>
+        </div>
+        <div class="dx-journal-grid" data-dx-journal></div>
+      </section>
+
+      <section class="dx-membership shell-wide" aria-labelledby="dx-membership-title">
+        <p class="dn-stamp" data-brand-stamp aria-hidden="true">Orbmare</p>
+        <h2 id="dx-membership-title" data-i18n="discover.membership.title">成为傲马会员</h2>
+        <p data-i18n="discover.membership.body">为重视工艺、材料与设计的收藏者，保留更靠近作品的入口。</p>
+        <a class="dx-btn" href="/membership/" data-i18n="discover.membership.cta">了解会员</a>
       </section>
     </main>
 
     <dialog class="dx-dialog" data-dx-ai-dialog>
       <form method="dialog" class="dx-dialog-shell" data-dx-ai-form>
         <div class="dx-dialog-head">
-          <div>
-            <p class="dx-kicker" data-i18n="discover.ai.kicker">AI Discovery</p>
-            <h2 data-i18n="discover.ai.title">Find My Collection</h2>
-          </div>
-          <button type="submit" class="dx-text-btn" value="cancel" data-i18n="discover.ai.close">Close</button>
+          <div><p class="dx-kicker" data-i18n="discover.ai.kicker">AI Discovery</p><h2 data-i18n="discover.ai.title">Find My Collection</h2></div>
+          <button type="submit" class="dx-text-link" value="cancel" data-i18n="discover.ai.close">关闭</button>
         </div>
-        <div class="dx-ai-steps">
-          <fieldset>
-            <legend data-i18n="discover.ai.budget">Budget</legend>
-            <div class="dx-chip-row" data-dx-ai-group="budget">
-              <button type="button" data-dx-ai-chip="under-100">Under $100</button>
-              <button type="button" data-dx-ai-chip="under-300">Under $300</button>
-              <button type="button" data-dx-ai-chip="collector">Collector</button>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend data-i18n="discover.ai.country">Country preference</legend>
-            <div class="dx-chip-row" data-dx-ai-group="country">
-              <button type="button" data-dx-ai-chip="japan">Japan</button>
-              <button type="button" data-dx-ai-chip="china">China</button>
-              <button type="button" data-dx-ai-chip="italy">Italy</button>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend data-i18n="discover.ai.material">Material preference</legend>
-            <div class="dx-chip-row" data-dx-ai-group="material">
-              <button type="button" data-dx-ai-chip="leather">Leather</button>
-              <button type="button" data-dx-ai-chip="brass">Brass</button>
-              <button type="button" data-dx-ai-chip="linen">Linen</button>
-              <button type="button" data-dx-ai-chip="silk">Silk</button>
-              <button type="button" data-dx-ai-chip="walnut">Walnut</button>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend data-i18n="discover.ai.mood">Style</legend>
-            <div class="dx-chip-row" data-dx-ai-group="mood">
-              <button type="button" data-dx-ai-chip="minimal">Minimal</button>
-              <button type="button" data-dx-ai-chip="quiet-luxury">Quiet Luxury</button>
-              <button type="button" data-dx-ai-chip="natural">Natural</button>
-              <button type="button" data-dx-ai-chip="japanese">Japanese</button>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend data-i18n="discover.ai.use">Use</legend>
-            <div class="dx-chip-row" data-dx-ai-group="use">
-              <button type="button" data-dx-ai-chip="desk">Desk</button>
-              <button type="button" data-dx-ai-chip="coffee">Coffee</button>
-              <button type="button" data-dx-ai-chip="home">Home</button>
-              <button type="button" data-dx-ai-chip="gift">Gift</button>
-              <button type="button" data-dx-ai-chip="travel">Travel</button>
-            </div>
-          </fieldset>
-        </div>
-        <div class="dx-dialog-actions">
-          <button type="button" class="dx-btn" data-dx-ai-run data-i18n="discover.ai.run">Compose my collection</button>
-        </div>
-        <p class="dx-ai-result" data-dx-ai-result hidden></p>
+        <label class="dx-ai-label" for="dxAiPrompt" data-i18n="discover.ai.promptLabel">告诉我们你在寻找什么</label>
+        <textarea id="dxAiPrompt" data-dx-ai-prompt rows="4" data-i18n="discover.ai.promptPlaceholder" placeholder="例如：一件适合日常使用的日本黄铜作品，预算 300 美元以内"></textarea>
+        <div class="dx-dialog-actions"><button type="button" class="dx-btn" data-dx-ai-run data-i18n="discover.ai.run">生成精选</button></div>
       </form>
     </dialog>
-
     <div data-orb-footer></div>
-    <script type="module" src="/shared/js/discover.js?v=1"></script>
+    <script type="module" src="/shared/js/discover.js?v=2"></script>
   </body>
 </html>
