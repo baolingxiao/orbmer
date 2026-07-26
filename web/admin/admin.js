@@ -1,4 +1,4 @@
-import "./admin-platform.js?v=36";
+import "./admin-platform.js?v=37";
 import { createAdminUploader } from "./admin-upload.js";
 import { createAiOptimization } from "./ai/admin-ai.js";
 import { returnPolicyDisplay } from "/shared/js/commerce-display.js";
@@ -50,7 +50,7 @@ const sectionMeta = {
   customers: { kicker: "交易与会员", title: "客户与会员" },
   memberships: { kicker: "交易与会员", title: "会员等级" },
   concierge: { kicker: "交易与会员", title: "专属服务申请" },
-  "journal-studio": { kicker: "内容管理", title: "杂志工作室" },
+  "journal-studio": { kicker: "内容管理", title: "Storyblok 视觉编辑器" },
   content: { kicker: "内容管理", title: "站点文案" },
   media: { kicker: "内容管理", title: "媒体库" },
   team: { kicker: "系统管理", title: "团队权限" },

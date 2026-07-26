@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex,nofollow,noarchive" />
     <title>运营管理 | 傲马 Orbmare</title>
-    <link rel="stylesheet" href="./admin.css?v=37" />
+    <link rel="stylesheet" href="./admin.css?v=38" />
     <link rel="stylesheet" href="./ai/ai.css?v=1" />
   </head>
   <body>
@@ -104,7 +104,7 @@
           </button>
           <p class="ops-nav-group">内容管理</p>
           <button class="ops-nav-item" type="button" data-section-target="journal-studio" data-requires-permission="content.read">
-            杂志工作室
+            Storyblok 视觉编辑器
           </button>
           <button class="ops-nav-item" type="button" data-section-target="content" data-requires-permission="content.read">
             站点文案
@@ -652,68 +652,54 @@
           </section>
 
           <section class="ops-section" data-section="journal-studio" hidden>
-            <div class="journal-studio" data-journal-studio>
-              <div class="js-topbar">
+            <div class="storyblok-editor" data-storyblok-editor>
+              <div class="storyblok-hero">
                 <div>
-                  <p class="section-label">杂志内容系统</p>
-                  <h2>杂志工作室</h2>
-                  <p>从资料整理到发布的数字杂志工作室。不是博客后台，也不是 Markdown 编辑器。</p>
+                  <p class="section-label">内容管理</p>
+                  <h2>Storyblok 视觉编辑器</h2>
+                  <p>后台杂志制作已交给 Storyblok。员工在 Storyblok 中编辑、预览和发布；Orbmare 后台只保留入口、配置状态和预览地址。</p>
                 </div>
-                <div class="js-actions">
-                  <button class="button button-secondary" type="button" data-js-import>导入</button>
-                  <button class="button button-secondary" type="button" data-js-save>手动保存</button>
-                  <button class="button button-primary" type="button" data-js-new-issue>新建专题</button>
+                <div class="storyblok-actions">
+                  <a class="button button-primary" href="https://app.storyblok.com/" target="_blank" rel="noreferrer" data-storyblok-open>打开 Storyblok</a>
+                  <button class="button button-secondary" type="button" data-storyblok-refresh>刷新配置</button>
                 </div>
               </div>
 
-              <div class="js-dashboard" data-js-dashboard>
-                <aside class="js-status-rail" data-js-status-rail></aside>
-                <section class="js-issue-grid" data-js-issue-grid></section>
-                <aside class="js-stats" data-js-stats></aside>
-              </div>
+              <div class="storyblok-status" data-storyblok-status>正在读取 Storyblok 配置…</div>
 
-              <div class="js-workbench" data-js-workbench hidden>
-                <aside class="js-navigator">
-                  <button class="js-back" type="button" data-js-back>← Dashboard</button>
-                  <div data-js-navigator></div>
-                </aside>
-
-                <section class="js-canvas-shell">
-                  <div class="js-flow" data-js-flow></div>
-                  <div class="js-canvas-toolbar">
-                    <button type="button" data-js-toggle-navigator>左栏</button>
-                    <button type="button" data-js-toggle-inspector>右栏</button>
-                    <button type="button" data-js-add-block="heading">标题</button>
-                    <button type="button" data-js-add-block="paragraph">正文</button>
-                    <button type="button" data-js-add-block="image">图片</button>
-                    <button type="button" data-js-add-block="quote">重点引语</button>
-                    <button type="button" data-js-add-block="productGrid">关联商品</button>
-                    <button type="button" data-js-group-blocks>分组</button>
-                    <button type="button" data-js-ungroup-blocks>取消分组</button>
-                    <button type="button" data-js-reset-view>重置视图</button>
-                    <label>缩放 <input type="range" min="70" max="120" value="92" data-js-zoom /></label>
-                  </div>
-                  <div class="js-canvas-viewport">
-                    <article class="js-canvas" data-js-canvas></article>
-                  </div>
+              <div class="storyblok-panels">
+                <section class="storyblok-card">
+                  <p class="section-label">连接状态</p>
+                  <h3 data-storyblok-enabled>待检查</h3>
+                  <dl class="storyblok-config-list">
+                    <div>
+                      <dt>Space ID</dt>
+                      <dd data-storyblok-space>—</dd>
+                    </div>
+                    <div>
+                      <dt>区域</dt>
+                      <dd data-storyblok-region>—</dd>
+                    </div>
+                    <div>
+                      <dt>缺少配置</dt>
+                      <dd data-storyblok-missing>—</dd>
+                    </div>
+                  </dl>
                 </section>
 
-                <aside class="js-inspector">
-                  <div class="js-ai-panel">
-                    <p class="section-label">AI 编辑助手</p>
-                    <h3>人工审核前置</h3>
-                    <p>AI 会基于当前选中的内容模块生成建议；结果会先写回草稿，员工仍需手动保存与发布。</p>
-                    <div class="js-ai-actions">
-                      <button class="button button-secondary" type="button" data-js-ai-rewrite>改写选中内容</button>
-                      <button class="button button-secondary" type="button" data-js-ai-shorten>缩短</button>
-                    </div>
+                <section class="storyblok-card">
+                  <p class="section-label">编辑与预览</p>
+                  <h3>生产入口</h3>
+                  <p>如果下方编辑器因为 Storyblok 安全策略无法嵌入，请直接点击「打开 Storyblok」。这是 SaaS 后台常见限制。</p>
+                  <div class="storyblok-link-row">
+                    <span>预览地址</span>
+                    <a href="/journal/" target="_blank" rel="noreferrer" data-storyblok-preview>/journal/</a>
                   </div>
-                  <form data-js-inspector></form>
-                  <div class="js-publish-panel">
-                    <button class="button button-secondary" type="button" data-js-preview>预览</button>
-                    <button class="button button-primary" type="button" data-js-publish>发布到阅读</button>
-                  </div>
-                </aside>
+                </section>
+              </div>
+
+              <div class="storyblok-frame-shell">
+                <iframe title="Storyblok Visual Editor" data-storyblok-frame loading="lazy"></iframe>
               </div>
             </div>
           </section>
@@ -1787,6 +1773,6 @@
     </dialog>
 
     <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
-    <script type="module" src="./admin.js?v=36"></script>
+    <script type="module" src="./admin.js?v=37"></script>
   </body>
 </html>

@@ -99,6 +99,8 @@
     navigatorCollapsed: false,
     inspectorCollapsed: false,
   };
+  let storyblokConfigCache = null;
+  let storyblokConfigLoading = false;
   const JS_CANVAS_GRID = 16;
   const JS_CANVAS_WIDTH = 1280;
   const JS_CANVAS_HEIGHT = 1700;
@@ -1197,15 +1199,74 @@
   }
 
   function renderJournalStudio() {
-    const root = document.querySelector("[data-journal-studio]");
+    const root = document.querySelector("[data-storyblok-editor]");
     if (!root) return;
-    const studio = getJournalStudio();
-    const activeIssue = getActiveIssue();
-    root.classList.toggle("is-workbench-open", Boolean(activeIssue));
-    root.classList.toggle("is-nav-collapsed", journalStudioState.navigatorCollapsed);
-    root.classList.toggle("is-inspector-collapsed", journalStudioState.inspectorCollapsed);
-    renderJournalStudioDashboard(studio);
-    renderJournalStudioWorkbench(studio, activeIssue);
+    renderStoryblokEditor(storyblokConfigCache);
+    if (!storyblokConfigCache && !storyblokConfigLoading) {
+      loadStoryblokEditorConfig();
+    }
+  }
+
+  function renderStoryblokEditor(config) {
+    const root = document.querySelector("[data-storyblok-editor]");
+    if (!root) return;
+    const status = root.querySelector("[data-storyblok-status]");
+    const enabled = root.querySelector("[data-storyblok-enabled]");
+    const space = root.querySelector("[data-storyblok-space]");
+    const region = root.querySelector("[data-storyblok-region]");
+    const missing = root.querySelector("[data-storyblok-missing]");
+    const openLink = root.querySelector("[data-storyblok-open]");
+    const previewLink = root.querySelector("[data-storyblok-preview]");
+    const frame = root.querySelector("[data-storyblok-frame]");
+
+    if (!config) {
+      if (status) status.textContent = "正在读取 Storyblok 配置…";
+      if (enabled) enabled.textContent = "待检查";
+      return;
+    }
+
+    if (status) {
+      status.textContent = config.enabled
+        ? "Storyblok 已连接。杂志制作请在 Storyblok 中完成，发布后按站点同步策略进入前台。"
+        : "Storyblok 尚未完成配置。请先补齐环境变量，再刷新本页。";
+      status.classList.toggle("is-ready", Boolean(config.enabled));
+      status.classList.toggle("is-warning", !config.enabled);
+    }
+    if (enabled) enabled.textContent = config.enabled ? "已连接" : "未完成配置";
+    if (space) space.textContent = config.spaceId || "未配置";
+    if (region) region.textContent = (config.region || "eu").toUpperCase();
+    if (missing) missing.textContent = config.missing?.length ? config.missing.join("、") : "无";
+    if (openLink && config.editorUrl) openLink.href = config.editorUrl;
+    if (previewLink && config.previewUrl) {
+      previewLink.href = config.previewUrl;
+      previewLink.textContent = config.previewUrl;
+    }
+    if (frame && config.editorUrl && frame.src !== config.editorUrl) {
+      frame.src = config.editorUrl;
+    }
+  }
+
+  async function loadStoryblokEditorConfig({ force = false } = {}) {
+    if (storyblokConfigLoading) return;
+    if (storyblokConfigCache && !force) {
+      renderStoryblokEditor(storyblokConfigCache);
+      return;
+    }
+    storyblokConfigLoading = true;
+    try {
+      const data = await api("/storyblok/config");
+      storyblokConfigCache = data.config || null;
+      renderStoryblokEditor(storyblokConfigCache);
+    } catch (error) {
+      const status = document.querySelector("[data-storyblok-status]");
+      if (status) {
+        status.textContent = error.message || "无法读取 Storyblok 配置。";
+        status.classList.add("is-warning");
+      }
+      toast(error.message || "无法读取 Storyblok 配置。", true);
+    } finally {
+      storyblokConfigLoading = false;
+    }
   }
 
   function renderJournalStudioDashboard(studio) {
@@ -1788,6 +1849,12 @@
   }
 
   function bindPlatform() {
+    document.querySelector("[data-storyblok-refresh]")?.addEventListener("click", async () => {
+      storyblokConfigCache = null;
+      await loadStoryblokEditorConfig({ force: true });
+      toast("Storyblok 配置已刷新。");
+    });
+
     document.querySelector("[data-js-new-issue]")?.addEventListener("click", async () => {
       await mutateJournalStudio((studio) => {
         const issue = jsDefaultIssue();

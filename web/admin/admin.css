@@ -713,7 +713,156 @@ tbody tr:hover {
   font-size: 13px;
 }
 
-/* Journal Studio — Magazine Canvas */
+/* Storyblok Visual Editor */
+.storyblok-editor {
+  display: grid;
+  gap: 22px;
+}
+
+.storyblok-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fff;
+}
+
+.storyblok-hero h2 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+}
+
+.storyblok-hero p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.storyblok-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.storyblok-status {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #f8fafc;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.storyblok-status.is-ready {
+  border-color: rgba(26, 96, 64, 0.22);
+  background: rgba(237, 247, 242, 0.9);
+  color: #1a6040;
+}
+
+.storyblok-status.is-warning {
+  border-color: rgba(185, 91, 70, 0.28);
+  background: rgba(255, 246, 242, 0.95);
+  color: #9b3d2e;
+}
+
+.storyblok-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.storyblok-card {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+}
+
+.storyblok-card h3 {
+  margin: 0 0 14px;
+  font-size: 24px;
+}
+
+.storyblok-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.storyblok-config-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.storyblok-config-list div,
+.storyblok-link-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.storyblok-config-list dt,
+.storyblok-link-row span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.storyblok-config-list dd {
+  margin: 0;
+  text-align: right;
+  word-break: break-word;
+}
+
+.storyblok-link-row {
+  margin-top: 20px;
+}
+
+.storyblok-link-row a {
+  color: var(--ink);
+  text-align: right;
+  word-break: break-all;
+}
+
+.storyblok-frame-shell {
+  min-height: 70vh;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.storyblok-frame-shell iframe {
+  width: 100%;
+  min-height: 70vh;
+  border: 0;
+  background: #fff;
+}
+
+@media (max-width: 960px) {
+  .storyblok-hero,
+  .storyblok-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .storyblok-hero {
+    display: grid;
+  }
+
+  .storyblok-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Journal Studio — legacy canvas kept dormant for old drafts */
 .journal-studio {
   display: grid;
   gap: 18px;
