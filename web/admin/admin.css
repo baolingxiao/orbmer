@@ -719,6 +719,19 @@ tbody tr:hover {
   gap: 18px;
 }
 
+.journal-studio.is-workbench-open {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: block;
+  background: var(--surface-soft);
+}
+
+.journal-studio.is-workbench-open .js-topbar,
+.journal-studio.is-workbench-open .js-dashboard {
+  display: none;
+}
+
 .js-topbar,
 .js-dashboard,
 .js-workbench,
@@ -869,11 +882,40 @@ tbody tr:hover {
   overflow: hidden;
 }
 
+.journal-studio.is-workbench-open .js-workbench {
+  height: 100dvh;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  grid-template-columns: 210px minmax(0, 1fr) 340px;
+}
+
+.journal-studio.is-workbench-open.is-nav-collapsed .js-workbench {
+  grid-template-columns: 0 minmax(0, 1fr) 340px;
+}
+
+.journal-studio.is-workbench-open.is-inspector-collapsed .js-workbench {
+  grid-template-columns: 210px minmax(0, 1fr) 0;
+}
+
+.journal-studio.is-workbench-open.is-nav-collapsed.is-inspector-collapsed .js-workbench {
+  grid-template-columns: 0 minmax(0, 1fr) 0;
+}
+
 .js-navigator,
 .js-inspector {
   min-width: 0;
   overflow-y: auto;
   padding: 18px;
+}
+
+.journal-studio.is-nav-collapsed .js-navigator,
+.journal-studio.is-inspector-collapsed .js-inspector {
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
 }
 
 .js-navigator {
@@ -927,6 +969,10 @@ tbody tr:hover {
   background-size: 32px 32px;
 }
 
+.journal-studio.is-workbench-open .js-canvas-shell {
+  min-height: 100dvh;
+}
+
 .js-flow {
   display: flex;
   gap: 8px;
@@ -968,6 +1014,14 @@ tbody tr:hover {
   background: rgb(255 255 255 / 0.74);
 }
 
+.journal-studio.is-workbench-open .js-flow {
+  padding: 10px 14px;
+}
+
+.journal-studio.is-workbench-open .js-canvas-toolbar {
+  padding: 10px 14px;
+}
+
 .js-canvas-toolbar button {
   min-height: 32px;
   padding: 0 10px;
@@ -989,6 +1043,10 @@ tbody tr:hover {
   padding: 42px;
   cursor: grab;
   touch-action: none;
+}
+
+.journal-studio.is-workbench-open .js-canvas-viewport {
+  padding: 26px;
 }
 
 .js-canvas-viewport.is-panning {

@@ -1,4 +1,4 @@
-import "./admin-platform.js?v=35";
+import "./admin-platform.js?v=36";
 import { createAdminUploader } from "./admin-upload.js";
 import { createAiOptimization } from "./ai/admin-ai.js";
 import { returnPolicyDisplay } from "/shared/js/commerce-display.js";

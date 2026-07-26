@@ -96,6 +96,8 @@
     zoom: 92,
     panX: 0,
     panY: 0,
+    navigatorCollapsed: false,
+    inspectorCollapsed: false,
   };
   const JS_CANVAS_GRID = 16;
   const JS_CANVAS_WIDTH = 1280;
@@ -1199,6 +1201,9 @@
     if (!root) return;
     const studio = getJournalStudio();
     const activeIssue = getActiveIssue();
+    root.classList.toggle("is-workbench-open", Boolean(activeIssue));
+    root.classList.toggle("is-nav-collapsed", journalStudioState.navigatorCollapsed);
+    root.classList.toggle("is-inspector-collapsed", journalStudioState.inspectorCollapsed);
     renderJournalStudioDashboard(studio);
     renderJournalStudioWorkbench(studio, activeIssue);
   }
@@ -1822,6 +1827,18 @@
       const blockNode = event.target.closest("[data-js-block]");
       if (blockNode) {
         selectJournalBlock(blockNode.dataset.jsBlock, event.shiftKey || event.metaKey);
+        renderJournalStudio();
+        return;
+      }
+
+      if (event.target.closest("[data-js-toggle-navigator]")) {
+        journalStudioState.navigatorCollapsed = !journalStudioState.navigatorCollapsed;
+        renderJournalStudio();
+        return;
+      }
+
+      if (event.target.closest("[data-js-toggle-inspector]")) {
+        journalStudioState.inspectorCollapsed = !journalStudioState.inspectorCollapsed;
         renderJournalStudio();
         return;
       }
