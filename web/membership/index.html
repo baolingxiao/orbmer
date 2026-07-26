@@ -20,7 +20,8 @@
       </section>
 
       <section class="section shell-wide">
-        <div class="membership-status-card" data-membership-status></div>
+        <div class="membership-public-note" data-membership-public-note></div>
+        <div class="membership-status-card" data-membership-status hidden></div>
         <div class="featured-head">
           <div class="section-head">
             <h2 data-membership-plans>会员等级</h2>
@@ -72,6 +73,7 @@
       let lang = getLang();
       let billing = "monthly";
       let session = null;
+      let membershipState = null;
       let csrfToken = "";
 
       function money(value, interval) {
@@ -113,8 +115,13 @@
           const data = await authApi("/session");
           session = data.authenticated ? data : null;
           csrfToken = data.csrfToken || "";
+          if (session?.authenticated && session.user?.role === "buyer") {
+            const membership = await authApi("/membership");
+            membershipState = membership.membership || null;
+          }
         } catch {
           session = null;
+          membershipState = null;
         }
       }
 
@@ -169,9 +176,31 @@
         });
 
         const currentTier = session?.user?.membershipStatus || "explorer";
-        document.querySelector("[data-membership-status]").innerHTML = `
-          <div><span class="meta">${copy.current}</span><strong>${tierTitle(currentTier)}</strong></div>
-          <a class="btn btn-ghost" href="/auth/">${session?.authenticated ? copy.accountCta : copy.signInToUpgrade}</a>`;
+        const memberOnly = ["journal", "collector", "black"].includes(currentTier);
+        const publicNote = document.querySelector("[data-membership-public-note]");
+        const statusCard = document.querySelector("[data-membership-status]");
+        publicNote.hidden = memberOnly;
+        statusCard.hidden = !memberOnly;
+        publicNote.innerHTML = session?.authenticated
+          ? `<p>${lang === "en" ? "You are currently using an Explorer account. Public discovery, orders and order tracking remain available. Upgrade when you want member-only editorial access or human service requests." : "你当前是 Explorer 普通账户。公开探索、下单和订单追踪都可以正常使用；当你需要会员专属阅读或真人服务申请时，再升级即可。"}</p>
+             <a class="btn btn-ghost" href="/auth/">${copy.accountCta}</a>`
+          : `<p>${lang === "en" ? "You are viewing the public membership introduction. Sign in to see your account status; paid member tools appear only after a member account is active." : "你现在看到的是公开会员介绍。登录后可以查看账户状态；只有会员账户生效后，才会显示会员专属工具。"}</p>
+             <a class="btn btn-ghost" href="/auth/">${copy.signInToUpgrade}</a>`;
+        if (memberOnly) {
+          const period = membershipState?.currentPeriodEnd
+            ? `${lang === "en" ? "Renews / ends" : "下次续费 / 到期"} ${new Date(membershipState.currentPeriodEnd).toLocaleDateString(lang === "en" ? "en-US" : "zh-CN")}`
+            : "";
+          statusCard.innerHTML = `
+            <div>
+              <span class="meta">${copy.current}</span>
+              <strong>${tierTitle(currentTier)}</strong>
+              <p>${membershipState?.billingInterval || ""}${period ? ` · ${period}` : ""}${membershipState?.cancelAtPeriodEnd ? ` · ${lang === "en" ? "Canceling at period end" : "将在周期结束时取消"}` : ""}</p>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+              <a class="btn btn-ghost" href="/auth/">${copy.accountCta}</a>
+              ${membershipState?.stripeCustomerId ? `<button class="btn" type="button" data-open-portal>${copy.manage}</button>` : ""}
+            </div>`;
+        }
 
         document.querySelector("[data-tier-grid]").innerHTML = MEMBERSHIP_TIERS.map((tier) => {
           const meta = TIER_META[tier];
@@ -222,6 +251,8 @@
         }
         const checkout = event.target.closest("[data-start-checkout]");
         if (checkout) await startCheckout(checkout.dataset.startCheckout);
+        const portal = event.target.closest("[data-open-portal]");
+        if (portal) await openPortal();
         const prep = event.target.closest("[data-prep-feature]");
         if (prep?.dataset.prepFeature) {
           const item = MEMBERSHIP_ENTITLEMENTS.find((entry) => entry.key === prep.dataset.prepFeature);

@@ -1838,6 +1838,32 @@ button {
   align-items: end;
 }
 
+.membership-status-card[hidden] {
+  display: none;
+}
+
+.membership-public-note {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 36px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.membership-public-note[hidden] {
+  display: none;
+}
+
+.membership-public-note p,
+.membership-status-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .membership-status-card strong {
   display: block;
   margin-top: 8px;
@@ -2016,6 +2042,7 @@ button {
 
 @media (max-width: 640px) {
   .membership-status-card,
+  .membership-public-note,
   .membership-tier-grid {
     grid-template-columns: 1fr;
   }
