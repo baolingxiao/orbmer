@@ -21,6 +21,7 @@
       import { loadCatalog, productById, quietCardHtml, escapeHtml } from "/shared/js/catalog-editorial.js";
       import { addCartLine } from "/shared/js/store.js";
       import { t, getLang, loc, applyI18n, onLangChange } from "/shared/js/editorial-i18n.js";
+      import { specsToRows } from "/shared/js/product-specs.js";
 
       mountChrome();
       const id = new URLSearchParams(location.search).get("id");
@@ -74,6 +75,32 @@
         gallery.setAttribute("aria-label", `${t("pdp.prev", lang)} / ${t("pdp.next", lang)}`);
       }
 
+      function productSpecRows(product, lang) {
+        const rows = specsToRows(product, lang).filter((row) => row.value);
+        if (!rows.length && product?.dimensions) {
+          rows.push({
+            label: lang === "en" ? "Dimensions" : "尺寸",
+            value: product.dimensions,
+          });
+        }
+        return rows;
+      }
+
+      function specSummaryHtml(product, lang) {
+        const rows = productSpecRows(product, lang);
+        if (!rows.length) return "";
+        return `<dl class="pdp-spec-summary" aria-label="${escapeHtml(t("pdp.specSummary", lang))}">
+          ${rows
+            .map(
+              ({ label, value }) => `<div>
+                <dt>${escapeHtml(label)}</dt>
+                <dd>${escapeHtml(value)}</dd>
+              </div>`
+            )
+            .join("")}
+        </dl>`;
+      }
+
       function render(lang = getLang()) {
         applyI18n(lang);
         if (!p) {
@@ -85,6 +112,7 @@
         const related = catalog.products.filter((x) => x.country === p.country && x.id !== p.id).slice(0, 3);
         const images = productImages(p);
         const name = loc(p, "name", lang);
+        const specRows = productSpecRows(p, lang);
         const cardsHtml = images
           .map(
             (src, i) => `<figure class="pdp-stack-card${i === 0 ? " is-active" : ""}" data-depth="${Math.min(i, 3)}">
@@ -122,6 +150,7 @@
               </nav>
 
               <div class="pdp-purchase">
+                ${specSummaryHtml(p, lang)}
                 <p class="price">${escapeHtml(p.priceLabel)}</p>
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   <button class="btn" type="button" data-add-bag data-i18n="pdp.add">${t("pdp.add", lang)}</button>
@@ -166,6 +195,11 @@
               <div><dt>${escapeHtml(t("pdp.craft", lang))}</dt><dd>${escapeHtml(loc(p, "craft", lang))}</dd></div>
               <div><dt>${escapeHtml(t("pdp.country", lang))}</dt><dd>${escapeHtml(loc(p, "countryLabel", lang))}</dd></div>
               <div><dt>${escapeHtml(t("pdp.designer", lang))}</dt><dd>${escapeHtml(loc(p, "designerName", lang))}</dd></div>
+              ${specRows
+                .map(
+                  ({ label, value }) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`
+                )
+                .join("")}
             </dl>
           </section>
 
