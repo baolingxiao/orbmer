@@ -1,165 +1,71 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,nofollow,noarchive" />
-    <title>TinaCMS 杂志编辑器 | 傲马 Orbmare</title>
-    <style>
-      :root {
-        color-scheme: light;
-        --ink: #141414;
-        --muted: #747474;
-        --line: #e5e5e5;
-        --surface: #fafafa;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        background: var(--surface);
-        color: var(--ink);
-        font-family: "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      }
-
-      main {
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        padding: 48px 24px;
-      }
-
-      section {
-        width: min(860px, 100%);
-        padding: clamp(36px, 7vw, 72px);
-        border: 1px solid var(--line);
-        background: #fff;
-      }
-
-      .brand {
-        display: grid;
-        gap: 4px;
-        margin-bottom: 80px;
-      }
-
-      .brand strong {
-        font-size: 22px;
-        letter-spacing: 0.08em;
-      }
-
-      .brand span {
-        color: var(--muted);
-        letter-spacing: 0.28em;
-      }
-
-      .label {
-        margin: 0 0 18px;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
-      }
-
-      h1 {
-        max-width: 620px;
-        margin: 0 0 22px;
-        font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-        font-size: clamp(46px, 8vw, 86px);
-        font-weight: 400;
-        line-height: 0.96;
-      }
-
-      p {
-        max-width: 680px;
-        margin: 0;
-        color: var(--muted);
-        font-size: 18px;
-        line-height: 1.9;
-      }
-
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 42px;
-      }
-
-      a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        padding: 0 22px;
-        border: 1px solid var(--ink);
-        color: var(--ink);
-        text-decoration: none;
-        font-weight: 700;
-      }
-
-      a.primary {
-        background: var(--ink);
-        color: #fff;
-      }
-
-      dl {
-        display: grid;
-        gap: 12px;
-        margin: 46px 0 0;
-        padding-top: 28px;
-        border-top: 1px solid var(--line);
-      }
-
-      div {
-        display: flex;
-        justify-content: space-between;
-        gap: 18px;
-      }
-
-      dt {
-        color: var(--muted);
-      }
-
-      dd {
-        margin: 0;
-        text-align: right;
-      }
-    </style>
+    <link rel="icon" href="/tina/assets/favicon-eb31bc17.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TinaCMS</title>
+    <script type="module" crossorigin src="/tina/assets/index-6007995b.js"></script>
+    <link rel="stylesheet" href="/tina/assets/index-53e50aaf.css">
   </head>
-  <body>
-    <main>
-      <section>
-        <div class="brand">
-          <strong>傲马</strong>
-          <span>Orbmare</span>
-        </div>
-        <p class="label">TinaCMS Studio</p>
-        <h1>杂志编辑器入口已切换为 TinaCMS。</h1>
-        <p>
-          当前项目已经把后台杂志制作入口改为 TinaCMS。下一步需要加入 Tina schema 与 Studio 构建产物，才能在这里直接编辑文章、图片、专题和前台可读取的内容文件。
-        </p>
-        <div class="actions">
-          <a class="primary" href="/journal/">查看前台阅读</a>
-          <a href="javascript:history.back()">返回运营后台</a>
-        </div>
-        <dl>
-          <div>
-            <dt>推荐模式</dt>
-            <dd>本地自托管 / Git-backed</dd>
-          </div>
-          <div>
-            <dt>默认内容目录</dt>
-            <dd>web</dd>
-          </div>
-          <div>
-            <dt>默认媒体目录</dt>
-            <dd>web/assets</dd>
-          </div>
-        </dl>
-      </section>
-    </main>
+  <body class="tina-tailwind">
+    <div id="root"></div>
+    <script>
+      function handleLoadError() {
+        console.error('Failed to load assets')
+        // Assets have failed to load
+        document.getElementById('root').innerHTML =
+          '<style type="text/css">\
+        #no-assets-placeholder body {\
+          font-family: sans-serif;\
+          font-size: 16px;\
+          line-height: 1.4;\
+          color: #333;\
+          background-color: #f5f5f5;\
+        }\
+        #no-assets-placeholder {\
+          max-width: 600px;\
+          margin: 0 auto;\
+          padding: 40px;\
+          text-align: center;\
+          background-color: #fff;\
+          box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);\
+        }\
+        #no-assets-placeholder h1 {\
+          font-size: 24px;\
+          margin-bottom: 20px;\
+        }\
+        #no-assets-placeholder p {\
+          margin-bottom: 10px;\
+        }\
+        #no-assets-placeholder a {\
+          color: #0077cc;\
+          text-decoration: none;\
+        }\
+        #no-assets-placeholder a:hover {\
+          text-decoration: underline;\
+        }\
+        </style>\
+        <div id=\'no-assets-placeholder\'>\
+          <h1>Failed loading TinaCMS assets</h1>\
+          <p>\
+            Your TinaCMS configuration may be misconfigured, and we could not load\
+            the assets for this page.\
+          </p>\
+          <p>\
+            Please visit <a href="https://tina.io/docs/r/FAQ/#13-how-do-i-resolve-failed-loading-tinacms-assets-error">this doc</a> for help.\
+          </p>\
+        </div>'
+      }
+
+      // Check if #root has childen after 2 seconds
+      // If not, we assume that the assets have failed to load
+      setTimeout(() => {
+        if (!document.getElementById('root').children.length) {
+          handleLoadError()
+        }
+      }, 2000)
+    </script>
+    
   </body>
 </html>

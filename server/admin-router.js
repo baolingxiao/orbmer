@@ -103,7 +103,7 @@ function adminHeaders(_req, res, next) {
 function tinaAdminConfig() {
   const adminUrl = String(process.env.TINA_ADMIN_URL || "/tina/").trim();
   const branch = String(process.env.TINA_BRANCH || process.env.GIT_BRANCH || "main").trim();
-  const contentRoot = String(process.env.TINA_CONTENT_ROOT || "web").trim();
+  const contentRoot = String(process.env.TINA_CONTENT_ROOT || "content").trim();
   const mediaRoot = String(process.env.TINA_MEDIA_ROOT || "web/assets").trim();
   const previewUrl = String(
     process.env.TINA_PREVIEW_URL ||
@@ -120,6 +120,7 @@ function tinaAdminConfig() {
     contentRoot,
     mediaRoot,
     previewUrl,
+    journalEnabled: String(process.env.TINA_JOURNAL_ENABLED || "false").trim().toLowerCase() === "true",
     mode: clientId && token ? "Tina Cloud / Git-backed" : "本地自托管 / Git-backed",
     missing,
   };
@@ -249,11 +250,26 @@ export function createAdminRouter({
     return res.sendFile(path.join(adminWebRoot, "index.html"));
   });
 
-  router.get(["/tina", "/tina/"], (_req, res) => {
+  function tinaHeaders(res, filePath = "") {
     res.setHeader(
       "Content-Security-Policy",
-      "default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; frame-ancestors 'none'; form-action 'none'"
+      "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' http://localhost:4001 http://127.0.0.1:4001; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
     );
+    if (filePath.endsWith(".js")) res.type("text/javascript");
+    if (filePath.endsWith(".css")) res.type("text/css");
+  }
+
+  router.use(
+    "/tina",
+    express.static(tinaWebRoot, {
+      index: false,
+      fallthrough: true,
+      setHeaders: tinaHeaders,
+    })
+  );
+
+  router.get(["/tina", "/tina/"], (_req, res) => {
+    tinaHeaders(res);
     return res.sendFile(path.join(tinaWebRoot, "index.html"));
   });
 

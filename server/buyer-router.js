@@ -36,6 +36,7 @@ import {
   patchSiteContent,
   addModuleCard,
 } from "./site-content-store.js";
+import { mergeTinaJournalContent } from "./tina-content-store.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const authWebRoot = path.join(__dirname, "..", "web", "auth");
@@ -66,7 +67,7 @@ function publicJournalArticle(article, lang = "zh") {
 }
 
 function journalArticleFromContent(id) {
-  const journal = getSiteContent()?.journal || {};
+  const journal = mergeTinaJournalContent(getSiteContent())?.journal || {};
   const cmsItems = Array.isArray(journal.items) && journal.items.some(isModernJournalItem) ? journal.items : undefined;
   const articles = normalizeJournalArticles(cmsItems);
   return articles.find((article) => article.id === id) || getJournalArticle(id);

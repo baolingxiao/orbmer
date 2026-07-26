@@ -1,0 +1,33 @@
+fragment JournalParts on Journal {
+  __typename
+  titleZh
+  titleEn
+  category
+  categoryZh
+  categoryEn
+  coverImage
+  excerptZh
+  excerptEn
+  authorZh
+  authorEn
+  publishedAt
+  readingTime
+  requiresMembership
+  issue
+  collection
+  relatedProductIds
+  bodyZh
+  bodyEn
+  body
+}
+
+fragment IssuesParts on Issues {
+  __typename
+  issueId
+  titleZh
+  titleEn
+  bodyZh
+  bodyEn
+  coverImage
+  articleCount
+}

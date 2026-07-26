@@ -19,6 +19,7 @@ import { importJsonOrdersIfEmpty } from "./order-store.js";
 import { ensureDatabaseReady, isDatabaseEnabled } from "./db/index.js";
 import { getPublishedContent, listContent } from "./content-store.js";
 import { getSiteContent } from "./site-content-store.js";
+import { mergeTinaJournalContent } from "./tina-content-store.js";
 import { purgeExpiredDeletions } from "./trash-store.js";
 import { toPublicBrandCard, toPublicBrandDetail } from "./brand-editorial.js";
 import { createCheckoutQuote, listCheckoutCountries } from "./checkout-service.js";
@@ -278,7 +279,7 @@ app.get("/api/countries", async (_req, res) => {
 app.get("/api/site-content", (_req, res) => {
   res.setHeader("Cache-Control", "no-store");
   try {
-    return res.json({ ok: true, content: getSiteContent() });
+    return res.json({ ok: true, content: mergeTinaJournalContent(getSiteContent()) });
   } catch (error) {
     return res.status(500).json({ ok: false, error: "Site content unavailable." });
   }

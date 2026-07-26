@@ -1216,6 +1216,7 @@
     const branch = root.querySelector("[data-tina-branch]");
     const contentRoot = root.querySelector("[data-tina-content-root]");
     const mediaRoot = root.querySelector("[data-tina-media-root]");
+    const journalEnabled = root.querySelector("[data-tina-journal-enabled]");
     const missing = root.querySelector("[data-tina-missing]");
     const openLink = root.querySelector("[data-tina-open]");
     const previewLink = root.querySelector("[data-tina-preview]");
@@ -1237,8 +1238,9 @@
     if (enabled) enabled.textContent = config.enabled ? "已连接" : "未完成配置";
     if (mode) mode.textContent = config.mode || "本地自托管 / Git-backed";
     if (branch) branch.textContent = config.branch || "main";
-    if (contentRoot) contentRoot.textContent = config.contentRoot || "web";
+    if (contentRoot) contentRoot.textContent = config.contentRoot || "content";
     if (mediaRoot) mediaRoot.textContent = config.mediaRoot || "web/assets";
+    if (journalEnabled) journalEnabled.textContent = config.journalEnabled ? "已开启" : "关闭（安全默认）";
     if (missing) missing.textContent = config.missing?.length ? config.missing.join("、") : "无";
     if (openLink && config.adminUrl) openLink.href = config.adminUrl;
     if (adminLink && config.adminUrl) {
