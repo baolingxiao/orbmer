@@ -29,13 +29,17 @@
         </section>
       </section>
 
-      <section class="dx-ai shell-wide" aria-labelledby="dx-ai-title">
-        <div>
-          <p class="dx-kicker" data-i18n="discover.ai.kicker">AI Discovery</p>
-          <h2 id="dx-ai-title" data-i18n="discover.ai.title">Find My Collection</h2>
-          <p data-i18n="discover.ai.body">根据预算、国家、材料、风格、用途，为你生成专属精选。</p>
+      <section class="dx-objects shell-wide" aria-labelledby="dx-objects-title">
+        <div class="dx-section-head">
+          <div>
+            <p class="dx-kicker" data-i18n="discover.objects.kicker">Objects</p>
+            <h2 id="dx-objects-title" data-i18n="discover.objects.title">精选物件</h2>
+            <p class="dn-echo" data-i18n-echo="discover.objects.title">Curated Objects</p>
+          </div>
+          <p class="dx-count" data-dx-count></p>
         </div>
-        <button type="button" class="dx-text-link" data-dx-ai-open data-i18n="discover.ai.cta">开始</button>
+        <div class="dx-object-grid" data-dx-grid aria-live="polite"></div>
+        <p class="dx-empty" data-dx-empty hidden data-i18n="discover.empty">暂时没有匹配的作品。</p>
       </section>
 
       <section class="dx-editors shell-wide" aria-labelledby="dx-editors-title">
@@ -63,17 +67,13 @@
         <div class="dx-collection-rail" data-dx-rail></div>
       </section>
 
-      <section class="dx-objects shell-wide" aria-labelledby="dx-objects-title">
-        <div class="dx-section-head">
-          <div>
-            <p class="dx-kicker" data-i18n="discover.objects.kicker">Objects</p>
-            <h2 id="dx-objects-title" data-i18n="discover.objects.title">精选物件</h2>
-            <p class="dn-echo" data-i18n-echo="discover.objects.title">Curated Objects</p>
-          </div>
-          <p class="dx-count" data-dx-count></p>
+      <section class="dx-ai shell-wide" aria-labelledby="dx-ai-title">
+        <div>
+          <p class="dx-kicker" data-i18n="discover.ai.kicker">AI Discovery</p>
+          <h2 id="dx-ai-title" data-i18n="discover.ai.title">Find My Collection</h2>
+          <p data-i18n="discover.ai.body">根据预算、国家、材料、风格、用途，为你生成专属精选。</p>
         </div>
-        <div class="dx-object-grid" data-dx-grid aria-live="polite"></div>
-        <p class="dx-empty" data-dx-empty hidden data-i18n="discover.empty">暂时没有匹配的作品。</p>
+        <button type="button" class="dx-text-link" data-dx-ai-open data-i18n="discover.ai.cta">开始</button>
       </section>
 
       <section class="dx-journal shell-wide" aria-labelledby="dx-journal-title">
