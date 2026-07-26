@@ -779,6 +779,22 @@
                 <label for="productPrice">基础价格 USD</label>
                 <input id="productPrice" name="price" type="number" min="0.5" step="0.01" required />
               </div>
+              <div class="field">
+                <label for="productType">商品种类 / 数据模板</label>
+                <select id="productType" name="productType" data-product-type>
+                  <option value="object">通用物件</option>
+                  <option value="apparel">服装</option>
+                  <option value="jewelry">首饰</option>
+                  <option value="furniture">家具</option>
+                  <option value="home">家居</option>
+                  <option value="stationery">文具</option>
+                  <option value="fragrance">香水</option>
+                  <option value="tech">科技</option>
+                  <option value="art">艺术 / 收藏</option>
+                  <option value="tool">工具</option>
+                </select>
+                <small>切换后会显示对应商品特性的录入字段；不会删除已填内容。</small>
+              </div>
             </div>
           </fieldset>
 
@@ -862,9 +878,55 @@
                 <small>卡片与详情材料行。</small>
               </div>
               <div class="field">
-                <label for="productDimensions">尺寸 · 前台</label>
-                <input id="productDimensions" name="dimensions" maxlength="160" placeholder="例：13×2×2 cm 或 Ø45mm" />
-                <small>店铺详情 sourcing；甄选可空。</small>
+                <label for="dimensionUnit">尺寸单位</label>
+                <select id="dimensionUnit" name="dimensionUnit">
+                  <option value="cm">cm</option>
+                  <option value="mm">mm</option>
+                  <option value="in">in</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="dimensionWeightUnit">重量单位</label>
+                <select id="dimensionWeightUnit" name="dimensionWeightUnit">
+                  <option value="g">g</option>
+                  <option value="kg">kg</option>
+                  <option value="lb">lb</option>
+                  <option value="oz">oz</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="dimensionLength">长</label>
+                <input id="dimensionLength" name="dimensionLength" maxlength="40" />
+              </div>
+              <div class="field">
+                <label for="dimensionWidth">宽</label>
+                <input id="dimensionWidth" name="dimensionWidth" maxlength="40" />
+              </div>
+              <div class="field">
+                <label for="dimensionHeight">高</label>
+                <input id="dimensionHeight" name="dimensionHeight" maxlength="40" />
+              </div>
+              <div class="field">
+                <label for="dimensionDepth">深</label>
+                <input id="dimensionDepth" name="dimensionDepth" maxlength="40" />
+              </div>
+              <div class="field">
+                <label for="dimensionDiameter">直径</label>
+                <input id="dimensionDiameter" name="dimensionDiameter" maxlength="40" />
+              </div>
+              <div class="field">
+                <label for="dimensionWeight">重量</label>
+                <input id="dimensionWeight" name="dimensionWeight" maxlength="40" />
+              </div>
+              <div class="field field-span-2">
+                <label for="productDimensions">尺寸摘要 · 自动生成，可手动覆盖</label>
+                <input id="productDimensions" name="dimensions" maxlength="220" placeholder="例：13 × 2 × 2 cm · 120 g" />
+                <small>保留给旧页面兼容。上面的结构化字段会自动生成这里的摘要。</small>
+              </div>
+              <div class="field field-span-2">
+                <label>品类专属数据</label>
+                <div class="form-grid" data-product-type-fields></div>
+                <small>根据商品种类显示服装、首饰、家具等不同录入项。</small>
               </div>
               <div
                 class="field field-span-2"

@@ -1,6 +1,7 @@
 import { loadCatalog, getProductFromList } from "/shared/js/load-catalog.js";
 import * as Store from "/shared/js/store.js";
 import { returnPolicyDisplay } from "/shared/js/commerce-display.js";
+import { productTypeLabel, specsToRows } from "/shared/js/product-specs.js";
 
 const params = new URLSearchParams(location.search);
 const id = params.get("id");
@@ -58,11 +59,14 @@ function renderProduct(product) {
           ? "下单前会继续确认"
           : "To be confirmed before order handling";
   const sourcingFacts = document.querySelector("#sourcingFacts");
+  const specRows = specsToRows(product, lang).map(({ label, value }) => [label, value]);
   [
     ["Source country", detail(product.sourceCountry)],
     ["Source type", detail(product.sourceType)],
+    [lang === "zh" ? "商品种类" : "Product type", productTypeLabel(product.productType || "object", lang)],
     ["Material", detail(product.material)],
     ["Dimensions", detail(product.dimensions)],
+    ...specRows,
     ["Procurement processing", detail(product.processingTime)],
     ["International transit", detail(product.internationalShippingTime)],
     ["Return eligibility", returnText],

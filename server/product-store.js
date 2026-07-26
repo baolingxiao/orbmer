@@ -14,6 +14,7 @@ import {
   loadEditorialSeedProducts,
   storeProductToEditorialPublic,
 } from "./editorial-map.js";
+import { serializeDimensions } from "../web/shared/js/product-specs.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const defaultRuntimeDir = path.join(__dirname, "runtime-data");
@@ -90,6 +91,18 @@ function asText(value, max, field, { required = false } = {}) {
   const result = String(value ?? "").trim().slice(0, max);
   if (required && !result) throw new Error(`${field} is required.`);
   return result;
+}
+
+function compactTextRecord(value, max = 160) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value)
+      .map(([key, entry]) => [
+        String(key).replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 64),
+        String(entry ?? "").trim().slice(0, max),
+      ])
+      .filter(([key, entry]) => key && entry)
+  );
 }
 
 function asInteger(value, field, { min = 0, max = 10_000_000, nullable = false } = {}) {
@@ -432,9 +445,24 @@ function normalizeProductInput(input, existing = null) {
   const enName = asText(input.en?.name ?? existing?.en?.name, 120, "English name", {
     required: true,
   });
+  const productType = asText(
+    input.productType ?? existing?.productType ?? "object",
+    80,
+    "Product type"
+  ) || "object";
+  const dimensionsStructured = compactTextRecord(
+    input.dimensionsStructured ?? existing?.dimensionsStructured ?? {},
+    40
+  );
+  const productAttributes = compactTextRecord(
+    input.productAttributes ?? existing?.productAttributes ?? {},
+    160
+  );
   const dimensions = asText(
-    input.dimensions ?? existing?.dimensions ?? "",
-    160,
+    input.dimensions ??
+      existing?.dimensions ??
+      serializeDimensions(dimensionsStructured, ""),
+    220,
     "Dimensions"
   );
   const safetyWarning = asText(
@@ -555,6 +583,9 @@ function normalizeProductInput(input, existing = null) {
       noIndex: Boolean(input.seo?.noIndex ?? existing?.seo?.noIndex ?? false),
     },
     variants,
+    productType,
+    dimensionsStructured,
+    productAttributes,
     dimensions,
     material: asText(input.material ?? existing?.material, 120, "Material", {
       required: true,
