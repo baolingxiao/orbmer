@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import multer from "multer";
 import { createAdminAuth, createPasswordHash } from "./admin-auth.js";
 import {
   createManagedProduct,
@@ -66,7 +67,7 @@ import {
   requirePermission,
   stripFinanceFields,
 } from "./rbac.js";
-import { listAiFieldRegistry, optimizeContent } from "./ai/service.js";
+import { extractProductFromScreenshots, listAiFieldRegistry, optimizeContent } from "./ai/service.js";
 import { getAiConfig } from "./ai/config.js";
 import {
   buildEmailDraft,
@@ -81,6 +82,16 @@ import { validateFulfillmentRule } from "../web/shared/js/commerce-display.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const adminWebRoot = path.join(__dirname, "..", "web", "admin");
 const tinaWebRoot = path.join(__dirname, "..", "web", "tina");
+const aiScreenshotUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024, files: 30 },
+  fileFilter(_req, file, cb) {
+    if (!/^image\/(jpeg|png|webp|gif)$/i.test(file.mimetype || "")) {
+      return cb(new Error("只支持 JPG / PNG / WebP / GIF 商品截图。"));
+    }
+    return cb(null, true);
+  },
+});
 
 function clientIp(req) {
   return req.ip || req.socket?.remoteAddress || "";
@@ -1644,6 +1655,42 @@ export function createAdminRouter({
           session: req.adminSession,
           ip: clientIp(req),
           signal: req.aborted ? AbortSignal.abort() : undefined,
+        });
+        return res.json({ ok: true, ...data });
+      } catch (error) {
+        const status = Number(error?.status || 400);
+        return routeError(res, error, status >= 400 && status < 600 ? status : 400);
+      }
+    }
+  );
+
+  router.post(
+    "/api/ai/extract-product",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("ai_content_optimize"),
+    (req, res, next) => {
+      aiScreenshotUpload.array("screenshots", 30)(req, res, (error) => {
+        if (!error) return next();
+        return routeError(res, error);
+      });
+    },
+    async (req, res) => {
+      try {
+        const data = await extractProductFromScreenshots({
+          files: req.files || [],
+          body: req.body || {},
+          session: req.adminSession,
+          ip: clientIp(req),
+          signal: req.aborted ? AbortSignal.abort() : undefined,
+        });
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "ai_product_screenshots_extracted",
+          entityType: "product",
+          entityId: String(req.body?.entityId || ""),
+          details: { imageCount: (req.files || []).length, requestId: data.requestId },
+          ip: clientIp(req),
         });
         return res.json({ ok: true, ...data });
       } catch (error) {

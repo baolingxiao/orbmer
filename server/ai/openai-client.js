@@ -18,6 +18,7 @@ export async function createStructuredResponse({
   tier = "standard",
   systemPrompt,
   userPrompt,
+  userContent,
   schema,
   schemaName = "ai_optimize_result",
   signal,
@@ -39,7 +40,7 @@ export async function createStructuredResponse({
         model: cfg.model,
         input: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt },
+          { role: "user", content: userContent || userPrompt },
         ],
         text: {
           format: {

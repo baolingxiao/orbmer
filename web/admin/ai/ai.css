@@ -74,6 +74,57 @@
   width: min(920px, calc(100vw - 24px));
 }
 
+.ai-extract-dialog {
+  width: min(1040px, calc(100vw - 24px));
+}
+
+.ai-extract-intro,
+.ai-extract-review-note {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f8fafc;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.ai-extract-intro strong,
+.ai-extract-review-note strong {
+  color: var(--ink);
+}
+
+.ai-extract-drop {
+  min-height: 220px;
+}
+
+.ai-extract-field-list {
+  display: grid;
+  gap: 8px;
+  max-height: 360px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.ai-extract-field-row {
+  display: grid;
+  grid-template-columns: auto minmax(110px, 170px) 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ai-extract-field-row code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .ai-panel-body {
   display: grid;
   gap: 16px;

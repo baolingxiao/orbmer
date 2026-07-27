@@ -49,6 +49,52 @@ const LOADING_STAGES = [
   "正在生成预览",
 ];
 
+const EXTRACT_LOADING_STAGES = [
+  "正在读取商品截图",
+  "正在识别价格、材料与尺寸",
+  "正在整理中英文商品信息",
+  "正在生成待审核表单草稿",
+];
+
+const PRODUCT_EXTRACT_FIELDS = [
+  ["id", "商品 ID"],
+  ["channel", "前台渠道"],
+  ["productType", "商品种类"],
+  ["editorialCountry", "国家馆"],
+  ["editorialStatus", "策展位置"],
+  ["collection", "商品系列"],
+  ["price", "基础价格"],
+  ["compareAtPrice", "对比价"],
+  ["zhName", "中文名称"],
+  ["enName", "英文名称"],
+  ["zhDesc", "中文说明"],
+  ["enDesc", "英文说明"],
+  ["materialZh", "材料（中）"],
+  ["material", "材料"],
+  ["storyZh", "中文故事"],
+  ["story", "英文故事"],
+  ["craftZh", "工艺（中）"],
+  ["craft", "工艺（英）"],
+  ["designerNameZh", "设计师（中）"],
+  ["designerName", "设计师（英）"],
+  ["studioZh", "工作室（中）"],
+  ["studio", "工作室（英）"],
+  ["originCountry", "发货/来源国家"],
+  ["dimensionUnit", "尺寸单位"],
+  ["dimensionWeightUnit", "重量单位"],
+  ["dimensionLength", "长"],
+  ["dimensionWidth", "宽"],
+  ["dimensionHeight", "高"],
+  ["dimensionDepth", "深"],
+  ["dimensionDiameter", "直径"],
+  ["dimensionWeight", "重量"],
+  ["dimensions", "尺寸摘要"],
+  ["imageSource", "图片来源说明"],
+  ["safetyWarning", "安全提示"],
+  ["seoTitle", "SEO 标题"],
+  ["seoDescription", "SEO 描述"],
+];
+
 function optionsHtml(list) {
   return list.map((row) => `<option value="${row.value}">${row.label}</option>`).join("");
 }
@@ -66,6 +112,7 @@ export function createAiOptimization(deps) {
   let panel = null;
   let stageTimer = null;
   let abortController = null;
+  let extractPanel = null;
   const undoByForm = new WeakMap();
   const mountedForms = new WeakSet();
 
@@ -154,6 +201,117 @@ export function createAiOptimization(deps) {
     });
   }
 
+  function ensureExtractPanel() {
+    if (extractPanel) return extractPanel;
+    extractPanel = document.querySelector("[data-ai-product-extract-dialog]");
+    if (!extractPanel) {
+      extractPanel = document.createElement("dialog");
+      extractPanel.className = "ops-dialog ai-optimize-dialog ai-extract-dialog";
+      extractPanel.setAttribute("data-ai-product-extract-dialog", "");
+      extractPanel.innerHTML = `
+        <form method="dialog" class="dialog-shell ai-panel-shell" data-ai-extract-form>
+          <header class="dialog-header">
+            <div>
+              <p class="section-label">AI 商品信息提取</p>
+              <h2>上传截图，自动填入商品表单</h2>
+            </div>
+            <button class="dialog-close" type="button" data-ai-extract-close aria-label="关闭">关闭</button>
+          </header>
+          <div class="dialog-body ai-panel-body">
+            <div class="ai-extract-intro">
+              <strong>适合商品搬运与资料录入。</strong>
+              <span>上传商品截图，AI 会识别商品名、价格、材料、国家、尺寸、尺码和说明。结果只会填入当前表单，仍需员工审核后保存 / 发布。</span>
+            </div>
+            <div class="form-grid" data-ai-extract-controls>
+              <div class="field field-span-2">
+                <label>商品截图（建议 10–30 张）</label>
+                <div class="entity-image-drop entity-image-drop-multi ai-extract-drop" data-ai-extract-drop tabindex="0" role="button">
+                  <div class="upload-grid" data-ai-extract-grid hidden></div>
+                  <div class="entity-image-drop-empty" data-ai-extract-empty>
+                    <strong>拖拽截图到这里，或点击选择本地文件</strong>
+                    <span>支持 JPG / PNG / WebP / GIF；最多 30 张。截图越完整，识别越可靠。</span>
+                  </div>
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden data-ai-extract-files />
+                </div>
+                <small data-ai-extract-count>已选择 0 张。建议包含商品标题、价格、详情、尺寸、材质、物流/来源截图。</small>
+              </div>
+              <div class="field">
+                <label>模型</label>
+                <select name="modelTier">
+                  <option value="standard">标准</option>
+                  <option value="premium">高级</option>
+                </select>
+              </div>
+              <div class="field field-span-2">
+                <label>补充说明</label>
+                <textarea name="customInstruction" rows="3" maxlength="2000" placeholder="例如：这是服装商品；请重点识别尺码表；不要把促销价当原价。"></textarea>
+              </div>
+            </div>
+            <div class="ai-loading" data-ai-extract-loading hidden>
+              <div class="ai-spinner" aria-hidden="true"></div>
+              <p data-ai-extract-loading-text>正在读取商品截图</p>
+            </div>
+            <div class="ai-result" data-ai-extract-result hidden></div>
+            <p class="form-error" data-ai-extract-error role="alert" hidden></p>
+          </div>
+          <footer class="dialog-footer ai-panel-footer">
+            <button class="button button-secondary" type="button" data-ai-extract-discard>放弃</button>
+            <button class="button button-secondary" type="button" data-ai-extract-regenerate hidden>重新提取</button>
+            <button class="button button-primary" type="button" data-ai-extract-run>开始提取</button>
+            <button class="button button-primary" type="button" data-ai-extract-apply hidden>填入当前商品表单</button>
+          </footer>
+        </form>
+      `;
+      document.body.appendChild(extractPanel);
+      bindExtractEvents(extractPanel);
+    }
+    return extractPanel;
+  }
+
+  function bindExtractEvents(dialog) {
+    const fileInput = dialog.querySelector("[data-ai-extract-files]");
+    const drop = dialog.querySelector("[data-ai-extract-drop]");
+    dialog.querySelector("[data-ai-extract-close]")?.addEventListener("click", () => closeExtractPanel(true));
+    dialog.querySelector("[data-ai-extract-discard]")?.addEventListener("click", () => closeExtractPanel(true));
+    dialog.querySelector("[data-ai-extract-run]")?.addEventListener("click", () => runProductExtraction());
+    dialog.querySelector("[data-ai-extract-regenerate]")?.addEventListener("click", () => runProductExtraction());
+    dialog.querySelector("[data-ai-extract-apply]")?.addEventListener("click", applyProductExtraction);
+    drop?.addEventListener("click", () => fileInput?.click());
+    drop?.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        fileInput?.click();
+      }
+    });
+    fileInput?.addEventListener("change", () => refreshExtractFiles(dialog));
+    ["dragenter", "dragover"].forEach((type) => {
+      drop?.addEventListener(type, (event) => {
+        event.preventDefault();
+        drop.classList.add("is-dragging");
+      });
+    });
+    ["dragleave", "drop"].forEach((type) => {
+      drop?.addEventListener(type, (event) => {
+        event.preventDefault();
+        drop.classList.remove("is-dragging");
+      });
+    });
+    drop?.addEventListener("drop", (event) => {
+      const files = [...(event.dataTransfer?.files || [])].filter((file) =>
+        /^image\/(jpeg|png|webp|gif)$/i.test(file.type)
+      );
+      if (!files.length || !fileInput) return;
+      const transfer = new DataTransfer();
+      files.slice(0, 30).forEach((file) => transfer.items.add(file));
+      fileInput.files = transfer.files;
+      refreshExtractFiles(dialog);
+    });
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeExtractPanel(true);
+    });
+  }
+
   async function loadMeta({ force = false } = {}) {
     if (meta && !force) return meta;
     if (!can("ai_content_optimize")) {
@@ -185,6 +343,259 @@ export function createAiOptimization(deps) {
     el.dispatchEvent(new Event("input", { bubbles: true }));
     el.dispatchEvent(new Event("change", { bubbles: true }));
     return true;
+  }
+
+  function selectedExtractFiles() {
+    const input = extractPanel?.querySelector("[data-ai-extract-files]");
+    return [...(input?.files || [])];
+  }
+
+  function refreshExtractFiles(dialog = extractPanel) {
+    if (!dialog) return;
+    const files = selectedExtractFiles();
+    const grid = dialog.querySelector("[data-ai-extract-grid]");
+    const empty = dialog.querySelector("[data-ai-extract-empty]");
+    const count = dialog.querySelector("[data-ai-extract-count]");
+    if (count) {
+      count.textContent = `已选择 ${files.length} 张。建议包含商品标题、价格、详情、尺寸、材质、物流/来源截图。`;
+    }
+    if (!grid) return;
+    grid.hidden = files.length === 0;
+    if (empty) empty.hidden = files.length > 0;
+    grid.innerHTML = files
+      .slice(0, 30)
+      .map((file, index) => {
+        const url = URL.createObjectURL(file);
+        window.setTimeout(() => URL.revokeObjectURL(url), 4000);
+        return `<figure class="upload-thumb"><img src="${url}" alt="截图 ${index + 1}" /><figcaption>${escapeHtml(file.name || `截图 ${index + 1}`)}</figcaption></figure>`;
+      })
+      .join("");
+  }
+
+  function openExtractPanel(form) {
+    ensureExtractPanel();
+    const panelForm = extractPanel.querySelector("[data-ai-extract-form]");
+    panelForm.reset();
+    const fileInput = extractPanel.querySelector("[data-ai-extract-files]");
+    if (fileInput) fileInput.value = "";
+    extractPanel.querySelector("[data-ai-extract-result]").hidden = true;
+    extractPanel.querySelector("[data-ai-extract-result]").innerHTML = "";
+    extractPanel.querySelector("[data-ai-extract-controls]").hidden = false;
+    showExtractError("");
+    setExtractLoading(false);
+    setExtractFooterMode("configure");
+    extractPanel.__aiExtractState = { form, result: null };
+    if (!can("ai_content_use_premium_model")) {
+      const premium = panelForm.elements.namedItem("modelTier")?.querySelector('option[value="premium"]');
+      if (premium) premium.disabled = true;
+    }
+    refreshExtractFiles(extractPanel);
+    extractPanel.showModal();
+  }
+
+  function closeExtractPanel(abort = false) {
+    if (abort && abortController) abortController.abort();
+    clearInterval(stageTimer);
+    setExtractLoading(false);
+    extractPanel?.close();
+  }
+
+  function showExtractError(message) {
+    const node = extractPanel?.querySelector("[data-ai-extract-error]");
+    if (!node) return;
+    node.hidden = !message;
+    node.textContent = message || "";
+  }
+
+  function setExtractLoading(active) {
+    const loading = extractPanel?.querySelector("[data-ai-extract-loading]");
+    const controls = extractPanel?.querySelector("[data-ai-extract-controls]");
+    const result = extractPanel?.querySelector("[data-ai-extract-result]");
+    const text = extractPanel?.querySelector("[data-ai-extract-loading-text]");
+    if (!loading) return;
+    loading.hidden = !active;
+    if (controls) controls.hidden = active;
+    if (result && active) result.hidden = true;
+    clearInterval(stageTimer);
+    if (!active) return;
+    let idx = 0;
+    if (text) text.textContent = EXTRACT_LOADING_STAGES[0];
+    stageTimer = setInterval(() => {
+      idx = Math.min(idx + 1, EXTRACT_LOADING_STAGES.length - 1);
+      if (text) text.textContent = EXTRACT_LOADING_STAGES[idx];
+    }, 2400);
+  }
+
+  function setExtractFooterMode(mode) {
+    const run = extractPanel.querySelector("[data-ai-extract-run]");
+    const regen = extractPanel.querySelector("[data-ai-extract-regenerate]");
+    const apply = extractPanel.querySelector("[data-ai-extract-apply]");
+    if (mode === "result") {
+      run.hidden = true;
+      regen.hidden = false;
+      apply.hidden = false;
+    } else {
+      run.hidden = false;
+      regen.hidden = true;
+      apply.hidden = true;
+    }
+  }
+
+  async function runProductExtraction() {
+    const state = extractPanel?.__aiExtractState;
+    if (!state?.form) return;
+    const files = selectedExtractFiles();
+    if (!files.length) {
+      showExtractError("请先上传商品截图。建议 10–30 张，至少包含标题、价格、详情和尺寸页。");
+      return;
+    }
+    if (files.length > 30) {
+      showExtractError("最多一次上传 30 张商品截图。");
+      return;
+    }
+    const panelForm = extractPanel.querySelector("[data-ai-extract-form]");
+    const modelTier = panelForm.elements.namedItem("modelTier").value;
+    if (modelTier === "premium" && !can("ai_content_use_premium_model")) {
+      toast("当前账号无高级模型权限", true);
+      return;
+    }
+    const body = new FormData();
+    files.forEach((file) => body.append("screenshots", file));
+    body.append("modelTier", modelTier);
+    body.append("customInstruction", panelForm.elements.namedItem("customInstruction").value || "");
+    body.append("entityId", getControlValue(state.form, "id") || "");
+
+    showExtractError("");
+    setExtractLoading(true);
+    setExtractFooterMode("configure");
+    abortController = new AbortController();
+    try {
+      const data = await api("/ai/extract-product", { method: "POST", body, isFormData: true });
+      if (abortController.signal.aborted) return;
+      state.result = data.result;
+      state.requestId = data.requestId;
+      renderExtractResult(state);
+      setExtractFooterMode("result");
+      toast("商品信息草稿已提取，请先审核再填入。");
+    } catch (error) {
+      if (abortController.signal.aborted) return;
+      showExtractError(error.message || "AI 提取失败，请稍后重试。");
+      toast(error.message || "AI 提取失败。", true);
+    } finally {
+      setExtractLoading(false);
+      abortController = null;
+    }
+  }
+
+  function renderExtractResult(state) {
+    const box = extractPanel.querySelector("[data-ai-extract-result]");
+    const controls = extractPanel.querySelector("[data-ai-extract-controls]");
+    const result = state.result || {};
+    const fields = result.fields || {};
+    const attrs = result.productAttributes || {};
+    const nonEmptyFields = PRODUCT_EXTRACT_FIELDS.filter(([name]) => String(fields[name] ?? "").trim());
+    const attrRows = Object.entries(attrs).filter(([key, value]) => {
+      if (key === "sizeOptions") return Array.isArray(value) && value.length;
+      return String(value ?? "").trim();
+    });
+    controls.hidden = true;
+    box.hidden = false;
+    box.innerHTML = `
+      <div class="ai-extract-review-note">
+        <strong>请先审核。</strong>
+        <span>AI 已把截图整理成商品草稿，但价格、材质、尺寸和来源仍需员工确认。填入后不会自动保存，也不会自动发布。</span>
+      </div>
+      ${
+        (result.warnings || []).length || (result.reviewNotes || []).length || (result.missingFields || []).length
+          ? `<div class="ai-warnings"><strong>待核实</strong><ul>${[
+              ...(result.warnings || []),
+              ...(result.reviewNotes || []),
+              ...(result.missingFields || []).map((field) => `缺少字段：${field}`),
+            ].map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`
+          : ""
+      }
+      <div class="ai-result-list">
+        <article class="ai-result-card">
+          <header class="ai-result-card-head"><strong>可填入字段</strong><span>${nonEmptyFields.length} 项</span></header>
+          <div class="ai-extract-field-list">
+            ${nonEmptyFields
+              .map(([name, label]) => `
+                <label class="ai-extract-field-row">
+                  <input type="checkbox" checked data-ai-extract-field value="${escapeHtml(name)}" />
+                  <span>${escapeHtml(label)}</span>
+                  <code>${escapeHtml(String(fields[name] ?? ""))}</code>
+                </label>
+              `)
+              .join("") || "<p class='muted'>没有识别到可填入字段。</p>"}
+          </div>
+        </article>
+        ${
+          attrRows.length
+            ? `<article class="ai-result-card">
+                <header class="ai-result-card-head">
+                  <label class="ai-result-check">
+                    <input type="checkbox" checked data-ai-extract-attributes />
+                    <strong>品类专属数据</strong>
+                  </label>
+                  <span>${attrRows.length} 组</span>
+                </header>
+                <pre class="ai-compare-text">${escapeHtml(JSON.stringify(attrs, null, 2))}</pre>
+              </article>`
+            : ""
+        }
+        ${
+          (result.evidence || []).length
+            ? `<article class="ai-result-card">
+                <header class="ai-result-card-head"><strong>识别依据</strong><span>${result.evidence.length} 条</span></header>
+                <ul class="ai-summary">${result.evidence
+                  .map((row) => `<li>${escapeHtml(row.field)}：${escapeHtml(row.value)} · 置信度 ${Math.round(Number(row.confidence || 0) * 100)}%</li>`)
+                  .join("")}</ul>
+              </article>`
+            : ""
+        }
+      </div>
+    `;
+  }
+
+  function applyProductExtraction() {
+    const state = extractPanel?.__aiExtractState;
+    const result = state?.result;
+    if (!state?.form || !result) return;
+    const selected = new Set(
+      [...extractPanel.querySelectorAll("[data-ai-extract-field]")]
+        .filter((input) => input.checked)
+        .map((input) => input.value)
+    );
+    const snapshots = [];
+    const fields = result.fields || {};
+    const productType = fields.productType || "";
+    if (selected.has("productType") && productType) {
+      snapshots.push({ field: "productType", value: getControlValue(state.form, "productType") });
+      setControlValue(state.form, "productType", productType);
+    }
+    const shouldApplyAttrs = Boolean(extractPanel.querySelector("[data-ai-extract-attributes]")?.checked);
+    if (shouldApplyAttrs && result.productAttributes && Object.keys(result.productAttributes).length) {
+      state.form.dataset.productAttributes = JSON.stringify(result.productAttributes);
+      const typeEl = state.form.elements.namedItem("productType");
+      typeEl?.dispatchEvent(new Event("change", { bubbles: true }));
+      requestAnimationFrame(() => {
+        Object.entries(result.productAttributes || {}).forEach(([key, value]) => {
+          if (key === "sizeOptions") return;
+          setControlValue(state.form, `attr_${key}`, value);
+        });
+      });
+    }
+    for (const [field] of PRODUCT_EXTRACT_FIELDS) {
+      if (!selected.has(field) || field === "productType") continue;
+      const value = fields[field];
+      if (value == null || String(value).trim() === "") continue;
+      snapshots.push({ field, value: getControlValue(state.form, field) });
+      setControlValue(state.form, field, value);
+    }
+    if (snapshots.length) pushUndo(state.form, snapshots);
+    markDirty(state.form, true);
+    toast("已填入商品表单，请审核后保存。");
+    closeExtractPanel(false);
   }
 
   function collectFormContext(form, relatedFields = []) {
@@ -273,7 +684,12 @@ export function createAiOptimization(deps) {
       bar.innerHTML = `
         <span class="ai-dirty-badge" data-ai-dirty-badge hidden>未保存更改（含 AI）</span>
         <button type="button" class="button button-secondary button-compact" data-ai-undo hidden>撤销 AI 替换</button>
-        <button type="button" class="button button-secondary button-compact" data-ai-batch>AI 优化本页内容</button>
+        ${
+          entityType === "product"
+            ? `<button type="button" class="button button-primary button-compact" data-ai-product-extract>AI 提取商品信息</button>
+               <button type="button" class="button button-secondary button-compact" data-ai-batch>优化本页文案</button>`
+            : `<button type="button" class="button button-secondary button-compact" data-ai-batch>AI 优化本页内容</button>`
+        }
       `;
       if (
         footer.classList?.contains("dialog-footer") ||
@@ -284,6 +700,9 @@ export function createAiOptimization(deps) {
         form.prepend(bar);
       }
       bar.querySelector("[data-ai-undo]")?.addEventListener("click", () => undoLast(form));
+      bar.querySelector("[data-ai-product-extract]")?.addEventListener("click", () => {
+        openExtractPanel(form);
+      });
       bar.querySelector("[data-ai-batch]")?.addEventListener("click", () => {
         openPanel({
           mode: "full_form",
@@ -383,6 +802,20 @@ export function createAiOptimization(deps) {
     if (batchBtn) {
       batchBtn.disabled = !aiReady;
       batchBtn.title = disableReason || "结合本页字段批量优化";
+    }
+    const extractBtn = form.querySelector("[data-ai-product-extract]");
+    if (extractBtn) {
+      extractBtn.disabled = !aiReady;
+      extractBtn.title = disableReason || "上传商品截图，AI 提取信息并填入表单";
+    }
+    if (entityType === "product") {
+      if (!mountedForms.has(form)) {
+        mountedForms.add(form);
+        form.addEventListener("input", () => {
+          /* dirty from user edits is handled by accept; keep undo available */
+        });
+      }
+      return;
     }
     fieldList(entityType).forEach((cfg) => {
       const el = form.elements?.namedItem?.(cfg.field);
