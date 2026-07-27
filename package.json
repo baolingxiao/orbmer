@@ -21,7 +21,7 @@
     "test:admin-rbac": "node scripts/test-admin-rbac.mjs",
     "test:ai-optimize": "node scripts/test-ai-optimize.mjs",
     "mi:build": "node scripts/generate-material-intelligence.mjs",
-    "tina:dev": "tinacms dev -c \"npm run dev\"",
+    "tina:dev": "tinacms dev -c \"PORT=4244 npm run dev\"",
     "tina:build": "tinacms build --local --skip-indexing --skip-cloud-checks"
   },
   "engines": {

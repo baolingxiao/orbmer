@@ -9,3 +9,5 @@ web/assets/uploads/
 *.log
 .npm/
 .cache/
+tina/tina-lock.json
+web/tina/.gitignore

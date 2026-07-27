@@ -101,7 +101,8 @@ function adminHeaders(_req, res, next) {
 }
 
 function tinaAdminConfig() {
-  const adminUrl = String(process.env.TINA_ADMIN_URL || "/tina/").trim();
+  const defaultAdminUrl = process.env.NODE_ENV === "production" ? "/tina/" : "http://127.0.0.1:4244/tina/";
+  const adminUrl = String(process.env.TINA_ADMIN_URL || defaultAdminUrl).trim();
   const branch = String(process.env.TINA_BRANCH || process.env.GIT_BRANCH || "main").trim();
   const contentRoot = String(process.env.TINA_CONTENT_ROOT || "content").trim();
   const mediaRoot = String(process.env.TINA_MEDIA_ROOT || "web/assets").trim();
