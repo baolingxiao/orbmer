@@ -461,6 +461,31 @@ function renderStages(quote) {
     .join("");
 }
 
+function madeToOrderPolicyHtml() {
+  const isZh = lang === "zh";
+  const title = isZh ? "Thoughtfully Sourced. Made for You." : "Thoughtfully Sourced. Made for You.";
+  const body = isZh
+    ? [
+        "每件作品都会在你下单后专门采购、预留或安排制作。这让 Orbmare 能从世界各地独立品牌中精选作品，而不是只销售仓库现货。",
+        "由于每次购买都是按需发生，采购开始后，订单通常不能因改变主意、尺码选择错误、个人偏好，或摄影 / 天然材料造成的轻微色泽与纹理差异而取消、退货或换货。",
+        "如果商品在送达时损坏、有缺陷，或与描述存在明显重大差异，请在送达后 7 天内联系我们。我们会审核情况，并在适当时提供替换、维修、店铺余额或退款。"
+      ]
+    : [
+        "Every piece is purchased specifically for your order, which allows Orbmare to curate products from independent brands around the world rather than holding inventory.",
+        "Because each purchase is made on demand, orders generally cannot be canceled, returned, or exchanged once procurement begins for change of mind, incorrect size selection, personal preference, or minor color / texture differences caused by photography or natural materials.",
+        "If your order arrives damaged, defective, or significantly different from what was described, contact us within 7 days of delivery. We will review the case and, where appropriate, offer a replacement, repair, store credit, or refund."
+      ];
+  const bullets = isZh
+    ? ["改变主意", "尺码选择错误", "个人偏好", "摄影或天然材料造成的轻微色泽 / 纹理差异"]
+    : ["Change of mind", "Incorrect size selection", "Personal preference", "Minor color or texture differences caused by photography or natural materials"];
+  return `<article class="policy-block policy-block-made">
+    <p class="policy-eyebrow">${isZh ? "按需采购规则" : "Made-to-Order Policy"}</p>
+    <h3>${escapeHtml(title)}</h3>
+    ${body.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
+    <ul>${bullets.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+  </article>`;
+}
+
 function renderPolicies(quote) {
   const policies = quote.policies || {};
   const importStatus = taxStatusDisplay(quote.landedCost?.status, lang, {
@@ -468,7 +493,7 @@ function renderPolicies(quote) {
   });
   const incoterm = incotermDisplay(quote.countryRule?.incoterm, lang);
   const returnPolicies = returnPolicyListDisplay(policies.returnPolicyTypes, lang);
-  policyRoot.innerHTML = `<article class="policy-block">
+  policyRoot.innerHTML = `${madeToOrderPolicyHtml()}<article class="policy-block">
     <h3>${escapeHtml(copy.termsTitle)}</h3>
     <p>${escapeHtml(policies.policyText || "")}</p>
     <dl>

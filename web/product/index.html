@@ -210,6 +210,21 @@
         </section>`;
       }
 
+      function madeForYouNoticeHtml(lang) {
+        const isZh = lang !== "en";
+        return `<aside class="pdp-made-notice" aria-label="${isZh ? "按需采购说明" : "Made-to-order notice"}">
+          <p class="pdp-made-kicker">${isZh ? "按需采购" : "Made to Order"}</p>
+          <h2>Thoughtfully Sourced. Made for You.</h2>
+          <p>${isZh
+            ? "每件作品都会在你下单后专门采购、预留或安排制作。这个模式让 Orbmare 能从世界各地独立品牌中精选作品，而不是只销售仓库现货。"
+            : "Every piece is purchased specifically for your order, allowing Orbmare to curate from independent brands around the world rather than holding inventory."}</p>
+          <p>${isZh
+            ? "采购开始后，订单通常不能因改变主意、尺码选择错误、个人偏好，或天然材料与摄影造成的轻微色泽 / 纹理差异而取消、退货或换货。"
+            : "Once procurement begins, orders generally cannot be canceled, returned, or exchanged for change of mind, incorrect size selection, personal preference, or minor color / texture differences caused by photography or natural materials."}</p>
+          <a href="/legal/returns.html" target="_blank" rel="noopener">${isZh ? "查看退货与售后规则" : "View returns and after-sales policy"} ↗</a>
+        </aside>`;
+      }
+
       function render(lang = getLang()) {
         applyI18n(lang);
         if (!p) {
@@ -266,6 +281,7 @@
               <div class="pdp-purchase">
                 ${purchaseOptionsHtml(p, lang)}
                 <p class="price" data-product-price>${escapeHtml(p.priceLabel)}</p>
+                ${madeForYouNoticeHtml(lang)}
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   <button class="btn" type="button" data-add-bag data-i18n="pdp.add">${t("pdp.add", lang)}</button>
                 </div>
