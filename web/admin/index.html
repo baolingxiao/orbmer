@@ -272,7 +272,7 @@
               <div>
                 <h2 id="products-title">商品管理</h2>
                 <p>
-                  管理 3D 打印与甄选商品。草稿仅后台可见；发布后分别同步到 /shop/ 与国家馆 / 发现页。无发布权限时保存为「审核中」。
+                  管理科技馆与甄选馆商品。草稿仅后台可见；发布后分别同步到材料页科技馆 / 店铺结账与国家馆 / 发现页。无发布权限时保存为「审核中」。
                   「推荐」商品会进入首页与 Orbmare 精选页的聚合滚动推荐带。
                 </p>
               </div>
@@ -282,20 +282,20 @@
             </div>
 
             <aside class="sync-guide" aria-labelledby="sync-guide-title">
-              <h3 id="sync-guide-title">前台同步位置（3D 打印）</h3>
+              <h3 id="sync-guide-title">前台同步位置（科技馆）</h3>
               <ul>
                 <li>
-                  <strong>发现页 · 3D打印馆</strong> —
-                  <a href="/discover/#print-catalog" target="_blank" rel="noopener">/discover/#print-catalog</a>
+                  <strong>材料页 · 科技馆</strong> —
+                  <a href="/materials/#technology" target="_blank" rel="noopener">/materials/#technology</a>
                 </li>
                 <li>
-                  <strong>店铺</strong> —
+                  <strong>科技馆结账列表</strong> —
                   <a href="/shop/" target="_blank" rel="noopener">/shop/</a>
                   · 详情 <code>/product/shop.html?id=…</code>
                 </li>
               </ul>
               <p class="sync-guide-note">
-                虚假甄选数据已从商品库移除。国家馆静态内容不经此商品库。ID 使用小写字母、数字与连字符，且必须唯一。
+                科技馆用于 3D 打印与未来科技物件；甄选馆用于国家馆、发现页与编辑推荐。ID 使用小写字母、数字与连字符，且必须唯一。
               </p>
             </aside>
 
@@ -308,7 +308,7 @@
                 <label for="productChannelFilter">渠道</label>
                 <select id="productChannelFilter" data-product-channel-filter>
                   <option value="all" selected>全部</option>
-                  <option value="shop">3D打印馆</option>
+                  <option value="shop">科技馆</option>
                   <option value="editorial">甄选馆</option>
                 </select>
               </div>
@@ -868,10 +868,10 @@
               <div class="field">
                 <label for="productChannel">前台渠道</label>
                 <select id="productChannel" name="channel" required data-product-channel>
-                  <option value="shop" selected>3D打印馆（店铺 / 结账）</option>
+                  <option value="shop" selected>科技馆（材料页 / 店铺 / 结账）</option>
                   <option value="editorial">甄选馆（国家 / 发现页）</option>
                 </select>
-                <small>甄选商品发布后进入 /api/editorial-catalog。</small>
+                <small>科技馆商品发布后进入 /api/catalog，并在材料页科技馆与店铺结账列表展示；甄选商品发布后进入 /api/editorial-catalog。</small>
               </div>
               <div class="field">
                 <label for="productStatus">发布状态</label>
@@ -908,7 +908,7 @@
                   <option value="toys">玩具与收藏</option>
                   <option value="portrait">照片真人手办</option>
                 </select>
-                <small>前台：发现页 3D 馆筛选、店铺系列。</small>
+                <small>前台：材料页科技馆分类、店铺系列。</small>
               </div>
               <div class="field" data-editorial-fields hidden>
                 <label for="productCountry">国家馆</label>
@@ -1138,7 +1138,7 @@
                   rows="4"
                   placeholder="13CM：长13宽2|6.99&#10;30CM：长30宽4|8.99"
                 ></textarea>
-                <small>仅 3D 打印馆使用。留空则单规格 Standard。</small>
+                <small>仅科技馆使用。留空则单规格 Standard。</small>
               </div>
             </div>
           </fieldset>

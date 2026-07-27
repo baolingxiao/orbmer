@@ -9,6 +9,98 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/shared/css/editorial.css?v=15" />
+    <style>
+      .tech-hall {
+        border-top: 1px solid var(--line, #e6e2dc);
+        padding-top: clamp(56px, 8vw, 104px);
+      }
+      .tech-hall-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1fr);
+        gap: clamp(32px, 7vw, 120px);
+        align-items: end;
+        margin-bottom: clamp(32px, 5vw, 72px);
+      }
+      .tech-hall-kicker {
+        margin: 0 0 18px;
+        color: var(--muted, #777);
+        font-size: 12px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+      }
+      .tech-hall-title {
+        margin: 0;
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(52px, 8vw, 128px);
+        font-weight: 500;
+        line-height: 0.9;
+        letter-spacing: -0.055em;
+      }
+      .tech-hall-copy {
+        margin: 0;
+        max-width: 680px;
+        color: var(--muted, #666);
+        font-size: clamp(17px, 1.5vw, 22px);
+        line-height: 1.9;
+      }
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(18px, 2.6vw, 36px);
+      }
+      .tech-card {
+        color: inherit;
+        text-decoration: none;
+      }
+      .tech-card-media {
+        aspect-ratio: 4 / 5;
+        background: #f2f0ed;
+        overflow: hidden;
+      }
+      .tech-card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      .tech-card:hover .tech-card-media img {
+        transform: scale(1.035);
+      }
+      .tech-card-body {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px 18px;
+        padding-top: 18px;
+      }
+      .tech-card h3 {
+        margin: 0;
+        font-size: clamp(20px, 1.8vw, 30px);
+        font-weight: 500;
+        line-height: 1.25;
+      }
+      .tech-card p,
+      .tech-card small {
+        margin: 0;
+        color: var(--muted, #777);
+        line-height: 1.65;
+      }
+      .tech-card-price {
+        white-space: nowrap;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 26px;
+      }
+      .tech-hall-empty {
+        border: 1px solid var(--line, #e6e2dc);
+        padding: 28px;
+        color: var(--muted, #777);
+      }
+      @media (max-width: 900px) {
+        .tech-hall-head,
+        .tech-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
     <div data-orb-header></div>
@@ -21,6 +113,18 @@
       <section class="section-tight shell-wide">
         <div class="material-grid reveal" data-materials></div>
       </section>
+      <section class="section-tight shell-wide tech-hall" id="technology">
+        <div class="tech-hall-head reveal">
+          <div>
+            <p class="tech-hall-kicker" data-tech-kicker>Technology Hall</p>
+            <h2 class="tech-hall-title" data-tech-title>科技馆</h2>
+          </div>
+          <p class="tech-hall-copy" data-tech-copy>
+            从 3D 打印到未来材料应用，这里呈现 Orbmare 正在观察的技术物件。它们不属于传统材料分类，而是材料、工艺与新制造方式的交叉地带。
+          </p>
+        </div>
+        <div class="tech-grid reveal" data-tech-products></div>
+      </section>
     </main>
     <div data-orb-footer></div>
     <script type="module">
@@ -30,6 +134,66 @@
 
       await mountChrome({ title: "Material Library | Orbmare" });
       const catalog = await loadCatalog();
+      let technologyProducts = [];
+
+      async function loadTechnologyProducts() {
+        try {
+          const response = await fetch(`/api/catalog?t=${Date.now()}`, {
+            credentials: "same-origin",
+            cache: "no-store",
+            headers: { Accept: "application/json" },
+          });
+          if (!response.ok) return [];
+          const data = await response.json();
+          return Array.isArray(data?.products) ? data.products : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function money(product) {
+        const price = Number(product?.price || 0);
+        const currency = product?.currency || "USD";
+        if (!Number.isFinite(price) || price <= 0) return "";
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency,
+          maximumFractionDigits: price % 1 === 0 ? 0 : 2,
+        }).format(price);
+      }
+
+      function renderTechnology(lang = getLang()) {
+        const zh = lang === "zh";
+        document.querySelector("[data-tech-kicker]").textContent = zh ? "未来制造" : "Future Materials";
+        document.querySelector("[data-tech-title]").textContent = zh ? "科技馆" : "Technology Hall";
+        document.querySelector("[data-tech-copy]").textContent = zh
+          ? "从 3D 打印到未来材料应用，这里呈现 Orbmare 正在观察的技术物件。它们不属于传统材料分类，而是材料、工艺与新制造方式的交叉地带。"
+          : "From 3D printing to future material applications, this hall presents technical objects Orbmare is watching — where materials, craft, and new manufacturing methods meet.";
+        const root = document.querySelector("[data-tech-products]");
+        const list = technologyProducts.slice(0, 6);
+        root.innerHTML = list.length
+          ? list
+              .map((p) => {
+                const copy = zh ? p.zh : p.en;
+                const fallback = zh ? p.en : p.zh;
+                const name = copy?.name || fallback?.name || p.id;
+                const desc = copy?.desc || fallback?.desc || "";
+                const image = p.image || p.images?.[0] || "/assets/editorial/materials/japanese-denim.jpg";
+                return `<a class="tech-card" href="/product/shop.html?id=${encodeURIComponent(p.id)}">
+                  <div class="tech-card-media"><img src="${escapeHtml(image)}" alt="" loading="lazy" /></div>
+                  <div class="tech-card-body">
+                    <div>
+                      <small>${escapeHtml(p.material || (zh ? "未来材料" : "Future material"))}</small>
+                      <h3>${escapeHtml(name)}</h3>
+                      <p>${escapeHtml(desc)}</p>
+                    </div>
+                    <span class="tech-card-price">${escapeHtml(money(p))}</span>
+                  </div>
+                </a>`;
+              })
+              .join("")
+          : `<div class="tech-hall-empty">${zh ? "科技馆商品发布后会显示在这里。" : "Published Technology Hall objects will appear here."}</div>`;
+      }
 
       function render(lang = getLang()) {
         applyI18n(lang);
@@ -43,6 +207,7 @@
             </a>`;
           })
           .join("");
+        renderTechnology(lang);
 
         // Legacy ?id= links redirect into the magazine detail page.
         const id = new URLSearchParams(location.search).get("id");
@@ -51,6 +216,7 @@
         }
       }
 
+      technologyProducts = await loadTechnologyProducts();
       render();
       onLangChange(render);
     </script>

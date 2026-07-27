@@ -71,7 +71,7 @@ const collectionLabels = {
 };
 
 const channelLabels = {
-  shop: "3D打印",
+  shop: "科技馆",
   editorial: "甄选",
 };
 
@@ -473,7 +473,7 @@ function storefrontHref(kind, product) {
     const country = product.country || product.collection;
     return `/countries/${encodeURIComponent(country)}/`;
   }
-  return channel === "editorial" ? `/discover/` : `/discover/#print-catalog`;
+  return channel === "editorial" ? `/discover/` : `/materials/#technology`;
 }
 
 function storefrontLink(label, href) {
@@ -575,7 +575,7 @@ function fillProductSyncPreview(product) {
   links.append(
     storefrontLink("商品详情", storefrontHref("pdp", product)),
     storefrontLink(
-      channel === "editorial" ? "发现页甄选" : "发现页 3D馆",
+      channel === "editorial" ? "发现页甄选" : "材料页科技馆",
       storefrontHref("discover", product)
     )
   );
@@ -695,7 +695,7 @@ function renderProducts() {
       actions.appendChild(storefrontLink("详情", storefrontHref("pdp", product)));
       actions.appendChild(
         storefrontLink(
-          channel === "editorial" ? "发现" : "3D馆",
+          channel === "editorial" ? "发现" : "科技馆",
           storefrontHref("discover", product)
         )
       );
@@ -1947,7 +1947,7 @@ productForm?.addEventListener("submit", async (event) => {
     const pdp = storefrontHref("pdp", payload);
     showToast(
       published
-        ? `已同步到${payload.channel === "editorial" ? "甄选馆" : "3D打印馆"}。详情 ${pdp}`
+        ? `已同步到${payload.channel === "editorial" ? "甄选馆" : "科技馆"}。详情 ${pdp}`
         : "商品已保存为草稿/归档，前台买家不可见。发布后会同步到对应前台。"
     );
   } catch (error) {

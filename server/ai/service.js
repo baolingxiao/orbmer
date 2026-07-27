@@ -158,7 +158,8 @@ function normalizeProductType(value) {
 function normalizeExtractedProduct(parsed = {}) {
   const raw = parsed.fields || {};
   const productType = normalizeProductType(raw.productType || raw.zhName || raw.enName);
-  const channel = cleanText(raw.channel, 40) === "shop" ? "shop" : "editorial";
+  const rawChannel = cleanText(raw.channel, 40).toLowerCase();
+  const channel = /shop|technology|tech|科技|3d|print|打印/.test(rawChannel) ? "shop" : "editorial";
   const fields = {
     id: cleanSlug(raw.id || raw.enName || raw.zhName),
     channel,
@@ -528,7 +529,7 @@ export async function extractProductFromScreenshots({
     "Prefer Orbmare editorial marketplace language: restrained, precise, premium, not marketplace hype.",
     "Return both Chinese and English when possible. Translate faithfully when only one language is visible.",
     "Classify productType as one of: object, apparel, jewelry, furniture, home, stationery, fragrance, tech, art, tool.",
-    "Classify channel as editorial unless the screenshot is clearly legacy 3D-print shop content.",
+    "Classify channel as shop for Technology Hall objects, including 3D-printed goods, future technology objects, engineering parts, prototypes, and digital manufacturing products. Otherwise classify channel as editorial for curated objects.",
   ].join("\n");
 
   const textPrompt = [
