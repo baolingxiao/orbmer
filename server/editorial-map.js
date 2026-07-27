@@ -177,6 +177,7 @@ export function storeProductToEditorialPublic(product) {
     images: product.images?.length ? product.images : product.image ? [product.image] : [],
     price,
     priceLabel: product.priceLabel || moneyLabel(price),
+    variants: Array.isArray(product.variants) ? product.variants : [],
     status: product.editorialStatus || product.status || "curated",
     featured: Boolean(product.featured),
     featuredRank: Number.isFinite(Number(product.featuredRank))

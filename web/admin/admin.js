@@ -1540,6 +1540,7 @@ function openShippingDialog(order) {
   });
   document.querySelector("[data-shipping-order-id]").textContent = order.id;
   renderOrderJourneyPreview(order);
+  renderOrderItemsPreview(order);
   shippingDialog.showModal();
 }
 
@@ -1558,6 +1559,27 @@ function renderOrderJourneyPreview(order) {
       element("time", { text: formatDate(event.createdAt, true) }),
       element("strong", { text: event.publicTitle || orderStatusLabels[event.status] || event.status }),
       element("span", { text: event.publicDescription || "" })
+    );
+    root.appendChild(row);
+  });
+}
+
+function renderOrderItemsPreview(order) {
+  const root = document.querySelector("[data-order-items-preview]");
+  if (!root) return;
+  clear(root);
+  const items = Array.isArray(order.items) ? order.items : [];
+  if (!items.length) {
+    root.appendChild(element("p", { className: "panel-empty", text: "订单中暂无商品记录。" }));
+    return;
+  }
+  items.forEach((item) => {
+    const row = element("article", { className: "audit-row" });
+    const name = item.nameZh || item.name || item.nameEn || item.productId;
+    const option = item.variantLabel || item.variantId || "Standard";
+    row.append(
+      element("strong", { text: name }),
+      element("span", { text: `规格 / 尺码：${option} · 数量：${item.qty}` })
     );
     root.appendChild(row);
   });

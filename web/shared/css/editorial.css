@@ -2087,32 +2087,96 @@ button {
   border-top: 1px solid var(--line);
 }
 
-.pdp-spec-summary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+/* Purchase choices stay deliberately brief; full object details live in the
+   editorial chapters below rather than competing with the purchase decision. */
+.pdp-options {
   margin: 0 0 24px;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--line);
 }
 
-.pdp-spec-summary div {
-  max-width: 100%;
-  padding: 10px 12px;
-  background: color-mix(in srgb, var(--ink) 4%, transparent);
+.pdp-option-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 12px;
 }
 
-.pdp-spec-summary dt {
-  margin: 0 0 4px;
+.pdp-option-heading p,
+.pdp-option-heading strong {
+  margin: 0;
+}
+
+.pdp-option-heading p {
   color: var(--muted);
   font-size: 11px;
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.pdp-spec-summary dd {
-  margin: 0;
+.pdp-option-heading strong {
   color: var(--ink);
   font-size: 14px;
-  line-height: 1.45;
+  font-weight: 500;
+}
+
+.pdp-option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pdp-option {
+  min-height: 58px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+  color: var(--ink);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.pdp-option:hover {
+  border-color: rgba(20, 20, 20, 0.5);
+  background: rgba(20, 20, 20, 0.025);
+}
+
+.pdp-option:active {
+  transform: translateY(1px);
+}
+
+.pdp-option.is-selected {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  background: rgba(20, 20, 20, 0.035);
+}
+
+.pdp-option:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.pdp-option-name {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.pdp-option-price {
+  margin-top: auto;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1;
 }
 
 .pdp-purchase .price {
@@ -2123,9 +2187,16 @@ button {
 }
 
 @media (max-width: 640px) {
-  .pdp-spec-summary {
-    display: grid;
+  .pdp-options {
+    padding-top: 18px;
+  }
+
+  .pdp-option-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pdp-option {
+    min-height: 54px;
   }
 }
 

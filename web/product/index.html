@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/shared/css/editorial.css?v=14" />
+    <link rel="stylesheet" href="/shared/css/editorial.css?v=15" />
   </head>
   <body>
     <div data-orb-header></div>
@@ -19,6 +19,7 @@
     <script type="module">
       import { mountChrome, refreshBagChrome } from "/shared/js/chrome.js";
       import { loadCatalog, productById, quietCardHtml, escapeHtml } from "/shared/js/catalog-editorial.js";
+      import { loadCatalog as loadTechnologyCatalog, getProductFromList } from "/shared/js/load-catalog.js";
       import { addCartLine } from "/shared/js/store.js";
       import { t, getLang, loc, applyI18n, onLangChange } from "/shared/js/editorial-i18n.js";
       import { specsToRows } from "/shared/js/product-specs.js";
@@ -27,9 +28,54 @@
       const id = new URLSearchParams(location.search).get("id");
       const root = document.querySelector("[data-pdp]");
       const catalog = await loadCatalog();
-      const p = id ? productById(catalog, id) : null;
+      const editorialProduct = id ? productById(catalog, id) : null;
+      const technologyCatalog = editorialProduct
+        ? []
+        : await loadTechnologyCatalog().catch(() => []);
+
+      function technologyProductForPdp(product) {
+        if (!product) return null;
+        const zh = product.zh || {};
+        const en = product.en || {};
+        const price = Number(product.price || 0);
+        const priceLabel = Number.isFinite(price) && price > 0
+          ? new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: product.currency || "USD",
+              maximumFractionDigits: price % 1 ? 2 : 0,
+            }).format(price)
+          : "";
+        return {
+          ...product,
+          name: en.name || zh.name || product.id,
+          nameZh: zh.name || en.name || product.id,
+          summary: en.desc || zh.desc || "",
+          summaryZh: zh.desc || en.desc || "",
+          story: en.desc || zh.desc || "",
+          storyZh: zh.desc || en.desc || "",
+          country: "technology",
+          countryLabel: "Technology Hall",
+          countryLabelZh: "科技馆",
+          tag: "Future Materials",
+          tagZh: "未来制造",
+          craft: product.craft || "Digital fabrication",
+          craftZh: product.craftZh || "数字制造",
+          designerId: "orbmare-technology-hall",
+          designerName: "Orbmare Technology Hall",
+          designerNameZh: "傲马科技馆",
+          studio: "Orbmare",
+          studioZh: "傲马",
+          price,
+          priceLabel,
+          image: product.image || product.images?.[0] || "",
+          isTechnologyHall: true,
+        };
+      }
+
+      const p = editorialProduct || technologyProductForPdp(getProductFromList(technologyCatalog, id));
       let galleryIndex = 0;
       let galleryBusy = false;
+      let selectedOptionId = null;
 
       const CHEVRON_L = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.2 2.6 4.8 8l5.4 5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
       const CHEVRON_R = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.8 2.6 11.2 8l-5.4 5.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -86,19 +132,82 @@
         return rows;
       }
 
-      function specSummaryHtml(product, lang) {
-        const rows = productSpecRows(product, lang);
-        if (!rows.length) return "";
-        return `<dl class="pdp-spec-summary" aria-label="${escapeHtml(t("pdp.specSummary", lang))}">
-          ${rows
-            .map(
-              ({ label, value }) => `<div>
-                <dt>${escapeHtml(label)}</dt>
-                <dd>${escapeHtml(value)}</dd>
-              </div>`
-            )
-            .join("")}
-        </dl>`;
+      function money(value, lang) {
+        if (typeof value !== "number" || Number.isNaN(value)) return "";
+        return new Intl.NumberFormat(lang === "en" ? "en-US" : "en-US", {
+          style: "currency",
+          currency: productCurrency(p),
+          maximumFractionDigits: value % 1 ? 2 : 0,
+        }).format(value);
+      }
+
+      function productCurrency(product) {
+        return /^[A-Z]{3}$/.test(product?.currency || "") ? product.currency : "USD";
+      }
+
+      // Products may expose either commerce-ready variants or the editorial
+      // apparel size table. Normalize both into one calm, comparable choice set.
+      function productOptions(product, lang) {
+        const variants = Array.isArray(product?.variants) ? product.variants : [];
+        const sizes = Array.isArray(product?.productAttributes?.sizeOptions)
+          ? product.productAttributes.sizeOptions
+          : [];
+        const isZh = lang !== "en";
+
+        if (sizes.length > 1) {
+          return {
+            label: isZh ? "选择尺码" : "Choose a size",
+            options: sizes.map((size, index) => {
+              const label = size.apparelSize || size.size || `${isZh ? "尺码" : "Size"} ${index + 1}`;
+              const matchingVariant = variants.find((variant) => String(variant.label) === String(label));
+              return {
+                id: String(size.id || matchingVariant?.id || `size-${index}`),
+                label: String(label),
+                price: Number.isFinite(matchingVariant?.price)
+                  ? matchingVariant.price
+                  : Number.isFinite(size.price)
+                    ? size.price
+                    : product.price,
+              };
+            }),
+          };
+        }
+
+        if (variants.length > 1) {
+          return {
+            label: product.variantLabel || (isZh ? "选择规格" : "Choose a size"),
+            options: variants.map((variant, index) => ({
+              id: String(variant.id || `variant-${index}`),
+              label: String(variant.label || variant.name || variant.spec || `${isZh ? "规格" : "Size"} ${index + 1}`),
+              price: Number.isFinite(variant.price) ? variant.price : Number.isFinite(variant.priceUsd) ? variant.priceUsd : product.price,
+            })),
+          };
+        }
+
+        return null;
+      }
+
+      function purchaseOptionsHtml(product, lang) {
+        const group = productOptions(product, lang);
+        if (!group) return "";
+        const selected = group.options.find((option) => option.id === selectedOptionId) || group.options[0];
+        selectedOptionId = selected.id;
+        return `<section class="pdp-options" aria-label="${escapeHtml(group.label)}">
+          <div class="pdp-option-heading">
+            <p>${escapeHtml(group.label)}</p>
+            <strong data-selected-option>${escapeHtml(selected.label)}</strong>
+          </div>
+          <div class="pdp-option-grid" role="list">
+            ${group.options
+              .map(
+                (option) => `<button class="pdp-option${option.id === selected.id ? " is-selected" : ""}" type="button" data-option-id="${escapeHtml(option.id)}" aria-pressed="${option.id === selected.id}">
+                  <span class="pdp-option-name">${escapeHtml(option.label)}</span>
+                  ${option.price !== product.price ? `<span class="pdp-option-price">${escapeHtml(money(option.price, lang))}</span>` : ""}
+                </button>`
+              )
+              .join("")}
+          </div>
+        </section>`;
       }
 
       function render(lang = getLang()) {
@@ -109,7 +218,12 @@
         }
 
         document.title = `${loc(p, "name", lang)} | Orbmare`;
-        const related = catalog.products.filter((x) => x.country === p.country && x.id !== p.id).slice(0, 3);
+        const related = p.isTechnologyHall
+          ? technologyCatalog
+              .filter((x) => x.collection === p.collection && x.id !== p.id)
+              .slice(0, 3)
+              .map(technologyProductForPdp)
+          : catalog.products.filter((x) => x.country === p.country && x.id !== p.id).slice(0, 3);
         const images = productImages(p);
         const name = loc(p, "name", lang);
         const specRows = productSpecRows(p, lang);
@@ -150,8 +264,8 @@
               </nav>
 
               <div class="pdp-purchase">
-                ${specSummaryHtml(p, lang)}
-                <p class="price">${escapeHtml(p.priceLabel)}</p>
+                ${purchaseOptionsHtml(p, lang)}
+                <p class="price" data-product-price>${escapeHtml(p.priceLabel)}</p>
                 <div style="display:flex;flex-wrap:wrap;gap:12px">
                   <button class="btn" type="button" data-add-bag data-i18n="pdp.add">${t("pdp.add", lang)}</button>
                 </div>
@@ -179,7 +293,7 @@
 
           <section class="section-tight pdp-chapter" id="pdp-origin">
             <h2>${escapeHtml(t("pdp.tab.origin", lang))}</h2>
-            <p class="pdp-chapter-lead"><a href="/countries/${escapeHtml(p.country)}/">${escapeHtml(loc(p, "countryLabel", lang))}</a></p>
+            <p class="pdp-chapter-lead"><a href="${p.isTechnologyHall ? "/materials/#technology" : `/countries/${escapeHtml(p.country)}/`}">${escapeHtml(loc(p, "countryLabel", lang))}</a></p>
             <div class="prose"><p>${escapeHtml(t("pdp.origin.body", lang))}</p></div>
           </section>
 
@@ -226,7 +340,7 @@
               <div class="section-head">
                 <h2>${escapeHtml(t("pdp.tab.related", lang))}</h2>
               </div>
-              <a class="shop-pill" href="/countries/${escapeHtml(p.country)}/" data-i18n="pdp.moreFrom">${t("pdp.moreFrom", lang)}</a>
+              <a class="shop-pill" href="${p.isTechnologyHall ? "/materials/#technology" : `/countries/${escapeHtml(p.country)}/`}" data-i18n="pdp.moreFrom">${t("pdp.moreFrom", lang)}</a>
             </div>
             <div class="quiet-grid">${related.map((item) => quietCardHtml(item, lang)).join("")}</div>
           </section>`;
@@ -235,14 +349,39 @@
         bindGallery(document.querySelector("[data-pdp-stack]"), images, lang);
 
         const addBtn = document.querySelector("[data-add-bag]");
+        const optionGroup = productOptions(p, lang);
+        function currentOption() {
+          return optionGroup?.options.find((option) => option.id === selectedOptionId) || optionGroup?.options[0] || null;
+        }
+        function syncOption() {
+          const option = currentOption();
+          const price = option?.price;
+          const priceEl = document.querySelector("[data-product-price]");
+          if (priceEl && typeof price === "number") priceEl.textContent = money(price, lang);
+          document.querySelectorAll("[data-option-id]").forEach((button) => {
+            const active = button.dataset.optionId === option?.id;
+            button.classList.toggle("is-selected", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+          const selectedLabel = document.querySelector("[data-selected-option]");
+          if (selectedLabel && option) selectedLabel.textContent = option.label;
+        }
+        document.querySelectorAll("[data-option-id]").forEach((button) => {
+          button.addEventListener("click", () => {
+            selectedOptionId = button.dataset.optionId;
+            syncOption();
+          });
+        });
+        syncOption();
         addBtn?.addEventListener("click", () => {
+          const option = currentOption();
           addCartLine({
             productId: p.id,
             name: loc(p, "name", getLang()),
-            price: p.price,
+            price: option?.price ?? p.price,
             image: p.image,
-            variantLabel: "Standard",
-            variantId: "standard",
+            variantLabel: option?.label || "Standard",
+            variantId: option?.id || "standard",
             qty: 1,
             maxQty: 3,
           });

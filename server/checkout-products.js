@@ -1,5 +1,5 @@
 import { PRODUCT_POLICY_VERSION } from "../web/shared/js/catalog.js";
-import { getProductForCheckout } from "./product-store.js";
+import { getProductForCheckout, purchaseVariants } from "./product-store.js";
 
 export const POLICY_VERSIONS = Object.freeze({
   terms: "terms-2026-07-23",
@@ -32,9 +32,7 @@ export async function resolveTrustedItems(requestedItems) {
       throw new Error(`Invalid quantity for ${product.id}`);
     }
 
-    const variants = product.variants?.length
-      ? product.variants
-      : [{ id: "standard", label: "Standard", price: product.price }];
+    const variants = purchaseVariants(product);
     const variant = variants.find((entry) => entry.id === requested.variantId);
     if (!variant) throw new Error(`Invalid option for ${product.id}`);
     const unitAmountCents = Math.round(Number(variant.price) * 100);

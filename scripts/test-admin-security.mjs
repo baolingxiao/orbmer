@@ -19,7 +19,7 @@ try {
     updateManagedInventory,
     updateManagedProduct,
   } = await import("../server/product-store.js");
-  const { resolveTrustedItems } = await import("../server/stripe/payments.js");
+  const { resolveTrustedItems } = await import("../server/checkout-products.js");
   const { createPendingOrder, updateOrderOperations } = await import(
     "../server/order-store.js"
   );
@@ -166,6 +166,34 @@ try {
     },
   });
   assert.equal((await renderPublicCatalogModule()).includes("<script>"), false);
+
+  await createManagedProduct({
+    id: "apparel-size-test",
+    channel: "editorial",
+    collection: "japan",
+    lifecycleStatus: "published",
+    price: 88.93,
+    material: "Cotton",
+    image: "/assets/toys/jinqi-dragon-gold.jpg",
+    zh: { name: "尺码测试长裤", desc: "用于校验按尺码结账。" },
+    en: { name: "Size test trousers", desc: "Used to validate size checkout." },
+    productType: "apparel",
+    productAttributes: {
+      sizeOptions: [{ apparelSize: "XS" }, { apparelSize: "M", price: 92.5 }],
+    },
+    inventory: { mode: "source_after_order", maxPerOrder: 3 },
+    shipping: {
+      profile: "cross_border_standard",
+      originCountry: "Japan",
+      processingTime: "Pending verification",
+      internationalShippingTime: "Pending verification",
+    },
+  });
+  const sized = await resolveTrustedItems([
+    { productId: "apparel-size-test", variantId: "size-1", qty: 1 },
+  ]);
+  assert.equal(sized[0].variantLabel, "M");
+  assert.equal(sized[0].unitAmountCents, 9250);
 
   const order = await createPendingOrder({
     items: [

@@ -207,6 +207,49 @@ function normalizeVariants(input, existing, basePrice) {
   });
 }
 
+function isStandardOnly(variants, basePrice) {
+  return (
+    Array.isArray(variants) &&
+    variants.length === 1 &&
+    String(variants[0]?.id || "") === "standard" &&
+    Number(variants[0]?.price) === Number(basePrice)
+  );
+}
+
+function apparelSizeVariants(productAttributes, basePrice) {
+  const sizes = Array.isArray(productAttributes?.sizeOptions)
+    ? productAttributes.sizeOptions
+    : [];
+  return sizes
+    .map((size, index) => {
+      const label = String(size?.apparelSize || size?.size || "").trim();
+      if (!label) return null;
+      const suppliedPrice = Number(size?.price);
+      return {
+        id: asText(size?.id || `size-${index}`, 80, "Size option id"),
+        label: asText(label, 120, "Size option label", { required: true }),
+        price: Number.isFinite(suppliedPrice) && suppliedPrice >= 0.5 ? asPrice(suppliedPrice) : basePrice,
+      };
+    })
+    .filter(Boolean);
+}
+
+/**
+ * The only source of purchasable options. Apparel size tables become real,
+ * server-validated variants when no explicit option list has been supplied.
+ */
+export function purchaseVariants(product = {}) {
+  const basePrice = Number(product.price);
+  const variants = Array.isArray(product.variants) ? product.variants : [];
+  const sizeVariants = apparelSizeVariants(product.productAttributes, basePrice);
+  if (sizeVariants.length > 1 && (!variants.length || isStandardOnly(variants, basePrice))) {
+    return sizeVariants;
+  }
+  return variants.length
+    ? variants
+    : [{ id: "standard", label: "Standard", price: basePrice }];
+}
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -441,11 +484,6 @@ function normalizeProductInput(input, existing = null) {
   const image = asImagePath(input.image ?? existing?.image);
   const images = normalizeImages(input, existing, image);
   const price = asPrice(input.price ?? existing?.price);
-  const variants =
-    channel === "editorial"
-      ? [{ id: "standard", label: "Standard", price }]
-      : normalizeVariants(input, existing, price);
-  const priceMax = Math.max(price, ...variants.map((variant) => variant.price));
   const zhName = asText(input.zh?.name ?? existing?.zh?.name, 120, "Chinese name", {
     required: true,
   });
@@ -465,6 +503,13 @@ function normalizeProductInput(input, existing = null) {
     input.productAttributes ?? existing?.productAttributes ?? {},
     160
   );
+  const configuredVariants = normalizeVariants(input, existing, price);
+  const variants = purchaseVariants({
+    price,
+    variants: configuredVariants,
+    productAttributes,
+  });
+  const priceMax = Math.max(price, ...variants.map((variant) => variant.price));
   const dimensions = asText(
     input.dimensions ??
       existing?.dimensions ??
@@ -884,7 +929,7 @@ export async function updateManagedInventory(id, input) {
 
 export async function getProductForCheckout(id) {
   const product = await getManagedProduct(id);
-  return product && isEditorialChannel(product) ? product : null;
+  return product || null;
 }
 
 export async function renderPublicCatalogModule() {

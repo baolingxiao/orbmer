@@ -179,7 +179,7 @@
                 const name = copy?.name || fallback?.name || p.id;
                 const desc = copy?.desc || fallback?.desc || "";
                 const image = p.image || p.images?.[0] || "/assets/editorial/materials/japanese-denim.jpg";
-                return `<a class="tech-card" href="/product/shop.html?id=${encodeURIComponent(p.id)}">
+                return `<a class="tech-card" href="/product/?id=${encodeURIComponent(p.id)}">
                   <div class="tech-card-media"><img src="${escapeHtml(image)}" alt="" loading="lazy" /></div>
                   <div class="tech-card-body">
                     <div>
