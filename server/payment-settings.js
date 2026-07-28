@@ -16,7 +16,7 @@ function settingsPath() {
 }
 
 function defaultSettings() {
-  return { paymentsEnabled: false, updatedAt: null };
+  return { paymentsEnabled: true, updatedAt: null };
 }
 
 function writeSettings(settings) {
