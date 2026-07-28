@@ -96,7 +96,7 @@ export function createStripeRouter({
   publishableKey,
   webhookSecret,
   nodeEnvironment = "development",
-  checkoutEnabled = "false",
+  getPaymentSettings = () => ({ paymentsEnabled: false }),
 }) {
   const router = express.Router();
   const configured = looksLikeRealKey(secretKey) && looksLikeRealKey(publishableKey);
@@ -104,27 +104,27 @@ export function createStripeRouter({
   const isProduction = nodeEnvironment === "production";
   const publishableIsLive = String(publishableKey || "").startsWith("pk_live_");
   const webhookConfigured = looksLikeRealKey(webhookSecret);
-  const operatorEnabled = String(checkoutEnabled || "").toLowerCase() === "true";
   const keyModeMatches = isLive === publishableIsLive && (isProduction ? isLive : !isLive);
-  const paymentsEnabled =
+  const paymentReady =
     configured &&
-    operatorEnabled &&
     webhookConfigured &&
     isDatabaseEnabled() &&
     keyModeMatches;
   const stripe = configured ? new Stripe(secretKey, { apiVersion: "2026-06-24.dahlia" }) : null;
+  const paymentsEnabled = () => paymentReady && getPaymentSettings().paymentsEnabled === true;
 
   router.get("/config", (_req, res) => {
+    const enabled = paymentsEnabled();
     res.json({
       configured,
-      paymentsEnabled,
-      publishableKey: paymentsEnabled ? publishableKey : null,
+      paymentsEnabled: enabled,
+      publishableKey: enabled ? publishableKey : null,
       environment: isLive ? "live" : configured ? "test" : "unconfigured",
       currency: "USD",
       countries: listCheckoutCountries(),
       demoMode: false,
       policyVersions: POLICY_VERSIONS,
-      disabledReason: paymentsEnabled
+      disabledReason: enabled
         ? null
         : "Secure payment is not enabled for this environment. Order review remains available.",
     });
@@ -155,7 +155,7 @@ export function createStripeRouter({
 
   router.post("/create-payment-intent", async (req, res) => {
     try {
-      if (!paymentsEnabled || !stripe) {
+      if (!paymentsEnabled() || !stripe) {
         return res.status(503).json({
           ok: false,
           error: "Checkout is currently unavailable. No order or simulated payment was created.",
@@ -272,7 +272,7 @@ export function createStripeRouter({
 
   router.get("/payment-status", async (req, res) => {
     try {
-      if (!paymentsEnabled || !stripe) {
+      if (!paymentsEnabled() || !stripe) {
         return res.status(503).json({ ok: false, error: "Payment verification is unavailable." });
       }
       const paymentIntentId = asText(req.query.payment_intent, 120);
@@ -295,7 +295,7 @@ export function createStripeRouter({
     }
   });
 
-  return { router, configured, paymentsEnabled, isLive, stripe, webhookSecret };
+  return { router, configured, paymentsEnabled: paymentsEnabled(), isLive, stripe, webhookSecret };
 }
 
 export function stripeWebhookHandler({ stripe, webhookSecret }) {

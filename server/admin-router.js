@@ -78,6 +78,7 @@ import {
 import { getAdminCommunicationCopy } from "./admin-communications.js";
 import { COUNTRY_FULFILLMENT_RULES } from "./checkout-config.js";
 import { validateFulfillmentRule } from "../web/shared/js/commerce-display.js";
+import { updatePaymentSettings } from "./payment-settings.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const adminWebRoot = path.join(__dirname, "..", "web", "admin");
@@ -222,6 +223,7 @@ export function createAdminRouter({
   passwordHash,
   developmentPassword,
   secureCookies,
+  getPaymentSettings,
 }) {
   const router = express.Router();
   const auth = createAdminAuth({
@@ -377,6 +379,35 @@ export function createAdminRouter({
       return routeError(res, error, 500);
     }
   });
+
+  router.get("/api/payment-settings", requirePermission("settings.read"), (_req, res) => {
+    return res.json({ ok: true, settings: getPaymentSettings() });
+  });
+
+  router.put(
+    "/api/payment-settings",
+    sameOriginOnly,
+    auth.requireCsrf,
+    requirePermission("settings.manage"),
+    async (req, res) => {
+      try {
+        const settings = updatePaymentSettings({
+          paymentsEnabled: req.body?.paymentsEnabled,
+        });
+        await appendAuditEvent({
+          actor: req.adminSession.email,
+          action: "payment_settings_updated",
+          entityType: "payment_settings",
+          entityId: "checkout",
+          details: settings,
+          ip: clientIp(req),
+        });
+        return res.json({ ok: true, settings });
+      } catch (error) {
+        return routeError(res, error);
+      }
+    }
+  );
 
   router.get("/api/search", async (req, res) => {
     try {

@@ -24,6 +24,7 @@ import { purgeExpiredDeletions } from "./trash-store.js";
 import { toPublicBrandCard, toPublicBrandDetail } from "./brand-editorial.js";
 import { createCheckoutQuote, listCheckoutCountries } from "./checkout-service.js";
 import { seedMembershipEntitlements } from "./db/membership-repo.js";
+import { getPaymentSettings } from "./payment-settings.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.join(__dirname, "..");
@@ -33,7 +34,6 @@ const {
   STRIPE_SECRET_KEY = "",
   STRIPE_PUBLISHABLE_KEY = "",
   STRIPE_WEBHOOK_SECRET = "",
-  CHECKOUT_ENABLED = "false",
   PUBLIC_BASE_URL = "",
   PORT = "4242",
   NODE_ENV = "development",
@@ -106,7 +106,7 @@ const {
   publishableKey: STRIPE_PUBLISHABLE_KEY,
   webhookSecret: STRIPE_WEBHOOK_SECRET,
   nodeEnvironment: NODE_ENV,
-  checkoutEnabled: CHECKOUT_ENABLED,
+  getPaymentSettings,
 });
 
 // Stripe webhook needs raw body — before JSON parser
@@ -535,6 +535,7 @@ if (adminBasePath) {
     express,
     basePath: adminBasePath,
     ...adminCredentials,
+    getPaymentSettings,
   });
   adminConfigured = admin.configured;
   app.use((req, res, next) => {
@@ -550,6 +551,7 @@ if (adminHost) {
     express,
     basePath: "/",
     ...adminCredentials,
+    getPaymentSettings,
   });
   adminConfigured = adminConfigured || hosted.configured;
   // Consumed by the early host guard registered above the public API routes.

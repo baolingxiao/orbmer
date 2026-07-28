@@ -10,6 +10,7 @@ const state = {
   user: null,
   environment: "staging",
   overview: null,
+  paymentSettings: { paymentsEnabled: false, updatedAt: null },
   products: [],
   orders: [],
   statuses: [],
@@ -404,6 +405,21 @@ function renderOverview() {
     overview.shipping.active;
   document.querySelector("[data-metric-tracking-detail]").textContent =
     `${overview.shipping.missingTracking} 个缺少追踪号`;
+
+  const paymentEnabled = state.paymentSettings?.paymentsEnabled === true;
+  const paymentStatus = document.querySelector("[data-payment-status]");
+  const paymentDetail = document.querySelector("[data-payment-detail]");
+  const paymentToggle = document.querySelector("[data-payment-toggle]");
+  if (paymentStatus) paymentStatus.textContent = paymentEnabled ? "已开启" : "已关闭";
+  if (paymentDetail) {
+    paymentDetail.textContent = paymentEnabled
+      ? "Stripe 支付可在凭据完整时使用。"
+      : "关闭后无法创建新的 Stripe 支付。";
+  }
+  if (paymentToggle) {
+    paymentToggle.hidden = !can("settings.manage");
+    paymentToggle.textContent = paymentEnabled ? "关闭支付" : "开启支付";
+  }
 
   renderOverviewList(
     document.querySelector("[data-overview-stock]"),
@@ -1058,6 +1074,13 @@ async function loadData({ quiet = false } = {}) {
         })
       );
     }
+    if (can("settings.read")) {
+      tasks.push(
+        api("/payment-settings").then((data) => {
+          state.paymentSettings = data.settings;
+        })
+      );
+    }
     if (can("order.read")) {
       tasks.push(
         api("/orders").then((data) => {
@@ -1702,6 +1725,27 @@ document.querySelector("[data-new-product]")?.addEventListener("click", () => {
 });
 
 document.addEventListener("click", async (event) => {
+  const paymentToggle = event.target.closest("[data-payment-toggle]");
+  if (paymentToggle) {
+    const next = state.paymentSettings?.paymentsEnabled !== true;
+    const label = next ? "开启" : "关闭";
+    if (!confirm(`确认${label}在线支付？`)) return;
+    try {
+      paymentToggle.disabled = true;
+      const data = await api("/payment-settings", {
+        method: "PUT",
+        body: { paymentsEnabled: next },
+      });
+      state.paymentSettings = data.settings;
+      renderOverview();
+      showToast(next ? "在线支付已开启。" : "在线支付已关闭。新支付无法创建。");
+    } catch (error) {
+      showToast(error.message, true);
+    } finally {
+      paymentToggle.disabled = false;
+    }
+    return;
+  }
   const productButton = event.target.closest("[data-edit-product]");
   if (productButton) {
     const product = state.products.find(
