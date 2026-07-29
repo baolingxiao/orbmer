@@ -94,9 +94,26 @@
         padding: 28px;
         color: var(--muted, #777);
       }
+      .tech-custom {
+        display: grid;
+        grid-template-columns: minmax(0, .75fr) minmax(320px, 1fr);
+        gap: clamp(28px, 6vw, 88px);
+        margin-top: clamp(58px, 9vw, 120px);
+        padding-top: clamp(28px, 5vw, 56px);
+        border-top: 1px solid var(--line, #e6e2dc);
+      }
+      .tech-custom h3 { margin: 0; font-family: "Cormorant Garamond", serif; font-size: clamp(34px, 4vw, 54px); font-weight: 500; line-height: 1; }
+      .tech-custom p { color: var(--muted, #777); line-height: 1.75; }
+      .tech-custom-form { display: grid; gap: 14px; }
+      .tech-custom-form label { display: grid; gap: 7px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted, #777); }
+      .tech-custom-form input, .tech-custom-form select, .tech-custom-form textarea { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid var(--line, #ddd); border-radius: 0; background: transparent; color: var(--ink, #141414); font: 14px/1.5 "Noto Sans SC", sans-serif; }
+      .tech-custom-form textarea { resize: vertical; min-height: 100px; }
+      .tech-custom-form button { justify-self: start; }
+      .tech-custom-note { margin: 0; font-size: 13px; }
       @media (max-width: 900px) {
         .tech-hall-head,
-        .tech-grid {
+        .tech-grid,
+        .tech-custom {
           grid-template-columns: 1fr;
         }
       }
@@ -124,6 +141,21 @@
           </p>
         </div>
         <div class="tech-grid reveal" data-tech-products></div>
+        <section class="tech-custom reveal" aria-labelledby="tech-custom-title">
+          <div>
+            <p class="tech-hall-kicker" data-custom-kicker>Custom fabrication</p>
+            <h3 id="tech-custom-title" data-custom-title>定制 3D 打印</h3>
+            <p data-custom-copy>金属工程件、人像手办或玩具模型均可提交。价格将根据模型、材料、尺寸、数量和后处理单独确认。</p>
+          </div>
+          <form class="tech-custom-form" data-custom-print-form>
+            <label><span data-custom-type>打印类型</span><select name="printType" required><option value="metal">金属材料打印</option><option value="portrait">人像手办打印</option><option value="toy">普通玩具打印</option></select></label>
+            <label><span>Email</span><input name="email" type="email" required placeholder="you@example.com" /></label>
+            <label><span data-custom-description>需求说明</span><textarea name="description" required minlength="12" placeholder="用途、尺寸、数量、材料或表面效果；我们将在审核后单独报价。"></textarea></label>
+            <label><span data-custom-file>模型文件（可选）</span><input name="files" type="file" multiple accept=".stl,.obj,.3mf,.step,.stp,.iges,.igs,.glb,.gltf,.glp,.zip" /></label>
+            <button class="btn" type="submit" data-custom-submit>提交定制请求</button>
+            <p class="tech-custom-note" data-custom-note>提交不产生订单或费用；我们会通过邮箱确认需求并报价。</p>
+          </form>
+        </section>
       </section>
     </main>
     <div data-orb-footer></div>
@@ -135,6 +167,7 @@
       await mountChrome({ title: "Material Library | Orbmare" });
       const catalog = await loadCatalog();
       let technologyProducts = [];
+      const customForm = document.querySelector("[data-custom-print-form]");
 
       async function loadTechnologyProducts() {
         try {
@@ -169,6 +202,9 @@
         document.querySelector("[data-tech-copy]").textContent = zh
           ? "从 3D 打印到未来材料应用，这里呈现 Orbmare 正在观察的技术物件。它们不属于传统材料分类，而是材料、工艺与新制造方式的交叉地带。"
           : "From 3D printing to future material applications, this hall presents technical objects Orbmare is watching — where materials, craft, and new manufacturing methods meet.";
+        document.querySelector("[data-custom-kicker]").textContent = zh ? "按需制造" : "Custom fabrication";
+        document.querySelector("[data-custom-title]").textContent = zh ? "定制 3D 打印" : "Custom 3D printing";
+        document.querySelector("[data-custom-copy]").textContent = zh ? "金属工程件、人像手办或玩具模型均可提交。价格将根据模型、材料、尺寸、数量和后处理单独确认。" : "Submit an engineering metal part, portrait figurine, or toy model. We quote individually after reviewing the model, material, scale, quantity, and finish.";
         const root = document.querySelector("[data-tech-products]");
         const list = technologyProducts.slice(0, 6);
         root.innerHTML = list.length
@@ -217,6 +253,23 @@
       }
 
       technologyProducts = await loadTechnologyProducts();
+      customForm?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const button = customForm.querySelector("button[type='submit']");
+        const note = customForm.querySelector("[data-custom-note]");
+        button.disabled = true;
+        try {
+          const response = await fetch("/api/custom-print/requests", { method: "POST", body: new FormData(customForm) });
+          const result = await response.json();
+          if (!response.ok || !result.ok) throw new Error(result.error || "提交失败，请稍后再试。");
+          customForm.reset();
+          note.textContent = `已收到请求（${result.requestNumber}）。我们会通过邮箱联系你确认需求并报价。`;
+        } catch (error) {
+          note.textContent = error.message;
+        } finally {
+          button.disabled = false;
+        }
+      });
       render();
       onLangChange(render);
     </script>

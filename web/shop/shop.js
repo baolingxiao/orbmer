@@ -24,6 +24,7 @@ const cartClose = document.querySelector(".cart-close");
 const cartList = document.querySelector("[data-cart-list]");
 const cartCount = document.querySelector("[data-cart-count]");
 const cartTotal = document.querySelector("[data-cart-total]");
+const customPrintForm = document.querySelector("[data-custom-print-form]");
 
 let activeLanguage = "zh";
 let activeFilter = "all";
@@ -220,6 +221,24 @@ const translations = {
 function t(key) {
   return translations[activeLanguage][key] ?? key;
 }
+
+customPrintForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const button = customPrintForm.querySelector("button[type='submit']");
+  const note = customPrintForm.querySelector("[data-custom-print-note]");
+  button.disabled = true;
+  try {
+    const response = await fetch("/api/custom-print/requests", { method: "POST", body: new FormData(customPrintForm) });
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.error || "提交失败，请稍后再试。");
+    customPrintForm.reset();
+    note.textContent = `已收到定制请求（${result.requestNumber}）。我们会通过邮箱联系你确认需求并报价。`;
+  } catch (error) {
+    note.textContent = error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
 
 function formatPrice(value) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);

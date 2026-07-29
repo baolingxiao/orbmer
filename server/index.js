@@ -25,6 +25,7 @@ import { toPublicBrandCard, toPublicBrandDetail } from "./brand-editorial.js";
 import { createCheckoutQuote, listCheckoutCountries } from "./checkout-service.js";
 import { seedMembershipEntitlements } from "./db/membership-repo.js";
 import { getPaymentSettings } from "./payment-settings.js";
+import { createCustomPrintRouter } from "./custom-print-router.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.join(__dirname, "..");
@@ -118,6 +119,7 @@ app.post(
 
 app.use(express.json({ limit: "256kb" }));
 app.use("/api/stripe", apiCors, stripeRouter);
+app.use("/api/custom-print", createCustomPrintRouter({ express }).router);
 
 app.get("/api/checkout/countries", apiCors, (_req, res) => {
   res.setHeader("Cache-Control", "no-store");

@@ -203,25 +203,29 @@
             <h2 data-i18n="custom.title">没有现货？提交定制。</h2>
             <p data-i18n="custom.body">上传模型或照片参考，我们按材料与工期回报价。现货优先走购物车。</p>
           </div>
-          <form class="custom-form">
+          <form class="custom-form" data-custom-print-form>
             <label>
               <span data-i18n="custom.selectLabel">定制类型</span>
-              <select>
-                <option data-i18n="custom.optionMetal">工程金属件</option>
-                <option data-i18n="custom.optionToys">玩具模型</option>
-                <option data-i18n="custom.optionPortrait">照片手办</option>
+              <select name="printType" required>
+                <option value="metal" data-i18n="custom.optionMetal">工程金属件</option>
+                <option value="toy" data-i18n="custom.optionToys">玩具模型</option>
+                <option value="portrait" data-i18n="custom.optionPortrait">照片手办</option>
               </select>
             </label>
             <label>
               Email
-              <input type="email" placeholder="you@example.com" />
+              <input name="email" type="email" placeholder="you@example.com" required />
+            </label>
+            <label>
+              <span>需求说明</span>
+              <textarea name="description" rows="4" required minlength="12" placeholder="用途、尺寸、数量、材料或表面效果；我们将在审核后单独报价。"></textarea>
             </label>
             <label class="file-drop">
-              <input type="file" />
-              <span data-i18n="custom.drop">拖入 STL / STEP / OBJ / 照片</span>
+              <input name="files" type="file" multiple accept=".stl,.obj,.3mf,.step,.stp,.iges,.igs,.glb,.gltf,.glp,.zip" />
+              <span data-i18n="custom.drop">上传 STL / OBJ / 3MF / STEP / GLB 等文件（最多 3 个）</span>
             </label>
-            <button class="button button-secondary" type="button" data-i18n="custom.button" disabled title="即将上线">提交定制询价</button>
-            <p class="cart-note" style="margin:0">定制询价即将上线，现货请走购物车。</p>
+            <button class="button button-primary" type="submit" data-i18n="custom.button">提交定制询价</button>
+            <p class="cart-note" style="margin:0" data-custom-print-note>按模型、材料、尺寸和数量单独报价；提交不产生订单或费用。</p>
           </form>
         </div>
       </section>

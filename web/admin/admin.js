@@ -965,6 +965,7 @@ function billingIntervalLabel(interval) {
 }
 
 function serviceTypeLabel(type) {
+  if (type === "custom_3d_print") return "3D 打印定制";
   return SERVICE_TYPES[type]?.zh || type || "—";
 }
 
@@ -1032,9 +1033,16 @@ function renderConciergeRequests() {
       save.dataset.conciergeSave = request.id;
       actionCell.append(select, note, save);
     }
+    const customer = element("td");
+    customer.appendChild(element("strong", { text: request.email || "—" }));
+    if (request.description) customer.appendChild(element("span", { text: request.description }));
+    const attachments = Array.isArray(request.attachments) ? request.attachments : [];
+    if (attachments.length) {
+      customer.appendChild(element("small", { text: `文件：${attachments.map((file) => file.originalName || file.filename).join(" · ")}` }));
+    }
     row.append(
       element("td", { text: request.request_number }),
-      element("td", { text: request.email }),
+      customer,
       element("td", { text: serviceTypeLabel(request.service_type) }),
       element("td", { text: conciergeStatusLabel(request.status) }),
       element("td", { text: request.budget || "—" }),

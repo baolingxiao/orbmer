@@ -219,13 +219,14 @@ export async function createConciergeRequest(userId, input = {}) {
   const requestNumber = `OMC-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
   const { rows } = await query(
     `INSERT INTO concierge_requests
-      (request_number, user_id, service_type, description, budget, currency, desired_date,
+      (request_number, user_id, contact_email, service_type, description, budget, currency, desired_date,
        product_url, attachments, contact_method, country)
-     VALUES ($1, $2, $3, $4, $5, $6, NULLIF($7, '')::date, $8, $9::jsonb, $10, $11)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, NULLIF($8, '')::date, $9, $10::jsonb, $11, $12)
      RETURNING *`,
     [
       requestNumber,
       userId,
+      clean(input.email, 200),
       clean(input.serviceType || "other", 40),
       description,
       clean(input.budget, 120),
@@ -238,6 +239,18 @@ export async function createConciergeRequest(userId, input = {}) {
     ]
   );
   return rows[0];
+}
+
+export async function createGuestCustomPrintRequest(input = {}) {
+  const email = clean(input.email, 200).toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("A valid email is required.");
+  return createConciergeRequest(null, {
+    ...input,
+    email,
+    serviceType: "custom_3d_print",
+    contactMethod: "email",
+    budget: "Quote after review",
+  });
 }
 
 export async function listConciergeRequests({ userId = null, status = "", serviceType = "" } = {}) {
@@ -257,9 +270,9 @@ export async function listConciergeRequests({ userId = null, status = "", servic
   }
   const sqlWhere = where.length ? `WHERE ${where.join(" AND ")}` : "";
   const { rows } = await query(
-    `SELECT cr.*, u.email, u.display_name
+    `SELECT cr.*, COALESCE(NULLIF(cr.contact_email, ''), u.email) AS email, u.display_name
      FROM concierge_requests cr
-     JOIN users u ON u.id = cr.user_id
+     LEFT JOIN users u ON u.id = cr.user_id
      ${sqlWhere}
      ORDER BY cr.created_at DESC
      LIMIT 500`,

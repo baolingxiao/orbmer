@@ -731,7 +731,8 @@ img {
 }
 
 .custom-form input,
-.custom-form select {
+.custom-form select,
+.custom-form textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
@@ -741,7 +742,8 @@ img {
 }
 
 .custom-form input:focus,
-.custom-form select:focus {
+.custom-form select:focus,
+.custom-form textarea:focus {
   outline: 2px solid rgba(26, 77, 179, 0.45);
   outline-offset: 1px;
 }
