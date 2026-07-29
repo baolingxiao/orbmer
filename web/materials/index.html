@@ -110,6 +110,7 @@
       .tech-custom-form textarea { resize: vertical; min-height: 100px; }
       .tech-custom-form button { justify-self: start; }
       .tech-custom-note { margin: 0; font-size: 13px; }
+      .tech-custom + .tech-grid { margin-top: clamp(58px, 9vw, 120px); }
       @media (max-width: 900px) {
         .tech-hall-head,
         .tech-grid,
@@ -140,7 +141,6 @@
             从 3D 打印到未来材料应用，这里呈现 Orbmare 正在观察的技术物件。它们不属于传统材料分类，而是材料、工艺与新制造方式的交叉地带。
           </p>
         </div>
-        <div class="tech-grid reveal" data-tech-products></div>
         <section class="tech-custom reveal" aria-labelledby="tech-custom-title">
           <div>
             <p class="tech-hall-kicker" data-custom-kicker>Custom fabrication</p>
@@ -156,6 +156,7 @@
             <p class="tech-custom-note" data-custom-note>提交不产生订单或费用；我们会通过邮箱确认需求并报价。</p>
           </form>
         </section>
+        <div class="tech-grid reveal" data-tech-products></div>
       </section>
     </main>
     <div data-orb-footer></div>
