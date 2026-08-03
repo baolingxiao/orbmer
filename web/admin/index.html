@@ -1093,6 +1093,36 @@
                 <div class="form-grid" data-product-type-fields></div>
                 <small>根据商品种类显示服装、首饰、家具等不同录入项。</small>
               </div>
+              <div class="field field-span-2">
+                <div class="image-rule-card">
+                  <div>
+                    <span class="eyebrow">图片上传规则</span>
+                    <h4>商品图片请优先使用 4:5 竖图。</h4>
+                    <p>
+                      主图建议 1600 × 2000 px，最低 1200 × 1500 px。横图和方图可以放入图集；
+                      如果作为主图，前台会按 4:5 展示，可能裁掉主体。
+                    </p>
+                  </div>
+                  <dl class="image-rule-grid">
+                    <div>
+                      <dt>主图</dt>
+                      <dd>4:5 · 1600 × 2000 px</dd>
+                    </div>
+                    <div>
+                      <dt>图集</dt>
+                      <dd>长边 ≥ 1600 px，短边 ≥ 1200 px</dd>
+                    </div>
+                    <div>
+                      <dt>科技馆</dt>
+                      <dd>可用 1:1 方图，主图仍建议 4:5</dd>
+                    </div>
+                    <div>
+                      <dt>提醒</dt>
+                      <dd>不符合规则只提醒，不禁止保存</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
               <div
                 class="field field-span-2"
                 data-path-upload
@@ -1114,7 +1144,7 @@
                   <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
                 </div>
                 <input id="productImage" name="image" placeholder="/assets/..." required />
-                <small>可拖拽/本地导入，或粘贴 <code>/assets/...</code> 路径。</small>
+                <small>可拖拽/本地导入，或粘贴 <code>/assets/...</code> 路径。建议 4:5 竖图，后台会自动提示尺寸与比例。</small>
               </div>
               <div
                 class="field field-span-2"
@@ -1137,7 +1167,7 @@
                   <button class="button button-secondary button-compact" type="button" data-upload-clear hidden>清除</button>
                 </div>
                 <textarea id="productImages" name="images" rows="3" placeholder="/assets/...&#10;/assets/..."></textarea>
-                <small>拖拽/本地导入后自动填入路径；也可每行粘贴一张。</small>
+                <small>拖拽/本地导入后自动填入路径；也可每行粘贴一张。图集允许细节图、场景图和横图，但低清图片会提醒。</small>
               </div>
               <div class="field field-span-2" data-shop-fields>
                 <label for="productVariants">多规格（可选，每行：规格名|价格）· 前台</label>
