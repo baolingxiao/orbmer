@@ -159,7 +159,11 @@ function normalizeExtractedProduct(parsed = {}) {
   const raw = parsed.fields || {};
   const productType = normalizeProductType(raw.productType || raw.zhName || raw.enName);
   const rawChannel = cleanText(raw.channel, 40).toLowerCase();
-  const channel = /shop|technology|tech|科技|3d|print|打印/.test(rawChannel) ? "shop" : "editorial";
+  const channel = /market|市集|retail|bazaar/.test(rawChannel)
+    ? "market"
+    : /shop|technology|tech|科技|3d|print|打印/.test(rawChannel)
+      ? "shop"
+      : "editorial";
   const fields = {
     id: cleanSlug(raw.id || raw.enName || raw.zhName),
     channel,

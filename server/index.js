@@ -10,6 +10,7 @@ import { createBuyerRouter } from "./buyer-router.js";
 import {
   purgeNonPrintCatalog,
   listPublishedEditorialProducts,
+  listPublishedMarketProducts,
   listPublishedProducts,
   renderPublicCatalogModule,
   seedProductsIfEmpty,
@@ -40,6 +41,8 @@ const {
   NODE_ENV = "development",
   ADMIN_ROUTE = "",
   ADMIN_HOST = "",
+  MARKET_HOST = "",
+  MARKET_PUBLIC_URL = "",
   ADMIN_EMAIL = "",
   ADMIN_PASSWORD_HASH = "",
   ADMIN_PASSWORD = "",
@@ -85,8 +88,44 @@ const adminBasePath = resolveAdminBasePath(ADMIN_ROUTE);
 const adminPasswordHash = String(ADMIN_PASSWORD_HASH || "").trim();
 const adminDevelopmentPassword =
   NODE_ENV === "production" ? "" : String(ADMIN_PASSWORD || "");
+
+function normalizeHostname(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/^https?:\/\//, "")
+    .split("/")[0]
+    .split(":")[0];
+}
+
+const marketHost = normalizeHostname(MARKET_HOST);
+const marketPublicOrigin = (() => {
+  const raw = String(MARKET_PUBLIC_URL || "").trim();
+  if (raw) {
+    try {
+      return new URL(raw).origin;
+    } catch {
+      /* fall through */
+    }
+  }
+  if (marketHost) {
+    const proto = NODE_ENV === "production" ? "https" : "http";
+    const port = NODE_ENV === "production" ? "" : `:${PORT}`;
+    return `${proto}://${marketHost}${port}`;
+  }
+  return "";
+})();
+
 const allowedOrigins = new Set(
-  [PUBLIC_BASE_URL, "http://127.0.0.1:5180", "http://localhost:5180"].filter(Boolean)
+  [
+    PUBLIC_BASE_URL,
+    marketPublicOrigin,
+    marketHost ? `http://${marketHost}` : "",
+    marketHost ? `https://${marketHost}` : "",
+    marketHost ? `http://${marketHost}:${PORT}` : "",
+    "http://127.0.0.1:5180",
+    "http://localhost:5180",
+  ].filter(Boolean)
 );
 const apiCors = cors({
   origin(origin, callback) {
@@ -149,12 +188,7 @@ app.post("/api/checkout/quote", apiCors, async (req, res) => {
 });
 
 let adminHostRouter = null;
-const adminHost = String(ADMIN_HOST || "")
-  .trim()
-  .toLowerCase()
-  .replace(/^https?:\/\//, "")
-  .split("/")[0]
-  .split(":")[0];
+const adminHost = normalizeHostname(ADMIN_HOST);
 
 // The admin host must be handled before the public API. Otherwise routes such as
 // /api/brands answer the console with published-only public cards that drop
@@ -170,6 +204,10 @@ app.use((req, res, next) => {
 app.get("/api/catalog", async (_req, res) => {
   res.setHeader("Cache-Control", "no-store");
   res.json({ ok: true, products: await listPublishedProducts() });
+});
+app.get("/api/market-catalog", async (_req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  res.json({ ok: true, products: await listPublishedMarketProducts() });
 });
 app.get("/api/editorial-catalog", async (_req, res) => {
   res.setHeader("Cache-Control", "no-store");
@@ -582,6 +620,53 @@ app.use("/shop", (_req, res) => res.redirect(302, "/discover/"));
 app.get("/product/shop.html", (_req, res) => res.redirect(302, "/discover/"));
 app.get("/checkout.html", (_req, res) => res.redirect(302, "/checkout/"));
 
+const marketWebRoot = path.join(webRoot, "market");
+
+function isMarketRequestHost(req) {
+  if (!marketHost) return false;
+  const host = String(req.headers.host || "").split(":")[0].toLowerCase();
+  return host === marketHost;
+}
+
+function sendMarketPage(res, relativePath) {
+  return res.sendFile(path.join(marketWebRoot, relativePath));
+}
+
+// Dedicated marketplace domain (MARKET_HOST): Taobao-style retail surface.
+// Shares /api/*, /checkout/, /auth/, /shared/, /assets/ with the main app.
+app.use((req, res, next) => {
+  if (!isMarketRequestHost(req)) return next();
+  if (req.path.startsWith("/api/")) return next();
+  if (
+    req.path.startsWith("/checkout") ||
+    req.path.startsWith("/auth") ||
+    req.path.startsWith("/seller") ||
+    req.path.startsWith("/shared/") ||
+    req.path.startsWith("/assets/") ||
+    req.path.startsWith("/uploads/")
+  ) {
+    return next();
+  }
+  if (req.path === "/" || req.path === "/index.html") {
+    return sendMarketPage(res, "index.html");
+  }
+  if (req.path === "/product" || req.path === "/product/" || req.path.startsWith("/product/")) {
+    return sendMarketPage(res, "product/index.html");
+  }
+  // Keep marketplace host focused — unknown paths return to the market home.
+  if (!path.extname(req.path)) {
+    return res.redirect(302, "/");
+  }
+  return next();
+});
+
+// Apex preview of the marketplace (no Host header required in local/dev).
+app.get(["/market", "/market/"], (_req, res) => sendMarketPage(res, "index.html"));
+app.get(["/market/product", "/market/product/"], (_req, res) =>
+  sendMarketPage(res, "product/index.html")
+);
+app.use("/market", express.static(marketWebRoot, { index: false, redirect: false }));
+
 // Frontend modules
 app.get(["/tina", "/tina/"], (_req, res) => {
   res.sendFile(path.join(webRoot, "tina", "index.html"));
@@ -653,6 +738,13 @@ async function start() {
     console.log(`Orbmare API + web on http://0.0.0.0:${PORT}`);
     console.log(`Static root: ${webRoot}`);
     if (PUBLIC_BASE_URL) console.log(`Public base URL: ${PUBLIC_BASE_URL}`);
+    console.log(`Market preview: http://127.0.0.1:${PORT}/market/`);
+    if (marketHost) {
+      console.log(
+        `Market host: ${marketHost}` +
+          (marketPublicOrigin ? ` · ${marketPublicOrigin}` : "")
+      );
+    }
     console.log(`Seller portal: http://127.0.0.1:${PORT}/seller/`);
     console.log(`Buyer accounts: http://127.0.0.1:${PORT}/auth/`);
     console.log(

@@ -1,5 +1,7 @@
 # Global Boutique Trade Platform + Orbmare China Pavilion
 
+> **Engineer / AI handoff:** read [`docs/ENGINEERING-HANDOFF.md`](docs/ENGINEERING-HANDOFF.md) first (structure, design system, Dual Narrative, recent context, WIP).
+
 Marketplace homepage with the Orbmare 3D printing store nested under **中国区**. Domain and Stripe checkout are unchanged.
 
 ```text

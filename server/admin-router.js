@@ -177,7 +177,10 @@ async function overview() {
       archived: products.filter((product) => product.lifecycleStatus === "archived").length,
       inReview: pendingReview.length,
       editorial: products.filter((product) => product.channel === "editorial").length,
-      shop: products.filter((product) => product.channel !== "editorial").length,
+      shop: products.filter(
+        (product) => product.channel !== "editorial" && product.channel !== "market"
+      ).length,
+      market: products.filter((product) => product.channel === "market").length,
     },
     inventory: {
       alerts: stockAlerts.length,

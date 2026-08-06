@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>商品详情 · 傲马市集</title>
+    <meta name="description" content="傲马市集商品详情" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/market/market.css?v=1" />
+  </head>
+  <body data-market-pdp>
+    <header class="mk-topbar">
+      <div class="mk-topbar-inner">
+        <a class="mk-brand" href="../" data-home-link>
+          <strong>傲马市集</strong>
+          <span>Orbmare Market</span>
+        </a>
+        <div class="mk-top-actions">
+          <a class="mk-link" href="/auth/">登录</a>
+          <button class="mk-cart-btn" type="button" data-open-cart aria-controls="mkCart">
+            购物车
+            <em data-cart-count>0</em>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mk-pdp" data-pdp>
+      <p class="mk-pdp-status" data-pdp-status>加载中…</p>
+    </main>
+
+    <aside class="mk-cart" id="mkCart" data-cart-drawer hidden>
+      <div class="mk-cart-panel" role="dialog" aria-modal="true" aria-labelledby="mk-cart-title">
+        <header class="mk-cart-head">
+          <h2 id="mk-cart-title">购物车</h2>
+          <button type="button" data-close-cart aria-label="关闭购物车">关闭</button>
+        </header>
+        <div class="mk-cart-body" data-cart-lines></div>
+        <footer class="mk-cart-foot">
+          <div class="mk-cart-total">
+            <span>合计</span>
+            <strong data-cart-total>$0.00</strong>
+          </div>
+          <a class="mk-checkout" href="/checkout/" data-checkout>去结算</a>
+        </footer>
+      </div>
+    </aside>
+
+    <script type="module" src="/market/market.js?v=1"></script>
+  </body>
+</html>

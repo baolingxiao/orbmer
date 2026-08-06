@@ -69,11 +69,18 @@ const collectionLabels = {
   japan: "日本馆",
   italy: "意大利馆",
   china: "中国馆",
+  general: "综合",
+  home: "家居",
+  fashion: "服饰",
+  gadgets: "数码",
+  collectibles: "收藏",
+  daily: "日用",
 };
 
 const channelLabels = {
   shop: "科技馆",
   editorial: "甄选",
+  market: "市集",
 };
 
 const lifecycleLabels = {
@@ -477,19 +484,29 @@ function storefrontHref(kind, product) {
   const channel =
     typeof product === "object"
       ? product.channel ||
-        (["japan", "italy", "china"].includes(product.collection) ? "editorial" : "shop")
+        (["japan", "italy", "china"].includes(product.collection)
+          ? "editorial"
+          : ["general", "home", "fashion", "gadgets", "collectibles", "daily"].includes(
+                product.collection
+              )
+            ? "market"
+            : "shop")
       : "shop";
   if (kind === "pdp") {
-    return channel === "editorial"
-      ? `/product/?id=${id}`
-      : `/product/shop.html?id=${id}`;
+    if (channel === "editorial") return `/product/?id=${id}`;
+    if (channel === "market") return `/market/product/?id=${id}`;
+    return `/product/shop.html?id=${id}`;
   }
-  if (kind === "shop") return `/shop/#shop`;
+  if (kind === "shop") {
+    return channel === "market" ? `/market/` : `/shop/#shop`;
+  }
   if (kind === "country" && typeof product === "object") {
     const country = product.country || product.collection;
     return `/countries/${encodeURIComponent(country)}/`;
   }
-  return channel === "editorial" ? `/discover/` : `/materials/#technology`;
+  if (channel === "editorial") return `/discover/`;
+  if (channel === "market") return `/market/`;
+  return `/materials/#technology`;
 }
 
 function storefrontLink(label, href) {
@@ -502,15 +519,22 @@ function storefrontLink(label, href) {
 
 function syncChannelFields(channel) {
   const editorial = channel === "editorial";
+  const market = channel === "market";
+  const shop = channel === "shop" || (!editorial && !market);
   document.querySelectorAll("[data-editorial-fields]").forEach((node) => {
     node.hidden = !editorial;
   });
   document.querySelectorAll("[data-shop-fields]").forEach((node) => {
-    node.hidden = editorial;
+    node.hidden = !shop || market;
+  });
+  document.querySelectorAll("[data-market-fields]").forEach((node) => {
+    node.hidden = !market;
   });
   const shopCollection = productForm?.elements.namedItem("collection");
+  const marketCollection = productForm?.querySelector("[data-market-collection]");
   const editorialCollection = productForm?.querySelector("[data-editorial-collection]");
-  if (shopCollection) shopCollection.disabled = editorial;
+  if (shopCollection) shopCollection.disabled = !shop || market;
+  if (marketCollection) marketCollection.disabled = !market;
   if (editorialCollection) editorialCollection.disabled = !editorial;
 }
 
@@ -518,6 +542,13 @@ function resolveChannel(product) {
   if (product?.channel) return product.channel;
   if (["japan", "italy", "china"].includes(product?.collection) || product?.country) {
     return "editorial";
+  }
+  if (
+    ["general", "home", "fashion", "gadgets", "collectibles", "daily"].includes(
+      product?.collection
+    )
+  ) {
+    return "market";
   }
   return "shop";
 }
@@ -588,15 +619,16 @@ function fillProductSyncPreview(product) {
   }
   panel.hidden = false;
   const channel = resolveChannel(product);
+  const discoverLabel =
+    channel === "editorial" ? "发现页甄选" : channel === "market" ? "市集首页" : "材料页科技馆";
   links.append(
     storefrontLink("商品详情", storefrontHref("pdp", product)),
-    storefrontLink(
-      channel === "editorial" ? "发现页甄选" : "材料页科技馆",
-      storefrontHref("discover", product)
-    )
+    storefrontLink(discoverLabel, storefrontHref("discover", product))
   );
   if (channel === "editorial") {
     links.appendChild(storefrontLink("国家馆", storefrontHref("country", product)));
+  } else if (channel === "market") {
+    links.appendChild(storefrontLink("市集列表", storefrontHref("shop", product)));
   } else {
     links.appendChild(storefrontLink("店铺列表", storefrontHref("shop", product)));
   }
@@ -711,7 +743,7 @@ function renderProducts() {
       actions.appendChild(storefrontLink("详情", storefrontHref("pdp", product)));
       actions.appendChild(
         storefrontLink(
-          channel === "editorial" ? "发现" : "科技馆",
+          channel === "editorial" ? "发现" : channel === "market" ? "市集" : "科技馆",
           storefrontHref("discover", product)
         )
       );
@@ -1332,6 +1364,11 @@ function openProductDialog(product = null) {
   );
   setFormValue(
     productForm,
+    "marketCollection",
+    channel === "market" ? product?.collection || "general" : "general"
+  );
+  setFormValue(
+    productForm,
     "editorialCountry",
     channel === "editorial"
       ? product?.country || product?.collection || "japan"
@@ -1415,7 +1452,8 @@ function openProductDialog(product = null) {
       id: "",
       channel,
       lifecycleStatus: "published",
-      collection: channel === "editorial" ? "japan" : "toys",
+      collection:
+        channel === "editorial" ? "japan" : channel === "market" ? "general" : "toys",
     }
   );
   syncStockFields(
@@ -1445,7 +1483,9 @@ function productPayload() {
   const collection =
     channel === "editorial"
       ? formValue(productForm, "editorialCountry") || "japan"
-      : formValue(productForm, "collection") || "toys";
+      : channel === "market"
+        ? formValue(productForm, "marketCollection") || "general"
+        : formValue(productForm, "collection") || "toys";
   const costRaw = formValue(productForm, "costPrice");
   const compareRaw = formValue(productForm, "compareAtPrice");
   const productType = formValue(productForm, "productType") || "object";
@@ -1962,7 +2002,9 @@ productForm?.elements.namedItem("channel")?.addEventListener("change", (event) =
     collection:
       channel === "editorial"
         ? formValue(productForm, "editorialCountry")
-        : formValue(productForm, "collection"),
+        : channel === "market"
+          ? formValue(productForm, "marketCollection")
+          : formValue(productForm, "collection"),
     country: formValue(productForm, "editorialCountry"),
   });
 });
@@ -2021,7 +2063,13 @@ productForm?.addEventListener("submit", async (event) => {
     const pdp = storefrontHref("pdp", payload);
     showToast(
       published
-        ? `已同步到${payload.channel === "editorial" ? "甄选馆" : "科技馆"}。详情 ${pdp}`
+        ? `已同步到${
+            payload.channel === "editorial"
+              ? "甄选馆"
+              : payload.channel === "market"
+                ? "市集馆"
+                : "科技馆"
+          }。详情 ${pdp}`
         : "商品已保存为草稿/归档，前台买家不可见。发布后会同步到对应前台。"
     );
   } catch (error) {

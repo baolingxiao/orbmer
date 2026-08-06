@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>傲马市集 · Orbmare Market</title>
+    <meta
+      name="description"
+      content="傲马市集 — 独立零售频道。精选好物，直接加购，安全结账。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/market/market.css?v=1" />
+  </head>
+  <body data-market-root>
+    <header class="mk-topbar">
+      <div class="mk-topbar-inner">
+        <a class="mk-brand" href="./" data-home-link>
+          <strong>傲马市集</strong>
+          <span>Orbmare Market</span>
+        </a>
+        <form class="mk-search" role="search" data-search-form>
+          <input
+            type="search"
+            name="q"
+            placeholder="搜索商品"
+            autocomplete="off"
+            data-search-input
+            aria-label="搜索商品"
+          />
+          <button type="submit">搜索</button>
+        </form>
+        <div class="mk-top-actions">
+          <a class="mk-link" href="/auth/" data-auth-link>登录</a>
+          <button class="mk-cart-btn" type="button" data-open-cart aria-controls="mkCart">
+            购物车
+            <em data-cart-count>0</em>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="mk-main">
+      <section class="mk-promo" aria-label="顶部展位" data-promo>
+        <div class="mk-promo-track" data-promo-track>
+          <article class="mk-promo-slide is-active" data-promo-slide>
+            <div class="mk-promo-copy">
+              <p class="mk-promo-kicker">今日热卖</p>
+              <h1>好物直达 · 即刻加购</h1>
+              <p>市集频道专属商品，购物车与结账沿用平台安全支付。</p>
+            </div>
+            <div class="mk-promo-visual" aria-hidden="true"></div>
+          </article>
+          <article class="mk-promo-slide" data-promo-slide>
+            <div class="mk-promo-copy">
+              <p class="mk-promo-kicker">新品上架</p>
+              <h1>每天都有新发现</h1>
+              <p>按品类浏览，价格清晰，下单后进入采购确认流程。</p>
+            </div>
+            <div class="mk-promo-visual mk-promo-visual-b" aria-hidden="true"></div>
+          </article>
+          <article class="mk-promo-slide" data-promo-slide>
+            <div class="mk-promo-copy">
+              <p class="mk-promo-kicker">安心支付</p>
+              <h1>Stripe 安全结账</h1>
+              <p>与主站同一支付体系，银行卡信息由 Stripe 处理。</p>
+            </div>
+            <div class="mk-promo-visual mk-promo-visual-c" aria-hidden="true"></div>
+          </article>
+        </div>
+        <div class="mk-promo-dots" data-promo-dots aria-hidden="true"></div>
+      </section>
+
+      <nav class="mk-cats" aria-label="商品分类" data-cats>
+        <button type="button" class="is-active" data-cat="all">全部</button>
+        <button type="button" data-cat="general">综合</button>
+        <button type="button" data-cat="home">家居</button>
+        <button type="button" data-cat="fashion">服饰</button>
+        <button type="button" data-cat="gadgets">数码</button>
+        <button type="button" data-cat="collectibles">收藏</button>
+        <button type="button" data-cat="daily">日用</button>
+      </nav>
+
+      <section class="mk-shelf" aria-labelledby="mk-shelf-title">
+        <div class="mk-shelf-head">
+          <h2 id="mk-shelf-title">商品列表</h2>
+          <p data-shelf-meta>加载中…</p>
+        </div>
+        <div class="mk-grid" data-product-grid></div>
+        <p class="mk-empty" data-empty hidden>暂无上架商品。请在后台将渠道选为「市集馆」并发布。</p>
+      </section>
+    </main>
+
+    <aside class="mk-cart" id="mkCart" data-cart-drawer hidden>
+      <div class="mk-cart-panel" role="dialog" aria-modal="true" aria-labelledby="mk-cart-title">
+        <header class="mk-cart-head">
+          <h2 id="mk-cart-title">购物车</h2>
+          <button type="button" data-close-cart aria-label="关闭购物车">关闭</button>
+        </header>
+        <div class="mk-cart-body" data-cart-lines></div>
+        <footer class="mk-cart-foot">
+          <div class="mk-cart-total">
+            <span>合计</span>
+            <strong data-cart-total>$0.00</strong>
+          </div>
+          <a class="mk-checkout" href="/checkout/" data-checkout>去结算</a>
+        </footer>
+      </div>
+    </aside>
+
+    <footer class="mk-foot">
+      <p>傲马市集 · 独立零售频道 · 支付由平台 Stripe 结账承接</p>
+    </footer>
+
+    <script type="module" src="/market/market.js?v=1"></script>
+  </body>
+</html>

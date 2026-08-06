@@ -10,8 +10,8 @@ Visual language: Apple × Hermès × Aesop × museum discovery. Cold monochrome 
 
 ## Architecture
 
-| Surface | Path | Role |
-|---------|------|------|
+| Surface | Path / Host | Role |
+|---------|-------------|------|
 | Home | `/` | Cinematic hero → Countries → Stories → Collections → Products |
 | Discover | `/discover/` | New Discoveries, Editor's Picks, Hidden Gems, Most Loved, Seasonal |
 | Countries | `/countries/` | MVP: Japan, Italy, China |
@@ -22,8 +22,9 @@ Visual language: Apple × Hermès × Aesop × museum discovery. Cold monochrome 
 | About | `/about/` | Philosophy (not company brochure) |
 | Membership | `/membership/` | Concierge circle (not Costco) |
 | Product | `/product/?id=` | Editorial PDP — story before price |
-| 3D print shop | `/shop/` | Legacy digital-manufacturing module |
-| Checkout | `/checkout/` | Stripe (domain & flow unchanged) |
+| 3D print shop | `/shop/` | Legacy digital-manufacturing module (redirects to Discover) |
+| **Market** | `MARKET_HOST` or `/market/` | Separate Taobao-style retail domain — exclusive `channel=market` SKUs, cart + Stripe checkout |
+| Checkout | `/checkout/` | Stripe (domain & flow unchanged; also served on market host) |
 
 Legacy region URLs `/regions/{japan,italy,china}/` should redirect or link to `/countries/…`.
 

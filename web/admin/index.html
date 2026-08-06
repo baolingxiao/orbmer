@@ -281,7 +281,7 @@
               <div>
                 <h2 id="products-title">商品管理</h2>
                 <p>
-                  管理科技馆与甄选馆商品。草稿仅后台可见；发布后分别同步到材料页科技馆 / 店铺结账与国家馆 / 发现页。无发布权限时保存为「审核中」。
+                  管理科技馆、甄选馆与市集馆商品。草稿仅后台可见；发布后按渠道同步到对应前台。市集馆绑定独立域名（MARKET_HOST）。无发布权限时保存为「审核中」。
                   「推荐」商品会进入首页与 Orbmare 精选页的聚合滚动推荐带。
                 </p>
               </div>
@@ -291,20 +291,25 @@
             </div>
 
             <aside class="sync-guide" aria-labelledby="sync-guide-title">
-              <h3 id="sync-guide-title">前台同步位置（科技馆）</h3>
+              <h3 id="sync-guide-title">前台同步位置</h3>
               <ul>
                 <li>
                   <strong>材料页 · 科技馆</strong> —
                   <a href="/materials/#technology" target="_blank" rel="noopener">/materials/#technology</a>
                 </li>
                 <li>
-                  <strong>科技馆结账列表</strong> —
-                  <a href="/shop/" target="_blank" rel="noopener">/shop/</a>
-                  · 详情 <code>/product/shop.html?id=…</code>
+                  <strong>甄选馆</strong> —
+                  <a href="/discover/" target="_blank" rel="noopener">/discover/</a>
+                  · 国家馆 / 商品详情
+                </li>
+                <li>
+                  <strong>市集馆（独立域名）</strong> —
+                  <a href="/market/" target="_blank" rel="noopener">/market/</a>
+                  · 配置 <code>MARKET_HOST</code> 后绑定专用域名
                 </li>
               </ul>
               <p class="sync-guide-note">
-                科技馆用于 3D 打印与未来科技物件；甄选馆用于国家馆、发现页与编辑推荐。ID 使用小写字母、数字与连字符，且必须唯一。
+                科技馆用于 3D 打印与未来科技物件；甄选馆用于国家馆与发现页；市集馆用于独立零售域名（淘宝式货架 + 购物车 + Stripe 结账）。创建商品时请选择对应渠道。
               </p>
             </aside>
 
@@ -319,6 +324,7 @@
                   <option value="all" selected>全部</option>
                   <option value="shop">科技馆</option>
                   <option value="editorial">甄选馆</option>
+                  <option value="market">市集馆</option>
                 </select>
               </div>
               <div class="field compact-field">
@@ -875,12 +881,13 @@
                 <small>小写字母、数字和连字符；创建后不可修改；全局唯一。</small>
               </div>
               <div class="field">
-                <label for="productChannel">前台渠道</label>
+                <label for="productChannel">前台渠道 / 域名</label>
                 <select id="productChannel" name="channel" required data-product-channel>
-                  <option value="shop" selected>科技馆（材料页 / 店铺 / 结账）</option>
-                  <option value="editorial">甄选馆（国家 / 发现页）</option>
+                  <option value="shop" selected>科技馆（材料页 · /api/catalog）</option>
+                  <option value="editorial">甄选馆（国家 / 发现页 · /api/editorial-catalog）</option>
+                  <option value="market">市集馆（独立域名 · /api/market-catalog）</option>
                 </select>
-                <small>科技馆商品发布后进入 /api/catalog，并在材料页科技馆与店铺结账列表展示；甄选商品发布后进入 /api/editorial-catalog。</small>
+                <small>选择商品出现在哪个前台。市集馆商品只出现在 MARKET_HOST /market/，不进入甄选馆或科技馆。</small>
               </div>
               <div class="field">
                 <label for="productStatus">发布状态</label>
@@ -917,7 +924,19 @@
                   <option value="toys">玩具与收藏</option>
                   <option value="portrait">照片真人手办</option>
                 </select>
-                <small>前台：材料页科技馆分类、店铺系列。</small>
+                <small>前台：材料页科技馆分类。</small>
+              </div>
+              <div class="field" data-market-fields hidden>
+                <label for="productMarketCollection">市集分类</label>
+                <select id="productMarketCollection" name="marketCollection" data-market-collection>
+                  <option value="general">综合</option>
+                  <option value="home">家居</option>
+                  <option value="fashion">服饰</option>
+                  <option value="gadgets">数码</option>
+                  <option value="collectibles">收藏</option>
+                  <option value="daily">日用</option>
+                </select>
+                <small>前台：市集域名分类标签。</small>
               </div>
               <div class="field" data-editorial-fields hidden>
                 <label for="productCountry">国家馆</label>

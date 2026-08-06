@@ -32,8 +32,20 @@ const LIFECYCLE_STATUSES = new Set([
   "out_of_stock",
 ]);
 const SHOP_COLLECTIONS = new Set(["metal", "toys", "portrait"]);
-const COLLECTIONS = new Set([...SHOP_COLLECTIONS, ...EDITORIAL_COUNTRIES]);
-const CHANNELS = new Set(["shop", "editorial"]);
+const MARKET_COLLECTIONS = new Set([
+  "general",
+  "home",
+  "fashion",
+  "gadgets",
+  "collectibles",
+  "daily",
+]);
+const COLLECTIONS = new Set([
+  ...SHOP_COLLECTIONS,
+  ...MARKET_COLLECTIONS,
+  ...EDITORIAL_COUNTRIES,
+]);
+const CHANNELS = new Set(["shop", "editorial", "market"]);
 
 function editorialSourceMode() {
   const mode = String(process.env.EDITORIAL_DB_SOURCE || "prefer").toLowerCase();
@@ -62,10 +74,12 @@ export function ensure3dProductId(rawId) {
 
 function productChannel(product) {
   if (product?.channel === "editorial") return "editorial";
+  if (product?.channel === "market") return "market";
   if (product?.channel === "shop") return "shop";
   if (EDITORIAL_COUNTRIES.has(product?.collection) || EDITORIAL_COUNTRIES.has(product?.country)) {
     return "editorial";
   }
+  if (MARKET_COLLECTIONS.has(product?.collection)) return "market";
   return "shop";
 }
 
@@ -76,6 +90,12 @@ function isShopChannel(product) {
 function isEditorialChannel(product) {
   return productChannel(product) === "editorial";
 }
+
+function isMarketChannel(product) {
+  return productChannel(product) === "market";
+}
+
+export { MARKET_COLLECTIONS, CHANNELS };
 
 function runtimeDir() {
   return process.env.ADMIN_DATA_DIR
@@ -376,7 +396,7 @@ function normalizeProductInput(input, existing = null) {
 
   const id = existing
     ? existing.id
-    : channel === "shop"
+    : channel === "shop" || channel === "market"
       ? normalizeProductId(input.id)
       : asText(input.id, 80, "Product ID", { required: true }).toLowerCase();
   if (!/^[a-z0-9][a-z0-9-]{1,79}$/.test(id)) {
@@ -392,6 +412,12 @@ function normalizeProductInput(input, existing = null) {
   if (channel === "editorial") {
     if (!EDITORIAL_COUNTRIES.has(collection)) {
       throw new Error("Editorial products must use japan, italy, or china as collection.");
+    }
+  } else if (channel === "market") {
+    if (!MARKET_COLLECTIONS.has(collection)) {
+      throw new Error(
+        "Market products must use general, home, fashion, gadgets, collectibles, or daily."
+      );
     }
   } else if (!SHOP_COLLECTIONS.has(collection)) {
     throw new Error("Unsupported product collection.");
@@ -755,6 +781,23 @@ export async function listPublishedProducts() {
         !product.deletedAt &&
         product.lifecycleStatus === "published" &&
         isShopChannel(product)
+    )
+    .map(withAvailability);
+}
+
+/** Published SKUs for the dedicated marketplace domain (channel=market). */
+export async function listPublishedMarketProducts() {
+  if (isDatabaseEnabled()) {
+    return (await productRepo.listProducts())
+      .filter((product) => product.lifecycleStatus === "published" && isMarketChannel(product))
+      .map(withAvailability);
+  }
+  return readStore()
+    .products.filter(
+      (product) =>
+        !product.deletedAt &&
+        product.lifecycleStatus === "published" &&
+        isMarketChannel(product)
     )
     .map(withAvailability);
 }

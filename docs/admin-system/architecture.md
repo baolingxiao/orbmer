@@ -9,7 +9,9 @@ Do **not** introduce a Next.js monorepo at this stage. The storefront is static 
 ```text
 orbmare.com          → storefront (web/) + public APIs
 admin.orbmare.com    → admin SPA at / (Host mount)
+MARKET_HOST          → Taobao-style market SPA at / (channel=market only)
 ADMIN_ROUTE (optional secret path on apex) → same admin SPA (defense in depth)
+/market/ on apex     → local/dev preview of the market storefront
 ```
 
 ## Shared vs separated
